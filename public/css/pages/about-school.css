@@ -1,0 +1,98 @@
+@import url('../main.css');
+@import url('../components/slider.css');
+
+.cont-1 {
+    background: linear-gradient(360deg, #0b172b, #df0e5441);
+    border-radius: var(--fs-border-radius);
+    padding: var(--fs-padding);
+    gap: clamp(1px, 0.65vw, 10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1,
+h3 {
+    text-align: center;
+}
+
+.dormitory {
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    display: flex;
+}
+
+.dormitory .desc {
+    gap: clamp(1px, 0.65vw, 10px);
+    display: flex;
+    flex-direction: column;
+    padding: var(--fs-padding);
+    width: 80%;
+    background: linear-gradient(360deg, #0b172b, #df0e5441);
+}
+
+.dormitory .image-wrapper {
+    width: 30%;
+}
+
+.dormitory img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-top-right-radius: var(--fs-border-radius);
+    border-bottom-right-radius: var(--fs-border-radius);
+}
+
+.cont-2,
+.cont-3 {
+    gap: var(--fs-gap20);
+    display: flex;
+    flex-direction: column;
+    padding: var(--fs-padding);
+    background: linear-gradient(360deg, #0b172b, #df0e5441);
+    border-radius: var(--fs-border-radius);
+}
+
+.cont-2 .classroom {
+    display: flex;
+    gap: var(--fs-gap20);
+}
+
+.cont-2 .classroom .text {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1px, 0.65vw, 10px);
+}
+
+.cont-2 h3 {
+    text-align: left;
+}
+
+.cont-2 .classroom .text {
+    flex: 1 1 60%;
+}
+
+.cont-2 .classroom .img-wrapper {
+    aspect-ratio: 18/10;
+    width: 40%;
+    flex: 1 1 40%;
+}
+
+.cont-2 .classroom .img-wrapper img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+}
+
+.reverse {
+    flex-direction: row-reverse;
+}
+
+
+.cont-3 {
+    align-items: center;
+}

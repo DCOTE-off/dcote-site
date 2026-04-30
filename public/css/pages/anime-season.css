@@ -1,0 +1,315 @@
+@import url('../main.css');
+
+.cont {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+}
+
+.cont .image-wrapper {
+    width: 30%;
+    object-fit: cover;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.cont .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 1 / 1.385;
+    display: block;
+}
+
+.cont .desc {
+    width: 70%;
+    background: linear-gradient(270deg, #0b172b, #df0e5441);
+    padding: var(--fs-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fs-gap20);
+}
+
+.cont .desc h1 {
+    text-align: center;
+}
+
+.cont .desc p {
+    text-align: left;
+}
+
+.cont .desc .low-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: var(--fs-gap20);
+    align-items: center;
+    margin-top: auto;
+}
+
+.cont .desc .low-buttons.mobile {
+    display: none;
+}
+
+
+
+
+
+.cont2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    background: linear-gradient(0deg, #0b172b, #df0e5441);
+    padding: var(--fs-padding);
+    align-items: center;
+    gap: var(--fs-gap20);
+}
+
+
+.cont2 .grid-area {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+}
+
+
+
+.cont2 .episode-cont {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--fs-gap20);
+}
+
+.cont2 .episode-cont .eye-filled {
+    color: grey;
+    width: clamp(1px, 1.95vw, 30px);
+    height: clamp(1px, 1.95vw, 30px);
+}
+
+.cont2 .episode-cont .eye-filled.mobile {
+    display: none;
+}
+
+.rating .popup-stars {
+    right: 100%;
+    bottom: 50%;
+    top: unset;
+    left: unset;
+    transform: unset;
+    transform: translateY(50%);
+}
+
+
+.cont2 .episode-cont .card-link {
+    width: 70%;
+    display: flex;
+    align-items: center;
+    gap: var(--fs-gap20);
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: var(--fs-border-radius);
+}
+
+
+.cont2 .episode-cont .card-link:hover {
+    box-shadow: 0 0 0 clamp(1px, 0.65vw, 10px) rgba(229, 11, 84, 0.3);
+    background-color: rgba(229, 11, 84, 0.3);
+}
+
+.cont2 .episode-cont .image-wrapper {
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    z-index: 5;
+    width: 25%;
+    flex-shrink: 0;
+}
+
+.cont2 .episode-cont .card-title.mobile {
+    display: none;
+}
+
+.cont2 .episode-cont .image-wrapper img {
+    aspect-ratio: 5/3;
+    object-fit: cover;
+    display: block;
+    width: 100%;
+}
+
+.cont2 .episode-cont .stars-and-comms {
+    display: flex;
+    width: 15%;
+    align-items: center;
+    margin-left: auto;
+}
+
+.cont2 .episode-cont .stars-and-comms .first-btn {
+    display: flex;
+    width: 40%;
+}
+
+.cont2 .episode-cont .stars-and-comms .second-btn {
+    display: flex;
+    width: 60%;
+}
+
+.cont2 .episode-cont .second-btn {
+    display: flex;
+    align-items: center;
+}
+
+.cont2 .episode-cont .message-btn {
+    border: 0px;
+    padding: clamp(1px, 0.325vw, 5px);
+}
+
+.cont2 .episode-cont .message-btn:hover,
+.cont2 .sort-toggle {
+    background: none;
+}
+
+.cont2 .episode-cont .message-btn .message-icon {
+    height: clamp(1px, 2.275vw, 35px);
+    width: clamp(1px, 2.275vw, 35px);
+}
+
+.cont2 .episodes-head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    align-items: center;
+}
+
+.cont2 .episodes-head h1 {
+    grid-column: 2;
+}
+
+.cont2 .sort-toggle {
+    grid-column: 3;
+    border: 0px;
+    padding: 0px;
+    justify-self: end;
+}
+
+.cont2 .sort-toggle svg {
+    width: clamp(1px, 3.5vw, 54px);
+    height: clamp(1px, 3.5vw, 54px);
+}
+
+@media (max-width:768px) {
+    .cont {
+        flex-direction: column;
+    }
+
+    .cont .image-wrapper {
+        width: 100%;
+    }
+
+    .cont .desc {
+        width: 100%;
+        background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
+    }
+
+    .cont .desc .low-buttons.mobile {
+        display: flex;
+    }
+
+    .cont .desc .low-buttons {
+        display: none;
+    }
+
+    .cont2 .sort-toggle svg {
+        width: clamp(1px, 9.345vw, 100px);
+        height: clamp(1px, 9.345vw, 100px);
+    }
+
+    .cont2 .episode-cont {
+        flex-direction: column;
+        gap: var(--fs-gap10);
+    }
+
+    .cont2 .episode-cont .card-title {
+        display: none;
+    }
+
+    .cont2 .episode-cont .card-link {
+        width: 100%;
+        flex-direction: column;
+        gap: var(--fs-gap10);
+    }
+
+    .cont2 .episode-cont .image-wrapper {
+        width: 100%;
+    }
+
+    .cont2 .episode-cont .card-title.mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .cont2 .episode-cont .eye-filled {
+        display: none;
+    }
+
+    .cont2 .episode-cont .card-link:hover {
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .cont2 .episode-cont .card-link:hover img {
+        scale: 0.95;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .cont2 .episode-cont .card-link img {
+        border-radius: var(--fs-border-radius);
+        transition: 0.3s;
+    }
+
+    .cont2 .episode-cont .stars-and-comms {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .cont2 .episode-cont .stars-and-comms .first-btn {
+        display: flex;
+        width: auto;
+    }
+
+    .cont2 .episode-cont .stars-and-comms .second-btn {
+        display: flex;
+        width: auto;
+    }
+
+    .cont2 .episode-cont .message-btn .message-icon {
+        width: clamp(1px, 8vw, 100px);
+        height: clamp(1px, 8vw, 100px);
+    }
+
+    .cont2 .episode-cont .eye-filled.mobile {
+        display: block;
+        width: clamp(1px, 8vw, 100px);
+        height: clamp(1px, 8vw, 100px);
+    }
+
+    .rating .popup-stars {
+        left: -10%;
+        top: 100%;
+        bottom: unset;
+        right: unset;
+        transform: unset;
+        transform: translateY(-150%);
+    }
+}

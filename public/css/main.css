@@ -1,0 +1,228 @@
+@font-face {
+    font-family: 'Vag-Heavy';
+    src: url('../fonts/VAG\ Rounded\ Next\ Heavy.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag-Bold';
+    src: url('../fonts/VAG\ Rounded\ Next\ Bold.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag-Medium';
+    src: url('../fonts/VAG\ Rounded\ Next\ Medium.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag-Regular';
+    src: url('../fonts/VAG\ Rounded\ Next\ Regular.woff2') format('woff2');
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag-Thin';
+    src: url('../fonts/VAG\ Rounded\ Next\ Thin.woff2') format('woff2');
+    font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+label {
+    cursor: pointer;
+}
+
+:root {
+    --fs-title1: clamp(5px, 2.75vw, 42px);
+    --fs-title2: clamp(5px, 2.35vw, 36px);
+    --fs-title3: clamp(5px, 1.8vw, 28px);
+    --fs-text: clamp(5px, 1.15vw, 18px);
+    --fs-nav: clamp(5px, 0.91vw, 14px);
+    --fs-login: clamp(5px, 1.30vw, 20px);
+    --fs-footer: clamp(5px, 0.78vw, 12px);
+    --fs-nav-links: clamp(5px, 1.17vw, 18px);
+    --fs-border-radius: clamp(1px, 0.65vw, 10px);
+    --fs-padding: clamp(5px, 1.3vw, 20px);
+    --fs-gap20: clamp(5px, 1.3vw, 20px);
+    --fs-gap10: clamp(1px, 0.65vw, 10px);
+    --nav-height: auto;
+}
+
+
+
+h1 {
+    font-size: var(--fs-title1);
+    font-family: 'Vag-Heavy';
+    line-height: 1.15em;
+    color: white;
+    margin: 0px;
+    font-weight: 400;
+}
+
+h2 {
+    font-size: var(--fs-title2);
+    font-family: 'Vag-Bold';
+    line-height: 1.2em;
+    color: white;
+    margin: 0px;
+    font-weight: 400;
+}
+
+h3 {
+    font-size: var(--fs-title3);
+    font-family: 'Vag-Medium';
+    line-height: 1.25em;
+    color: white;
+    margin: 0px;
+    font-weight: 400;
+}
+
+p {
+    font-size: var(--fs-text);
+    font-family: 'Vag-Regular';
+    line-height: 1.4em;
+    color: white;
+    margin: 0px;
+}
+
+
+
+button,
+.link-like-button {
+    color: white;
+    text-decoration: none;
+    transition: 0.3s;
+    border: none;
+    border-radius: var(--fs-border-radius);
+    padding-block: clamp(1px, 0.715vw, 11px);
+    padding-inline: clamp(1px, 1.17vw, 18px);
+    font-size: var(--fs-nav-links);
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    align-items: center;
+    font-family: 'Vag-Bold';
+    box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px rgba(224, 11, 82, 0.5);
+    background-color: rgba(224, 11, 82, 0.5);
+    transform-origin: center center;
+    will-change: transform;
+    width: max-content;
+}
+
+
+button:hover,
+.link-like-button:hover {
+    scale: 0.95;
+    box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px rgba(224, 11, 82, 0.5) !important;
+}
+
+button:disabled:hover,
+.link-like-button.disabled_a:hover {
+    box-shadow: none !important;
+}
+
+button:disabled,
+.link-like-button.disabled_a {
+    background: rgb(97, 97, 97);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.title-and-smth {
+    gap: var(--fs-gap10);
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    p {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+
+    h1 {
+        font-size: clamp(21px, 6.667vw, 56px);
+    }
+
+    h2 {
+        font-size: clamp(19px, 5.867vw, 250px);
+    }
+
+    h3 {
+        font-size: clamp(16px, 5.067vw, 39px);
+    }
+
+    button,
+    .link-like-button {
+        padding-block: clamp(9px, 2.933vw, 23px);
+        padding-inline: clamp(15px, 4.8vw, 37px);
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+
+    :root {
+        --fs-border-radius: clamp(8px, 2.67vw, 22px);
+        --fs-padding: clamp(8px, 2.67vw, 22px);
+        --fs-gap20: clamp(1px, 5.34vw, 100px);
+        --fs-gap10: clamp(1px, 2.67vw, 10px);
+        --fs-footer: clamp(1px, 2.136vw, 100px);
+    }
+}
+
+body,
+html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+
+body {
+    background-color: rgb(7, 18, 32);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'Pan-Regular', sans-serif;
+    background-image: url('../images/background.webp');
+    background-position: center;
+    background-repeat: repeat;
+    background-size: contain;
+}
+
+
+main {
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: clamp(10px, 1.95vw, 30px);
+    flex: 1;
+    gap: clamp(10px, 1.95vw, 30px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+@media (max-width:768px) {
+    main {
+        gap: clamp(1px, 2.67vw, 100px);
+        padding: clamp(1px, 2.67vw, 100px);
+    }
+}
+
+.button-without-styles {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.button-without-styles:hover {
+    box-shadow: none !important;
+}

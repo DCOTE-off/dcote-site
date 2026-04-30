@@ -1,0 +1,53 @@
+@import url('../main.css');
+
+.dropdown-icon {
+    width: clamp(1px, 1.3vw, 20px);
+    height: clamp(1px, 1.3vw, 20px);
+    display: block;
+    transition: 0.3s;
+
+}
+
+.dropdown-btn {
+    display: flex;
+    gap: clamp(1px, 0.195vw, 3px);
+    align-items: center;
+    position: relative;
+}
+
+.dropdown-list {
+    position: absolute;
+    transform: translateY(clamp(5px, 0.65vw, 10px));
+    left: 0;
+    margin: 0;
+    background: linear-gradient(360deg, #0b172b, #331635);
+    border-radius: var(--fs-border-radius);
+    z-index: 1000;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow: hidden;
+}
+
+.dropdown-list li:hover {
+    background-color: rgb(143, 17, 68);
+}
+
+.dropdown-list li {
+    padding-inline: clamp(10px, 1.3vw, 20px);
+    padding-block: clamp(5px, 0.65vw, 10px);
+    transition: 0.3s;
+    cursor: default;
+    display: flex;
+    justify-content: center;
+}
+
+.dropdown-btn.active {
+    background-color: rgb(143, 17, 68);
+    border-color: rgb(143, 17, 68);
+}
+
+.dropdown-btn.active .dropdown-icon {
+    transform: rotate(-180deg);
+}

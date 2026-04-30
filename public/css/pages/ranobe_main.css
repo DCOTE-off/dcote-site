@@ -1,0 +1,143 @@
+@import url('../main.css');
+
+.volumes {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    align-items: center;
+}
+
+.volume-box {
+    width: 25%;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    max-width: 1000px;
+    flex: 1;
+}
+
+.volume-image {
+    flex-shrink: 0;
+    z-index: 20;
+    aspect-ratio: 7 / 10;
+    position: relative;
+    width: 100%;
+
+}
+
+.volume-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    border-top-right-radius: var(--fs-border-radius);
+    border-top-left-radius: var(--fs-border-radius);
+
+}
+
+.volume-desc h2 {
+    margin: 0px;
+    text-align: center;
+}
+
+.volume-desc p {
+    margin: 0px;
+}
+
+
+.volume-desc {
+    background: linear-gradient(180deg, #df0e5441, #0b172b);
+    color: white;
+    padding: var(--fs-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1px, 0.65vw, 10px);
+    justify-content: space-evenly;
+}
+
+.zalupa {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1px, 0.65vw, 10px);
+}
+
+.underline-line {
+    height: 1px;
+    background: white;
+    width: 65%;
+}
+
+.read-btn {
+    font-family: 'Vag-Bold', sans-serif;
+    font-size: var(--fs-nav-links);
+}
+
+
+
+
+.last-line {
+    display: flex;
+    gap: clamp(1px, 0.325vw, 5px);
+    align-items: center;
+    font-size: var(--fs-text);
+}
+
+
+.last-line .some-logos {
+    width: 1.4em;
+    height: 1.4em;
+}
+
+.last-line .in-process {
+    color: #ffb147;
+}
+
+.last-line .completed {
+    color: #64c396;
+}
+
+.check-circle {
+    fill: #64c396;
+}
+
+.last-line .check-circle {
+    width: 1.4em;
+    height: 1.4em;
+}
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    .volumes {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .volume-box {
+        width: auto;
+    }
+
+    .volume-desc h2 {
+        font-size: 44px;
+    }
+
+    .volume-desc p {
+        font-size: 16px;
+    }
+
+    .volumes {
+        gap: 20px;
+    }
+
+    .read-btn {
+        font-size: clamp(14px, 1.4vw, 100px);
+        padding: 10px 24px;
+
+    }
+}

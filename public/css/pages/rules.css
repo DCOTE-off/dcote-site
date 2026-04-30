@@ -1,0 +1,15 @@
+@import url('../main.css');
+
+.cont-1 {
+    background: linear-gradient(360deg, #0b172b, #df0e5441);
+    border-radius: var(--fs-border-radius);
+    padding: var(--fs-padding);
+    gap: clamp(1px, 1.95vw, 30px);
+    display: flex;
+    flex-direction: column;
+
+}
+
+h1 {
+    text-align: center;
+}

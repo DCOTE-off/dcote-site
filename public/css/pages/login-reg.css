@@ -1,0 +1,177 @@
+@import url('../main.css');
+@import url('../components/notification.css');
+
+.auth-container{
+    display: flex;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    align-self: center;
+    height: 100%;
+}
+
+.auth-image{
+    width: 35%;
+    overflow: hidden;
+    aspect-ratio: 0.75;
+    z-index: 100;
+}
+
+.auth-image img{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    object-position: top;
+    border-top-left-radius: var(--fs-border-radius);
+    border-bottom-left-radius: var(--fs-border-radius);
+}
+
+.auth-form{
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: linear-gradient(90deg, #df0e5431 50%, #0b172b);
+    padding: var(--fs-padding);
+    z-index: 10;
+}
+
+.auth-form h1{
+    text-align: center;
+}
+
+.auth-form form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: var(--fs-gap20);
+}
+
+.auth-form button{
+    font-family: 'Vag-Bold', sans-serif;
+    font-size: var(--fs-nav-links);
+}
+
+.auth-form input{
+    background: transparent;
+    border: clamp(0.01px, 0.195vw, 3px) solid rgb(229, 11, 85);
+    border-radius: clamp(1px, 0.455vw, 7px);
+    padding-block: clamp(1px, 0.39vw, 6px);
+    padding-inline: clamp(1px, 0.975vw, 15px);
+    outline: none;
+    color: inherit;
+    font-size: var(--fs-text);
+    font-family: 'Vag-Regular';
+    line-height: 1.4em;
+    color: white;
+    margin: 0;
+    width: 65%;
+}
+
+.auth-form a{
+    text-decoration: none;
+    color: rgb(229, 11, 85);
+    font-family: 'Vag-Medium';
+}
+
+.input-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 7px;
+}
+
+
+
+
+.password-title {
+    display: flex;
+    gap: clamp(1px, 0.65vw, 10px);
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.password-title .info-icon {
+    color: white;
+    display: block;
+    width: clamp(1px, 1.8vw, 28px);
+    height: clamp(1px, 1.8vw, 28px);
+    z-index: 10;
+
+}
+
+.password-title .password-tooltip {
+    width: max-content;
+    background: linear-gradient(360deg, #0b172b, #331635);
+    padding: var(--fs-padding);
+    position: absolute;
+    left: 100%;
+    top: 0;
+    pointer-events: none;
+    z-index: 15;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    transform: translateX(5%);
+    opacity: 0;
+    visibility: hidden;
+}
+
+.password-title .password-tooltip .tooltip-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.password-title .password-info:hover .password-tooltip {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.password-title .password-info {
+    position: relative;
+    cursor: pointer;
+}
+
+.error{
+    box-shadow: 0px 0px 10px 5px rgba(229, 11, 85, 0.5);
+}
+
+.input-with-icon{
+    width: 65%;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.auth-form .input-with-icon input{
+    width: 100%;
+    padding-right: clamp(1px, 3.1vw, 48px);
+}
+
+.input-with-icon button{
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translate(-150%, -50%);
+}
+
+.input-with-icon button{
+    border: 0px;
+    padding: 0px;
+}
+
+.input-with-icon svg{
+    color: rgb(229, 11, 85);
+    width: clamp(1px, 1.8vw, 28px);
+    height: clamp(1px, 1.8vw, 28px);
+}
+
+.input-with-icon button:hover{
+    background: none;
+}
+
+
+
