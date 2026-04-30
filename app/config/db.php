@@ -1,1 +1,0 @@
-CREATE TABLE anime_seasons (id INT AUTO_INCREMENT PRIMARY KEY,status VARCHAR(255) DEFAULT 'Вышел',season_time VARCHAR(255),release_time VARCHAR(255), studio VARCHAR(255),number_of_episodes INT,last_update VARCHAR(255),number_of_realese_episodes INT,img_src VARCHAR(255),season_number INT)
