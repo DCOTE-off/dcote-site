@@ -80,8 +80,8 @@
             <path d="M10 13h-6a1 1 0 0 0 -1 1v6a1 1 0 0 0 1 1h6a1 1 0 0 0 1 -1v-6a1 1 0 0 0 -1 -1z" />
             <path d="M17 13a4 4 0 1 1 -3.995 4.2l-.005 -.2l.005 -.2a4 4 0 0 1 3.995 -3.8z" />
         </symbol>
-        <symbol id="dropdown" viewBox="0 0 24 24">
-            <path stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M18 10l-6 6l-6 -6" />
+        <symbol id="dropdown" viewBox="0 0 14 8">
+            <path fill="currentColor" d="M13.7177 1.71636L7.71769 7.71636C7.32769 8.10636 6.69769 8.10636 6.30769 7.71636L0.307692 1.71636C-0.0923077 1.33636 -0.102308 0.696357 0.277692 0.306357C0.657692 -0.0936432 1.29769 -0.103643 1.68769 0.286357L6.99769 5.59636L12.3077 0.306357C12.7077 -0.0736432 13.3377 -0.0636432 13.7177 0.326357C14.0877 0.716357 14.0877 1.32636 13.7177 1.71636Z" />
         </symbol>
         <symbol id="tg-logo" viewBox="0 0 512 512">
             <rect width="512" height="512" rx="15%" fill="#df0e53" />

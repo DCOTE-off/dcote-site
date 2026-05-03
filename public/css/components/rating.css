@@ -9,8 +9,8 @@
 
 .rating-btn-for-popup .star-icon,
 .rating-btn .star-icon{
-    width: clamp(1px, 1.95vw, 30px);
-    height: clamp(1px, 1.95vw, 30px);
+    width: clamp(1px, 2.275vw, 35px);
+    height: clamp(1px, 2.275vw, 35px);
     transition: 0.3s;
 }
 
@@ -33,6 +33,9 @@
 .rating {
     text-align: center;
     position: relative;
+    gap: clamp(1px, 0.65vw, 10px);
+    display: flex;
+    flex-direction: column;
 }
 
 .rating .star-and-number {
@@ -42,7 +45,12 @@
 }
 
 .rating .star-and-number.visual {
-    gap: clamp(1px, 0.325vw, 5px)
+    gap: clamp(1px, 0.65vw, 10px)
+}
+
+.rating .star-and-number .star-icon{
+    width: clamp(1px, 2.275vw, 35px);   
+    height: clamp(1px, 2.275vw, 35px);
 }
 
 .rating .popup-stars {

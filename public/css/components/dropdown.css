@@ -1,8 +1,8 @@
 @import url('../main.css');
 
 .dropdown-icon {
-    width: clamp(1px, 1.3vw, 20px);
-    height: clamp(1px, 1.3vw, 20px);
+    width: clamp(1px, 0.91vw, 14px);
+    height: clamp(1px, 0.91vw, 14px);
     display: block;
     transition: 0.3s;
 
@@ -10,7 +10,7 @@
 
 .dropdown-btn {
     display: flex;
-    gap: clamp(1px, 0.195vw, 3px);
+    gap: var(--fs-gap10);
     align-items: center;
     position: relative;
 }

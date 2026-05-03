@@ -9,7 +9,9 @@
     <link rel="preload" href="{{ asset('fonts/VAG Rounded Next Medium.woff2') }}" as="font" type="font/woff2" crossorigin>
     <title>@yield('title', 'DCOTE')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     @stack('styles')
     <meta name="description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения "Добро пожаловать в класс превосходства". Википедия, аниме, ранобэ, манга и не только!')">
     <meta property="og:title" content="@yield('title', 'DCOTE')">

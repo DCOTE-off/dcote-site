@@ -186,8 +186,7 @@
     display: none;
 }
 
-.popular .pager .content img {
-    width: 100%;
+.popular .pager .content picture {
     height: 100%;
     object-fit: cover;
     display: block;
@@ -196,6 +195,11 @@
     width: 35%;
     overflow: hidden;
     flex-shrink: 0;
+}
+.popular .pager .content picture img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }
 
 
@@ -767,7 +771,7 @@
         gap: clamp(1px, 2.67vw, 100px);
     }
 
-    .popular .pager .content img {
+    .popular .pager .content picture {
         width: 70%;
     }
 

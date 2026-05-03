@@ -1,11 +1,11 @@
-<?php
-$classes_list_default = execute_query('SELECT * FROM classes_top WHERE spoilers= ? ORDER BY class_points DESC', ['0'], fetch: 'all');
-$max_points_default = $classes_list_default[0]['class_points'];
-$classes_list_spoilers = execute_query('SELECT * FROM classes_top WHERE spoilers= ? ORDER BY class_points DESC', ['1'], fetch: 'all');
-$max_points_spoilers = $classes_list_spoilers[0]['class_points'];
-$feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 4', fetch: 'all');
-?>
-<main class="page-dcote_main">
+@extends('layouts.app') 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/pages/dcote_main.css') }}">
+@endpush
+@push('scripts')
+    <script src="{{ asset('js/pages/dcote_main.js') }}"></script>
+@endpush
+@section('content')
     <div class="hero">
         <img class="hero-image" src="/images/index/hero-блок.webp" fetchpriority="high" decoding="async" alt="Арису лежит в кроватке" />
         <div class="hero-content">
@@ -45,43 +45,58 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
     <div class="grid-images">
         <a href="{{ route('anime.index') }}">
             <div class="wrapper">
-                <img src="/images/index/category-anime.webp">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/category-anime-mobile.webp" type="image/webp">
+                    <img src="/images/index/category-anime.webp" alt="Категория Аниме">
+                </picture>
                 <div class="content">
                     <h3><b>АНИМЕ</b></h3>
                     <p>Бесплатный просмотр аниме-адаптации всех сезонов в хорошем качестве</p>
                 </div>
             </div>
         </a>
-        <a>
+        <a href="{{ route('ranobe.index') }}">
             <div class="wrapper">
-                <img src="/images/index/category-ranobe-bw.webp">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/category-ranobe-bw-mobile.webp" type="image/webp">
+                    <img src="/images/index/category-ranobe-bw.webp" alt="Категория Ранобэ">
+                </picture>
                 <div class="content">
                     <h3><b>РАНОБЭ</b></h3>
                     <p>Чтение оригинальной новеллы в полном формате и хорошем качестве перевода</p>
                 </div>
             </div>
         </a>
-        <a>
+        <a href="{{ route('manga.index') }}">
             <div class="wrapper">
-                <img src="/images/index/category-manga-bw.webp">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/category-manga-bw-mobile.webp" type="image/webp">
+                    <img src="/images/index/category-manga-bw.webp" alt="Категория Манга">
+                </picture>
                 <div class="content">
                     <h3><b>МАНГА</b></h3>
                     <p>Чтение глав манга-адаптации в хорошем качестве изображений и перевода</p>
                 </div>
             </div>
         </a>
-        <a>
+        <a href="{{ route('illustrations.index') }}">
             <div class="wrapper">
-                <img src="/images/index/category-illustrations-bw.webp">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/category-illustrations-bw-mobile.webp" type="image/webp">
+                    <img src="/images/index/category-illustrations-bw.webp" alt="Категория Иллюстрации">
+                </picture>
                 <div class="content">
                     <h3><b>ИЛЛЮСТРАЦИИ</b></h3>
                     <p>Сборник иллюстраций от художника Томосе Сюнсаку, арты от художников-фанатов и превосходные арт-генерации от ИИ</p>
                 </div>
             </div>
         </a>
-        <a>
+        <a href="{{ route('characters.index') }}">
             <div class="wrapper">
-                <img src="/images/index/category-characters-bw.webp">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/category-characters-bw-mobile.webp" type="image/webp">
+                    <img src="/images/index/category-characters-bw.webp" alt="Категория Персонажи">
+                </picture>
                 <div class="content">
                     <h3><b>ПЕРСОНАЖИ</b></h3>
                     <p>Подробные досье и описания всех персонажей произведения</p>
@@ -99,7 +114,10 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
                     </svg>
                 </button>
                 <div class="content">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/аниме-4-сезон.webp" type="image/webp">
                     <img src="/images/index/аниме-4-сезон.webp" loading="lazy" decoding="async">
+                </picture>
                     <div class="text">
                         <h3><b>АНИМЕ</b> 4 СЕЗОН</h3>
                         <p>Токийская столичная старшая школа продвинутого воспитания —
@@ -108,8 +126,8 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
                             выплачиваются баллы, эквивалентные 100.000 йен наличными.
                             Однако на деле это место, где привилегии получают лишь немногие
                             ученики с выдающимися результатами...</p>
-                        <a href="{{ route('anime.4') }}" class="link-like-button" rel="noopener noreferrer">ПОДРОБНЕЕ О СЕЗОНЕ</a>
-                        <a href="{{ route('anime.4') }}" class="link-like-button mobile" rel="noopener noreferrer">ПОДРОБНЕЕ</a>
+                        <a href="{{ route('anime.season', ['season' => 4]) }}" class="link-like-button" rel="noopener noreferrer">ПОДРОБНЕЕ О СЕЗОНЕ</a>
+                        <a href="{{ route('anime.season', ['season' => 4]) }}" class="link-like-button mobile" rel="noopener noreferrer">ПОДРОБНЕЕ</a>
                     </div>
                 </div>
                 <button class="pager-btn inactive" disabled aria-label="Назад">
@@ -124,16 +142,16 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
                 <h1>ЛЕНТА ОБНОВЛЕНИЙ</h1>
             </div>
             <div class="updates-news">
-                <?php foreach ($feed as $index => $update): ?>
+                @foreach ($feed as $index => $update)
                     <div>
-                        <h3 class="<?= $index == 0 ? 'hot' : '' ?>"><?= $index == 0 ? 'НОВОЕ' : format_date($update['created_at']) ?></h3>
+                            <h3 class="{{ $index == 0 ? 'hot' : '' }}">{{ $index == 0 ? 'НОВОЕ' : format_date($update['created_at']) }}</h3>
                         <div class="one-news-wrapper">
-                            <a href="/<?= $update['link'] ?>">
-                                <p><?= $update['description'] ?></p>
+                            <a href="/{{ $update['link'] }}" style="line-height: 1.4em">
+                                <p>{{ $update['description'] }}</p>
                             </a>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                @endforeach
             </div>
             <div class="updates-link-wrapper">
                 <a class="link-like-button disabled_a" rel="noopener noreferrer">ВСЕ ОБНОВЛЕНИЯ</a>
@@ -153,38 +171,36 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
                 </label>
             </div>
             <div class="rating">
-                <?php foreach ($classes_list_default as $class): ?>
-                    <?php $percent = ($max_points_default > 0) ? min(100, round(($class['class_points'] / $max_points_default) * 100, 2)) : 0; ?>
-                    <div class="school-class">
-                        <img src="<?= $class['leader_img'] ?>" loading="lazy" decoding="async">
-                        <div class="info">
-                            <div class="text">
-                                <h3>Класс <?= $class['letter'] ?></h3>
-                                <p><?= $class['leader'] ?></p>
-                            </div>
-                            <div class="points-bg" style="--points-width: <?= $percent ?>%;background: <?= $class['color'] ?>;">
-                                <p><b><?= $class['class_points'] ?></b> классных очков</p>
+                @foreach ($classes_list_default as $class)
+                        <div class="school-class">
+                            <img src="{{ $class->leader_img }}" loading="lazy" decoding="async">
+                            <div class="info">
+                                <div class="text">
+                                    <h3>Класс {{ $class->letter }}</h3>
+                                    <p>{{ $class->leader }}</p>
+                                </div>
+                                <div class="points-bg" style="--points-width: {{ $class->percent }}%; background: {{ $class->color }};">
+                                    <p><b>{{ $class->class_points }}</b> классных очков</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <?php endforeach; ?>
+                @endforeach
             </div>
             <div class="rating spoilers hidden">
-                <?php foreach ($classes_list_spoilers as $class): ?>
-                    <?php $percent = ($max_points_spoilers > 0) ? min(100, round(($class['class_points'] / $max_points_spoilers) * 100, 2)) : 0; ?>
+                @foreach ($classes_list_spoilers as $class)
                     <div class="school-class">
-                        <img src="<?= $class['leader_img'] ?>" loading="lazy" decoding="async">
+                        <img src="{{ $class->leader_img }}" loading="lazy" decoding="async">
                         <div class="info">
                             <div class="text">
-                                <h3>Класс <?= $class['letter'] ?></h3>
-                                <p><?= $class['leader'] ?></p>
+                                <h3>Класс {{ $class->letter }}</h3>
+                                <p>{{ $class->leader }}</p>
                             </div>
-                            <div class="points-bg" style="--points-width: <?= $percent ?>%;background: <?= $class['color'] ?>;">
-                                <p><b><?= $class['class_points'] ?></b> классных очков</p>
+                            <div class="points-bg" style="--points-width: {{ $class->percent }}%;background: {{ $class->color }};">
+                                <p><b>{{ $class->class_points }}</b> классных очков</p>
                             </div>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                @endforeach
             </div>
             <div class="full-stat"><button disabled>ПОЛНАЯ СТАТИСТИКА</button></div>
         </div>
@@ -339,7 +355,12 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
     </div>
     <div class="some-info">
         <div class="description">
-            <div class="image-wrapper"><img src="/images/index/na-divane.webp"></div>
+            <div class="image-wrapper">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/na-divane-mobile.webp" type="image/webp">
+                    <img src="/images/index/na-divane.webp" alt="На диване">
+                </picture>
+            </div>
             <div class="text">
                 <div class="title-and-smth">
                     <h1>ОПИСАНИЕ ПРОИЗВЕДЕНИЯ</h1>
@@ -360,7 +381,12 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
             </div>
         </div>
         <div class="description">
-            <div class="image-wrapper"><img src="/images/index/shkola.webp"></div>
+            <div class="image-wrapper">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/shkola-mobile.webp" type="image/webp">
+                    <img src="/images/index/shkola.webp" alt="Школа">
+                </picture>
+            </div>
             <div class="text">
                 <div class="title-and-smth">
                     <h1>СТОЛИЧНАЯ СТАРШАЯ ШКОЛА ПРОДВИНУТОГО ВОСПИТАНИЯ</h1>
@@ -394,13 +420,19 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
             </div>
         </div>
         <div class="island-image-base scale-in">
-            <img src="images/index/остров.webp" loading="lazy" decoding="async" alt="Крутой остров фото скачать" />
+            <picture>
+                <source media="(max-width: 768px)" srcset="/images/index/остров-mobile.webp" type="image/webp">
+                <img src="/images/index/остров.webp" loading="lazy" decoding="async" alt="Крутой остров фото скачать" />
+            </picture>
         </div>
     </div>
     <div class="tg-links">
         <div class="banner">
             <div class="image-wrapper">
-                <img src="/images/index/обсуждение-новостей.webp" loading="lazy" decoding="async">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/обсуждение-новостей-mobile.webp" type="image/webp">
+                    <img src="/images/index/обсуждение-новостей.webp" loading="lazy" decoding="async" alt="Обсуждение новостей">
+                </picture>
             </div>
             <div class="text">
                 <div class="title-and-smth">
@@ -412,7 +444,10 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
         </div>
         <div class="banner">
             <div class="image-wrapper">
-                <img src="/images/index/обсуждение-спойлеров.webp" loading="lazy" decoding="async">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/обсуждение-спойлеров-mobile.webp" type="image/webp">
+                    <img src="/images/index/обсуждение-спойлеров.webp" loading="lazy" decoding="async" alt="Обсуждение спойлеров">
+                </picture>
             </div>
             <div class="text">
                 <div class="title-and-smth">
@@ -424,7 +459,10 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
         </div>
         <div class="banner">
             <div class="image-wrapper">
-                <img src="/images/index/теории-и-разборы.webp" loading="lazy" decoding="async">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/index/теории-и-разборы-mobile.webp" type="image/webp">
+                    <img src="/images/index/теории-и-разборы.webp" loading="lazy" decoding="async" alt="Теории и разборы">
+                </picture>
             </div>
             <div class="text">
                 <div class="title-and-smth">
@@ -435,21 +473,4 @@ $feed = execute_query('SELECT * FROM update_feed ORDER BY created_at DESC LIMIT 
             </div>
         </div>
     </div>
-</main>
-</body>
-<script>
-    const checkbox = document.querySelector('.toggle-input');
-    const ratingDefault = document.querySelector('.rating:not(.spoilers)')
-    const ratingSpoilers = document.querySelector('.rating.spoilers')
-    checkbox.addEventListener('change', function(event) {
-        if (event.target.checked) {
-            ratingDefault.classList.add('hidden')
-            ratingSpoilers.classList.remove('hidden')
-        } else {
-            ratingSpoilers.classList.add('hidden')
-            ratingDefault.classList.remove('hidden')
-        }
-    });
-</script>
-
-</html>
+    @endsection

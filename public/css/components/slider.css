@@ -87,10 +87,6 @@
     transition: 0.3s ease;
 }
 
-.hidden {
-    display: none !important;
-}
-
 #modalImage {
     max-width: 90vw;
     max-height: 65vh;

@@ -120,9 +120,30 @@ button,
 }
 
 
+button.no-glow,
+.link-like-button.no-glow{
+    box-shadow: none;
+    border: clamp(0.01px, 0.13vw, 2px) solid #921545;
+    background-color: #1D162E;
+}
+
+
+
+
+
 button:hover,
 .link-like-button:hover {
     scale: 0.95;
+    box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px rgba(224, 11, 82, 0.5) !important;
+}
+
+button.no-glow:hover,
+.link-like-button.no-glow:hover {
+    box-shadow: none !important;
+    background-color: #921545;
+}
+button.no-glow:active,
+.link-like-button.no-glow:active {
     box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px rgba(224, 11, 82, 0.5) !important;
 }
 
@@ -172,8 +193,9 @@ button:disabled,
         --fs-border-radius: clamp(8px, 2.67vw, 22px);
         --fs-padding: clamp(8px, 2.67vw, 22px);
         --fs-gap20: clamp(1px, 5.34vw, 100px);
-        --fs-gap10: clamp(1px, 2.67vw, 10px);
+        --fs-gap10: clamp(1px, 2.67vw, 100px);
         --fs-footer: clamp(1px, 2.136vw, 100px);
+        --fs-nav-links: clamp(1px, 4.272vw, 100px);
     }
 }
 
@@ -226,3 +248,8 @@ main {
 .button-without-styles:hover {
     box-shadow: none !important;
 }
+
+.hidden {
+    display: none !important;
+}
+
