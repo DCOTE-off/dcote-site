@@ -44,10 +44,14 @@
 
 .cont .desc .low-buttons {
     display: flex;
-    flex-direction: row;
     gap: var(--fs-gap20);
     align-items: center;
     margin-top: auto;
+}
+
+.cont .desc .low-buttons .double{
+    display: flex;
+    gap: var(--fs-gap20);
 }
 
 .cont .desc .low-buttons.mobile {
@@ -219,6 +223,7 @@
 
     .cont .desc .low-buttons.mobile {
         display: flex;
+        flex-direction: column;
     }
 
     .cont .desc .low-buttons {

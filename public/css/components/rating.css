@@ -33,7 +33,7 @@
 .rating {
     text-align: center;
     position: relative;
-    gap: clamp(1px, 0.65vw, 10px);
+    gap: var(--fs-gap10);
     display: flex;
     flex-direction: column;
 }
@@ -45,7 +45,7 @@
 }
 
 .rating .star-and-number.visual {
-    gap: clamp(1px, 0.65vw, 10px)
+    gap: var(--fs-gap10);
 }
 
 .rating .star-and-number .star-icon{
@@ -75,15 +75,13 @@
 @media (max-width:768px) {
     .rating-btn-for-popup .star-icon,
     .rating-btn .star-icon,
-    .page-anime .star-icon {
+    .page-anime .star-icon,
+    .rating .star-and-number .star-icon {
         width: clamp(1px, 8vw, 100px);
         height: clamp(1px, 8vw, 100px);
         transition: 0.3s;
     }
 
-    .rating .star-and-number.visual {
-        gap: clamp(1px, 1.335vw, 20px);
-    }
 
     .rating .star-and-number.visual h3 {
         font-weight: bold;

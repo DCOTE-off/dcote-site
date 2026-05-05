@@ -31,7 +31,7 @@
                         </div>
                     </div>
                 @else
-                    <a href="/login" class="nav-item">
+                    <a href="#" class="nav-item">
                         <svg class="nav-icon"><use href="#user"></use></svg>
                         <h2 class="nav-label">Аккаунт</h2>
                     </a>

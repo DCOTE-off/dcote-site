@@ -22,21 +22,55 @@
                     </button>
                 </div>
             @else
-                <a href="{{ route('login') }}" class="link-like-button login-btn">АККАУНТ</a>
+                <a href="{{ route('login') }}" class="link-like-button disabled_a login-btn">АККАУНТ</a>
             @endauth
         </div>
     </div>
     <div class="side-menu" id="sideMenu">
         <div class="side-links">
-            <button disabled>НОВОСТИ</button>
-            <button disabled>РАНОБЕ</button>
-            <button>АНИМЕ</button>
-            <button disabled>МАНГА</button>
-            <button disabled>ИЛЛЮСТРАЦИИ</button>
-            <button disabled>ПЕРСОНАЖИ</button>
-            <button>О ПРОЕКТЕ</button>
-            <button class="closeMenu">ЗАКРЫТЬ</button>
+            <a class="link-like-button no-glow side-button" href="{{ route('anime.index') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-anime"></use>
+                </svg>
+                АНИМЕ
+            </a>
+            <a class="link-like-button no-glow side-button" href="{{ route('about-project') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-about"></use>
+                </svg>
+                О ПРОЕКТЕ
+            </a>
+            <a class="link-like-button no-glow side-button" href="{{ route('news.index') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-news"></use>
+                </svg>
+                НОВОСТИ
+            </a>
+            <a class="link-like-button no-glow side-button" href="{{ route('ranobe.index') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-ranobe"></use>
+                </svg>
+                РАНОБЕ
+            </a>
+            <a class="link-like-button no-glow side-button" href="{{ route('manga.index') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-manga"></use>
+                </svg>
+                МАНГА
+            </a>
+            <a class="link-like-button no-glow side-button" href="{{ route('illustrations.index') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-illustrations"></use>
+                </svg>
+                ИЛЛЮСТРАЦИИ
+            </a>
+            <a class="link-like-button no-glow side-button" href="{{ route('characters.index') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-characters"></use>
+                </svg>
+                ПЕРСОНАЖИ
+            </a>
         </div>
     </div>
-    <div class="overlay" id="overlay"></div>
 </nav>
+

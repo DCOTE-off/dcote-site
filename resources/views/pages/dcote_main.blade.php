@@ -144,10 +144,15 @@
             <div class="updates-news">
                 @foreach ($feed as $index => $update)
                     <div>
-                            <h3 class="{{ $index == 0 ? 'hot' : '' }}">{{ $index == 0 ? 'НОВОЕ' : format_date($update['created_at']) }}</h3>
+                        @php
+                            $isFirst = $index == 0;
+                            $title = $isFirst ? 'НОВОЕ' : format_date($update->created_at);
+                            $class = $isFirst ? 'hot' : '';
+                        @endphp
+                        <h3 class="{{ $class }}">{{ $title }}</h3>
                         <div class="one-news-wrapper">
-                            <a href="/{{ $update['link'] }}" style="line-height: 1.4em">
-                                <p>{{ $update['description'] }}</p>
+                            <a href="/{{ $update->link }}" style="line-height: 1.4em">
+                                <p>{{ $update->description }}</p>
                             </a>
                         </div>
                     </div>

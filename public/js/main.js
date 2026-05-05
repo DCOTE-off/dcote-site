@@ -1,23 +1,43 @@
 const hamburger = document.getElementById('hamburgerBtn');
 const sideMenu = document.getElementById('sideMenu');
 const closeBtn = document.querySelector('.closeMenu');
-const overlay = document.getElementById('overlay');
 
 
 hamburger.addEventListener('click', () => {
-    sideMenu.classList.add('open');
-    overlay.classList.add('active');
+    if (sideMenu.classList.contains('is-open')) {
+
+        sideMenu.classList.remove('is-open');
+        sideMenu.classList.add('not-open');
+    } else {
+
+        sideMenu.classList.remove('not-open');
+        sideMenu.classList.add('is-open');
+    }
 });
 
-closeBtn.addEventListener('click', () => {
-    sideMenu.classList.remove('open');
-    overlay.classList.remove('active');
-});
+document.addEventListener('click', (event) => {
+    const isClickOnHamburger = hamburger.contains(event.target);
+    const isClickInsideMenu = sideMenu.contains(event.target);
 
-overlay.addEventListener('click', () => {
-    sideMenu.classList.remove('open');
-    overlay.classList.remove('active');
+    if (!isClickOnHamburger && !isClickInsideMenu) {
+        if (sideMenu.classList.contains('is-open')) {
+            sideMenu.classList.remove('is-open');
+            sideMenu.classList.add('not-open');
+        }
+    }
 });
+const mobileNav = document.querySelector('.mobile-nav');
+
+if (mobileNav) {
+    const observer = new ResizeObserver(entries => {
+        for (let entry of entries) {
+            const height = entry.contentRect.height;
+            document.documentElement.style.setProperty('--nav-height', `${height}px`);
+        }
+    });
+
+    observer.observe(mobileNav);
+}
 
 
 function showNotification(message, type = 'error', duration = 5000) {

@@ -1,9 +1,13 @@
+@extends('layouts.app') 
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/pages/about-project.css') }}">
+@endpush
+@section('content')
 <div class="navigation-links">
-    <a href="/"><span>ГЛАВНАЯ</span></a>
+    <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
     <p>/</p>
-    <a class="current-page" href="/about-project"><span>О ПРОЕКТЕ</span></a>
+    <a class="current-page" href="{{ route('about-project') }}"><span>О ПРОЕКТЕ</span></a>
 </div>
-<main class="page-about_project">
     <h1 class="main-title scale-in">КОМАНДА ПРОЕКТА</h1>
     <div class="text-wrapper scale-in ">
         <div class="img-wrapper">
@@ -120,6 +124,4 @@
             <p class="quote">Цитата: «Кирьюин наступи на меня».</p>
         </div>
     </div>
-</main>
-</body>
-</html>
+    @endsection

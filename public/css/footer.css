@@ -72,19 +72,21 @@
 
 
 .mobile-bottom-nav {
-    margin: 0px;
-    bottom: 0;
-    left: 0;
-    right: 0;
     position: fixed;
-    width: 100%;
+    bottom: clamp(1px, 2.67vw, 100px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 2 * clamp(1px, 2.67vw, 100px)); 
+    margin: 0;
     background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
     align-items: center;
     z-index: 1000;
-    padding-inline: clamp(1px, 5.34vw, 100px);
-    padding-block: clamp(1px, 2.67vw, 100px);
+    padding: clamp(1px, 3.738vw, 30px) clamp(1px, 5.34vw, 100px);
     justify-content: space-between;
     display: none;
+    border-radius: var(--fs-border-radius);
+    box-shadow: 0px 21px 23px 0px rgba(0, 0, 0, 0.4);
+    anchor-name: --mobile-nav-anchor;
 }
 
 .mobile-bottom-nav a,

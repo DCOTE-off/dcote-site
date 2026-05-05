@@ -21,11 +21,20 @@ class AnimeSeason extends Model
         'season_number',
         'season_description',
         'trailer_link',
+        'adapt_volumes',
+        'adapt_volumes_brackets',
     ];
 
 
-    public function episodes()
-    {
+    public function episodes(){
         return $this->hasMany(AnimeEpisode::class, 'season_id', 'id');
+    }
+
+    public function getColorAttribute() {
+        $colors = [
+            'Вышел' => 'green',
+            'Онгоинг' => 'purple',
+        ];
+        return $colors[$this->status] ?? 'yellow';
     }
 }

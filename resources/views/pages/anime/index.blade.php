@@ -4,6 +4,9 @@
     <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
 @endpush
+@push('scripts')
+    <script src="{{ asset('js/pages/anime/index.js') }}"></script>
+@endpush
 @section('content')
 <svg style="display: none;">
     <symbol id="star" viewBox="0 0 36 35">
@@ -11,21 +14,26 @@
     </symbol>
 </svg>
 <div class="navigation-links">
-    <a href="/"><span>ГЛАВНАЯ</span></a>
+    <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
     <p>/</p>
-    <a class="current-page" href="/anime"><span>АНИМЕ</span></a>
+    <a class="current-page" href="{{ route('anime.index') }}"><span>АНИМЕ</span></a>
 </div>
-    <?php foreach ($seasons_list as $index => $season): ?>
-        <?php $total = (int)$season['number_of_episodes'];
-        $released = (int)$season_realesed[$index]['episode_count'];
-        $percent = ($total > 0) ? min(100, round(($released / $total) * 100, 2)) : 0; ?>
-        <div class="cont scale-in" data-season=" <?= (int)$season['season_number'] ?>">
+    @foreach ($seasons_list as $index => $season)
+        @php
+            $total = (int)$season->number_of_episodes;
+            $released = (int)$season_realesed[$index]->episode_count;
+            $percent = ($total > 0) ? min(100, round(($released / $total) * 100, 2)) : 0;
+        @endphp
+        <div class="cont scale-in" data-season="{{ (int)$season->season_number }}">
             <div class="image-wrapper">
-                <img src="<?= e($season['img_src']) ?>" <?= $index < 2 ? 'fetchpriority="high"' : 'loading="lazy"' ?> decoding="async">
+                <picture>
+                    <source media="(max-width: 768px)" srcset="/images/anime/anime-banner-season-{{ $season->id }}-mobile.webp" type="image/webp">
+                    <img src="/images/anime/anime-banner-season-{{ $season->id }}.webp" @if($index < 2) fetchpriority="high" @else loading="lazy" @endif decoding="async" alt="Обложка сезона">
+                </picture>
             </div>
             <div class="desc slide-in-left">
                 <div class="head">
-                    <h1><?= e($season['id']) ?> СЕЗОН</h1>
+                    <h1>{{ $season->id }} СЕЗОН</h1>
                     <div class="rating">
                         <div class="star-and-number visual"><svg style="color:#ffb147" class="star-icon">
                                 <use href="#star"></use>
@@ -41,8 +49,8 @@
                         <p>Сезон:</p>
                     </div>
                     <div class="right-column">
-                        <p class="<?= e($season['status']) === 'Вышел' ? 'green' : 'purple' ?>"><?= e($season['status']) ?></p>
-                        <p><?= e($season['season_time']) ?></p>
+                        <p class="{{ $season->color }}">{{ $season->status }}</p>
+                        <p>{{ $season->season_time }}</p>
                     </div>
                 </div>
                 <div class="info-block">
@@ -51,8 +59,8 @@
                         <p>Студия:</p>
                     </div>
                     <div class="right-column">
-                        <p><?= e($season['release_time']) ?></p>
-                        <p><?= e($season['studio']) ?></p>
+                        <p>{{ $season->release_time }}</p>
+                        <p>{{ $season->studio }}</p>
                     </div>
                 </div>
                 <div class="info-block">
@@ -61,28 +69,63 @@
                         <p>Экранизируемые тома:</p>
                     </div>
                     <div class="right-column">
-                        <p><?= e($season['number_of_episodes']) ?></p>
-                        <p><?= e($season['last_update']) ?></p>
+                        <p>{{ $season->number_of_episodes }}</p>
+                        <p>{{ $season->adapt_volumes }} {{ $season->adapt_volumes_brackets }}</p>
                     </div>
                 </div>
-                <p><b>Выпущено:</b> <?= $season_realesed[$index]['episode_count'] ?> из <?= e($season['number_of_episodes']) ?> серий</p>
-                <div class="progress-bar" style="--progress-width: <?= $percent ?>%"></div>
-                <a class="link-like-button" href='/anime/<?= (int)$season['season_number'] ?>'>СТРАНИЦА СЕЗОНА</a>
-                <div class="button-line">
-                    <button class="dropdown-btn no-glow" aria-expanded="false">ДОБАВИТЬ В
+                <div class="mobile-info">
+                    <button class="dropdown-menu-btn no-glow" aria-expanded="false" data-target="menu-{{ $index }}">Больше информации
                         <svg class="dropdown-icon">
                         <use href="#dropdown"></use>
                         </svg>
                     </button>
-                    <a href="anime/<?= $season['season_number'] ?>/1" class="link-like-button no-glow">НАЧАТЬ СМОТРЕТЬ</a>
+                    <div class="dropdown-wrapper" id="menu-{{ $index }}">
+                        <div class="dropdown-content">
+                            <div class="info-block">
+                                <div class="left-column">
+                                    <p>Статус сериала:</p>
+                                    <p>Сезон:</p>
+                                    <p>День релиза:</p>
+                                    <p>Студия:</p>
+                                    <p>Кол-во серий:</p>
+                                    <p>Экранизация:</p>
+                                </div>
+                                <div class="right-column">
+                                    <p class="{{ $season->color }}">{{ $season->status }}</p>
+                                    <p>{{ $season->season_time }}</p>
+                                    <p>{{ $season->release_time }}</p>
+                                    <p>{{ $season->studio }}</p>
+                                    <p>{{ $season->number_of_episodes }}</p>
+                                    <p>{{ $season->adapt_volumes }} {{ $season->adapt_volumes_brackets }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p><b>Выпущено:</b> {{ $season_realesed[$index]->episode_count }} из {{ $season->number_of_episodes }} серий</p>
+                <div class="progress-bar" style="--progress-width: {{ $percent }}%"></div>
+                <a class="link-like-button" href='{{ route('anime.season',['season'=> (int)$season->season_number]) }}'>СТРАНИЦА СЕЗОНА</a>
+                <div class="button-line">
+                    <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
+                        <svg class="dropdown-icon">
+                        <use href="#dropdown"></use>
+                        </svg>
+                    </button>
+                    <a href="{{route('anime.episode', ['season'=>(int)$season->season_number,'episode'=>1]) }}" class="link-like-button no-glow">НАЧАТЬ СМОТРЕТЬ</a>
                 </div>
                 <div class="button-line mobile">
-                    <a class="link-like-button" href='/anime/<?= (int)$season['season_number'] ?>'>ПОДРОБНЕЕ</a>
-                    <a href="anime/<?= $season['season_number'] ?>/1" class="link-like-button">СМОТРЕТЬ С 1 СЕРИИ</a>
+                    <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
+                        <svg class="dropdown-icon">
+                        <use href="#dropdown"></use>
+                        </svg>
+                    </button>
+                </div>
+                <div class="button-line mobile">
+                        <a href="{{route('anime.episode', ['season'=>(int)$season->season_number,'episode'=>1]) }}" class="link-like-button no-glow">НАЧАТЬ СМОТРЕТЬ</a>
                 </div>
             </div>
         </div>
-    <?php endforeach; ?>
+    @endforeach
     <ul class="dropdown-list hidden">
         <li>
             <p>Смотрю</p>

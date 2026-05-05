@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('season_number')->nullable();
             $table->text('season_description')->nullable();
             $table->text('trailer_link')->nullable();
+            $table->text('adapt_volumes')->nullable();
+            $table->text('adapt_volumes_brackets')->nullable();
         });
 
         // 2. Таблица anime_episodes

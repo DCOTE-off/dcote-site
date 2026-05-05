@@ -5,7 +5,6 @@
     height: clamp(1px, 0.91vw, 14px);
     display: block;
     transition: 0.3s;
-
 }
 
 .dropdown-btn {
@@ -50,4 +49,12 @@
 
 .dropdown-btn.active .dropdown-icon {
     transform: rotate(-180deg);
+}
+
+
+@media (max-width: 768px) {
+    .dropdown-icon {
+        width: clamp(1px, 3.738vw, 30px);
+        height: clamp(1px, 3.738vw, 30px);
+    }
 }
