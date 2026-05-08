@@ -39,6 +39,7 @@ return new class extends Migration
             $table->boolean('has_sub')->default(false)->nullable();
             $table->boolean('has_anilibria')->default(false)->nullable();
             $table->integer('opening_start')->default(-1)->nullable();
+            $table->timestamp('appear_in')->nullable();
             
 
             $table->foreignId('season_id')->nullable()->constrained('anime_seasons')->onDelete('cascade');

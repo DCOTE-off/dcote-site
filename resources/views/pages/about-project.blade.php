@@ -2,6 +2,8 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/about-project.css') }}">
 @endpush
+@section('title', 'О проекте DCOTE | Наша команда')
+@section('description', 'Познакомьтесь с командой DCOTE. Участники проекта, переводчики, редакторы и разработчики, которые делают мир «Добро пожаловать в класс превосходства» доступнее.')
 @section('content')
 <div class="navigation-links">
     <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>

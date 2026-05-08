@@ -7,6 +7,8 @@
 @push('scripts')
     <script src="{{ asset('js/pages/anime/episode.js') }}"></script>
 @endpush
+@section('title', "«Класс превосходства» {$season} сезон {$episode} серия | Смотреть онлайн | DCOTE")
+@section('description', "Смотреть онлайн {$episode} серию {$season} сезона аниме «Добро пожаловать в класс превосходства». Видео в хорошем качестве и обсуждение серии на DCOTE.")
 @section('content')
 <div class="navigation-links">
     <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>

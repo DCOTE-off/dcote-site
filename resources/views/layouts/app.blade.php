@@ -13,9 +13,12 @@
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     @stack('styles')
-    <meta name="description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения "Добро пожаловать в класс превосходства". Википедия, аниме, ранобэ, манга и не только!')">
+    <meta name="description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, новости, аниме, ранобэ, манга и не только!')">
     <meta property="og:title" content="@yield('title', 'DCOTE')">
-    <meta property="og:description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения "Добро пожаловать в класс превосходства". Википедия, аниме, ранобэ, манга и не только!')">
+    <meta property="og:description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, аниме, ранобэ, манга и не только!')">
+    <meta property="og:image" content="https://dcote.net/images/og-main-preview.webp">
+    <meta property="og:image:width" content="1200"/>
+    <meta property="og:image:height" content="630"/>
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
 </head>

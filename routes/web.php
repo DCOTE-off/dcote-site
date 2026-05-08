@@ -3,6 +3,41 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\MainController;
+use Illuminate\Support\Facades\Artisan;
+
+
+Route::get('/run-setup/{secret_key}', function ($secret_key) {
+    // 1. Защита: проверяем, совпадает ли ключ из URL с ключом в .env
+    $expectedKey = env('SETUP_SECRET_KEY');
+    
+    if (!$expectedKey || $secret_key !== $expectedKey) {
+        abort(403, 'Доступ запрещен. Укажите верный ключ.');
+    }
+
+    $output = [];
+
+    try {
+        // 2. Очистка кэша
+        Artisan::call('optimize:clear');
+        $output[] = '✓ Кэш и конфигурации успешно очищены.';
+
+        // 3. Применение миграций (флаг --force обязателен для продакшена)
+        Artisan::call('migrate', ['--force' => true]);
+        $output[] = '✓ Миграции применены.';
+
+    } catch (Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+
+    return response()->json([
+        'status' => 'success',
+        'logs' => $output
+    ]);
+});
+
 
 Route::get('/', [MainController::class, 'index'])->name('home');
 

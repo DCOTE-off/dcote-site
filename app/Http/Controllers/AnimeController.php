@@ -41,7 +41,7 @@ class AnimeController extends Controller
             $initial_type = $has_dub ? 'dub' : ($has_sub ? 'sub' : null);
             $voice = $episodeModel->has_anilibria === 1 ? 'AniLibria' : 'Anistar';
 
-            $player_url = "https://video.dcote.net/metrics-api/videoplayer/player.html";
+            $player_url = "https://video.dcote.net/metrics-api/videoplayer";
                              
             $poster_url = "poster=https://video.dcote.net/season-{$season}/episodes-banner-season{$season}.webp";
             $skip_start = "skip_start=" . ($episodeModel->opening_start ?? '-1');
