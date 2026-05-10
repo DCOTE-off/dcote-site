@@ -131,6 +131,9 @@
     }
 
     .footer-nav {
-        padding-bottom: var(--nav-height, 100px);
+        padding-bottom: calc(var(--fs-gap20) + var(--nav-height));;
+        background: #0B172B;
     }
 }
+
+

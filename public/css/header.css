@@ -68,7 +68,7 @@
 
 .side-menu {
     position: fixed;
-    bottom: calc(var(--fs-gap10) + var(--nav-height));
+    bottom: calc(var(--fs-gap20) + var(--nav-height));
     right: var(--fs-gap10);
     width: max-content;
     height: min-content;

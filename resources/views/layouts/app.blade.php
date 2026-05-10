@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="preload" href="{{ asset('fonts/VAG Rounded Next Regular.woff2') }}" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="{{ asset('fonts/VAG Rounded Next Heavy.woff2') }}" as="font" type="font/woff2" crossorigin>
@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/main.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     @stack('styles')
+    @stack('scripts-early')
     <meta name="description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, новости, аниме, ранобэ, манга и не только!')">
     <meta property="og:title" content="@yield('title', 'DCOTE')">
     <meta property="og:description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, аниме, ранобэ, манга и не только!')">
@@ -29,7 +30,8 @@
         @yield('content')
     </main>
     @include('partials.footer')
+    <script src="{{ asset('js/main.js') }}"></script>
     @stack('scripts')
+
 </body>
-<script src="{{ asset('js/main.js') }}"></script>
 </html>
