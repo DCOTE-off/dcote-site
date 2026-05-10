@@ -5,6 +5,7 @@
 @push('scripts')
     <script src="{{ asset('js/pages/dcote_main.js') }}"></script>
 @endpush
+@section('title', 'DCOTE | Вики, новости и контент по «Классу Превосходства»')
 @section('content')
     <div class="hero">
         <img class="hero-image" src="/images/index/hero-блок.webp" fetchpriority="high" decoding="async" alt="Арису лежит в кроватке" />

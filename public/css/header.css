@@ -68,7 +68,7 @@
 
 .side-menu {
     position: fixed;
-    bottom: calc(var(--fs-gap10) + var(--nav-height));
+    bottom: calc(var(--fs-gap20) + var(--nav-height));
     right: var(--fs-gap10);
     width: max-content;
     height: min-content;
@@ -179,6 +179,7 @@
     padding-block: var(--fs-gap10);
     border-radius: var(--fs-border-radius);
     margin-top: calc(-1* var(--fs-gap10));
+    flex-wrap: wrap;
 }
 
 
@@ -204,5 +205,6 @@
     .navigation-links {
         margin-top: var(--fs-gap10);
         margin-bottom: var(--fs-gap10);
+        padding-inline: var(--fs-gap10);
     }
 }

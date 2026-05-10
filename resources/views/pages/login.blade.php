@@ -1,176 +1,83 @@
-<?php if (isset($_SESSION['notification'])): ?>
-    <?php
-    $notif = $_SESSION['notification'];
-    unset($_SESSION['notification']);
-    $old = $_SESSION['old_input'] ?? [];
-    unset($_SESSION['old_input']);
-    ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            showNotification(
-                '<?= addslashes($notif['message']) ?>',
-                '<?= $notif['type'] ?>',
-                5000
-            );
-        });
-    </script>
-<?php endif; ?>
+@extends('layouts.app')
+@push ('scripts-early')
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+@endpush
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/pages/login-reg.css') }}">
+@endpush
+@push('scripts')
+    <script src="{{ asset('js/pages/reg-login.js') }}"></script>
+@endpush
+@section('title', 'DCOTE | Вход')
+@section('content')
 <svg style="display: none;">
-    <symbol id="eye" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
-        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6" />
+    <symbol id="info-circle" viewBox="0 0 24 24">
+        <path fill="currentColor" d="M12 2c5.523 0 10 4.477 10 10a10 10 0 0 1 -19.995 .324l-.005 -.324l.004 -.28c.148 -5.393 4.566 -9.72 9.996 -9.72zm0 9h-1l-.117 .007a1 1 0 0 0 0 1.986l.117 .007v3l.007 .117a1 1 0 0 0 .876 .876l.117 .007h1l.117 -.007a1 1 0 0 0 .876 -.876l.007 -.117l-.007 -.117a1 1 0 0 0 -.764 -.857l-.112 -.02l-.117 -.006v-3l-.007 -.117a1 1 0 0 0 -.876 -.876l-.117 -.007zm.01 -3l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007z" />
     </symbol>
-    <symbol id="eye-off" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M10.585 10.587a2 2 0 0 0 2.829 2.828" />
-        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M16.681 16.673a8.717 8.717 0 0 1 -4.681 1.327c-3.6 0 -6.6 -2 -9 -6c1.272 -2.12 2.712 -3.678 4.32 -4.674m2.86 -1.146a9.055 9.055 0 0 1 1.82 -.18c3.6 0 6.6 2 9 6c-.666 1.11 -1.379 2.067 -2.138 2.87" />
-        <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M3 3l18 18" />
+    <symbol id="eye" viewBox="0 0 17 12">
+        <path d="M8.49807 0C11.8108 0 14.5676 1.82364 16.7375 5.36585L16.9073 5.65103L16.9459 5.72608L16.9691 5.78612V5.83114L16.9923 5.89118V5.96623L17 6.04878V6.13133C17 6.13133 16.9768 6.18386 16.9691 6.21388L16.9382 6.29644L16.9073 6.34897L16.8919 6.37148C14.7606 10.0038 12.027 11.9099 8.73745 12H8.49807C5.10039 12 2.28958 10.0863 0.104247 6.37148C-0.034749 6.13884 -0.034749 5.86116 0.104247 5.62852C2.28958 1.9137 5.10039 0 8.49807 0ZM8.49807 3.75235C7.21622 3.75235 6.18147 4.75797 6.18147 6.00375C6.18147 7.24953 7.21622 8.25516 8.49807 8.25516C9.77992 8.25516 10.8147 7.24953 10.8147 6.00375C10.8147 4.75797 9.77992 3.75235 8.49807 3.75235Z" fill="white" fill-opacity="0.5"/>
+    </symbol>
+    <symbol id="eye-off" viewBox="0 0 17 17">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.267408 1.56523C-0.0891359 1.20868 -0.0891359 0.623951 0.267408 0.267408C0.623951 -0.0891359 1.20868 -0.0891359 1.56523 0.267408L4.78125 3.48343C5.89367 2.87018 7.15583 2.44232 8.50357 2.44232C10.379 2.44232 12.0761 3.2695 13.4381 4.25357C14.8073 5.23763 15.884 6.41422 16.5401 7.20575C16.8324 7.57655 16.9893 8.04006 16.9893 8.50357C16.9893 8.96707 16.8324 9.43058 16.5401 9.79425C15.9411 10.5216 14.9927 11.5627 13.7875 12.4897L16.7326 15.4348C17.0891 15.7913 17.0891 16.376 16.7326 16.7326C16.376 17.0891 15.7913 17.0891 15.4348 16.7326L0.267408 1.56523ZM10.9708 9.67303C11.142 9.31648 11.2347 8.92429 11.2347 8.50357C11.2347 6.99895 10.0153 5.77244 8.50357 5.77244C8.08284 5.77244 7.69065 5.86514 7.3341 6.03628L10.9708 9.67303ZM0.467072 7.20575C0.85927 6.73511 1.40122 6.12185 2.06439 5.50147L10.7498 14.1869C10.0367 14.4293 9.28796 14.5719 8.50357 14.5719C6.62815 14.5719 4.931 13.7448 3.569 12.7607C2.19987 11.7766 1.12311 10.6 0.467072 9.80851C0.174706 9.43771 0.0178272 8.9742 0.0178272 8.5107C0.0178272 8.04719 0.174706 7.58368 0.467072 7.22001V7.20575Z" fill="white" fill-opacity="0.5"/>
     </symbol>
 </svg>
 <div class="navigation-links">
-    <a href="/"><span>ГЛАВНАЯ</span></a>
+    <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
     <p>/</p>
-    <a class="current-page" href="/login"><span>АВТОРИЗАЦИЯ</span></a>
+    <a class="current-page" href="{{ route('login') }}"><span>ВХОД</span></a>
 </div>
-<main class="page-login">
-    <div class="auth-container">
-        <div class="auth-image scale-in">
-            <img src="images/auth/auth_4.webp" alt="base_dcote_image">
-        </div>
-        <div class="auth-form scale-in slide-in-left">
-            <form method="post" novalidate>
-                <h1>АВТОРИЗАЦИЯ</h1>
-                <div class="input-group">
-                    <label for="login">
-                        <h3>Имя пользователя или почта</h3>
-                    </label>
-                    <input id="login" name="login" value="<?= e($old['login'] ?? '') ?>" data-required>
-                    <p>Забыл(а) имя пользователя или почту? <a href="https://dcote">Восстановить</a></p>
-                </div>
-                <div class="input-group">
-                    <label for="password">
+<div class="auth-container">
+    <div class="auth-image scale-in">
+        <picture>
+            <source media="(max-width: 768px)" srcset="/images/auth/auth_4-mobile.webp" type="image/webp">
+            <img src="/images/auth/auth_4.webp" alt="Изображение в регистрации">
+        </picture>
+    </div>
+    <div class="auth-form scale-in slide-in-left">
+        <form method="post" novalidate>
+            <h1>ВХОД</h1>
+            <div class="input-group">
+                <label for="tag">
+                    <h3>Имя пользователя</h3>
+                </label>
+                <input id="tag" spellcheck="false" value="{{ old('tag') }}" pattern="^[a-z0-9_]{5,32}$"
+                title="От 5 до 32 символов: только маленькая латиница, цифры и '_'"
+                name="tag" required
+                autocomplete="username">
+                <span class="error-bubble" id="tag-error"></span>
+                <p>Забыл(а) имя пользователя? <a href="https://dcote">Восстановить</a></p>
+            </div>
+            <div class="input-group">
+                <div class="password-title"><label for="password">
                         <h3>Пароль</h3>
                     </label>
-                    <div class="input-with-icon"><input type="password" id="password" name="password" data-required>
-                        <button type="button" class="password-toggle button-without-styles" aria-label="Показать пароль">
-                            <svg class="eye-icon" width="20" height="20">
-                                <use href="#eye"></use>
-                            </svg>
-                            <svg class="eye-off-icon" width="20" height="20" style="display: none;">
-                                <use href="#eye-off"></use>
-                            </svg>
-                        </button>
-                    </div>
-                    <p>Забыл(а) пароль? <a href="https://dcote">Восстановить</a></p>
                 </div>
-                <div class="cf-turnstile" style="width: 300px;height: 69px;"
-                    data-sitekey="0x4AAAAAACpYY5Y5Jlu5driC"
-                    data-callback="onCaptchaSuccess">
+                <div class="input-with-icon">
+                    <input type="password" id="password" name="password"
+                    pattern=".{8,72}$"
+                    autocomplete="password"
+                    title="Не менее 8 и не более 72 символов" required>
+                    <button type="button" class="password-toggle button-without-styles" aria-label="Показать пароль">
+                        <svg class="eye-icon">
+                            <use href="#eye"></use>
+                        </svg>
+                        <svg class="eye-off-icon" style="display: none;">
+                            <use href="#eye-off"></use>
+                        </svg>
+                    </button>
                 </div>
-                <div class="input-group">
-                    <button type="submit" class="submit-btn" disabled>АВТОРИЗОВАТЬСЯ</button>
-                    <p>Нет аккаунта? <a href="/reg"> Зарегистрируйся</a></p>
-                </div>
-            </form>
-        </div>
+                <span class="error-bubble" id="password-error"></span>
+                <p>Забыл(а) пароль? <a href="https://dcote">Восстановить</a></p>
+            </div>
+            <div class="cf-turnstile" style="height: 69px;"
+                data-sitekey="{{ config('services.cloudflare.site_key') }}"
+                data-callback="onCaptchaSuccess">
+            </div>
+            <div class="input-group">
+                <button type="submit" class="submit-btn" disabled>ВХОД</button>
+                <p>Нет аккаунта? <a href="/reg"> Зарегистрируйся</a></p>
+            </div>
+        </form>
     </div>
-</main>
-</body>
-
-</html>
-<script>
-    let captchaToken = null;
-
-    function onCaptchaSuccess(token) {
-        captchaToken = token;
-        const btn = document.querySelector('.submit-btn');
-        btn.disabled = false;
-        btn.classList.remove('disabled');
-    }
-
-    document.querySelector('.password-toggle')?.addEventListener('click', function() {
-        const input = document.getElementById('password');
-        const eyeOn = this.querySelector('.eye-icon');
-        const eyeOff = this.querySelector('.eye-off-icon');
-
-        if (input.type === 'password') {
-            input.type = 'text';
-            eyeOn.style.display = 'none';
-            eyeOff.style.display = 'block';
-            this.setAttribute('aria-label', 'Скрыть пароль');
-        } else {
-            input.type = 'password';
-            eyeOn.style.display = 'block';
-            eyeOff.style.display = 'none';
-            this.setAttribute('aria-label', 'Показать пароль');
-        }
-    });
-
-    function showFieldError(input, message) {
-        input.classList.add('error');
-        showNotification(message, 'error', 5000);
-        input.focus();
-    }
-
-    function clearFieldError(input) {
-        input.classList.remove('error');
-        const error = input.parentElement.querySelector('.field-error-msg');
-        if (error) error.remove();
-    }
-
-    function clearFormErrors(form) {
-        form.querySelectorAll('.error').forEach(input => {
-            clearFieldError(input);
-        });
-    }
-    document.getElementById('registration-form')?.addEventListener('submit', function(e) {
-
-        const form = this;
-        clearFormErrors(form);
-
-        let hasErrors = false;
-
-        form.querySelectorAll('[data-required]').forEach(input => {
-            if (!input.value.trim()) {
-                showFieldError(input, 'Это поле обязательно для заполнения');
-                hasErrors = true;
-                e.preventDefault();
-                return;
-            }
-        });
-
-        const password = form.querySelector('input[name="password"]');
-        if (password.value) {
-            if (password.value.length < 6) {
-                showFieldError(password, 'Пароль должен быть не менее 6 символов');
-                hasErrors = true;
-            } else if (password.value.length > 50) {
-                showFieldError(password, 'Пароль не должен быть длиннее 50 символов');
-                hasErrors = true;
-            }
-        }
-
-        const login = form.querySelector('input[name="login"]');
-        if (login.value) {
-            if (login.value.length > 50) {
-                showFieldError(password, 'Имя пользователя или почта не должны быть длиннее 50 символов');
-                hasErrors = true;
-            }
-        }
-
-        if (typeof captchaToken === 'undefined' || !captchaToken) {
-            showNotification('Пройдите проверку безопасности', 'error', 5000);
-            hasErrors = true;
-        }
-
-
-        if (hasErrors) {
-            e.preventDefault();
-            return;
-        }
-
-        const btn = form.querySelector('.submit-btn');
-        btn.disabled = true;
-        btn.textContent = 'Проверка...';
-
-    })
-</script>
+</div>
+    @endsection

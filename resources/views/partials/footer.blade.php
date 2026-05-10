@@ -48,8 +48,3 @@
             <h2 class="nav-label">Меню</h2>
         </button>
     </navbar>
-    <div id="notification-container" class="hidden">
-        <h1>ОШИБКА</h1>
-        <p></p>
-        <div class="shape-close"><svg class="close-icon" stroke-width="3" width="24" height="24"><use href="#close-cross"></use></svg></div>
-    </div>

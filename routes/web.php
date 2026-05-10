@@ -3,12 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\MainController;
+use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [MainController::class, 'index'])->name('home');
 
-Route::get('/login', function () {
-    return view('pages.login');
-})->name('login');
+Route::prefix('auth')->group(function () {
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/register', [AuthController::class, 'store'])->name('register.store');
+    Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+});
+
 
 Route::prefix('anime')->group(function () {
     Route::get('/', [AnimeController::class, 'index'])->name('anime.index');
@@ -71,6 +79,10 @@ Route::get('/account', function () {
 Route::get('/rules', function () {
     return view('pages.rules');
 })->name('rules');
+
+Route::get('/privacy_policy', function () {
+    return view('pages.privacy');
+})->name('privacy_policy');
 
 Route::get('/settings', function () {
     return view('pages.settings');

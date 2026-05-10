@@ -19,6 +19,7 @@ class AnimeEpisode extends Model
         'has_sub',
         'has_anilibria',
         'opening_start',
+        'appear_in',
     ];
 
 

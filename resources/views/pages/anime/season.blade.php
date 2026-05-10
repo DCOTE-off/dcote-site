@@ -7,6 +7,8 @@
 @push('scripts')
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
 @endpush
+@section('title', "Аниме «Класс превосходства» {$season} сезон | Список серий | DCOTE")
+@section('description', "Смотреть {$season} сезон «Добро пожаловать в класс превосходства» онлайн. Описание сезона, список серий и даты выхода на сайте DCOTE.")
 @section('content')
 <div class="navigation-links">
     <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
@@ -60,6 +62,7 @@
                 </svg>
             </button>
         </div>
+        <p class="info-schedule">Каждая новая серия выходит в <b>среду</b> в <b>15:30 по МСК</b>! Русские субтитры появляются на сайте спустя <b>полчаса-час</b>.</p>
         <div class="grid-area">
             @if (!empty($episodes))
                 @foreach ($episodes as $index => $episode)
@@ -78,6 +81,12 @@
                                 <h3>{{ $episode->episode_number }} серия</h3>
                                 <p>{{ $episode->episode_name }}</p>
                             </div>
+                            @if (!empty($episode->appear_in))
+                                <div class="appear-in" style="display:flex;width:100%;flex-direction:column;margin-left:auto;margin-right:auto;text-align:center;">
+                                    <p>До выхода серии:</p>
+                                    <h3>6 дней 22 часа 11 минут</h3>
+                                </div>
+                            @endif
                         </a>
                         <div class="stars-and-comms">
                             <div class="first-btn">

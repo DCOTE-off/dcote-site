@@ -2,25 +2,32 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
-    use Notifiable;
-
-    protected $table = 'users';
-
-    protected $primaryKey = 'user_id';
-
-    public $timestamps = true;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'username',
         'nickname',
         'email',
-        'password_hash',
+        'password',
+        'avatar',
         'role_id',
-        'last_read_chapter_id',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
     ];
 }
