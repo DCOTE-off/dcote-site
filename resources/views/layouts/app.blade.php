@@ -32,6 +32,11 @@
     @include('partials.footer')
     <script src="{{ asset('js/main.js') }}"></script>
     @stack('scripts')
-
+    @if(session('success'))
+        <div id="toast-success" class="toast-container">
+            <h1>УСПЕХ!</h1>
+            <p>{{ session('success') }}</p>
+        </div>
+    @endif
 </body>
 </html>

@@ -6,6 +6,21 @@ document.addEventListener('DOMContentLoaded', () => {
     document.documentElement.style.setProperty('--fixed-height', `${fullHeight}px`);
     };
 
+    const toast = document.getElementById('toast-success');
+
+    if (toast) {
+        // Показываем с небольшой задержкой для эффекта
+        setTimeout(() => {
+            toast.classList.add('is-open');
+        }, 100);
+
+        setTimeout(() => {
+            toast.classList.remove('is-open');
+            toast.classList.add('not-open');
+            setTimeout(() => toast.remove(), 500);
+        }, 4000);
+    }
+
     fixBackgroundHeight();
     window.addEventListener('orientationchange', () => {
         setTimeout(fixBackgroundHeight, 100); 

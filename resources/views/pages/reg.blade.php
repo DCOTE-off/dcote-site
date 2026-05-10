@@ -35,6 +35,7 @@
     </div>
     <div class="auth-form scale-in slide-in-left">
         <form method="POST" id="registration-form" novalidate>
+            @csrf
             <h1>РЕГИСТРАЦИЯ</h1>
             <div class="input-group">
                 <label for="tag">
@@ -44,16 +45,21 @@
                 title="От 5 до 32 символов: только маленькая латиница, цифры и '_'"
                 name="tag" placeholder="kiyo_kouji_651" required
                 autocomplete="username">
-                <span class="error-bubble" id="tag-error"></span>
+                <span class="error-bubble" id="tag-error" style="{{ $errors->has('tag') ? 'display: flex;' : '' }}">
+                    {{ $errors->first('tag') }}
+                </span>
             </div>
             <div class="input-group">
                 <label for="nickname">
                     <h3>Отображаемое имя</h3>
                 </label>
                 <input id="nickname" value="{{ old('nickname') }}" name="nickname"
-                spellcheck="false"
+                spellcheck="false" pattern=".{1,64}$"
+                title="Не менее 1 и не более 64 символов"
                 placeholder="Ayanokouji Kiyotaka" required>
-                <span class="error-bubble" id="nickname-error"></span>
+                <span class="error-bubble" id="nickname-error" style="{{ $errors->has('nickname') ? 'display: flex;' : '' }}">
+                    {{ $errors->first('nickname') }}
+                </span>
             </div>
             <div class="input-group">
                 <div class="password-title"><label for="password">
@@ -74,7 +80,9 @@
                         </svg>
                     </button>
                 </div>
-                <span class="error-bubble" id="password-error"></span>
+                <span class="error-bubble" id="password-error" style="{{ $errors->has('password') ? 'display: flex;' : '' }}">
+                    {{ $errors->first('password') }}
+                </span>
             </div>
             <div class="input-group">
                 <div class="password-title"><label for="password_confirmation">
@@ -84,7 +92,9 @@
                 <input type="password" id="password_confirmation" name="password_confirmation"
                 autocomplete="new-password"
                 placeholder="Какой-то пароль" required>
-                <span class="error-bubble" id="password_confirmation-error"></span>
+                <span class="error-bubble" id="password_confirmation-error" style="{{ $errors->has('password') ? 'display: flex;' : '' }}">
+                    {{ $errors->first('password') }}
+                </span>
             </div>
             <div class="check" style="text-align: center;">
                 <p>Регистрируясь, вы принимаете <a href="{{ route('rules') }}">правила сайта</a> и <a href="{{ route('privacy_policy') }}">политику конфиденциальности</a></p>

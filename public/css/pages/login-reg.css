@@ -238,4 +238,12 @@ h3{
         width: 100%;
         padding-right: calc(4.539vw + (var(--fs-gap10) * 2));
     }
+
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
 }

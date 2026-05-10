@@ -25,7 +25,15 @@ document.querySelectorAll('.password-toggle').forEach(button => {
 
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('registration-form');
-    
+    if (!form) return;
+
+    document.querySelectorAll('.error-bubble').forEach(bubble => {
+        if (bubble.textContent.trim() !== '') {
+            // Если в баббле есть текст, находим соответствующий инпут и красим его
+            const input = bubble.closest('.input-group').querySelector('input');
+            if (input) input.classList.add('input-error');
+        }
+    });
     const getErrorBubble = (input) => {
         return input.closest('.input-group').querySelector('.error-bubble');
     };
@@ -40,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 : (input.validity.patternMismatch ? input.title : input.validationMessage));
 
         bubble.textContent = message;
-        bubble.style.display = 'block';
+        bubble.style.display = 'flex';
         input.classList.add('input-error');
     };
 
@@ -52,9 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // 1. СКРЫТИЕ ПРИ КЛИКЕ В ЛЮБОЕ МЕСТО
+
     document.addEventListener('click', (e) => {
-        // Если клик был не по инпуту и не внутри баббла
         if (!e.target.closest('input') && !e.target.closest('.error-bubble')) {
             document.querySelectorAll('.error-bubble').forEach(bubble => {
                 bubble.style.display = 'none';

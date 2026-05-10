@@ -17,25 +17,16 @@
             <h2 class="nav-label">Избранное</h2>
         </a>
         @auth
-                    <a href="#" class="nav-item">
-                        <svg class="nav-icon"><use href="#user"></use></svg>
-                        <h2 class="nav-label">Аккаунт</h2>
-                    </a>
-                    <div class="dropdown" data-dropdown>
-                        <div class="drop-menu" data-dropdown-menu>
-                            <a href="{{ route('account') }}"><img src="/images/menu/user.svg" alt="avatar">Мой аккаунт</a>
-                            <a href="{{ route('favorite') }}"><img src="/images/menu/file-star.svg" alt="avatar">Избранное</a>
-                            <a href="{{ route('rules') }}"><img src="/images/menu/info-square.svg" alt="avatar">Правила сайта</a>
-                            <a href="{{ route('settings') }}"><img src="/images/menu/settings.svg" alt="avatar">Настройки</a>
-                            <a href="{{ route('logout') }}"><img src="/images/menu/layout-sidebar-right-expand.svg" alt="avatar">Выйти с аккаунта</a>
-                        </div>
-                    </div>
-                @else
-                    <a href="#" class="nav-item">
-                        <svg class="nav-icon"><use href="#user"></use></svg>
-                        <h2 class="nav-label">Аккаунт</h2>
-                    </a>
-                @endauth
+            <a href="#" class="nav-item">
+                <svg class="nav-icon"><use href="#user"></use></svg>
+                <h2 class="nav-label">Аккаунт</h2>
+            </a>
+        @else
+            <a href="#" class="nav-item">
+                <svg class="nav-icon"><use href="#user"></use></svg>
+                <h2 class="nav-label">Аккаунт</h2>
+            </a>
+        @endauth
         <a href="/" class="nav-item">
             <svg class="center-nav-icon"><use href="#dcote-logo-small"></use></svg>
         </a>

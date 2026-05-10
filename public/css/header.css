@@ -156,8 +156,8 @@
         display: block;
     }
 
-    .side-menu.side-menu.is-open,
-    .side-menu.side-menu.not-open {
+    .side-menu.is-open,
+    .side-menu.not-open {
         display: flex;
     }
 }
