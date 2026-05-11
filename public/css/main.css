@@ -218,6 +218,7 @@ button.no-glow:disabled,
         --fs-footer: clamp(1px, 2.136vw, 100px);
         --fs-nav-links: clamp(1px, 4.272vw, 100px);
         --fs-border2px: clamp(0.01px, 0.534vw, 10px);
+        --fs-nav: clamp(1px, 3.738vw, 14px);
     }
 }
 
