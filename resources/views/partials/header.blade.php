@@ -22,7 +22,7 @@
                     </button>
                 </div>
             @else
-                <a href="{{ route('login') }}" class="link-like-button disabled_a login-btn">АККАУНТ</a>
+                <a href="{{ route('login') }}" class="link-like-button login-btn">ВОЙТИ</a>
             @endauth
         </div>
     </div>

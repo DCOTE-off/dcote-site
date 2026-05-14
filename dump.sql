@@ -77,6 +77,14 @@ INSERT INTO `classes_top` (`id`, `letter`, `leader`, `class_points`, `leader_img
 (7, 'C', 'Аянокоджи Киётака', 867, '\\images\\index\\рейтинг-аянокоджи.webp', 1, 'rgb(155,98,59)'),
 (8, 'D', 'Ичиносе Хонами', 864, '\\images\\index\\рейтинг-ичиносе.webp', 1, 'rgb(127,46,110)');
 
+
+
+INSERT INTO `roles` (`id`, `name`,`description`,`rights`) VALUES
+(1,'Обычный пользователь','Дефолтный юзер','no'),
+(2,'Модератор','Может чето решать в чатике','DELETE MESSAGES'),
+(3,'Редактор','Может редактировать данные','UPDATE'),
+(4,'Разработчик','Может все','ALL');
+
 --
 -- Дамп данных таблицы `migrations`
 --
