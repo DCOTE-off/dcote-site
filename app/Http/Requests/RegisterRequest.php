@@ -7,10 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
-    public function authorize(): bool { return true; }
-
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
                 'tag' => ['required', 'string', 'lowercase', 'regex:/^[a-z0-9_]{5,32}$/', 'unique:users,username'],
                 'nickname' => ['required', 'string', 'min:1', 'max:64'],
@@ -19,8 +16,7 @@ class RegisterRequest extends FormRequest
             ];
     }
 
-    public function messages(): array
-    {
+    public function messages(): array {
         return [
             'tag.unique' => 'Это имя пользователя уже занято',
             'tag.regex' => "От 5 до 32 символов: только маленькая латиница, цифры и '_'",
@@ -30,6 +26,11 @@ class RegisterRequest extends FormRequest
             'password.min'=>'Не менее 8 и не более 72 символов',
             'password.max'=>'Не менее 8 и не более 72 символов',
             'password.confirmed' => 'Пароли не совпадают',
+            'cf-turnstile-response.required'=>'Пожалуйста, подтвердите что вы не робот',
         ];
+    }
+
+    public function authorize(): bool {
+        return true;
     }
 }

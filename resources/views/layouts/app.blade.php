@@ -38,5 +38,17 @@
             <p>{{ session('success') }}</p>
         </div>
     @endif
+    @if(session('error'))
+        <div id="toast-error" class="toast-container">
+            <h1>ОШИБКА!</h1>
+            <p>{{ session('error') }}</p>
+        </div>
+    @endif
+    @if($errors->has('cf-turnstile-response'))
+        <div id="toast-error" class="toast-container">
+            <h1>ОШИБКА!</h1>
+            <p>{{ $errors->first('cf-turnstile-response')}}</p>
+        </div>
+    @endif
 </body>
 </html>

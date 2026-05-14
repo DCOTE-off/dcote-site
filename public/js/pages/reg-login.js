@@ -7,7 +7,7 @@ function onCaptchaSuccess(token) {
     btn.classList.remove('disabled');
 }
 
-// Универсальный переключатель видимости пароля (для всех кнопок в форме)
+
 document.querySelectorAll('.password-toggle').forEach(button => {
     button.addEventListener('click', function() {
         const input = this.closest('.input-with-icon').querySelector('input');
@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('.error-bubble').forEach(bubble => {
         if (bubble.textContent.trim() !== '') {
-            // Если в баббле есть текст, находим соответствующий инпут и красим его
             const input = bubble.closest('.input-group').querySelector('input');
             if (input) input.classList.add('input-error');
         }

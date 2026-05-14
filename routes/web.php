@@ -12,8 +12,8 @@ Route::get('/', [MainController::class, 'index'])->name('home');
 Route::prefix('auth')->group(function () {
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::get('/login', [AuthController::class, 'login'])->name('login');
-    Route::post('/register', [AuthController::class, 'store'])->name('register.store');
-    Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
+    Route::post('/register', [AuthController::class, 'store']);
+    Route::post('/login', [AuthController::class, 'authenticate']);
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 

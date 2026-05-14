@@ -18,7 +18,7 @@ class Turnstile implements ValidationRule{
         ]);
 
         if (!$response->json('success')) {
-            $fail('Необходимо пройти проверку на человечность.');
+            $fail('Пожалуйста, подтвердите что вы не робот');
         }
     }
 }

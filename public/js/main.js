@@ -1,22 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     const fixBackgroundHeight = () => {
-    // Вычисляем реальную высоту один раз
     const fullHeight = window.innerHeight;
     document.documentElement.style.setProperty('--fixed-height', `${fullHeight}px`);
     };
 
-    const toast = document.getElementById('toast-success');
+    const toastSuccess = document.getElementById('toast-success');
+    const toastError = document.getElementById('toast-error');
 
-    if (toast) {
-        // Показываем с небольшой задержкой для эффекта
+    if (toastSuccess) {
         setTimeout(() => {
-            toast.classList.add('is-open');
+            toastSuccess.classList.add('is-open');
         }, 100);
-
         setTimeout(() => {
-            toast.classList.remove('is-open');
-            toast.classList.add('not-open');
+            toastSuccess.classList.remove('is-open');
+            toastSuccess.classList.add('not-open');
+            setTimeout(() => toast.remove(), 500);
+        }, 4000);
+    }
+    if (toastError) {
+        setTimeout(() => {
+            toastError.classList.add('is-open');
+        }, 100);
+        setTimeout(() => {
+            toastError.classList.remove('is-open');
+            toastError.classList.add('not-open');
             setTimeout(() => toast.remove(), 500);
         }, 4000);
     }
@@ -67,14 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (window.visualViewport) {
             const initialHeight = window.visualViewport.height;
             
-
-
             window.visualViewport.addEventListener('resize', () => {
                 const currentHeight = window.visualViewport.height;
-                
                 const isKeyboardOpen = currentHeight < initialHeight * 0.85;
 
-                // Логика скрытия навбара
                 if (isKeyboardOpen) {
                     nav.style.opacity = '0';
                     nav.style.pointerEvents = 'none';

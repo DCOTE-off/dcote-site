@@ -48,7 +48,7 @@ return new class extends Migration
         // 3. Таблица classes_top
         Schema::create('classes_top', function (Blueprint $table) {
             $table->id();
-            $table->string('letter', 1)->nullable();
+            $table->string('letter', 3)->nullable();
             $table->string('leader')->nullable();
             $table->integer('class_points')->nullable();
             $table->text('leader_img')->nullable();
@@ -63,20 +63,8 @@ return new class extends Migration
             $table->string('link');
             $table->dateTime('created_at')->nullable();
         });
-
-        // 5. Таблица users 
-        Schema::create('users', function (Blueprint $table) {
-            $table->id('user_id');
-            $table->bigInteger('role_id')->nullable();
-            $table->text('username')->nullable();
-            $table->text('nickname')->nullable();
-            $table->string('password_hash');
-            $table->string('email', 100)->nullable();
-            $table->bigInteger('last_read_chapter_id')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-        });
     }
+
 
     /**
      * Reverse the migrations.
@@ -90,6 +78,5 @@ return new class extends Migration
         Schema::dropIfExists('anime_seasons');
         Schema::dropIfExists('classes_top');
         Schema::dropIfExists('update_feed');
-        Schema::dropIfExists('users');
     }
 };

@@ -1,5 +1,4 @@
 @import url('../main.css');
-@import url('../components/notification.css');
 
 .auth-container{
     display: flex;
@@ -187,9 +186,9 @@ input {
     content: "";
     position: absolute;
     top: calc(var(--fs-border2px) * -0.5); 
-    left: 20px;
-    width: 12px;
-    height: 12px;
+    left: var(--fs-gap20);
+    width: clamp(1px,0.78vw,12px);
+    height: clamp(1px,0.78vw,12px);
     background-color: #1D162E;
     border-left: var(--fs-border2px) solid #921545;
     border-top: var(--fs-border2px) solid #921545;
@@ -200,6 +199,10 @@ input {
 
 h3{
     font-family: 'Vag-Medium';
+}
+
+.auth-image{
+    
 }
 
 @media (max-width:768px) {
@@ -239,6 +242,15 @@ h3{
         padding-right: calc(4.539vw + (var(--fs-gap10) * 2));
     }
 
+    .error-bubble{
+    left: 0%;
+    padding-block: clamp(1px,2vw,20px);
+    }
+
+    .error-bubble::before {
+        width: clamp(1px,3.2vw,100px);
+        height: clamp(1px,3.2vw,100px);
+    }
 
     input:-webkit-autofill,
     input:-webkit-autofill:hover, 

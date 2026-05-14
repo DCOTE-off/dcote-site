@@ -34,18 +34,18 @@
         </picture>
     </div>
     <div class="auth-form scale-in slide-in-left">
-        <form method="post" novalidate>
+        <form method="post" id="registration-form" novalidate>
+            @csrf
             <h1>ВХОД</h1>
             <div class="input-group">
                 <label for="tag">
                     <h3>Имя пользователя</h3>
                 </label>
-                <input id="tag" spellcheck="false" value="{{ old('tag') }}" pattern="^[a-z0-9_]{5,32}$"
-                title="От 5 до 32 символов: только маленькая латиница, цифры и '_'"
+                <input id="tag" spellcheck="false" value="{{ old('tag') }}"
                 name="tag" required
                 autocomplete="username">
                 <span class="error-bubble" id="tag-error"></span>
-                <p>Забыл(а) имя пользователя? <a href="https://dcote">Восстановить</a></p>
+                <p>Забыл(а) имя пользователя? <a href="">Восстановить</a></p>
             </div>
             <div class="input-group">
                 <div class="password-title"><label for="password">
@@ -54,7 +54,6 @@
                 </div>
                 <div class="input-with-icon">
                     <input type="password" id="password" name="password"
-                    pattern=".{8,72}$"
                     autocomplete="password"
                     title="Не менее 8 и не более 72 символов" required>
                     <button type="button" class="password-toggle button-without-styles" aria-label="Показать пароль">
@@ -67,7 +66,7 @@
                     </button>
                 </div>
                 <span class="error-bubble" id="password-error"></span>
-                <p>Забыл(а) пароль? <a href="https://dcote">Восстановить</a></p>
+                <p>Забыл(а) пароль? <a href="">Восстановить</a></p>
             </div>
             <div class="cf-turnstile" style="height: 69px;"
                 data-sitekey="{{ config('services.cloudflare.site_key') }}"
@@ -75,7 +74,7 @@
             </div>
             <div class="input-group">
                 <button type="submit" class="submit-btn" disabled>ВХОД</button>
-                <p>Нет аккаунта? <a href="/reg"> Зарегистрируйся</a></p>
+                <p>Нет аккаунта? <a href="{{ route('register') }}"> Зарегистрируйся</a></p>
             </div>
         </form>
     </div>
