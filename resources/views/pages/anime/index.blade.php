@@ -3,9 +3,10 @@
     <link rel="stylesheet" href="{{ asset('css/pages/anime/index.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/dropdown-menu.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/pages/anime/index.js') }}"></script>
+    <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
 @endpush
 @section('title', 'Смотреть аниме «Класс превосходства» | Все сезоны | DCOTE')
 @section('description', 'Список всех сезонов и серий аниме «Добро пожаловать в класс превосходства». Выбирайте сезон и приступайте к просмотру в высоком качестве на DCOTE.')

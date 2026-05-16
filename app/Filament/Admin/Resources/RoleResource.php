@@ -27,12 +27,8 @@ class RoleResource extends Resource
                         Forms\Components\TextInput::make('name')
                             ->label('Имя роли')
                             ->required(),
-
                         Forms\Components\TextInput::make('description')
                             ->label('Описание')
-                            ->required(),
-                        Forms\Components\TextInput::make('rights')
-                            ->label('Права')
                             ->required(),
                     ])
                     ->columns(1),
@@ -53,8 +49,6 @@ class RoleResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->label('Описание'),
 
-                Tables\Columns\TextColumn::make('rights')
-                    ->label('Права'),
 
             ])
             ->filters([

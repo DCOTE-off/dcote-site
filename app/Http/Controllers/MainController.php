@@ -39,7 +39,7 @@ class MainController extends Controller
             ->limit(4)
             ->get();
 
-        return view('pages.dcote_main', compact(
+        return view('pages.dcote-main', compact(
             'classes_list_default',
             'max_points_default',
             'classes_list_spoilers',

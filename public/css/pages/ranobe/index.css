@@ -1,0 +1,121 @@
+@import url('../../main.css');
+
+.years{
+    display: flex;
+    gap: clamp(1px, 1.95vw, 30px);
+}
+
+.year-cont{
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%;
+    overflow-anchor: none;
+}
+
+.year-img{
+    aspect-ratio: 7/10;
+}
+
+.year-desc{
+    background: linear-gradient(180deg, rgba(146, 21, 69, 0.4) 0%, #0B172B 100%);
+    backdrop-filter: blur(10px);
+    padding: var(--fs-padding);
+    gap:var(--fs-gap20);
+    display: flex;
+    flex-direction: column;
+}
+
+.year-desc{
+    text-align: center;
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    gap:var(--fs-gap10);
+}
+
+.year-status {
+    display: flex;
+    gap:var(--fs-gap10);
+    align-self: center;
+    justify-content: center;
+    align-content: center;
+}
+
+.year-status p{
+    font-family: 'Vag-Bold';
+}
+
+.yellow{
+    color:#FFB147;
+}
+
+.green{
+    color:#56CC64;
+}
+
+.status-icon{
+    width: clamp(1px,1.625vw,25px);
+    height: clamp(1px,1.625vw,25px);
+}
+
+.info-block {
+    border: var(--fs-border2px) solid #921545;
+    border-radius: var(--fs-border-radius);
+    display: flex;
+    overflow: hidden;
+    background-clip: padding-box;
+    transform: translateZ(0);
+}
+
+.info-block p {
+    padding: var(--fs-padding);
+    text-align: center;
+    width: 100%;
+}
+
+.info-block p {
+    border-bottom: var(--fs-border2px) solid #921545;
+}
+
+.info-block p:last-child {
+    border-bottom: none;
+}
+
+.info-block .left-column {
+    display: flex;
+    flex-direction: column;
+    background-color: #921545;
+    width: 50%;
+    align-items: center;
+}
+
+.info-block .left-column p {
+    font-family: 'Vag-Bold';
+}
+
+.info-block .right-column {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    align-items: center;
+    background-color: #1D162E;
+}
+
+
+
+@media(max-width:768px) {
+    .years {
+        flex-direction: column-reverse;
+        gap: var(--fs-gap20);
+    }
+
+    .status-icon{
+        width: clamp(1px,5.874vw,100px);
+        height: clamp(1px,5.874vw,100px);
+    }
+}

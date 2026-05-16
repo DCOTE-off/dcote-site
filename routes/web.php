@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RanobeController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,12 +26,8 @@ Route::prefix('anime')->group(function () {
 });
 
 Route::prefix('ranobe')->group(function () {
-    Route::get('/', function () {
-        return view('pages.ranobe.index');
-    })->name('ranobe.index');
-    Route::get('/{id}', function () {
-        return view('pages.ranobe.show');
-    })->name('ranobe.show');
+    Route::get('/', [RanobeController::class, 'index'])->name('ranobe.index');
+    Route::get('/{year}',[RanobeController::class, 'showYear'])->name('ranobe.year');
 });
 
 Route::prefix('manga')->group(function () {
