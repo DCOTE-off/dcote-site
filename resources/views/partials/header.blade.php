@@ -7,7 +7,7 @@
         </div>
         <div class="center">
             <a><span>НОВОСТИ</span></a>
-            <a><span>РАНОБЕ</span></a>
+            <a><span>РАНОБЭ</span></a>
             <a href="{{ route('anime.index') }}"><span>АНИМЕ</span></a>
             <a><span>МАНГА</span></a>
             <a><span>ИЛЛЮСТРАЦИИ</span></a>
@@ -50,7 +50,7 @@
                 <svg class="side-menu-icon">
                     <use href="#side-menu-ranobe"></use>
                 </svg>
-                РАНОБЕ
+                РАНОБЭ
             </a>
             <a class="link-like-button no-glow side-button" href="{{ route('manga.index') }}">
                 <svg class="side-menu-icon">

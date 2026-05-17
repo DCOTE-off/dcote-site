@@ -10,14 +10,20 @@ class RanobeChapter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'volume_id',
+        'ranobe_volume_id',
         'title',
         'chapter_number',
         'chapter_content',
+        'ranobe_year_id',
     ];
 
     public function volume()
     {
-        return $this->belongsTo(RanobeVolume::class, 'volume_id');
+        return $this->belongsTo(RanobeVolume::class, 'ranobe_volume_id');
+    }
+
+    public function year()
+    {
+        return $this->belongsTo(RanobeYear::class, 'ranobe_year_id');
     }
 }

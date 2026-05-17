@@ -8,7 +8,7 @@
         <div class="volume-box">
             <div class="volume-image scale-in"><img src="images/illustrations/ranobe.webp"></div>
             <div class="volume-desc slide-in-top">
-                <h1>РАНОБЕ</h1>
+                <h1>РАНОБЭ</h1>
                 <p>Цифровые чёрно-белые и цветные иллюстрации оригинальной новеллы</p>
                 <button class="read-btn" onclick="window.location.href=''">СМОТРЕТЬ</button>
             </div>

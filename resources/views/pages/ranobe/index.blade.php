@@ -7,8 +7,8 @@
 @push('scripts')
     <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
 @endpush
-@section('title', 'Читать ранобе «Класс превосходства» | Все года | DCOTE')
-@section('description', 'Список всех годов ранобе «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с хорошим переводом на DCOTE.')
+@section('title', 'Читать ранобэ «Класс превосходства» | Все года | DCOTE')
+@section('description', 'Список всех годов ранобэ «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с хорошим переводом на DCOTE.')
 @section('content')
 <svg style="display: none;">
     <symbol id="check-circle" viewBox="0 0 25 25">
@@ -21,7 +21,7 @@
 <div class="navigation-links">
     <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
     <p>/</p>
-    <a class="current-page" href="{{ route('ranobe.index') }}"><span>РАНОБЕ</span></a>
+    <a class="current-page" href="{{ route('ranobe.index') }}"><span>РАНОБЭ</span></a>
 </div>
 
 <div class="years">
@@ -38,22 +38,18 @@
                 </button>
                 <div class="dropdown-wrapper" id="menu-{{ $index }}">
                     <div class="dropdown-content">
-                        <div class="info-block">
-                            <div class="left-column">
-                                <p>Всего томов:</p>
-                                <p>Всего глав:</p>
-                                <p>Всего страниц:</p>
-                                <p>Всего слов:</p>
-                                <p>Время чтения:</p>
-                            </div>
-                            <div class="right-column">
-                                <p>{{ $year->volumes_count }}</p>
-                                <p>{{ $year->chapters_count }}</p>
-                                <p>{{ $year->total_pages ?? 0 }}</p>
-                                <p>{{ $year->words_quantity }}</p>
-                                <p>{{ $year->hours_of_reading }}</p>
-                            </div>
-                        </div>
+                        <dl class="info-block">
+                            <dt>Всего томов:</dt>
+                            <dd>{{ $year->volumes_count }}</dd>
+                            <dt>Всего глав:</dt>
+                            <dd>{{ $year->chapters_count }}</dd>
+                            <dt>Всего страниц:</dt>
+                            <dd>{{ $year->total_pages ?? 0 }}</dd>
+                            <dt>Всего слов:</dt>
+                            <dd>{{ $year->words_quantity }}</dd>
+                            <dt>Время чтения:</dt>
+                            <dd>{{ $year->hours_of_reading }}</dd>
+                        </dl>
                     </div>
                 </div>
             </div>

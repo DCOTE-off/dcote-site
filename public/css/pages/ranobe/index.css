@@ -66,44 +66,44 @@
 .info-block {
     border: var(--fs-border2px) solid #921545;
     border-radius: var(--fs-border-radius);
-    display: flex;
+    width: 100%;
     overflow: hidden;
     background-clip: padding-box;
     transform: translateZ(0);
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
-.info-block p {
+.info-block dt,
+.info-block dd {
     padding: var(--fs-padding);
     text-align: center;
-    width: 100%;
-}
-
-.info-block p {
+    margin: 0;
     border-bottom: var(--fs-border2px) solid #921545;
 }
 
-.info-block p:last-child {
+.info-block dt:nth-last-child(-n+2),
+.info-block dd:nth-last-child(-n+2) {
     border-bottom: none;
 }
 
-.info-block .left-column {
-    display: flex;
-    flex-direction: column;
-    background-color: #921545;
-    width: 50%;
-    align-items: center;
-}
-
-.info-block .left-column p {
+.info-block dt {
     font-family: 'Vag-Bold';
+    background-color: #921545;
+    color: #fff;
 }
 
-.info-block .right-column {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    align-items: center;
+.info-block dd {
     background-color: #1D162E;
+}
+
+.info-block .yellow {
+    color: #FFB147;
+}
+
+.info-block .green {
+    color: #56CC64;
 }
 
 

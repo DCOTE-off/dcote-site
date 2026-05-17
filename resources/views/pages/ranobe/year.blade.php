@@ -19,7 +19,7 @@
 <div class="navigation-links">
     <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
     <p>/</p>
-    <a href="{{ route('ranobe.index') }}"><span>РАНОБЕ</span></a>
+    <a href="{{ route('ranobe.index') }}"><span>РАНОБЭ</span></a>
     <p>/</p>
     <a href="{{ route('ranobe.year',['year'=>$year]) }}"><span>{{ $year }} ГОД</span></a>
 </div>
@@ -54,36 +54,24 @@
                         <p>Всего оценок: 150</p>
                     </div>
                 </div>
-                <div class="info-block">
-                    <div class="left-column">
-                        <p>Статус издания:</p>
-                        <p>Общая нумерация:</p>
-                    </div>
-                    <div class="right-column">
-                        <p class="{{ $volume->color }}">{{ $volume->status }}</p>
-                        <p>{{ $volume->general_number }}</p>
-                    </div>
-                </div>
-                <div class="info-block">
-                    <div class="left-column">
-                        <p>Дата выхода (книга):</p>
-                        <p>Дата выхода (цифра):</p>
-                    </div>
-                    <div class="right-column">
-                        <p>{{ RussianDate($volume->release_date_book) }}</p>
-                        <p>{{ RussianDate($volume->release_date_digital) }}</p>
-                    </div>
-                </div>
-                <div class="info-block">
-                    <div class="left-column">
-                        <p>Объём тома:</p>
-                        <p>ISBN книги:</p>
-                    </div>
-                    <div class="right-column">
-                        <p>{{ $volume->all_chapters }}</p>
-                        <p>{{ $volume->isbn}}</p>
-                    </div>
-                </div>
+                <dl class="info-block">
+                    <dt>Статус издания:</dt>
+                    <dd class="{{ $volume->color }}">{{ $volume->status }}</dd>
+                    <dt>Общая нумерация:</dt>
+                    <dd>{{ $volume->general_number }}</dd>
+                </dl>
+                <dl class="info-block">
+                    <dt>Дата выхода (книга):</dt>
+                    <dd>{{ RussianDate($volume->release_date_book) }}</dd>
+                    <dt>Дата выхода (цифра):</dt>
+                    <dd>{{ RussianDate($volume->release_date_digital) }}</dd>
+                </dl>
+                <dl class="info-block">
+                    <dt>Объём тома:</dt>
+                    <dd>{{ $volume->all_chapters }}</dd>
+                    <dt>ISBN книги:</dt>
+                    <dd>{{ $volume->isbn}}</dd>
+                </dl>
                 <div class="mobile-info">
                     <button class="dropdown-menu-btn no-glow" aria-expanded="false" data-target="menu-{{ $index }}">БОЛЬШЕ ИНФОРМАЦИИ
                         <svg class="dropdown-icon">
@@ -92,24 +80,20 @@
                     </button>
                     <div class="dropdown-wrapper" id="menu-{{ $index }}">
                         <div class="dropdown-content">
-                            <div class="info-block">
-                                <div class="left-column">
-                                    <p>Статус издания:</p>
-                                    <p>Общая нумерация:</p>
-                                    <p>Дата выхода (книжный):</p>
-                                    <p>Дата выхода (цифровой):</p>
-                                    <p>Объём тома:</p>
-                                    <p>ISBN книги:</p>
-                                </div>
-                                <div class="right-column">
-                                    <p class="{{ $volume->color }}">{{ $volume->status }}</p>
-                                    <p>{{ $volume->general_number }}</p>
-                                    <p>{{ RussianDate($volume->release_date_book) }}</p>
-                                    <p>{{ RussianDate($volume->release_date_digital) }}</p>
-                                    <p>{{ $total }}</p>
-                                    <p>{{ $volume->isbn}}</p>
-                                </div>
-                            </div>
+                            <dl class="info-block">
+                                <dt>Статус издания:</dt>
+                                <dd class="{{ $volume->color }}">{{ $volume->status }}</dd>
+                                <dt>Общая нумерация:</dt>
+                                <dd>{{ $volume->general_number }}</dd>
+                                <dt>Дата выхода (книга):</dt>
+                                <dd>{{ RussianDate($volume->release_date_book) }}</dd>
+                                <dt>Дата выхода (цифра):</dt>
+                                <dd>{{ RussianDate($volume->release_date_digital) }}</dd>
+                                <dt>Объём тома:</dt>
+                                <dd>{{ $total }}</dd>
+                                <dt>ISBN книги:</dt>
+                                <dd>{{ $volume->isbn}}</dd>
+                            </dl>
                         </div>
                     </div>
                 </div>

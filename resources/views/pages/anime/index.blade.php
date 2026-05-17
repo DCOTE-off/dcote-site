@@ -46,36 +46,24 @@
                         <p>Всего оценок: 150</p>
                     </div>
                 </div>
-                <div class="info-block">
-                    <div class="left-column">
-                        <p>Статус сериала:</p>
-                        <p>Сезон:</p>
-                    </div>
-                    <div class="right-column">
-                        <p class="{{ $season->color }}">{{ $season->status }}</p>
-                        <p>{{ $season->season_time }}</p>
-                    </div>
-                </div>
-                <div class="info-block">
-                    <div class="left-column">
-                        <p>День релиза:</p>
-                        <p>Студия:</p>
-                    </div>
-                    <div class="right-column">
-                        <p>{{ $season->release_time }}</p>
-                        <p>{{ $season->studio }}</p>
-                    </div>
-                </div>
-                <div class="info-block">
-                    <div class="left-column">
-                        <p>Кол-во серий:</p>
-                        <p>Экранизируемые тома:</p>
-                    </div>
-                    <div class="right-column">
-                        <p>{{ $season->number_of_episodes }}</p>
-                        <p>{{ $season->adapt_volumes }} {{ $season->adapt_volumes_brackets }}</p>
-                    </div>
-                </div>
+                <dl class="info-block">
+                    <dt>Статус сериала:</dt>
+                    <dd class="{{ $season->color }}">{{ $season->status }}</dd>
+                    <dt>Сезон:</dt>
+                    <dd>{{ $season->season_time }}</dd>
+                </dl>
+                <dl class="info-block">
+                    <dt>День релиза:</dt>
+                    <dd>{{ $season->release_time }}</dd>
+                    <dt>Студия:</dt>
+                    <dd>{{ $season->studio }}</dd>
+                </dl>
+                <dl class="info-block">
+                    <dt>Кол-во серий:</dt>
+                    <dd>{{ $season->number_of_episodes }}</dd>
+                    <dt>Экранизируемые тома:</dt>
+                    <dd>{{ $season->adapt_volumes }} {{ $season->adapt_volumes_brackets }}</dd>
+                </dl>
                 <div class="mobile-info">
                     <button class="dropdown-menu-btn no-glow" aria-expanded="false" data-target="menu-{{ $index }}">Больше информации
                         <svg class="dropdown-icon">
@@ -84,24 +72,20 @@
                     </button>
                     <div class="dropdown-wrapper" id="menu-{{ $index }}">
                         <div class="dropdown-content">
-                            <div class="info-block">
-                                <div class="left-column">
-                                    <p>Статус сериала:</p>
-                                    <p>Сезон:</p>
-                                    <p>День релиза:</p>
-                                    <p>Студия:</p>
-                                    <p>Кол-во серий:</p>
-                                    <p>Экранизация:</p>
-                                </div>
-                                <div class="right-column">
-                                    <p class="{{ $season->color }}">{{ $season->status }}</p>
-                                    <p>{{ $season->season_time }}</p>
-                                    <p>{{ $season->release_time }}</p>
-                                    <p>{{ $season->studio }}</p>
-                                    <p>{{ $season->number_of_episodes }}</p>
-                                    <p>{{ $season->adapt_volumes }} {{ $season->adapt_volumes_brackets }}</p>
-                                </div>
-                            </div>
+                            <dl class="info-block">
+                                <dt>Статус сериала:</dt>
+                                <dd class="{{ $season->color }}">{{ $season->status }}</dd>
+                                <dt>Сезон:</dt>
+                                <dd>{{ $season->season_time }}</dd>
+                                <dt>День релиза:</dt>
+                                <dd>{{ $season->release_time }}</dd>
+                                <dt>Студия:</dt>
+                                <dd>{{ $season->studio }}</dd>
+                                <dt>Кол-во серий:</dt>
+                                <dd>{{ $season->number_of_episodes }}</dd>
+                                <dt>Экранизация:</dt>
+                                <dd>{{ $season->adapt_volumes }} {{ $season->adapt_volumes_brackets }}</dd>
+                            </dl>
                         </div>
                     </div>
                 </div>
