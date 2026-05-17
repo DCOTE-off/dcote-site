@@ -12,8 +12,11 @@ class RanobeVolume extends Model
     protected $fillable = [
         'volume_number',
         'general_number',
+        'cover_image',
+        'cover_image_mobile',
         'status',
         'release_date_book',
+        'all_chapters',
         'release_date_digital',
         'ranobe_year_id',
         'pages_quantity',
@@ -22,7 +25,7 @@ class RanobeVolume extends Model
     ];
 
     protected $casts = [
-        'volume_number' => 'decimal:2',
+        'volume_number' => 'decimal:1',
         'general_number' => 'integer',
         'release_date_book' => 'datetime',
         'release_date_digital' => 'datetime',
@@ -36,6 +39,14 @@ class RanobeVolume extends Model
 
     public function chapters()
     {
-        return $this->hasMany(RanobeChapter::class, 'volume_id');
+        return $this->hasMany(RanobeChapter::class, 'ranobe_volume_id');
+    }
+
+    public function getColorAttribute() {
+        $colors = [
+            'Вышел' => 'green',
+            'Онгоинг' => 'purple',
+        ];
+        return $colors[$this->status] ?? 'yellow';
     }
 }

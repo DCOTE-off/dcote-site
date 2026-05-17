@@ -28,6 +28,8 @@ Route::prefix('anime')->group(function () {
 Route::prefix('ranobe')->group(function () {
     Route::get('/', [RanobeController::class, 'index'])->name('ranobe.index');
     Route::get('/{year}',[RanobeController::class, 'showYear'])->name('ranobe.year');
+    Route::get('/{year}/{volume}',[RanobeController::class, 'showVolume'])->name('ranobe.volume');
+    Route::get('/{year}/{volume}/{chapter}',[RanobeController::class, 'showChapter'])->name('ranobe.chapter');
 });
 
 Route::prefix('manga')->group(function () {
