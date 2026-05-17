@@ -14,6 +14,11 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor; // Рекомендую вместо Textarea
+use Filament\Forms\Set;
+use Illuminate\Support\Facades\Storage;
+
 
 class RanobeChapterResource extends Resource
 {
@@ -50,10 +55,26 @@ class RanobeChapterResource extends Resource
                 Forms\Components\TextInput::make('chapter_number')
                     ->required()
                     ->numeric(),
-                Forms\Components\Textarea::make('chapter_content')
+                FileUpload::make('md_import')
+                    ->label('Импорт из .md файла')
+                    ->acceptedFileTypes(['text/markdown', 'text/plain', 'application/octet-stream'])
+                    ->storeFiles(false)
+                    ->dehydrated(false)
+                    ->live()
+                    ->afterStateUpdated(function ($state, Set $set) {
+                        if (!$state) return;
+                        $content = $state->get();
+                        $set('chapter_content', $content);
+                    }),
+                MarkdownEditor::make('chapter_content')
+                    ->label('Текст главы (Markdown)')
                     ->required()
-                    ->columnSpanFull(),
-            ]);
+                    ->columnSpanFull()
+                    ->toolbarButtons([
+                        'blockquote', 'bold', 'bulletList', 'codeBlock',
+                        'heading', 'italic', 'link', 'orderedList', 'redo', 'undo',
+                    ]),
+                ]);
     }
 
     public static function table(Table $table): Table

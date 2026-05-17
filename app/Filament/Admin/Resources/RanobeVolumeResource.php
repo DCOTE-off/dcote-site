@@ -110,8 +110,21 @@ class RanobeVolumeResource extends Resource
                         return "y{$yearId}v{$volNum}-cover-mobile.{$extension}";
                     })
                     ->panelAspectRatio('7:10')
-                    ->panelLayout('integrated')
-                            ]);
+                    ->panelLayout('integrated'),
+                    FileUpload::make('volume_images')
+                        ->label('Иллюстрации тома ')
+                        ->multiple()
+                        ->directory(function ($get) {
+                            if (! $get) return 'ranobe/tmp';
+                            $yearId = $get('ranobe_year_id');
+                            $volNum = $get('volume_number');
+                            return "ranobe/year-{$yearId}/volume-{$volNum}/images";
+                        })
+                        ->preserveFilenames() 
+                        ->hiddenOn('create')
+                        ->reorderable()
+                        ->visibility('public'),
+                    ]);
     }
 
     public static function table(Table $table): Table

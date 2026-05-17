@@ -6,6 +6,8 @@ use App\Models\RanobeVolume;
 use App\Models\RanobeChapter;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Type\Decimal;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class RanobeController extends Controller
 {
@@ -41,5 +43,39 @@ class RanobeController extends Controller
         $chapters = $volumeModel->chapters;
         $volume_number_rounded = floatval($volumeModel->volume_number);
         return view('pages.ranobe.volume',compact('year','volumeModel','chapters','volume_number_rounded'));
+    }
+
+
+    public function showChapter(int $year, float $volume, int $chapter)
+    {
+        $chapterModel = RanobeChapter::query()
+            ->where('chapter_number', $chapter)
+            ->whereHas('year', fn($q) => $q->where('year_number', $year))
+            ->whereHas('volume', fn($q) => $q->where('volume_number', $volume))
+            ->with('volume')
+            ->firstOrFail();
+
+        $folderPath = "ranobe/year-{$year}/volume-{$volume}/images";
+
+        $imagesBaseUrl = Storage::disk('public')->url($folderPath);
+
+        $content = $chapterModel->chapter_content;
+
+        $content = preg_replace(
+            '/!\[\[(.*?)\]\]/i',
+            '![иллюстрация](' . $imagesBaseUrl . '/$1)',
+            $content
+        );
+
+        $cleanMarkdown = preg_replace(
+            '/(!\[.*?\]\()(?!https?:\/\/)(.*?\))/i',
+            "$1" . $imagesBaseUrl . "/$2",
+            $content
+        );
+
+        $htmlContent = Str::markdown($cleanMarkdown);
+        $volume_number_rounded = floatval($volume);
+
+        return view('pages.ranobe.chapter', compact('htmlContent','chapterModel','volume_number_rounded','year','chapter'));
     }
 }

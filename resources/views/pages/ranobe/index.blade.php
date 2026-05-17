@@ -23,7 +23,6 @@
     <p>/</p>
     <a class="current-page" href="{{ route('ranobe.index') }}"><span>РАНОБЭ</span></a>
 </div>
-
 <div class="years">
     @foreach ($years as $index => $year)
     <div class="year-cont year-{{ $year->year_number }}">

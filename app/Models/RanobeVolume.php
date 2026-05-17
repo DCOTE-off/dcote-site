@@ -22,6 +22,7 @@ class RanobeVolume extends Model
         'pages_quantity',
         'isbn',
         'volume_description',
+        'volume_images',
     ];
 
     protected $casts = [
@@ -30,6 +31,7 @@ class RanobeVolume extends Model
         'release_date_book' => 'datetime',
         'release_date_digital' => 'datetime',
         'pages_quantity' => 'integer',
+        'volume_images'=>'array',
     ];
 
     public function year()
