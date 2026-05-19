@@ -1,7 +1,32 @@
 @import url('../../main.css');
 
-.chapter-content{
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: var(--fixed-height, 100lvh);
+    z-index: -1;
+    background-image:unset !important;
     background-color: rgb(7, 18, 32);
+    will-change: transform;
+}
+
+
+main {
+    max-width: unset;
+    margin: 0 auto;
+    padding: unset;
+    flex: 1;
+    gap: clamp(10px, 1.95vw, 30px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+.chapter-content{
     display: flex;
     flex-direction: column;
     gap:var(--fs-gap20);

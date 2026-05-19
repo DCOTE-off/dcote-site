@@ -24,7 +24,7 @@ class AnimeController extends Controller
         $seasonModel = AnimeSeason::findOrFail($season);
         $about_season = (object) [
         'season_description' => $seasonModel->season_description,
-        'trailer_link'       => $seasonModel->trailer_link
+        'trailer_link'=> $seasonModel->trailer_link
         ];
         $episodes = AnimeEpisode::where('season_id',$season)->orderBy('episode_number','desc')->get();
         return view('pages.anime.season', compact('season','about_season','episodes'));

@@ -1,4 +1,12 @@
 User-agent: *
-Disallow: /account/
-Disallow: /login
-Disallow: /reg
+Disallow: /admin
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /auth/register
+Disallow: /auth/login
+Disallow: /metrics-api/
+Disallow: /metrics-api/videoplayer*
+Disallow: /player.html
+Disallow: /player.html*
+Allow: /
+Sitemap: https://dcote.net/sitemap.xml

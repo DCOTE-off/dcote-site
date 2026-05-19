@@ -24,7 +24,7 @@ class RanobeController extends Controller
     public function showYear(int $year)
     {
         $yearModel = RanobeYear::where('year_number',$year)->firstOrFail();
-        $volumes = $yearModel->volumes;
+        $volumes = $yearModel->volumes()->orderBy('volume_number','desc')->get();
         return view('pages.ranobe.year', compact('year','volumes'));
     }
 
@@ -40,13 +40,13 @@ class RanobeController extends Controller
                 $query->where('year_number', $year);
             })
             ->firstOrFail();
-        $chapters = $volumeModel->chapters;
+        $chapters = $volumeModel->chapters()->orderBy('chapter_number','asc')->get();
         $volume_number_rounded = floatval($volumeModel->volume_number);
         return view('pages.ranobe.volume',compact('year','volumeModel','chapters','volume_number_rounded'));
     }
 
 
-    public function showChapter(int $year, float $volume, int $chapter)
+    public function showChapter(int $year, float $volume, float $chapter)
     {
         $chapterModel = RanobeChapter::query()
             ->where('chapter_number', $chapter)

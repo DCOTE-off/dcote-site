@@ -21,16 +21,25 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('anime')->group(function () {
     Route::get('/', [AnimeController::class, 'index'])->name('anime.index');
-    Route::get('/{season}', [AnimeController::class, 'showSeason'])->name('anime.season');
-    Route::get('/{season}/{episode}', [AnimeController::class, 'showEpisode'])->name('anime.episode');
+    Route::get('/{season}', [AnimeController::class, 'showSeason'])->where('season', '[0-9]+')->name('anime.season');
+    Route::get('/{season}/{episode}', [AnimeController::class, 'showEpisode'])->where('season', '[0-9]+')->where('episode','[0-9]+')->name('anime.episode');
 });
 
 Route::prefix('ranobe')->group(function () {
     Route::get('/', [RanobeController::class, 'index'])->name('ranobe.index');
-    Route::get('/{year}',[RanobeController::class, 'showYear'])->name('ranobe.year');
-    Route::get('/{year}/{volume}',[RanobeController::class, 'showVolume'])->name('ranobe.volume');
-    Route::get('/{year}/{volume}/{chapter}',[RanobeController::class, 'showChapter'])->name('ranobe.chapter');
+    Route::get('/{year}',[RanobeController::class, 'showYear'])->where('year','[0-9]+')->name('ranobe.year');
+    Route::get('/{year}/{volume}',[RanobeController::class, 'showVolume'])->where('year','[0-9]+')->where('volume', '[0-9]+(\.[0-9]+)?')->name('ranobe.volume');
+    Route::get('/{year}/{volume}/{chapter}',[RanobeController::class, 'showChapter'])->where('year','[0-9]+')->where('volume','[0-9]+(\.[0-9]+)?')->where('chapter','[0-9]+(\.[0-9]+)?')->name('ranobe.chapter');
 });
+
+Route::get('/about-project', function () {
+    return view('pages.about-project');
+})->name('about-project');
+
+Route::get('/rules', function () {
+    return view('pages.rules');
+})->name('rules');
+
 
 Route::prefix('manga')->group(function () {
     Route::get('/', function () {
@@ -63,21 +72,6 @@ Route::get('/news', function () {
     return view('pages.news.index');
 })->name('news.index');
 
-Route::get('/about-project', function () {
-    return view('pages.about-project');
-})->name('about-project');
-
-Route::get('/favorite', function () {
-    return view('pages.favorite');
-})->name('favorite');
-
-Route::get('/account', function () {
-    return view('pages.account');
-})->name('account');
-
-Route::get('/rules', function () {
-    return view('pages.rules');
-})->name('rules');
 
 Route::get('/privacy_policy', function () {
     return view('pages.privacy');
@@ -91,3 +85,10 @@ Route::get('/logout', function () {
     return view('pages.logout');
 })->name('logout');
 
+Route::get('/favorite', function () {
+    return view('pages.favorite');
+})->name('favorite');
+
+Route::get('/account', function () {
+    return view('pages.account');
+})->name('account');

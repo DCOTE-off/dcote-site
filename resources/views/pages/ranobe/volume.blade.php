@@ -19,13 +19,13 @@
     <p>/</p>
     <a href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}"><span>{{ $volume_number_rounded }} ТОМ</span></a>
 </div>
-    <div class="cont scale-in">
+    <div class="volume-cont scale-in">
         <div class="image-wrapper">
             <picture>
                 <source media="(max-width: 768px)" 
-                        srcset="{{ Storage::url($volumeModel->cover_image) }}" 
+                        srcset="{{ Storage::url($volumeModel->cover_image_mobile) }}" 
                         type="image/webp">
-                <img src="{{ Storage::url($volumeModel->cover_image_mobile) }}" 
+                <img src="{{ Storage::url($volumeModel->cover_image) }}" 
                     fetchpriority="high"
                     decoding="async" 
                     alt="Обложка {{$volume_number_rounded}} тома {{ $year }} года">
@@ -34,7 +34,7 @@
         <div class="desc slide-in-left">
             <h1>{{ $volume_number_rounded }} ТОМ {{ $year }} ГОДА ОБУЧЕНИЯ</h1>
             <p>{!! $volumeModel->volume_description ?? 'Описание {{$volume_number_rounded }} тома {{ $year }} года обучения'!!}</p>
-            <div class="low-buttons ">
+            <div class="bottom-buttons">
                 <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon">
                     <use href="#dropdown"></use>
@@ -43,7 +43,7 @@
                 <a href="{{route('ranobe.chapter', ['year'=>$year,'volume'=>$volume_number_rounded,'chapter'=>1]) }}" class="link-like-button">НАЧАТЬ ЧИТАТЬ</a>
                 <a href="{{ $volumeModel->promo_link ?? ''}}" class="link-like-button no-glow">ПРОМО ТОМА</a>
             </div>
-            <div class="low-buttons mobile">
+            <div class="bottom-buttons mobile">
                 <a href="{{route('ranobe.chapter', ['year'=>$year,'volume'=>$volume_number_rounded,'chapter'=>1]) }}" class="link-like-button">НАЧАТЬ ЧИТАТЬ</a>
                 <div class="double">
                     <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
@@ -56,8 +56,8 @@
             </div>
         </div>
     </div>
-    <div class="cont2 scale-in">
-        <div class="episodes-head">
+    <div class="chapters-cont scale-in">
+        <div class="chapters-head">
             <h1>ОГЛАВЛЕНИЕ</h1>
             <button type="button" class="sort-toggle button-without-styles" aria-label="Сортировать по возрастанию/убыванию">
                 <svg class="sort-descending" width="20" height="20" style="display: none;">
@@ -71,8 +71,8 @@
         <div class="grid-area">
             @if (!empty($chapters))
                 @foreach ($chapters as $index => $chapter)
-                    <a class="link-like-button no-glow"
-                        href="{{route('ranobe.chapter', ['year'=>$year,'volume'=>$volume_number_rounded,'chapter'=>$chapter->chapter_number]) }}">
+                    <a class="link-like-button no-glow chapter-button"
+                        href="{{route('ranobe.chapter', ['year'=>$year,'volume'=>$volume_number_rounded,'chapter'=>floatval($chapter->chapter_number)]) }}">
                         {!! Illuminate\Support\Str::markdown($chapter->title) !!}
                     </a>
                 @endforeach

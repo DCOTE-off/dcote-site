@@ -10,12 +10,12 @@ function format_date(string $utcDate, $timezone = 'Europe/Moscow') {
     return $date->format('d.m.Y');
 }
 
-function RussianDate($date): string
+function RussianDate(string $date_numbers): string
 {
-    if (!$date) {
+    if (!$date_numbers) {
         return '';
     }
-    return Carbon::parse($date)
+    return Carbon::parse($date_numbers)
         ->locale('ru')
-        ->isoFormat('d MMMM Y года');
+        ->isoFormat('D MMMM Y года');
 }

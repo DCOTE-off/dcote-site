@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\MarkdownEditor; // Рекомендую вместо Textarea
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Set;
 use Illuminate\Support\Facades\Storage;
 
@@ -50,11 +51,14 @@ class RanobeChapterResource extends Resource
                             ->map(fn ($num) => floatval($num));
                     }),
                 Forms\Components\TextInput::make('title')
+                    ->label('Название главы')
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('chapter_number')
+                    ->label('Номер главы')
                     ->required()
-                    ->numeric(),
+                    ->numeric()
+                    ->formatStateUsing(fn ($state) => $state !== null ? $state + 0 : ''),
                 FileUpload::make('md_import')
                     ->label('Импорт из .md файла')
                     ->acceptedFileTypes(['text/markdown', 'text/plain', 'application/octet-stream'])
@@ -90,10 +94,12 @@ class RanobeChapterResource extends Resource
                     ->label('Том')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Название')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('chapter_number')
-                    ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->label('Глава')
+                    ->formatStateUsing(fn ($state) => $state !== null ? $state + 0 : ''),
             ])
             ->filters([
                 SelectFilter::make('ranobe_year_id')
@@ -130,7 +136,8 @@ class RanobeChapterResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->searchPlaceholder('Поиск по названию');
     }
 
     public static function getRelations(): array

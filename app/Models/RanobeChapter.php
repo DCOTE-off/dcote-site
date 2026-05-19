@@ -17,6 +17,10 @@ class RanobeChapter extends Model
         'ranobe_year_id',
     ];
 
+    protected $casts = [
+        'chapter_number' => 'decimal:1',
+    ];
+
     public function volume()
     {
         return $this->belongsTo(RanobeVolume::class, 'ranobe_volume_id');

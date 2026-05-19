@@ -34,9 +34,9 @@
             <div class="image-wrapper">
                 <picture>
                     <source media="(max-width: 768px)" 
-                            srcset="{{ Storage::url($volume->cover_image) }}" 
+                            srcset="{{ Storage::url($volume->cover_image_mobile) }}" 
                             type="image/webp">
-                    <img src="{{ Storage::url($volume->cover_image_mobile) }}" 
+                    <img src="{{ Storage::url($volume->cover_image) }}" 
                         @if($index < 2) fetchpriority="high" @else loading="lazy" @endif 
                         decoding="async" 
                         alt="Обложка {{$volume_number_rounded}} тома {{ $year }} года">
