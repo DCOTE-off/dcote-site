@@ -7,7 +7,7 @@ use App\Models\RanobeChapter;
 use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Type\Decimal;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use App\Helpers\MarkdownRanobeHelper;
 
 class RanobeController extends Controller
 {
@@ -55,25 +55,13 @@ class RanobeController extends Controller
             ->with('volume')
             ->firstOrFail();
 
-        $folderPath = "ranobe/year-{$year}/volume-{$volume}/images";
 
-        $imagesBaseUrl = Storage::disk('public')->url($folderPath);
 
         $content = $chapterModel->chapter_content;
 
-        $content = preg_replace(
-            '/!\[\[(.*?)\]\]/i',
-            '![иллюстрация](' . $imagesBaseUrl . '/$1)',
-            $content
-        );
 
-        $cleanMarkdown = preg_replace(
-            '/(!\[.*?\]\()(?!https?:\/\/)(.*?\))/i',
-            "$1" . $imagesBaseUrl . "/$2",
-            $content
-        );
 
-        $htmlContent = Str::markdown($cleanMarkdown);
+        $htmlContent = MarkdownRanobeHelper::parse($content,$year,$volume);
         $volume_number_rounded = floatval($volume);
 
         return view('pages.ranobe.chapter', compact('htmlContent','chapterModel','volume_number_rounded','year','chapter'));
