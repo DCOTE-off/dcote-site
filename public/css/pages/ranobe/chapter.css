@@ -15,7 +15,7 @@ body::before {
 
 :root{
     --primary-text-color:#e9e9e9;
-    --font-size-baze:16px;
+    --font-size-baze:18px;
     --block-padding:5px;
     --text-intend:0.875em;
 }
@@ -33,6 +33,7 @@ main {
 .chapter-container{
     width: 73%;
     font-size: var(--font-size-baze);
+    max-width: 1440px;
 }
 
 .main-title{
@@ -41,6 +42,7 @@ main {
     margin-bottom: 16px;
     line-height: 1.3;
     color:var(--primary-text-color);
+    text-align: center;
 }
 
 .chapter-content h3{
@@ -68,6 +70,8 @@ main {
     text-align: center;
 }
 
+
+
 .chapter-content img{
     max-width: 100%;
     border-radius: var(--fs-border-radius);
@@ -77,12 +81,41 @@ main {
     display: flex;
 }
 
+
+.chapters-controls {
+    display: flex;
+    gap: var(--fs-gap20);
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--fs-gap20);
+}
+
+.chapters-controls.mobile {
+    display: none;
+}
+
 @media (max-width:768px) {
+    :root{
+    --font-size-baze:16px;
+    }
     .chapter-container{
         width: 95%;
     }
 
     .chapter-content img{
         margin-left: unset;
+    }
+
+    .chapters-controls {
+        display: none;
+    }
+
+    .chapters-controls.mobile {
+        display: flex;
+        margin-block: var(--fs-gap20);
+    }
+
+    .chapters-controls.mobile button {
+        padding: clamp(1px, 1.335vw, 100px);
     }
 }

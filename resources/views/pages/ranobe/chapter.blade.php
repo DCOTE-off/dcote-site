@@ -27,5 +27,27 @@
     <article class="chapter-content">
         {!! $htmlContent !!}
     </article>
+        <div class="chapters-controls">
+        <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">ПРЕДЫДУЩАЯ ГЛАВА</a>
+        <a class="link-like-button" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">ВСЕ ГЛАВЫ</a>
+        <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}" class="next-episode-btn">СЛЕДУЮЩАЯ ГЛАВА</a>
+    </div>
+    <div class="chapters-controls mobile">
+        <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">
+            <svg class="slider-icon" width="30" height="30">
+                <use href="#arrow-left"></use>
+            </svg>
+        </a>
+        <a class="link-like-button" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">
+            <svg class="slider-icon" width="30" height="30">
+                <use href="#list-details"></use>
+            </svg>
+        </a>
+        <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}"  href="{{ $next_link }}" class="next-episode-btn">
+            <svg class="slider-icon" width="30" height="30">
+                <use href="#arrow-right"></use>
+            </svg>
+        </a>
+    </div>
 </div>
     @endsection

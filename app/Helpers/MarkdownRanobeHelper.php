@@ -55,6 +55,7 @@ class MarkdownRanobeHelper
         // 6. Подчищаем пустые параграфы (на случай лишних переносов)
         $html = preg_replace('/<p>\s*<\/p>/i', '', $html);
         $html = preg_replace('/<img/i', '<img loading="lazy" decoding="async"', $html);
+        $html = str_replace(['<h2>', '</h2>'], ['<h3>', '</h3>'], $html);
 
         return $html;
     }
