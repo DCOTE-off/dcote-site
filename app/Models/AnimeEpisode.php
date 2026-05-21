@@ -15,9 +15,7 @@ class AnimeEpisode extends Model
         'season_id',
         'episode_number',
         'episode_name',
-        'has_dub',
-        'has_sub',
-        'has_anilibria',
+        'completed',
         'opening_start',
         'appear_in',
     ];

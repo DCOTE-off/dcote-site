@@ -59,8 +59,8 @@
         <a href="{{ route('ranobe.index') }}">
             <div class="wrapper">
                 <picture>
-                    <source media="(max-width: 768px)" srcset="/images/index/category-ranobe-bw-mobile.webp" type="image/webp">
-                    <img src="/images/index/category-ranobe-bw.webp" alt="Категория Ранобэ">
+                    <source media="(max-width: 768px)" srcset="/images/index/category-ranobe-mobile.webp" type="image/webp">
+                    <img src="/images/index/category-ranobe.webp" alt="Категория Ранобэ">
                 </picture>
                 <div class="content">
                     <h3><b>РАНОБЭ</b></h3>
@@ -169,12 +169,11 @@
             <div class="title">
                 <h1>РЕЙТИНГ КЛАССОВ</h1>
             </div>
-            <div class="spoilers-btn">
-                <p><b>Спойлеры:</b></p>
-                <label class="toggle-switch-compact">
-                    <input type="checkbox" class="toggle-input">
-                    <span class="toggle-slider"></span>
-                </label>
+            <div class="spoilers-btn-cont">
+                <button class="spoilers-btn no-glow button-without-styles">
+                    <span>БЕЗ СПОЙЛЕРОВ</span>
+                    <span>СО СПОЙЛЕРАМИ</span>
+                </button>
             </div>
             <div class="rating">
                 @foreach ($classes_list_default as $class)

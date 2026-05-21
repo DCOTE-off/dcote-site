@@ -151,6 +151,7 @@
     flex: 2 2;
     flex-direction: column;
     background: linear-gradient(180deg, #df0e5431 50%, #0b172b);
+    backdrop-filter: blur(10px);
     border-radius: var(--fs-border-radius);
     position: relative;
     overflow: hidden;
@@ -224,6 +225,7 @@
     display: flex;
     flex: 1 1;
     background: linear-gradient(#df0e5441 50%, #0b172b);
+    backdrop-filter: blur(10px);
     border-radius: var(--fs-border-radius);
     position: relative;
     overflow: hidden;
@@ -290,6 +292,7 @@
 .content-line3 .about-island {
     padding: var(--fs-padding);
     background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
+    backdrop-filter: blur(10px);
     width: 62%;
     gap: var(--fs-gap10);
     display: flex;
@@ -318,69 +321,60 @@
 
 
 
-
-/* ========================================
-   1. КОНТЕЙНЕР — content-line4
-   ======================================== */
 .content-line4 {
     display: flex;
     gap: 30px;
     width: 100%;
 }
 
-/* ========================================
-   2. TOGGLE SWITCH (переключатель)
-   ======================================== */
-.toggle-switch-compact {
+.spoilers-btn{
+    display: flex;
+    padding-inline: 0px;
+    padding-block: 0px;
     position: relative;
-    display: inline-block;
-    width: clamp(50px, 6.5vw, 100px);
-    height: clamp(12.5px, 1.625vw, 25px);
-    cursor: pointer;
 }
 
-.toggle-switch-compact .toggle-input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
+.spoilers-btn span{
+    padding-block: clamp(1px, 0.715vw, 11px);
+    padding-inline: clamp(1px, 1.17vw, 18px);
+    z-index: 10;
 }
 
-.toggle-switch-compact .toggle-slider {
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: var(--fs-border-radius);
-    transition: background 0.3s ease;
+@media (max-width: 768px) {
+    .spoilers-btn span{
+        padding-block: clamp(9px, 2.933vw, 23px);
+        padding-inline: clamp(15px, 4.8vw, 37px);
+    }
 }
 
-.toggle-switch-compact .toggle-slider::before {
+
+.spoilers-btn::before {
     content: '';
     position: absolute;
     width: 50%;
+    transform: translateX(-50%);
     height: 100%;
-    background: white;
+    background-color: #921545;
+    z-index: 0;
     border-radius: var(--fs-border-radius);
     transition: transform 0.3s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.toggle-switch-compact .toggle-input:checked+.toggle-slider {
-    background: #e50b55;
+
+.spoilers-btn.spoilers-true::before {
+    transform: translateX(50%);
 }
 
-.toggle-switch-compact .toggle-input:checked+.toggle-slider::before {
-    transform: translateX(100%);
-}
 
-/* ========================================
-   3. TOP-CLASSES (левая колонка)
-   ======================================== */
+
+
 .content-line4 .top-classes {
     width: 50%;
     flex: 1;
     padding: var(--fs-padding);
     background: linear-gradient(#df0e5441 50%, #0b172b);
+    backdrop-filter: blur(10px);
     border-radius: var(--fs-border-radius);
     display: flex;
     flex-direction: column;
@@ -391,8 +385,7 @@
     text-align: center;
 }
 
-/* Спойлеры */
-.content-line4 .top-classes .spoilers-btn {
+.content-line4 .top-classes .spoilers-btn-cont {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -400,7 +393,6 @@
     align-items: center;
 }
 
-/* Рейтинг классов */
 .content-line4 .top-classes .rating {
     display: flex;
     flex-direction: column;
@@ -433,7 +425,6 @@
     padding-left: clamp(1px, 0.65vw, 5px);
 }
 
-/* Очки класса */
 .content-line4 .top-classes .points-bg {
     padding: clamp(1px, 0.65vw, 5px);
     border-top-right-radius: var(--fs-border-radius);
@@ -445,7 +436,6 @@
     margin-top: auto;
 }
 
-/* Кнопки классов */
 .content-line4 .top-classes-buttons {
     display: flex;
     justify-content: center;
@@ -457,14 +447,13 @@
     border-color: rgb(143, 17, 68);
 }
 
-/* ========================================
-   4. TOP-USERS (правая колонка)
-   ======================================== */
+
 .content-line4 .top-users {
     width: 50%;
     flex: 1;
     padding: var(--fs-padding);
     background: linear-gradient(#df0e5441 50%, #0b172b);
+    backdrop-filter: blur(10px);
     border-radius: var(--fs-border-radius);
     display: flex;
     flex-direction: column;
@@ -476,7 +465,6 @@
     text-align: center;
 }
 
-/* Таблица пользователей */
 .top-users .users-table table {
     width: 100%;
     border-collapse: collapse;
@@ -489,17 +477,13 @@
     padding-block: clamp(1px, 0.65vw, 10px);
 }
 
-.users-table tr {
-    height: 100%;
-}
 
-/* Иконки шахмат */
+
 .content-line4 .top-users .users-table .chess-icon {
     width: clamp(15px, 1.95vw, 30px);
     height: clamp(15px, 1.95vw, 30px);
 }
 
-/* Аватарки */
 .top-users img {
     height: clamp(1px, 3.25vw, 50px);
     width: clamp(1px, 3.25vw, 50px);
@@ -508,7 +492,6 @@
     margin: 0;
 }
 
-/* Колонки таблицы */
 .top-users .rank,
 .top-users .rank-head {
     text-align: left;
@@ -545,16 +528,13 @@
     color: white
 }
 
-/* ========================================
-   5. ОБЩИЕ ЭЛЕМЕНТЫ
-   ======================================== */
-/* Кнопка полной статистики */
+
 .content-line4 .full-stat {
     display: flex;
     justify-content: center;
 }
 
-/* Таблица (общие стили) */
+
 .users-table table {
     width: 100%;
     border-collapse: collapse;
@@ -600,6 +580,7 @@
     display: flex;
     flex-direction: column;
     background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
+    backdrop-filter: blur(10px);
     gap: var(--fs-gap20);
     padding: var(--fs-padding);
     flex: 1;
@@ -640,6 +621,7 @@
     display: flex;
     flex-direction: column;
     background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
+    backdrop-filter: blur(10px);
     gap: var(--fs-gap20);
     padding: var(--fs-padding);
     flex: 1;

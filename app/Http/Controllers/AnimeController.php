@@ -32,33 +32,78 @@ class AnimeController extends Controller
 
     public function showEpisode(int $season, int $episode)
     {
-            $seasonModel = AnimeSeason::withCount('episodes')->findOrFail($season);
-            $total_episodes = $seasonModel->episodes_count ?? 0;
+        $seasonModel = AnimeSeason::withCount('episodes')->findOrFail($season);
+        $total_episodes = $seasonModel->episodes_count ?? 0;
 
-            $episodeModel = AnimeEpisode::where('season_id', $season)
-                ->where('episode_number', $episode)
-                ->firstOrFail();
-            $has_dub = $episodeModel->has_dub;
-            $has_sub = $episodeModel->has_sub;
+        $episodeModel = AnimeEpisode::where('season_id', $season)
+            ->where('episode_number', $episode)
+            ->firstOrFail();
+        $player_url = "https://video.dcote.net/metrics-api/videoplayer";
+        $poster_url = "poster=https://video.dcote.net/season-{$season}/episodes-banner-season{$season}.webp";
+        $skip_start = "skip_start=" . ($episodeModel->opening_start ?? '-1');
+        $episodeNumBeaty = $episode<10 ? '0'.$episode : $episode;
+        $episodeUrl = "{$player_url}?src=https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}/master.m3u8&{$poster_url}&{$skip_start}";
+        $completed = $episodeModel->completed;
 
-            $initial_type = $has_dub ? 'dub' : ($has_sub ? 'sub' : null);
-            $voice = $episodeModel->has_anilibria === 1 ? 'AniLibria' : 'Anistar';
+        $prev_episode = $this->getPreviousEpisode($episodeModel);
+        $prev_link = $prev_episode ? route('anime.episode', [
+            'season' => ($prev_episode->season->season_number),
+            'episode' => ($prev_episode->episode_number),
+        ]) : null;
 
-            $player_url = "https://video.dcote.net/metrics-api/videoplayer";
-                             
-            $poster_url = "poster=https://video.dcote.net/season-{$season}/episodes-banner-season{$season}.webp";
-            $skip_start = "skip_start=" . ($episodeModel->opening_start ?? '-1');
+        $next_episode = $this->getNextEpisode($episodeModel);
+        $next_link = $next_episode ? route('anime.episode', [
+            'season' => ($next_episode->season->season_number),
+            'episode' => ($next_episode->episode_number),
+        ]) : null;
 
-            $dubUrl = null;
-            if ($has_dub) {
-                $dubUrl = "{$player_url}?src=https://video.dcote.net/season-{$season}/dub/episode-{$episode}/{$voice}/master.m3u8&{$poster_url}&{$skip_start}";
-            }
 
-            $subUrl = null;
-            if ($has_sub) {
-                $subUrl = "{$player_url}?src=https://video.dcote.net/season-{$season}/sub/episode-{$episode}/master.m3u8&{$poster_url}&{$skip_start}";
-            }
 
-        return view('pages.anime.episode', compact('season', 'episode','dubUrl','subUrl','initial_type','total_episodes','has_dub','has_sub'));
+
+        return view('pages.anime.episode', compact('season', 'episode','episodeUrl','total_episodes','completed','next_link','prev_link'));
     }
+
+    private function getPreviousEpisode(AnimeEpisode $episodeModel): ?AnimeEpisode
+    {
+        $prev = AnimeEpisode::where('season_id', $episodeModel->season_id)
+            ->where('episode_number', '<', $episodeModel->episode_number)
+            ->orderBy('episode_number', 'desc')
+            ->first();
+
+        if ($prev) return $prev; 
+        $prevSeason = AnimeSeason::where('season_number', '<', $episodeModel->season->season_number)
+            ->orderBy('season_number', 'desc')
+            ->first();
+
+        if ($prevSeason) {
+            $prev = AnimeEpisode::where('season_id', $prevSeason->id)
+                ->orderBy('episode_number', 'desc')
+                ->first();
+            
+            if ($prev) return $prev;
+        }
+        return null;
+    }
+    private function getNextEpisode(AnimeEpisode $episodeModel): ?AnimeEpisode
+    {
+        $next = AnimeEpisode::where('season_id', $episodeModel->season_id)
+            ->where('episode_number', '>', $episodeModel->episode_number)
+            ->orderBy('episode_number', 'asc')
+            ->first();
+
+        if ($next) return $next; 
+        $nextSeason = AnimeSeason::where('season_number', '>', $episodeModel->season->season_number)
+            ->orderBy('season_number', 'asc')
+            ->first();
+
+        if ($nextSeason) {
+            $next = AnimeEpisode::where('season_id', $nextSeason->id)
+                ->orderBy('episode_number', 'asc')
+                ->first();
+            
+            if ($next) return $next;
+        }
+        return null;
+    }
+
 }

@@ -37,14 +37,8 @@ class AnimeEpisodeResource extends Resource
                         Forms\Components\TextInput::make('episode_name')
                             ->label('Название эпизода')
                             ->required(),
-                        Forms\Components\Checkbox::make('has_dub')
-                            ->label('Есть дубляж')
-                            ->inline(false),
-                        Forms\Components\Checkbox::make('has_sub')
-                            ->label('Есть субтитры')
-                            ->inline(false),
-                        Forms\Components\Checkbox::make('has_anilibria')
-                            ->label('Есть Anilibria')
+                        Forms\Components\Checkbox::make('completed')
+                            ->label('Вышел')
                             ->inline(false),
                         Forms\Components\TextInput::make('opening_start')
                             ->label('Начало опенинга (def=-1)')
@@ -70,12 +64,8 @@ class AnimeEpisodeResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('episode_name')
                     ->label('Название'),
-                Tables\Columns\CheckboxColumn::make('has_dub')
-                    ->label('Дубляж'),
-                Tables\Columns\CheckboxColumn::make('has_sub')
-                    ->label('Субтитры'),
-                Tables\Columns\CheckboxColumn::make('has_anilibria')
-                    ->label('Anilibria'),
+                Tables\Columns\CheckboxColumn::make('completed')
+                    ->label('Вышел'),
                 Tables\Columns\TextColumn::make('opening_start')
                     ->label('Начало опенинга'),
                 Tables\Columns\TextColumn::make('appear_in')
