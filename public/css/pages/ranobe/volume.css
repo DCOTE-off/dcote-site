@@ -217,6 +217,7 @@
     opacity: 0.4;
     transition: transform 300ms ease, opacity 300ms ease;
     border-radius: var(--fs-border-radius);
+    cursor:pointer;
 }
 
 .embla__slide.is-selected .carousel-img {
