@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="preload" href="{{ asset('fonts/VAG Rounded Next Regular.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('fonts/VAG Rounded Next Heavy.woff2') }}" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="{{ asset('fonts/VAG Rounded Next Medium.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/VAG-Rounded-Next-Regular.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/VAG-Rounded-Next-Heavy.woff2') }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ asset('fonts/VAG-Rounded-Next-Medium.woff2') }}" as="font" type="font/woff2" crossorigin>
     <title>@yield('title', 'DCOTE')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">

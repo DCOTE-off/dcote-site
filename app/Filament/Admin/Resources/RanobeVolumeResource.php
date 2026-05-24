@@ -64,7 +64,8 @@ class RanobeVolumeResource extends Resource
                     ->maxLength(255),
                 Forms\Components\Textarea::make('volume_description')
                     ->required()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->rows(10),
                 Forms\Components\FileUpload::make('cover_image')
                     ->label('Обложка тома')
                     ->image()

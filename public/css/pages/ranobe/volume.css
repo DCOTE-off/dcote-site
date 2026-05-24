@@ -27,6 +27,7 @@
 .volume-cont .desc {
     width: 66%;
     background: linear-gradient(270deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
     padding: var(--fs-padding);
     display: flex;
     flex-direction: column;
@@ -56,19 +57,6 @@
 
 .volume-cont .desc .bottom-buttons.mobile {
     display: none;
-}
-
-
-.chapters-cont {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-radius: var(--fs-border-radius);
-    overflow: hidden;
-    background: linear-gradient(0deg, #0b172b, #df0e5441);
-    padding: var(--fs-padding);
-    align-items: center;
-    gap: var(--fs-gap20);
 }
 
 
@@ -121,7 +109,207 @@
     font-family: 'Vag-Bold';
 }
 
+
+.volume-info {
+    display: flex;
+    gap: clamp(10px, 1.95vw, 30px);
+    align-items: stretch;
+}
+
+.chapters-cont {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    background: linear-gradient(0deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
+    padding: var(--fs-padding);
+    align-items: center;
+    gap: var(--fs-gap20);
+    flex: 1;
+    min-height: clamp(1px,58.175vw,855.5px);
+
+}
+
+.volume-images-cont {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    background: linear-gradient(0deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
+    padding: var(--fs-padding);
+    align-items: center;
+    gap: var(--fs-gap20);
+    flex:1;
+    height: auto;
+}
+
+
+.group-carousels-cont {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.title-carousel-cont {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--fs-gap10);
+    text-align: center;
+    width: 100%;
+    flex: 1 1 0;
+    min-height: 0;
+}
+
+.carousel-container,
+.embla,
+.embla__container,
+.embla__slide {
+  min-height: 0;
+}
+
+.carousel-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.embla {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.embla__container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin-left:calc(-1 * var(--fs-padding));
+}
+
+.embla__slide {
+    flex: 0 0 auto;
+    width: fit-content;
+    max-width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: var(--fs-padding);
+}
+
+.carousel-img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transform: scale(0.85);
+    opacity: 0.4;
+    transition: transform 300ms ease, opacity 300ms ease;
+    border-radius: var(--fs-border-radius);
+}
+
+.embla__slide.is-selected .carousel-img {
+    transform: scale(1);
+    opacity: 1;
+}
+
+
+
+
+
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(11, 23, 43, 0.85);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    position: relative;
+    display: block;
+    max-width: 85%;
+    max-height: 90vh;
+    object-fit: contain;
+    border-radius: var(--fs-border-radius);
+    animation: zoomIn 0.3s ease;
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-close,
+.modal-download {
+    position: absolute;
+    cursor: pointer;
+    top:clamp(1px, 3.25vw, 50px);
+}
+.modal-close img,
+.modal-download img{
+    width: clamp(1px, 2.6vw, 40px);
+    height: clamp(1px, 2.6vw, 40px);
+}
+
+.modal-close{
+    right: clamp(1px, 3.25vw, 50px);
+}
+.modal-download{
+    left: clamp(1px, 3.25vw, 50px);
+}
+
+.modal-next,
+.modal-prev{
+    position: absolute;
+    top:50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+}
+.modal-next img,
+.modal-prev img{
+    width: clamp(1px,3.25vw,50px);
+    height: clamp(1px,3.25vw,50px);
+}
+
+.modal-next{
+    right: clamp(1px,8.45vw,130px);
+}
+.modal-prev{
+    left: clamp(1px,8.45vw,130px);
+}
+
+
+
+
 @media (max-width:768px) {
+    .volume-info{
+        gap:var(--fs-gap20);
+        flex-direction: column;
+        justify-content: unset;
+    }
+
+    .volume-images-cont{
+        min-height: 650px;
+    }
     .volume-cont {
         flex-direction: column;
     }

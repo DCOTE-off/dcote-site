@@ -274,6 +274,20 @@ main {
     box-shadow: inset 0 0 0 var(--fs-border2px) #921545 !important;
 }
 
+.button-without-styles-all {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.button-without-styles-all:hover {
+    background-color:  unset !important;
+    box-shadow: unset;
+    scale: 1;
+}
+.button-without-styles-all:active{
+    box-shadow: unset;
+}
+
 .hidden {
     display: none !important;
 }

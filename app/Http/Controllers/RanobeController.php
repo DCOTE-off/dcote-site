@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Type\Decimal;
 use Illuminate\Support\Str;
 use App\Helpers\MarkdownRanobeHelper;
+use App\Helpers\FilesCollectionHelper;
+use Illuminate\Support\Facades\Storage;
 
 class RanobeController extends Controller
 {
@@ -42,7 +44,13 @@ class RanobeController extends Controller
             ->firstOrFail();
         $chapters = $volumeModel->chapters()->orderBy('chapter_number','asc')->get();
         $volume_number_rounded = floatval($volumeModel->volume_number);
-        return view('pages.ranobe.volume',compact('year','volumeModel','chapters','volume_number_rounded'));
+        $path = "ranobe/year-$year/volume-$volume_number_rounded/images/";
+
+        $color_images = FilesCollectionHelper::findFiles($path,'-color','public');
+        $bw_images = FilesCollectionHelper::findFiles($path,'-bw','public');
+
+
+        return view('pages.ranobe.volume',compact('year','volumeModel','chapters','volume_number_rounded','color_images','bw_images','path'));
     }
 
 

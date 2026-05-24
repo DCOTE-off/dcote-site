@@ -11,38 +11,44 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function register() {
-        return view('pages.reg');
-    }
-
-    public function login() {
-        return view('pages.login');
-    }
-
-    public function store(RegisterRequest $request) {
-        $user = User::create([
-            'username' => $request->tag,
-            'nickname' => $request->nickname,
-            'password' => $request->password,
-        ]);
-        Auth::login($user);
-        return redirect()->route('home')->with('success', 'Аккаунт успешно создан! Добро пожаловать');
-    }
-
-
-
-    public function authenticate(LoginRequest $request)
-    {
-        $credentials = [
-            'username' => $request->tag,
-            'password' => $request->password,
-        ];
-        if (Auth::attempt($credentials, $request->filled('remember'))) {
-            $request->session()->regenerate();
-            return redirect()->route('home')->with('success', 'С возвращением!');
+        public function register() {
+            url()->previous() ? session(['url.intended' => url()->previous()]) : null;
+            return view('pages.reg');
         }
 
-        return back()->with('error', 'Неверное имя или пароль.')->withInput();
-    }
+        public function login() {
+            $previousUrl = url()->previous();
+            if ($previousUrl && !str_contains($previousUrl, '/auth/')) {
+                session(['url.intended' => $previousUrl]);
+            }
 
+            return view('pages.login');
+        }
+
+    public function store(RegisterRequest $request) {
+            $user = User::create([
+                'username' => $request->tag,
+                'nickname' => $request->nickname,
+                'password' => $request->password,
+            ]);
+            
+            Auth::login($user);
+            
+            return redirect()->intended(route('home'))->with('success', 'Аккаунт успешно создан! Добро пожаловать');
+        }
+
+        public function authenticate(LoginRequest $request)
+        {
+            $credentials = [
+                'username' => $request->tag,
+                'password' => $request->password,
+            ];
+            
+            if (Auth::attempt($credentials, $request->filled('remember'))) {
+                $request->session()->regenerate();
+
+                return redirect()->intended(route('home'))->with('success', 'С возвращением!');
+            }
+            return back()->with('error', 'Неверное имя или пароль.')->withInput();
+        }
 }
