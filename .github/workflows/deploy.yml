@@ -19,10 +19,8 @@ jobs:
             cd /var/www/dcote-site-main
             git pull origin production
             
-            # Установка зависимостей
             composer install --no-dev --optimize-autoloader
             
-            # Настройка Laravel (миграции, кеш)
             php artisan migrate --force
             php artisan config:cache
             php artisan route:cache

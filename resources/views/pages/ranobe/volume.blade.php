@@ -135,5 +135,6 @@
         </span>
         <img class="modal-content" id="modalTargetImg">
         <div id="modalCaption"></div>
+        <div class="modal-overlay"></div>
     </div>
     @endsection

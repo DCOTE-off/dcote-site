@@ -34,7 +34,7 @@
             <svg class="nav-icon"><use href="#mail"></use></svg>
             <h2 class="nav-label">Уведомления</h2>
         </a>
-        <button class="nav-item button-without-styles" id="hamburgerBtn">
+        <button class="nav-item button-without-styles-all" id="hamburgerBtn">
             <svg class="nav-icon"><use href="#stack-2"></use></svg>
             <h2 class="nav-label">Меню</h2>
         </button>
