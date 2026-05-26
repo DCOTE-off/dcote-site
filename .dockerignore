@@ -1,0 +1,7 @@
+.git
+.github
+.env
+node_modules
+storage/*.log
+bootstrap/cache/*.php
+docker/

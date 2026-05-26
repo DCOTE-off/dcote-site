@@ -53,7 +53,7 @@
     <div class="cont2 scale-in">
         <div class="episodes-head">
             <h1>СПИСОК СЕРИЙ</h1>
-            <button type="button" class="sort-toggle button-without-styles" aria-label="Сортировать по возрастанию/убыванию">
+            <button type="button" class="sort-toggle button-without-styles-all" aria-label="Сортировать по возрастанию/убыванию">
                 <svg class="sort-descending" width="20" height="20" style="display: none;">
                     <use href="#sort-descending-filled"></use>
                 </svg>

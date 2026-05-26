@@ -1,27 +1,31 @@
 name: Deploy Website
 
 on:
-  push:
-    branches: [ production ] 
+    push:
+        branches: [ production ] 
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_KEY }}
-          port: 22
-          script: |
-            cd /var/www/dcote-site-main
-            git pull origin production
-            
-            composer install --no-dev --optimize-autoloader
-            
-            php artisan migrate --force
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Deploy via SSH
+              uses: appleboy/ssh-action@v1.0.3
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USERNAME }}
+                  key: ${{ secrets.SSH_KEY }}
+                  port: 22
+                  script: |
+                     cd /var/www/dcote.net
+                     git pull origin production
+                     
+                     docker compose build --no-cache
+                     
+                     docker compose up -d
+                     
+                     docker exec dcote-net_laravel.test_1 php artisan migrate --force
+                     docker exec dcote-net_laravel.test_1 php artisan config:cache
+                     docker exec dcote-net_laravel.test_1 php artisan route:cache
