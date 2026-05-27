@@ -24,7 +24,7 @@ RUN echo "Acquire::http::Pipeline-Depth 0;" > /etc/apt/apt.conf.d/99custom && \
 
 RUN apt-get update && apt-get upgrade -y \
     && mkdir -p /etc/apt/keyrings \
-    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python3 dnsutils librsvg2-bin fswatch ffmpeg nano  \
+    && apt-get install -y gnupg gosu curl ca-certificates zip unzip git supervisor sqlite3 libcap2-bin libpng-dev python3 dnsutils librsvg2-bin fswatch ffmpeg nano dos2unix \
     && curl -sS 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xb8dc7e53946656efbce4c1dd71daeaab4ad4cab6' | gpg --dearmor | tee /etc/apt/keyrings/ppa_ondrej_php.gpg > /dev/null \
     && echo "deb [signed-by=/etc/apt/keyrings/ppa_ondrej_php.gpg] https://ppa.launchpadcontent.net/ondrej/php/ubuntu noble main" > /etc/apt/sources.list.d/ppa_ondrej_php.list \
     && apt-get update \
@@ -37,7 +37,7 @@ RUN apt-get update && apt-get upgrade -y \
        php8.4-ldap \
        php8.4-msgpack php8.4-igbinary php8.4-redis php8.4-swoole \
        php8.4-memcached php8.4-pcov php8.4-imagick php8.4-xdebug \
-    && curl -sLS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin/ --filename=composer --no-sig \
     && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
     && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_VERSION.x nodistro main" > /etc/apt/sources.list.d/nodesource.list \
     && apt-get update \
@@ -64,18 +64,22 @@ RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 RUN git config --global --add safe.directory /var/www/html
 
-COPY start-container /usr/local/bin/start-container
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY php.ini /etc/php/8.4/cli/conf.d/99-sail.ini
-RUN chmod +x /usr/local/bin/start-container
+
+COPY docker/8.4/start-container /usr/local/bin/start-container
+COPY docker/8.4/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY docker/8.4/php.ini /etc/php/8.4/cli/conf.d/99-sail.ini
+
+RUN dos2unix /usr/local/bin/start-container && \
+    chmod +x /usr/local/bin/start-container && \
+    dos2unix /etc/supervisor/conf.d/supervisord.conf
 
 
-COPY . /var/www/html
+COPY composer.json composer.lock ./
 
-RUN composer install --no-dev --optimize-autoloader
 
-RUN chown -R sail:sail /var/www/html/storage /var/www/html/bootstrap/cache
 
+
+RUN chown -R sail:sail /var/www/html
 EXPOSE 80/tcp
 
 ENTRYPOINT ["start-container"]
