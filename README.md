@@ -21,9 +21,6 @@ docker compose -f docker-compose.dev.yml up -d --build
 Первичная подготовка:
 
 ```bash
-docker compose -f docker-compose.dev.yml exec app composer install
-docker compose -f docker-compose.dev.yml exec app npm install
-docker compose -f docker-compose.dev.yml exec app php artisan key:generate
 docker compose -f docker-compose.dev.yml exec app php artisan migrate
 ```
 
@@ -87,15 +84,15 @@ TURNSTILE_SITE_KEY=
 Сгенерировать ключ можно так:
 
 ```bash
-docker compose -f docker-compose.prod.yml --env-file .env.production run --rm app php artisan key:generate --show
+docker compose -f docker-compose.prod.yml run --rm app php artisan key:generate --show
 ```
 
-Вставьте полученное значение в `APP_KEY` внутри `.env.production`.
+Вставьте полученное значение в `APP_KEY` внутри `.env`.
 
 Запуск production:
 
 ```bash
-docker compose -f docker-compose.prod.yml --env-file .env.production up -d --build
+docker compose -f docker-compose.prod.yml up -d --build
 ```
 
 Команды после деплоя:
@@ -138,11 +135,11 @@ docker compose -f docker-compose.dev.yml down
 Остановить production:
 
 ```bash
-docker compose -f docker-compose.prod.yml --env-file .env.production down
+docker compose -f docker-compose.prod.yml down
 ```
 
 Посмотреть логи:
 
 ```bash
-docker compose -f docker-compose.prod.yml --env-file .env.production logs -f nginx app
+docker compose -f docker-compose.prod.yml logs -f nginx app
 ```

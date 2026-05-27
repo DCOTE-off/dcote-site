@@ -22,11 +22,11 @@ jobs:
                      cd /var/www/dcote.net
                      git pull origin production
                      
-                     docker compose -f docker-compose.prod.yml --env-file .env.production build --pull
+                     docker compose -f docker-compose.prod.yml build --pull
                      
-                     docker compose -f docker-compose.prod.yml --env-file .env.production up -d
+                     docker compose -f docker-compose.prod.yml up -d
                      
-                     docker compose -f docker-compose.prod.yml --env-file .env.production exec -T app php artisan migrate --force
-                     docker compose -f docker-compose.prod.yml --env-file .env.production exec -T app php artisan config:cache
-                     docker compose -f docker-compose.prod.yml --env-file .env.production exec -T app php artisan route:cache
-                     docker compose -f docker-compose.prod.yml --env-file .env.production exec -T app php artisan view:cache
+                     docker compose -f docker-compose.prod.yml exec -T app php artisan migrate --force
+                     docker compose -f docker-compose.prod.yml exec -T app php artisan config:cache
+                     docker compose -f docker-compose.prod.yml exec -T app php artisan route:cache
+                     docker compose -f docker-compose.prod.yml exec -T app php artisan view:cache

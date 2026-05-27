@@ -25,7 +25,7 @@ services:
     image: dcote/app-prod
     restart: unless-stopped
     env_file:
-      - .env.production
+      - .env
     environment:
       APP_ENV: production
       APP_DEBUG: 'false'

@@ -62,9 +62,9 @@
                 </dl>
                 <dl class="info-block">
                     <dt>Дата выхода (книга):</dt>
-                    <dd>{{ RussianDate($volume->release_date_book) }}</dd>
+                    <dd>{{ russian_date($volume->release_date_book) }}</dd>
                     <dt>Дата выхода (цифра):</dt>
-                    <dd>{{ RussianDate($volume->release_date_digital) }}</dd>
+                    <dd>{{ russian_date($volume->release_date_digital) }}</dd>
                 </dl>
                 <dl class="info-block">
                     <dt>Объём тома:</dt>
@@ -86,9 +86,9 @@
                                 <dt>Общая нумерация:</dt>
                                 <dd>{{ $volume->general_number }}</dd>
                                 <dt>Дата выхода (книга):</dt>
-                                <dd>{{ RussianDate($volume->release_date_book) }}</dd>
+                                <dd>{{ russian_date($volume->release_date_book) }}</dd>
                                 <dt>Дата выхода (цифра):</dt>
-                                <dd>{{ RussianDate($volume->release_date_digital) }}</dd>
+                                <dd>{{ russian_date($volume->release_date_digital) }}</dd>
                                 <dt>Объём тома:</dt>
                                 <dd>{{ $total }}</dd>
                                 <dt>ISBN книги:</dt>
