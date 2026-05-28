@@ -1,17 +1,4 @@
 ARG PHP_VERSION=8.4
-ARG NODE_VERSION=24
-
-FROM node:${NODE_VERSION}-alpine AS assets
-
-WORKDIR /app
-
-COPY package.json package-lock.json ./
-RUN npm ci
-
-COPY resources ./resources
-COPY public ./public
-COPY vite.config.js ./
-RUN npm run build
 
 FROM php:${PHP_VERSION}-fpm-bookworm AS app
 
@@ -61,7 +48,6 @@ RUN composer install \
     --optimize-autoloader
 
 COPY . .
-COPY --from=assets /app/public/build ./public/build
 
 RUN composer dump-autoload --optimize --no-scripts \
     && php artisan package:discover --ansi \
@@ -89,7 +75,6 @@ WORKDIR /var/www/html
 
 COPY docker/prod/nginx.conf /etc/nginx/conf.d/default.conf
 COPY public ./public
-COPY --from=assets /app/public/build ./public/build
 
 RUN mkdir -p storage/app/public \
     && ln -sfn ../storage/app/public public/storage
