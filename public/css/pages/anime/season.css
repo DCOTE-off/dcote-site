@@ -243,6 +243,10 @@
         height: clamp(1px, 9.345vw, 100px);
     }
 
+    .cont2 .info-schedule {
+        text-align: center;
+    }
+
     .cont2 .episode-cont {
         flex-direction: column;
         gap: var(--fs-gap10);

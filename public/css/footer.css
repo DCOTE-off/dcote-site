@@ -1,6 +1,10 @@
 @import url('main.css');
 
 .footer-nav {
+    --footer-side-width: clamp(90px, 17.64vw, 271px);
+    --footer-logo-height: clamp(20px, 3.9vw, 60px);
+    --footer-icon-size: clamp(20px, 3.9vw, 60px);
+    --footer-icon-gap: calc((var(--footer-side-width) - (var(--footer-icon-size) * 3)) / 2);
     margin-top: 0px;
     left: 0;
     width: 100%;
@@ -8,42 +12,85 @@
     align-items: center;
     display: flex;
     text-decoration: none;
-    padding: 15px 30px;
+    height: clamp(60px, 6.51vw, 100px);
+    padding: clamp(5px, 1.3vw, 20px) clamp(15px, 3.9vw, 60px);
+    gap: clamp(5px, 1.3vw, 20px);
     justify-content: space-between;
 }
 
 
 .footer-left {
     display: flex;
-    gap: var(--fs-gap20);
-    flex: 1;
+    gap: var(--footer-icon-gap);
+    flex: 0 0 var(--footer-side-width);
     align-items: center;
 }
 
 .footer-center p {
     font-size: var(--fs-footer);
     color: white;
-    font-family: 'Vag-Thin';
+    font-family: 'Vag-Regular';
     text-align: center;
     justify-self: center;
     flex: 1;
 }
 
+.footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1px, 0.33vw, 5px);
+    flex: 1;
+    min-width: 0;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: clamp(10px, 1.95vw, 30px);
+}
+
+.footer-links a {
+    color: white;
+    font-family: 'Vag-Thin';
+    font-size: var(--fs-footer);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
 
 .social-nets-logos {
-    height: clamp(1px, 3vw, 41px);
-    width: auto;
+    width: var(--footer-icon-size);
+    height: var(--footer-icon-size);
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
 }
 
+.footer-left .logo-link {
+    display: flex;
+}
+
 
 .footer-right {
     display: flex;
-    flex: 1;
+    flex: 0 0 var(--footer-side-width);
     justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+.footer-right a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.footer-right .main-logo {
+    display: block;
+    width: var(--footer-side-width);
+    height: var(--footer-logo-height);
 }
 
 
@@ -53,16 +100,28 @@
         display: none;
     }
 
+    .footer-center {
+        display: none;
+    }
+
+    .footer-nav {
+        height: auto;
+    }
+
+    .footer-left {
+        flex: 1;
+        gap: var(--fs-gap20);
+    }
+
     .social-nets-logos {
         height: clamp(1px, 9.345vw, 200px);
         width: auto;
     }
 
-    .footer-center {
-        display: none;
+    .footer-right {
+        flex: 1;
     }
 
-    .navbar .left .main-logo,
     .footer-right .main-logo {
         width: clamp(1px, 36.045vw, 400px);
         height: clamp(1px, 9.345vw, 200px);
@@ -135,5 +194,3 @@
         background: #0B172B;
     }
 }
-
-

@@ -383,6 +383,7 @@
                         сложную игру интриг, стратегий и скрытых конфликтов между учениками школы.
                     </p>
                 </div>
+                <div style="display: flex;width: 100%;justify-content: center;"><a class="link-like-button disabled_a" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a></div>
             </div>
         </div>
         <div class="description">
@@ -397,14 +398,16 @@
                     <h1>СТОЛИЧНАЯ СТАРШАЯ ШКОЛА ПРОДВИНУТОГО ВОСПИТАНИЯ</h1>
                     <p>
                         Токийское государственное учебное учреждение, созданное японским правительством
-                        для воспитания молодых выпускников, которые будут поддерживать различные
+                        для воспитания молодых выпускников, которые в будущем будут поддерживать различные
                         профессиональные отрасли страны, что подкрепляется особыми методами обучения.
-                        За счёт своей репутации, школа может похвастаться своим сто процентным уровнем
-                        занятости и поступления в колледж. Сам кампус располагается на отдельном,
+                        За счёт своей репутации, школа может похвастаться своим практически сто процентным уровнем
+                        занятости и возможным поступлением в престижный колледж или университет. Сам кампус располагается на отдельном,
                         искусственно сконструированном острове, площадь которого составляет около шестиста тысяч квадратных метров.
+                        <br><br>
+                        Примечательно, что председателем совета директоров данного учебного заведения является Сакаянаги Наримори — отец Сакаянаги Арису.
                     </p>
                 </div>
-                <div style="display: flex;width: 100%;justify-content: center;"><a class="link-like-button disabled_a" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a></div>
+                <div style="display: flex;width: 100%;justify-content: center;"><a class="link-like-button disabled_a" rel="noopener noreferrer">ПОДРОБНАЯ ИНФОРМАЦИЯ</a></div>
             </div>
         </div>
     </div>
@@ -442,9 +445,12 @@
             <div class="text">
                 <div class="title-and-smth">
                     <h1>ОБСУЖДЕНИЕ НОВОСТЕЙ</h1>
-                    <p>Беседа в мессенджере Telegram, где люди обсуждают актуальные новости и беседуют друг с другом</p>
+                    <p class="tg-banner-description"><span>Беседа в Telegram, где люди обсуждают</span><span>актуальные новости и беседуют</span><span>друг с другом</span></p>
                 </div>
-                <div style="display: flex;width: 100%;justify-content: center;"><a href="https://t.me/DCOTE2" class="link-like-button" target="_blank" rel="noopener noreferrer">ПЕРЕЙТИ</a></div>
+                <div class="tg-links-buttons">
+                    <a href="https://t.me/DCOTEFILES" class="link-like-button tg-channel-btn" target="_blank" rel="noopener noreferrer">ТЕЛЕГРАМ-КАНАЛ</a>
+                    <a href="https://t.me/DCOTE2" class="link-like-button tg-chat-btn" target="_blank" rel="noopener noreferrer">ТЕЛЕГРАМ-ЧАТ</a>
+                </div>
             </div>
         </div>
         <div class="banner">
@@ -457,9 +463,12 @@
             <div class="text">
                 <div class="title-and-smth">
                     <h1>ОБСУЖДЕНИЕ СПОЙЛЕРОВ</h1>
-                    <p>Беседа в мессенджере Telegram, где люди обсуждают спойлеры, беседуют друг с другом и комфортно проводят время</p>
+                    <p class="tg-banner-description"><span>Беседа в Telegram, где люди обсуждают</span><span>спойлеры, беседуют друг с другом</span><span>и комфортно проводят время</span></p>
                 </div>
-                <div style="display: flex;width: 100%;justify-content: center;"><a href="https://t.me/DCOTESPOILERSCHAT" class="link-like-button" target="_blank" rel="noopener noreferrer">ПЕРЕЙТИ</a></div>
+                <div class="tg-links-buttons">
+                    <a href="https://t.me/DCOTESPOILERS2" class="link-like-button tg-channel-btn" target="_blank" rel="noopener noreferrer">ТЕЛЕГРАМ-КАНАЛ</a>
+                    <a href="https://t.me/DCOTESPOILERSCHAT" class="link-like-button tg-chat-btn" target="_blank" rel="noopener noreferrer">ТЕЛЕГРАМ-ЧАТ</a>
+                </div>
             </div>
         </div>
         <div class="banner">
@@ -472,9 +481,12 @@
             <div class="text">
                 <div class="title-and-smth">
                     <h1>ТЕОРИИ И ВАЖНЫЕ РАЗБОРЫ</h1>
-                    <p>Обсуждение тех или иных горячих тем, что не до конца разобраны и разборы, как в ключевых, так и второстепенных фрагментов произведения</p>
+                    <p class="tg-banner-description"><span>Обсуждение горячих тем и разборов,</span><span>как в ключевых, так и второстепенных</span><span>фрагментах произведения</span></p>
                 </div>
-                <div style="display: flex;width: 100%;justify-content: center;"><a href="https://t.me/DCOTETHEORIES" class="link-like-button" target="_blank" rel="noopener noreferrer">ПЕРЕЙТИ</a></div>
+                <div class="tg-links-buttons">
+                    <a href="https://t.me/DCOTETHEORIES" class="link-like-button tg-channel-btn" target="_blank" rel="noopener noreferrer">ТЕЛЕГРАМ-КАНАЛ</a>
+                    <a href="https://t.me/DCOTETHEORIES2" class="link-like-button tg-chat-btn" target="_blank" rel="noopener noreferrer">ТЕЛЕГРАМ-ЧАТ</a>
+                </div>
             </div>
         </div>
     </div>

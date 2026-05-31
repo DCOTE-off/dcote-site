@@ -1,13 +1,17 @@
 @import url('main.css');
 
 .navbar {
+    --navbar-logo-width: clamp(1px, 17.64vw, 271px);
+    --navbar-logo-height: clamp(1px, 3.9vw, 60px);
     top: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
-    padding: 15px 30px;
+    height: clamp(60px, 6.51vw, 100px);
+    padding: clamp(5px, 1.3vw, 20px) clamp(15px, 3.9vw, 60px);
+    gap: clamp(5px, 1.3vw, 20px);
     z-index: 1500;
     text-decoration: none;
 }
@@ -16,6 +20,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 var(--navbar-logo-width);
+    height: 100%;
+}
+
+.navbar .left a {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 .navbar .left .main-logo,
@@ -24,19 +36,75 @@
     height: clamp(1px, 3vw, 41px);
 }
 
+.navbar .left .main-logo {
+    display: block;
+    width: var(--navbar-logo-width);
+    height: var(--navbar-logo-height);
+}
+
 .navbar .center {
     flex: 1;
+    min-width: 0;
     text-align: center;
     justify-content: center;
-    gap: 40px;
+    gap: clamp(8px, 2.08vw, 40px);
     display: flex;
+}
+
+.navbar .right-wrapper {
+    flex: 0 0 var(--navbar-logo-width);
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+}
+
+.navbar .right {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(5px, 1.3vw, 20px);
 }
 
 .navbar .center a {
     color: white;
     text-decoration: none;
     font-family: 'Vag-Medium', sans-serif;
-    font-size: var(--fs-nav)
+    font-size: var(--fs-nav);
+    white-space: nowrap;
+}
+
+.navbar .center a.disabled-link {
+    color: rgb(140, 140, 150);
+    cursor: default;
+}
+
+.navbar .right .login-btn {
+    width: clamp(60px, 10.22vw, 157px);
+}
+
+.navbar .right .mail-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(12px, 2.44vw, 37.5px);
+    height: clamp(10px, 1.95vw, 30px);
+    color: white;
+    flex: 0 0 auto;
+    transition: 0.3s;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.navbar .right .mail-link:hover {
+    scale: 0.95;
+}
+
+.navbar .right .mail-icon {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
 }
 
 .navbar .center a span {
@@ -62,6 +130,14 @@
 .navbar .center a:hover span::after {
     width: 100%;
     background: rgb(224, 11, 82);
+}
+
+.navbar .center a.disabled-link:hover {
+    color: rgb(140, 140, 150);
+}
+
+.navbar .center a.disabled-link:hover span::after {
+    width: 0%;
 }
 
 
