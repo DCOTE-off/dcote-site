@@ -102,6 +102,7 @@ button,
     color: white;
     font-family: 'Vag-Bold';
     font-size: var(--fs-nav-links);
+    line-height: 1.4em;
     text-decoration: none;
     text-align: center;
     display: inline-flex;

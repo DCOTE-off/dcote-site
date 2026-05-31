@@ -6,24 +6,31 @@
             </a>
         </div>
         <div class="center">
-            <a><span>НОВОСТИ</span></a>
+            <a class="disabled-link"><span>НОВОСТИ</span></a>
             <a href="{{ route('ranobe.index') }}"><span>РАНОБЭ</span></a>
             <a href="{{ route('anime.index') }}"><span>АНИМЕ</span></a>
-            <a><span>МАНГА</span></a>
-            <a><span>ИЛЛЮСТРАЦИИ</span></a>
-            <a><span>ПЕРСОНАЖИ</span></a>
+            <a class="disabled-link"><span>МАНГА</span></a>
+            <a class="disabled-link"><span>ИЛЛЮСТРАЦИИ</span></a>
+            <a class="disabled-link"><span>ПЕРСОНАЖИ</span></a>
             <a href="{{ route('about-project') }}"><span>О ПРОЕКТЕ</span></a>
         </div>
-        <div class="right">
-            @auth
-                <div class="dropdown" data-dropdown>
-                    <button class="link-like-button login-btn" data-dropdown-toggle>
-                        АККАУНТ
-                    </button>
-                </div>
-            @else
-                <a href="{{ route('login') }}" class="link-like-button login-btn">ВОЙТИ</a>
-            @endauth
+        <div class="right-wrapper">
+            <div class="right">
+                <a href="#" class="mail-link" aria-label="Почта">
+                    <svg class="mail-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <use href="#mail-icon"></use>
+                    </svg>
+                </a>
+                @auth
+                    <div class="dropdown" data-dropdown>
+                        <button class="link-like-button login-btn" data-dropdown-toggle>
+                            АККАУНТ
+                        </button>
+                    </div>
+                @else
+                    <a href="{{ route('login') }}" class="link-like-button login-btn">ВОЙТИ</a>
+                @endauth
+            </div>
         </div>
     </div>
     <div class="side-menu" id="sideMenu">
@@ -73,4 +80,3 @@
         </div>
     </div>
 </nav>
-
