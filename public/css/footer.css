@@ -1,9 +1,9 @@
 @import url('main.css');
 
 .footer-nav {
-    --footer-side-width: clamp(90px, 17.64vw, 271px);
-    --footer-logo-height: clamp(20px, 3.9vw, 60px);
-    --footer-icon-size: clamp(20px, 3.9vw, 60px);
+    --footer-side-width: clamp(90px, 15vw, 230px);
+    --footer-logo-height: clamp(20px, 3.32vw, 51px);
+    --footer-icon-size: clamp(20px, 3.32vw, 51px);
     --footer-icon-gap: calc((var(--footer-side-width) - (var(--footer-icon-size) * 3)) / 2);
     margin-top: 0px;
     left: 0;
@@ -12,9 +12,9 @@
     align-items: center;
     display: flex;
     text-decoration: none;
-    height: clamp(60px, 6.51vw, 100px);
-    padding: clamp(5px, 1.3vw, 20px) clamp(15px, 3.9vw, 60px);
-    gap: clamp(5px, 1.3vw, 20px);
+    height: clamp(50px, 5.53vw, 85px);
+    padding: clamp(4px, 1.1vw, 17px) clamp(15px, 3.9vw, 60px);
+    gap: clamp(4px, 1.1vw, 17px);
     justify-content: space-between;
 }
 
@@ -39,7 +39,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(1px, 0.33vw, 5px);
+    gap: clamp(1px, 0.28vw, 4.25px);
     flex: 1;
     min-width: 0;
 }

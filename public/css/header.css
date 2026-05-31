@@ -1,17 +1,17 @@
 @import url('main.css');
 
 .navbar {
-    --navbar-logo-width: clamp(1px, 17.64vw, 271px);
-    --navbar-logo-height: clamp(1px, 3.9vw, 60px);
+    --navbar-logo-width: clamp(1px, 15vw, 230px);
+    --navbar-logo-height: clamp(1px, 3.32vw, 51px);
     top: 0;
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
-    height: clamp(60px, 6.51vw, 100px);
-    padding: clamp(5px, 1.3vw, 20px) clamp(15px, 3.9vw, 60px);
-    gap: clamp(5px, 1.3vw, 20px);
+    height: clamp(50px, 5.53vw, 85px);
+    padding: clamp(4px, 1.1vw, 17px) clamp(15px, 3.9vw, 60px);
+    gap: clamp(4px, 1.1vw, 17px);
     z-index: 1500;
     text-decoration: none;
 }
@@ -47,7 +47,7 @@
     min-width: 0;
     text-align: center;
     justify-content: center;
-    gap: clamp(8px, 2.08vw, 40px);
+    gap: clamp(6px, 2.21vw, 34px);
     display: flex;
 }
 
@@ -63,7 +63,7 @@
     width: 100%;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(5px, 1.3vw, 20px);
+    gap: clamp(3px, 0.52vw, 8px);
 }
 
 .navbar .center a {
@@ -87,7 +87,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: clamp(12px, 2.44vw, 37.5px);
+    width: clamp(10px, 1.95vw, 30px);
     height: clamp(10px, 1.95vw, 30px);
     color: white;
     flex: 0 0 auto;
