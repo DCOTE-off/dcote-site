@@ -5,11 +5,18 @@ Laravel-приложение с отдельными Docker-сценариями
 ## Docker Dev
 
 Dev-сборка использует текущий Sail-like PHP 8.4 контейнер, монтирует проект внутрь контейнера и запускает Laravel через `php artisan serve`.
+Для запуска использовать WSL.
 
-Перед первым запуском:
+Перед первым запуском (копируем переменные окружения):
 
 ```bash
 cp .env.example .env
+```
+
+Первичная установка зависимостей (Composer):
+
+```bash
+docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php84-composer:latest composer install --ignore-platform-reqs
 ```
 
 Запуск:
@@ -18,17 +25,43 @@ cp .env.example .env
 docker compose -f docker-compose.dev.yml up -d --build
 ```
 
-Первичная подготовка:
+Миграции:
 
 ```bash
 docker compose -f docker-compose.dev.yml exec app php artisan migrate
 ```
 
-Vite dev server:
+Данные с дампа бд:
 
 ```bash
-docker compose -f docker-compose.dev.yml exec app npm run dev
+docker compose -f docker-compose.dev.yml exec -T mysql mysql -u sail -p"password" dcote < dump.sql
 ```
+
+## Работа с WSL
+
+Для открытия vs code в линуксовом окружении:
+
+```PowerShell
+code .
+```
+
+Для открытия wsl консоли в PowerShell (пример на ubuntu 24.04):
+```bash
+wsl -d Ubuntu-24.04
+```
+
+Посмотреть доступные дистрибутивы:
+```bash
+wsl --list --online
+```
+
+Установить конкретную версию:
+
+```bash
+wsl --install -d Ubuntu-24.04
+```
+
+
 
 По умолчанию сайт доступен на `http://localhost:8080`. Порт можно изменить через `.env`:
 
