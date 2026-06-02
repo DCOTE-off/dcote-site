@@ -14,6 +14,7 @@
     width: 80%;
     padding: var(--fs-padding);
     background: linear-gradient(270deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
     border-radius: var(--fs-border-radius);
     margin-left: -15%;
     padding-left: calc(15% + clamp(1px, 1.3vw, 20px));

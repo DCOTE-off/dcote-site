@@ -114,8 +114,8 @@ button,
     padding-block: clamp(1px, 0.715vw, 11px);
     padding-inline: clamp(1px, 1.17vw, 18px);
     border-radius: var(--fs-border-radius);
-    background-color: rgba(224, 11, 82, 0.5);
-    box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px rgba(224, 11, 82, 0.5);
+    background-color: #921545;
+    box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px #921545;
     transition: 0.3s;
     transform-origin: center center;
     will-change: transform;
@@ -124,7 +124,7 @@ button,
 button:hover,
 .link-like-button:hover {
     scale: 0.95;
-    box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px rgba(224, 11, 82, 0.5);
+    box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px #921545;
 }
 
 button.no-glow,

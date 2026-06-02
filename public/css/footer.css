@@ -91,6 +91,13 @@
     display: block;
     width: var(--footer-side-width);
     height: var(--footer-logo-height);
+    transition: 0.3s;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.footer-right a:hover .main-logo {
+    scale: 0.95;
 }
 
 

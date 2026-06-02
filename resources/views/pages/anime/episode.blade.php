@@ -33,23 +33,41 @@
             </iframe>
     @endif
     <div class="episode-controls">
-        <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">ПРЕДЫДУЩАЯ СЕРИЯ</a>
-        <a class="link-like-button" href="{{ route('anime.season',['season'=>$season]) }}">ВСЕ СЕРИИ</a>
-        <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}" class="next-episode-btn">СЛЕДУЮЩАЯ СЕРИЯ</a>
-    </div>
-    <div class="episode-controls mobile">
-        <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">
-            <svg class="slider-icon" width="30" height="30">
+        <a class="link-like-button episode-nav-button prev-episode-btn {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}">
+            <svg class="episode-arrow-icon" aria-hidden="true">
                 <use href="#arrow-left"></use>
             </svg>
+            <span>ПРЕДЫДУЩАЯ СЕРИЯ</span>
         </a>
-        <a class="link-like-button" href="{{ route('anime.season',['season'=>$season]) }}">
-            <svg class="slider-icon" width="30" height="30">
-                <use href="#list-details"></use>
+        <a class="link-like-button no-glow all-episodes-btn" href="{{ route('anime.season',['season'=>$season]) }}">
+            <span>ВСЕ СЕРИИ</span>
+            <svg class="episode-arrow-icon episode-arrow-icon-down" aria-hidden="true">
+                <use href="#arrow-down"></use>
             </svg>
         </a>
-        <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}" class="next-episode-btn">
-            <svg class="slider-icon" width="30" height="30">
+        <a class="link-like-button episode-nav-button next-episode-btn {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}">
+            <span>СЛЕДУЮЩАЯ СЕРИЯ</span>
+            <svg class="episode-arrow-icon" aria-hidden="true">
+                <use href="#arrow-right"></use>
+            </svg>
+        </a>
+    </div>
+    <div class="episode-controls mobile">
+        <a class="link-like-button episode-nav-button prev-episode-btn {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}">
+            <svg class="episode-arrow-icon" aria-hidden="true">
+                <use href="#arrow-left"></use>
+            </svg>
+            <span>НАЗАД</span>
+        </a>
+        <a class="link-like-button no-glow all-episodes-btn" href="{{ route('anime.season',['season'=>$season]) }}">
+            <span>СЕРИИ</span>
+            <svg class="episode-arrow-icon episode-arrow-icon-down" aria-hidden="true">
+                <use href="#arrow-down"></use>
+            </svg>
+        </a>
+        <a class="link-like-button episode-nav-button next-episode-btn {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}">
+            <span>ВПЕРЁД</span>
+            <svg class="episode-arrow-icon" aria-hidden="true">
                 <use href="#arrow-right"></use>
             </svg>
         </a>

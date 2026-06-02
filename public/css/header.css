@@ -40,6 +40,13 @@
     display: block;
     width: var(--navbar-logo-width);
     height: var(--navbar-logo-height);
+    transition: 0.3s;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.navbar .left a:hover .main-logo {
+    scale: 0.95;
 }
 
 .navbar .center {
@@ -72,6 +79,9 @@
     font-family: 'Vag-Medium', sans-serif;
     font-size: var(--fs-nav);
     white-space: nowrap;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    position: relative;
 }
 
 .navbar .center a.disabled-link {
@@ -112,32 +122,33 @@
     display: inline-block;
 }
 
-.navbar .center a span::after {
+.navbar .center a::after {
     content: "";
     position: absolute;
-    left: 0;
-    bottom: -2px;
-    width: 0%;
-    height: 1px;
-    background: rgb(255, 255, 255);
-    transition: width 0.3s ease;
+    width: 0;
+    background-color: #DF0E53;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -0.25em;
+    height: 2px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
 }
 
-.navbar .center a:hover {
-    color: rgb(224, 11, 82);
-}
-
-.navbar .center a:hover span::after {
+.navbar .center a:not(.disabled-link):hover::after {
     width: 100%;
-    background: rgb(224, 11, 82);
+}
+
+.navbar .center a:not(.disabled-link):hover {
+    color: #DF0E53;
 }
 
 .navbar .center a.disabled-link:hover {
     color: rgb(140, 140, 150);
 }
 
-.navbar .center a.disabled-link:hover span::after {
-    width: 0%;
+.navbar .center a.disabled-link:hover::after {
+    width: 0;
 }
 
 

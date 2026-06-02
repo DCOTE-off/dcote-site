@@ -27,6 +27,7 @@
 .cont .desc {
     width: 68%;
     background: linear-gradient(270deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
     padding: var(--fs-padding);
     display: flex;
     flex-direction: column;
@@ -69,6 +70,7 @@
     border-radius: var(--fs-border-radius);
     overflow: hidden;
     background: linear-gradient(0deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
     padding: var(--fs-padding);
     align-items: center;
     gap: var(--fs-gap10);
