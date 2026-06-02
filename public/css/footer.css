@@ -52,10 +52,15 @@
 
 .footer-links a {
     color: white;
-    font-family: 'Vag-Thin';
+    font-family: 'Vag-Extralight';
     font-size: var(--fs-footer);
     text-decoration: none;
     white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #DF0E53;
 }
 
 
@@ -91,13 +96,6 @@
     display: block;
     width: var(--footer-side-width);
     height: var(--footer-logo-height);
-    transition: 0.3s;
-    transform-origin: center center;
-    will-change: transform;
-}
-
-.footer-right a:hover .main-logo {
-    scale: 0.95;
 }
 
 

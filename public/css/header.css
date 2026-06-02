@@ -40,13 +40,6 @@
     display: block;
     width: var(--navbar-logo-width);
     height: var(--navbar-logo-height);
-    transition: 0.3s;
-    transform-origin: center center;
-    will-change: transform;
-}
-
-.navbar .left a:hover .main-logo {
-    scale: 0.95;
 }
 
 .navbar .center {
