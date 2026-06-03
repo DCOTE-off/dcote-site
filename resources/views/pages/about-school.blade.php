@@ -1,22 +1,20 @@
-<svg style="display: none;">
-    <symbol id="arrow-right" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M9 6l6 6l-6 6" />
-    </symbol>
-    <symbol id="arrow-left" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M15 6l-6 6l6 6" />
-    </symbol>
-    <symbol id="download-icon" viewBox="0 0 24 24">
-        <path stroke="currentColor" stroke-width="2.50" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2 -2v-2" />
-        <path stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M7 11l5 5l5 -5" />
-        <path stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" d="M12 4l0 12" />
-    </symbol>
-</svg>
+@extends('layouts.app') 
+@push('styles')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />   
+    <link rel="stylesheet" href="{{ asset('css/pages/about-school.css') }}">
+@endpush
+@push('scripts')
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
+    <script src="{{ asset('js/pages/about-school.js') }}"></script>
+@endpush
+@section('title', 'О школе | DCOTE')
+@section('description', 'Познакомьтесь со школой Кодо Икусей произведения «Добро пожаловать в класс превосходства». Правила для учеников, школьная униформа, магазины, общежития и места для досуга. Узнайте об этом на сайте DCOTE')
+@section('content')
 <div class="navigation-links">
-    <a href="/"><span>ГЛАВНАЯ</span></a>
+    <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
     <p>/</p>
-    <a class="current-page" href="/about-school"><span>КОДО ИКУСЕЙ</span></a>
+    <a class="current-page" href="{{ route('about-school') }}"><span>КОДО ИКУСЭЙ</span></a>
 </div>
-<main class="page-about_school">
     <div class="cont-1 scale-in">
         <div class="title">
             <h1>ПРАВИЛА ДЛЯ УЧЕНИКОВ</h1>
@@ -66,32 +64,46 @@
                 как для парней, так и для девушек. Он представляет собой стандартные спортивные штаны,
                 футболку, ветровку и кроссовки.</p>
         </div>
-        <h3>Визуальные примеры</h3>
-        <div class="slider-wrapper">
-            <div class="slider-button-wrapper prev">
-                <div><button class="slider-btn inactive" aria-label="Назад"><svg class="slider-icon" width="30" height="30">
-                            <use href="#arrow-left"></use>
-                        </svg></button></div>
-            </div>
-            <div class="slider">
-                <div class="slides">
-                    <img src="/images/about_school/game-fullbody ayano2.jpg" alt="Официальный полный комплект">
-                    <img src="/images/about_school/game-fullbody ayano7.jpg" alt="Официальный комплект без пиджака с рубашкой с длинными рукавами">
-                    <img src="/images/about_school/game-fullbody ayano3.jpg" alt="Официальный комплект без пиджака с рубашкой с короткими рукавами">
-                    <img src="/images/about_school/game-fullbody ayano1.jpg" alt="Официальный спортивный комплект">
-                    <img src="/images/about_school/game-fullbody ayano4.jpg" alt="Официальный спортивный комплект без ветровки">
-                    <img src="/images/about_school/game-fullbody ayano8.jpg" alt="Официальный комплект купальника">
-                    <img src="/images/about_school/game-fullbody horikita3.jpg" alt="Официальный полный комплект">
-                    <img src="/images/about_school/game-fullbody horikita9.jpg" alt="Официальный комплект без пиджака со свитером-жилетом">
-                    <img src="/images/about_school/game-fullbody horikita4.jpg" alt="Официальный спортивный комплект">
-                    <img src="/images/about_school/game-fullbody horikita11.jpg" alt="Официальный спортивный комплект без ветровки">
-                    <img src="/images/about_school/game-fullbody horikita10.jpg" alt="Официальный комплект купальника">
+        <div class="title-carousel-cont">
+            <h3>Визуальные примеры</h3>
+            <div class="carousel-container">
+                <div class="embla">
+                    <div class="embla__container">
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-ayano2.jpg" alt="Официальный полный комплект" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-ayano7.jpg" alt="Официальный комплект без пиджака с рубашкой с длинными рукавами" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-ayano3.jpg" alt="Официальный комплект без пиджака с рубашкой с короткими рукавами" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-ayano1.jpg" alt="Официальный спортивный комплект" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-ayano4.jpg" alt="Официальный спортивный комплект без ветровки" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-ayano8.jpg" alt="Официальный комплект купальника" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-horikita3.jpg" alt="Официальный полный комплект" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-horikita9.jpg" alt="Официальный комплект без пиджака со свитером-жилетом" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-horikita4.jpg" alt="Официальный спортивный комплект" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-horikita11.jpg" alt="Официальный спортивный комплект без ветровки" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/game-fullbody-horikita10.jpg" alt="Официальный комплект купальника" class="carousel-img">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="slider-button-wrapper next">
-                <div><button class="slider-btn" aria-label="Вперёд"><svg class="slider-icon" width="30" height="30">
-                            <use href="#arrow-right"></use>
-                        </svg></button></div>
             </div>
         </div>
     </div>
@@ -99,6 +111,9 @@
         <div class="desc slide-in-right">
             <div class="title">
                 <h1>ОБЩЕЖИТИЕ</h1>
+            </div>
+            <div class="image-wrapper mobile scale-in">
+                <img src="/images/about_school/dormitory.avif" alt="Описание изображения">
             </div>
             <div class="text">
                 <p>Все ученики школы проживают в четырёх строительных блоков, которые используются, как общежитие.
@@ -116,7 +131,9 @@
                 </p>
             </div>
         </div>
-        <div class="image-wrapper scale-in"><img src="/images/about_school/dormitory.avif" alt="Описание изображения"></div>
+        <div class="image-wrapper scale-in">
+            <img src="/images/about_school/dormitory.avif" alt="Описание изображения">
+        </div>
     </div>
     <div class="cont-2 scale-in">
         <h1>ШКОЛЬНЫЙ КОМПЛЕКС</h1>
@@ -288,247 +305,39 @@
             Доступ к базе ограничен и предназначен исключительно для служебного использования.<br><br>
             <i>* К сожалению, официально представлена лишь небольшая часть реестра.</i>
         </p>
-        <div class="slider-wrapper">
-            <div class="slider-button-wrapper prev">
-                <div><button class="slider-btn inactive" aria-label="Назад"><svg class="slider-icon" width="30" height="30">
-                            <use href="#arrow-left"></use>
-                        </svg></button></div>
-            </div>
-            <div class="slider">
-                <div class="slides">
-                    <img src="/images/about_school/ayanokoji-database.webp" alt="Аянокоджи Киётака">
-                    <img src="/images/about_school/horikita-database.webp" alt="Хорикита Сузуне">
-                    <img src="/images/about_school/kushida-database.webp" alt="Кушида Кикё">
+        <div class="title-carousel-cont">
+            <div class="carousel-container">
+                <div class="embla">
+                    <div class="embla__container">
+                        <div class="embla__slide">
+                            <img src="/images/about_school/ayanokoji-database.webp" alt="Аянокоджи Киётака" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/horikita-database.webp" alt="Хорикита Сузуне" class="carousel-img">
+                        </div>
+                        <div class="embla__slide">
+                            <img src="/images/about_school/kushida-database.webp" alt="Кушида Кикё" class="carousel-img">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="slider-button-wrapper next">
-                <div><button class="slider-btn " aria-label="Вперёд"><svg class="slider-icon" width="30" height="30">
-                            <use href="#arrow-right"></use>
-                        </svg></button></div>
             </div>
         </div>
     </div>
-</main>
-<div id="fullscreenModal" class="fullscreen-modal hidden">
-    <div class="slider-button-wrapper modal-download">
-        <div><button class="slider-btn" aria-label="Скачать"><svg class="download-icon" width="24" height="24">
-                    <use href="#download-icon"></use>
-                </svg></button></div>
+    <div id="imageModal" class="modal">
+        <span class="modal-close" aria-label="Закрыть окно">
+            <img src="{{ asset('svgs/close.svg') }}" alt="Закрыть">
+        </span>
+        <a class="modal-download" href="#" download aria-label="Скачать изображение">
+            <img src="{{ asset('svgs/download.svg') }}" alt="Скачать">
+        </a>
+        <span class="modal-next" aria-label="Следующее изображение">
+            <img src="{{ asset('svgs/caret-right.svg') }}" alt="Следующий">
+        </span>
+        <span class="modal-prev" aria-label="Предыдущее изображение">
+            <img src="{{ asset('svgs/caret-left.svg') }}" alt="Предыдущий">
+        </span>
+        <img class="modal-content" id="modalTargetImg">
+        <div id="modalCaption"></div>
+        <div class="modal-overlay"></div>
     </div>
-    <div class="slider-button-wrapper modal-close">
-        <div><button class="slider-btn" aria-label="Закрыть"><svg class="close-icon" width="24" height="24" stroke-width="2.5">
-                    <use href="#close-cross"></use>
-                </svg></button></div>
-    </div>
-    <div class="slider-button-wrapper modal-nav prev">
-        <div><button class="slider-btn" aria-label="Назад"><svg class="slider-icon" width="30" height="30">
-                    <use href="#arrow-left"></use>
-                </svg></button></div>
-    </div>
-    <div class="slider-button-wrapper modal-nav next">
-        <div><button class="slider-btn" aria-label="Вперёд"><svg class="slider-icon" width="30" height="30">
-                    <use href="#arrow-right"></use>
-                </svg></button></div>
-    </div>
-    <img id="modalImage" src="" alt="Полноэкранный просмотр">
-    <div id="modalCaption">
-        <h1 class="modal-caption"></h1>
-    </div>
-</div>
-</body>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const fcModal = document.getElementById('fullscreenModal')
-        const closeBtn = fcModal.querySelector('.modal-close')
-        const modalPrevBtn = fcModal.querySelector('.prev .slider-btn');
-        const modalNextBtn = fcModal.querySelector('.next .slider-btn');
-        let modalIndex
-        const modalDownloadBtn = fcModal.querySelector('.modal-download');
-        const modalImage = document.getElementById('modalImage');
-        let touchStartX = 0;
-        let touchEndX = 0;
-        let currentSlideImages = [];
-        const modalCaption = document.querySelector('.modal-caption');
-
-        function openModal(currentIndex, slideImages) {
-            modalIndex = currentIndex;
-            currentSlideImages = slideImages;
-            fcModal.classList.remove('hidden')
-            updateModalImage();
-            disableScroll();
-        }
-
-        function nextSlideInModal() {
-            if (modalIndex < currentSlideImages.length - 1) {
-                modalIndex++;
-                updateModalImage();
-            }
-        }
-
-        function prevSlideInModal() {
-            if (modalIndex > 0) {
-                modalIndex--;
-                updateModalImage();
-            }
-        }
-
-        function updateModalImage() {
-            const img = currentSlideImages[modalIndex];
-            modalImage.src = img.src;
-            modalCaption.textContent = img.alt;
-            modalPrevBtn.classList.toggle('inactive', modalIndex === 0);
-            modalNextBtn.classList.toggle('inactive', modalIndex === currentSlideImages.length - 1);
-        }
-
-        modalImage.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].clientX;
-        });
-
-        modalImage.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].clientX;
-            handleSwipe();
-        });
-
-
-        function handleSwipe() {
-            const minSwipeDistance = 50;
-            const diff = touchStartX - touchEndX;
-            if (Math.abs(diff) < minSwipeDistance) return;
-            if (diff > 0) {
-                nextSlideInModal();
-            } else {
-                prevSlideInModal();
-            }
-        }
-
-
-        modalDownloadBtn.addEventListener('click', () => {
-            const img = document.getElementById('modalImage');
-            const imageUrl = img.src;
-            const link = document.createElement('a');
-            link.href = imageUrl;
-            const fileName = imageUrl.split('/').pop().split('?')[0] || 'image.jpg';
-            link.download = fileName;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-
-
-        modalNextBtn.addEventListener('click', () => {
-            nextSlideInModal();
-        });
-
-
-        modalPrevBtn.addEventListener('click', () => {
-            prevSlideInModal();
-        });
-
-
-        document.addEventListener('keydown', (e) => {
-            if (fcModal.classList.contains('hidden')) return;
-
-            if (e.key === 'Escape') {
-                closeModal();
-            } else if (e.key === 'ArrowRight') {
-                nextSlideInModal();
-            } else if (e.key === 'ArrowLeft') {
-                prevSlideInModal();
-            }
-        });
-
-
-        closeBtn.addEventListener('click', () => {
-            closeModal();
-        });
-
-        fcModal.addEventListener('click', (event) => {
-            if (event.target === fcModal) {
-                closeModal();
-            }
-        });
-
-        function closeModal() {
-            fcModal.classList.add('hidden');
-            enableScroll();
-            modalPrevBtn.classList.remove('inactive');
-            modalNextBtn.classList.remove('inactive');
-        }
-
-        function disableScroll() {
-            document.addEventListener('wheel', blockDefault, {
-                passive: false
-            });
-            document.addEventListener('touchmove', blockDefault, {
-                passive: false
-            });
-            document.addEventListener('keydown', blockScrollKeys);
-        }
-
-        function enableScroll() {
-            document.removeEventListener('wheel', blockDefault);
-            document.removeEventListener('touchmove', blockDefault);
-            document.removeEventListener('keydown', blockScrollKeys);
-        }
-
-        function blockDefault(e) {
-            e.preventDefault();
-        }
-
-        function blockScrollKeys(e) {
-            const keys = ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'];
-            if (keys.includes(e.key)) {
-                e.preventDefault();
-            }
-        }
-
-        function initSlider(sliderWrapper) {
-            const slider = sliderWrapper.querySelector('.slider')
-            const prevBtn = sliderWrapper.querySelector('.prev .slider-btn');
-            const nextBtn = sliderWrapper.querySelector('.next .slider-btn');
-            const slidesContainer = sliderWrapper.querySelector('.slides')
-            let currentIndex = 0;
-            const totalSlides = slidesContainer.children.length;
-            const slideImages = slidesContainer.querySelectorAll('img');
-
-            nextBtn.addEventListener('click', () => {
-                if (currentIndex < totalSlides - 1) {
-                    currentIndex++;
-                    updateSlider();
-                    prevBtn.classList.remove('inactive');
-                    nextBtn.classList.remove('inactive');
-                    if (currentIndex === totalSlides - 1) {
-                        nextBtn.classList.add('inactive');
-                    }
-                }
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (currentIndex > 0) {
-                    prevBtn.classList.remove('inactive');
-                    nextBtn.classList.remove('inactive');
-                    currentIndex--;
-                    updateSlider();
-                    if (currentIndex === 0) {
-                        prevBtn.classList.add('inactive');
-                    }
-                }
-            });
-
-            function updateSlider() {
-                const offset = slider.offsetWidth;
-                slidesContainer.style.transform = `translateX(${-currentIndex* offset}px)`
-            }
-
-            slider.addEventListener('click', () => {
-                openModal(currentIndex, slideImages)
-            });
-        }
-
-        document.querySelectorAll('.slider-wrapper').forEach(wrapper => {
-            initSlider(wrapper);
-        });
-    });
-</script>
-
-</html>
+    @endsection

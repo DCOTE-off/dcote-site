@@ -35,8 +35,6 @@ services:
   mysql:
     image: mysql:8.0
     restart: unless-stopped
-    ports:
-      - '${FORWARD_DB_PORT:-3306}:3306'
     environment:
       MYSQL_ROOT_PASSWORD: '${DOCKER_DB_ROOT_PASSWORD:-root}'
       MYSQL_DATABASE: '${DOCKER_DB_DATABASE:-dcote}'

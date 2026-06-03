@@ -407,7 +407,7 @@
                         Примечательно, что председателем совета директоров данного учебного заведения является Сакаянаги Наримори — отец Сакаянаги Арису.
                     </p>
                 </div>
-                <div style="display: flex;width: 100%;justify-content: center;"><a class="link-like-button disabled_a" rel="noopener noreferrer">ПОДРОБНАЯ ИНФОРМАЦИЯ</a></div>
+                <div style="display: flex;width: 100%;justify-content: center;"><a class="link-like-button" href="{{ route('about-school') }}" rel="noopener noreferrer">ПОДРОБНАЯ ИНФОРМАЦИЯ</a></div>
             </div>
         </div>
     </div>

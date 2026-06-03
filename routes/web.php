@@ -36,6 +36,10 @@ Route::get('/about-project', function () {
     return view('pages.about-project');
 })->name('about-project');
 
+Route::get('/about-school', function () {
+    return view('pages.about-school');
+})->name('about-school');
+
 Route::get('/rules', function () {
     return view('pages.rules');
 })->name('rules');
