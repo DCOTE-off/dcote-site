@@ -26,7 +26,7 @@ class RanobeController extends Controller
     public function showYear(int $year)
     {
         $yearModel = RanobeYear::where('year_number',$year)->firstOrFail();
-        $volumes = $yearModel->volumes()->orderBy('volume_number','desc')->get();
+        $volumes = $yearModel->volumes()->orderBy('general_number','desc')->get();
         return view('pages.ranobe.year', compact('year','volumes'));
     }
 
@@ -91,8 +91,8 @@ class RanobeController extends Controller
 
             if ($prev) return $prev; 
             $prevVolume = RanobeVolume::where('ranobe_year_id', $chapterModel->ranobe_year_id)
-                ->where('volume_number', '<', $chapterModel->volume->volume_number)
-                ->orderBy('volume_number', 'desc')
+                ->where('general_number', '<', $chapterModel->volume->general_number)
+                ->orderBy('general_number', 'desc')
                 ->first();
 
             if ($prevVolume) {
@@ -109,7 +109,7 @@ class RanobeController extends Controller
 
             if ($prevYear) {
                 $lastVolumeOfPrevYear = RanobeVolume::where('ranobe_year_id', $prevYear->id)
-                    ->orderBy('volume_number', 'desc')
+                    ->orderBy('general_number', 'desc')
                     ->first();
 
                 if ($lastVolumeOfPrevYear) {
@@ -131,8 +131,8 @@ class RanobeController extends Controller
 
             if ($next) return $next; 
             $nextVolume = RanobeVolume::where('ranobe_year_id', $chapterModel->ranobe_year_id)
-                ->where('volume_number', '>', $chapterModel->volume->volume_number)
-                ->orderBy('volume_number', 'asc')
+                ->where('general_number', '>', $chapterModel->volume->general_number)
+                ->orderBy('general_number', 'asc')
                 ->first();
 
             if ($nextVolume) {
@@ -149,7 +149,7 @@ class RanobeController extends Controller
 
             if ($nextYear) {
                 $firstVolumeOfNextYear = RanobeVolume::where('ranobe_year_id', $nextYear->id)
-                    ->orderBy('volume_number', 'asc')
+                    ->orderBy('general_number', 'asc')
                     ->first();
 
                 if ($firstVolumeOfNextYear) {
