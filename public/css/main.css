@@ -103,6 +103,12 @@ p {
     margin: 0px;
 }
 
+/* Smooth color changes for plain text links; CTA buttons keep their own states. */
+a:where(:not(.link-like-button):not(.no-glow):not(.disabled-link):not(.disabled_a):not(.mail-link)),
+a:where(:not(.link-like-button):not(.no-glow):not(.disabled-link):not(.disabled_a):not(.mail-link)) :where(span, p, h1, h2, h3) {
+    transition: color 0.3s ease;
+}
+
 button,
 .link-like-button {
     color: white;
