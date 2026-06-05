@@ -91,4 +91,41 @@ document.addEventListener('DOMContentLoaded', () => {
         
         updateNavHeight();
     }
+
+    const accountDdDesktopBtn = document.getElementById('account-dropdown-desktop-btn');
+    const accountMenuDesktop = document.querySelector('.account-dropdown-desktop')
+
+    if (accountDdDesktopBtn) {
+        accountDdDesktopBtn.addEventListener('click', () => {
+            if (accountMenuDesktop.classList.contains('is-open')) {
+                accountMenuDesktop.classList.remove('is-open');
+                accountMenuDesktop.classList.add('not-open');
+            } else {
+                accountMenuDesktop.classList.remove('not-open');
+                accountMenuDesktop.classList.add('is-open');
+            }
+        });
+
+        document.addEventListener('click', (event) => {
+            const isClickOnDdDesktopAccountBtn = accountDdDesktopBtn.contains(event.target);
+            const isClickInsideMenu = accountMenuDesktop.contains(event.target);
+
+            if (!isClickOnDdDesktopAccountBtn && !isClickInsideMenu) {
+                if (accountMenuDesktop.classList.contains('is-open')) {
+                    accountMenuDesktop.classList.remove('is-open');
+                    accountMenuDesktop.classList.add('not-open');
+                }
+            }
+        });
+    }
+
+    const header = document.querySelector('.navbar');
+
+    if (header) {
+        const updateHeaderHeight = () => {
+            const headerHeight = header.offsetHeight;
+            document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
+        };
+        updateHeaderHeight();
+    }
 });

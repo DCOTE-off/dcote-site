@@ -71,7 +71,7 @@
                     pattern=".{8,72}$" placeholder="Не менее 8 символов"
                     autocomplete="new-password"
                     title="Не менее 8 и не более 72 символов" required>
-                    <button type="button" class="password-toggle button-without-styles" aria-label="Показать пароль">
+                    <button type="button" class="password-toggle button-without-styles-all" aria-label="Показать пароль">
                         <svg class="eye-icon">
                             <use href="#eye"></use>
                         </svg>

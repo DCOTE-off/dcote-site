@@ -11,19 +11,19 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-        public function register() {
-            url()->previous() ? session(['url.intended' => url()->previous()]) : null;
-            return view('pages.reg');
+    public function register() {
+        url()->previous() ? session(['url.intended' => url()->previous()]) : null;
+        return view('pages.reg');
+    }
+
+    public function login() {
+        $previousUrl = url()->previous();
+        if ($previousUrl && !str_contains($previousUrl, '/auth/')) {
+            session(['url.intended' => $previousUrl]);
         }
 
-        public function login() {
-            $previousUrl = url()->previous();
-            if ($previousUrl && !str_contains($previousUrl, '/auth/')) {
-                session(['url.intended' => $previousUrl]);
-            }
-
-            return view('pages.login');
-        }
+        return view('pages.login');
+    }
 
     public function store(RegisterRequest $request) {
             $user = User::create([
@@ -35,20 +35,28 @@ class AuthController extends Controller
             Auth::login($user);
             
             return redirect()->intended(route('home'))->with('success', 'Аккаунт успешно создан! Добро пожаловать');
-        }
+    }
 
-        public function authenticate(LoginRequest $request)
-        {
-            $credentials = [
-                'username' => $request->tag,
-                'password' => $request->password,
-            ];
-            
-            if (Auth::attempt($credentials, $request->filled('remember'))) {
-                $request->session()->regenerate();
+    public function authenticate(LoginRequest $request)
+    {
+        $credentials = [
+            'username' => $request->tag,
+            'password' => $request->password,
+        ];
+        
+        if (Auth::attempt($credentials, $request->filled('remember'))) {
+            $request->session()->regenerate();
 
-                return redirect()->intended(route('home'))->with('success', 'С возвращением!');
-            }
-            return back()->with('error', 'Неверное имя или пароль.')->withInput();
+            return redirect()->intended(route('home'))->with('success', 'С возвращением!');
         }
+        return back()->with('error', 'Неверное имя или пароль.')->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->intended(route('home'))->with('success', 'Вы успешно вышли из аккаунта.');
+    }
 }

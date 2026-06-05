@@ -22,16 +22,57 @@
                     </svg>
                 </a>
                 @auth
-                    <div class="dropdown" data-dropdown>
-                        <button class="link-like-button login-btn" data-dropdown-toggle>
-                            АККАУНТ
-                        </button>
-                    </div>
+                    <button class="login-btn" id="account-dropdown-desktop-btn">
+                        АККАУНТ
+                    </button>
                 @else
                     <a href="{{ route('login') }}" class="link-like-button login-btn">ВОЙТИ</a>
                 @endauth
             </div>
         </div>
+    </div>
+    <div class="account-dropdown-desktop">
+        <a class="link-like-button side-button" href="{{ route('account') }}">
+            <svg class="account-desktop-menu-icon">
+                <use href="#user"></use>
+            </svg>
+            Мой профиль
+        </a>
+        <a class="link-like-button side-button" style="background: #c6750c;box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px #c6750c;" href="{{ route('favorite') }}">
+            <svg class="account-desktop-menu-icon">
+                <use href="#file-star"></use>
+            </svg>
+            Избранное
+        </a>
+        <a class="link-like-button no-glow side-button" href="{{ route('rules') }}">
+            <svg class="account-desktop-menu-icon">
+                <use href="#info"></use>
+            </svg>
+            Правила сайта
+        </a>
+        <a class="link-like-button no-glow side-button" href="{{ route('settings') }}">
+            <svg class="account-desktop-menu-icon">
+                <use href="#settings"></use>
+            </svg>
+            Настройки
+        </a>
+        @can('access-admin')
+            <a class="link-like-button side-button" style="background:#6a3fbf;box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px #6a3fbf" href="admin">
+                <svg class="account-desktop-menu-icon">
+                    <use href="#database"></use>
+                </svg>
+                Админ-панель
+            </a>
+        @endcan
+        <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+            @csrf
+            <button type="submit" class="no-glow side-button">
+                <svg class="account-desktop-menu-icon">
+                    <use href="#exit"></use>
+                </svg>
+                Выйти с аккаунта
+            </button>
+        </form>
     </div>
     <div class="side-menu" id="sideMenu">
         <div class="side-links">

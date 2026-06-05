@@ -63,6 +63,7 @@ label {
     --fs-gap10: clamp(1px, 0.65vw, 10px);
     --fs-border2px: clamp(0.01px, 0.13vw, 2px);
     --nav-height: auto;
+    --header-height:auto;
     color-scheme: dark;
 }
 

@@ -45,6 +45,7 @@ Route::get('/rules', function () {
 })->name('rules');
 
 
+
 Route::prefix('manga')->group(function () {
     Route::get('/', function () {
         return view('pages.manga.index');
@@ -82,12 +83,9 @@ Route::get('/privacy_policy', function () {
 })->name('privacy_policy');
 
 Route::get('/settings', function () {
-    return view('pages.settings');
+    return view('errors.404');
 })->name('settings');
 
-Route::get('/logout', function () {
-    return view('pages.logout');
-})->name('logout');
 
 Route::get('/favorite', function () {
     return view('pages.favorite');

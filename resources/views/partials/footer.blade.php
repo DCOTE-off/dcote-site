@@ -21,14 +21,14 @@
             <h2 class="nav-label">Избранное</h2>
         </a>
         @auth
-            <a href="#" class="nav-item">
+            <a href="№" class="nav-item">
                 <svg class="nav-icon"><use href="#user"></use></svg>
                 <h2 class="nav-label">Аккаунт</h2>
             </a>
         @else
-            <a href="#" class="nav-item">
+            <a href="{{ route('login') }}" class="nav-item">
                 <svg class="nav-icon"><use href="#user"></use></svg>
-                <h2 class="nav-label">Аккаунт</h2>
+                <h2 class="nav-label">Войти</h2>
             </a>
         @endauth
         <a href="/" class="nav-item">
