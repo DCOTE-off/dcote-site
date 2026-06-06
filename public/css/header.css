@@ -10,7 +10,7 @@
     align-items: center;
     background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
     height: clamp(50px, 5.53vw, 85px);
-    padding: clamp(4px, 1.1vw, 17px) clamp(15px, 3.9vw, 60px);
+    padding: clamp(4px, 1.1vw, 17px) calc(clamp(0.1px,0.325vw,5px) + clamp(15px, 3.9vw, 60px));
     gap: clamp(4px, 1.1vw, 17px);
     z-index: 1500;
     text-decoration: none;

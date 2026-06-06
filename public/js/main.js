@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             toastSuccess.classList.remove('is-open');
             toastSuccess.classList.add('not-open');
-            setTimeout(() => toast.remove(), 500);
+            setTimeout(() => {
+                toastSuccess.remove();
+                toastError.remove();
+            }, 500);
         }, 4000);
     }
     if (toastError) {
@@ -36,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hamburger = document.getElementById('hamburgerBtn');
     const sideMenu = document.getElementById('sideMenu');
-    const closeBtn = document.querySelector('.closeMenu');
 
     if (hamburger && sideMenu) {
         hamburger.addEventListener('click', () => {

@@ -55,8 +55,9 @@
     @endphp
     <script>
         window.DCOTE_SITE_METRICS = {
-            userId: @json(auth()->id()),
-            page: @json($metricsRoute?->getName() ?? $metricsRoute?->uri() ?? request()->path()),
+        metricsBaseUrl: "https://video.dcote.net/metrics-api",
+        userId: @json(auth()->check()),
+        page: @json(request()->route()?->getName() ?? request()->route()?->uri() ?? request()->path()),
         };
     </script>
     <script defer src="https://video.dcote.net/metrics-api/site-presence-tracker.js"></script>
