@@ -138,8 +138,7 @@
 .mobile-bottom-nav {
     position: fixed;
     bottom: clamp(1px, 2.67vw, 100px);
-    left: 50%;
-    transform: translateX(-50%);
+    align-self: center;
     width: calc(100% - 2 * clamp(1px, 2.67vw, 100px)); 
     margin: 0;
     background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
@@ -195,7 +194,8 @@
     }
 
     .footer-nav {
-        padding-bottom: calc(var(--fs-gap20) + var(--nav-height));;
+        padding-bottom: calc(var(--fs-gap20) + 18.05vw);
+        padding-top: var(--fs-gap20);
         background: #0B172B;
     }
 }

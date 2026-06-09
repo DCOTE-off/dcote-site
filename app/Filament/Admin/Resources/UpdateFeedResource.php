@@ -30,6 +30,10 @@ class UpdateFeedResource extends Resource
                         Forms\Components\TextInput::make('link')
                             ->label('Ссылка')
                             ->required(),
+                        Forms\Components\DateTimePicker::make('created_at')
+                            ->label('Дата создания')
+                            ->seconds(false)
+                            ->helperText('Если не указать дату при создании, будет использована текущая.'),
                     ])
                     ->columns(1),
             ]);

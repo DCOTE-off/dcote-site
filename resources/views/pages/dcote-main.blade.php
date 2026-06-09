@@ -109,29 +109,43 @@
         <div class="popular">
             <h1>ПОПУЛЯРНОЕ</h1>
             <div class="pager">
-                <button class="pager-btn inactive" disabled aria-label="Назад">
+                <button class="pager-btn" data-popular-prev @disabled($popularCards->count() <= 1) aria-label="Назад">
                     <svg class="slider-icon" width="30" height="30">
                         <use href="#arrow-left"></use>
                     </svg>
                 </button>
-                <div class="content">
-                <picture>
-                    <source media="(max-width: 768px)" srcset="/images/index/аниме-4-сезон.webp" type="image/webp">
-                    <img src="/images/index/аниме-4-сезон.webp" loading="lazy" decoding="async">
-                </picture>
-                    <div class="text">
-                        <h3><b>АНИМЕ</b> 4 СЕЗОН</h3>
-                        <p>Токийская столичная старшая школа продвинутого воспитания —
-                            словно школа мечты: практически 100% дальнейшее поступление
-                            в вузы и трудоустройство после выпуска, а каждый месяц
-                            выплачиваются баллы, эквивалентные 100.000 йен наличными.
-                            Однако на деле это место, где привилегии получают лишь немногие
-                            ученики с выдающимися результатами...</p>
-                        <a href="{{ route('anime.season', ['season' => 4]) }}" class="link-like-button" rel="noopener noreferrer">ПОДРОБНЕЕ О СЕЗОНЕ</a>
-                        <a href="{{ route('anime.season', ['season' => 4]) }}" class="link-like-button mobile" rel="noopener noreferrer">ПОДРОБНЕЕ</a>
-                    </div>
+                <div class="popular-slides">
+                    @forelse ($popularCards as $index => $card)
+                        <div class="content popular-slide" data-popular-slide @if($index !== 0) hidden @endif>
+                            <picture>
+                                <img src="{{ $card['image'] }}" loading="lazy" decoding="async" alt="{{ $card['alt'] }}">
+                            </picture>
+                            <div class="text">
+                                <h3><b>{{ $card['category'] }}</b> {{ $card['title'] }}</h3>
+                                <div class="popular-details">
+                                    <p class="popular-details-title">БАЗОВАЯ ИНФОРМАЦИЯ</p>
+                                    <dl class="popular-info">
+                                        @foreach ($card['info'] as $item)
+                                            <dt>{{ $item['label'] }}</dt>
+                                            <dd class="{{ $item['class'] ?? '' }}">{{ $item['value'] }}</dd>
+                                        @endforeach
+                                    </dl>
+                                </div>
+                                <div class="popular-progress">
+                                    <p><b>{{ $card['progress_label'] }}: {{ $card['progress_current'] }}</b> из {{ $card['progress_total'] }} {{ $card['progress_unit'] }}</p>
+                                    <div class="progress-bar" style="--progress-width: {{ $card['progress_percent'] }}%"></div>
+                                </div>
+                                <a href="{{ $card['url'] }}" class="link-like-button" rel="noopener noreferrer">{{ $card['button_label'] }}</a>
+                                <a href="{{ $card['url'] }}" class="link-like-button mobile" rel="noopener noreferrer">ПОДРОБНЕЕ</a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="popular-empty">
+                            <p>В админ-панели пока не выбраны материалы для блока «Популярное».</p>
+                        </div>
+                    @endforelse
                 </div>
-                <button class="pager-btn inactive" disabled aria-label="Назад">
+                <button class="pager-btn" data-popular-next @disabled($popularCards->count() <= 1) aria-label="Вперёд">
                     <svg class="slider-icon" width="30" height="30">
                         <use href="#arrow-right"></use>
                     </svg>
@@ -142,22 +156,27 @@
             <div class="updates-title">
                 <h1>ЛЕНТА ОБНОВЛЕНИЙ</h1>
             </div>
-            <div class="updates-news">
-                @foreach ($feed as $index => $update)
-                    <div>
-                        @php
-                            $isFirst = $index == 0;
-                            $title = $isFirst ? 'НОВОЕ' : format_date($update->created_at);
-                            $class = $isFirst ? 'hot' : '';
-                        @endphp
-                        <h3 class="{{ $class }}">{{ $title }}</h3>
-                        <div class="one-news-wrapper">
-                            <a href="/{{ $update->link }}" style="line-height: 1.4em">
-                                <p>{{ $update->description }}</p>
-                            </a>
+            <div class="updates-news-viewport">
+                <div class="updates-news">
+                    @foreach ($feed as $index => $update)
+                        <div>
+                            @php
+                                $isFirst = $index == 0;
+                                $title = $isFirst ? 'НОВОЕ' : format_date($update->created_at);
+                                $class = $isFirst ? 'hot' : '';
+                            @endphp
+                            <h3 class="{{ $class }}">{{ $title }}</h3>
+                            <div class="one-news-wrapper">
+                                <a href="/{{ $update->link }}" style="line-height: 1.4em">
+                                    <p>{{ $update->description }}</p>
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
+                <div class="updates-scrollbar" aria-hidden="true">
+                    <div class="updates-scrollbar-thumb"></div>
+                </div>
             </div>
             <div class="updates-link-wrapper">
                 <a class="link-like-button disabled_a" rel="noopener noreferrer">ВСЕ ОБНОВЛЕНИЯ</a>

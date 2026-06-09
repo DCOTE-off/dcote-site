@@ -147,7 +147,7 @@
 
 .side-menu {
     position: fixed;
-    bottom: calc(var(--fs-gap20) + var(--nav-height));
+    bottom: calc(var(--fs-gap20) + 18.05vw);
     right: var(--fs-gap10);
     width: max-content;
     height: min-content;
@@ -242,7 +242,7 @@
 
 
 .navigation-links {
-    display: flex;
+    display: var(--navigation-display, flex);
     font-size: var(--fs-nav-links);
     font-family: 'Vag-Bold';
     color: white;

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AnimeSeason extends Model
 {
@@ -25,16 +26,28 @@ class AnimeSeason extends Model
         'adapt_volumes_brackets',
     ];
 
+    protected static function booted(): void
+    {
+        static::deleting(fn (AnimeSeason $season) => $season->popularItems()->delete());
+    }
 
-    public function episodes(){
+    public function episodes()
+    {
         return $this->hasMany(AnimeEpisode::class, 'season_id', 'id');
     }
 
-    public function getColorAttribute() {
+    public function popularItems(): MorphMany
+    {
+        return $this->morphMany(Popular::class, 'target');
+    }
+
+    public function getColorAttribute()
+    {
         $colors = [
             'Вышел' => 'green',
             'Онгоинг' => 'purple',
         ];
+
         return $colors[$this->status] ?? 'yellow';
     }
 }

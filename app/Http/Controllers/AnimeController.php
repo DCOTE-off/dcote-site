@@ -39,10 +39,15 @@ class AnimeController extends Controller
             ->where('episode_number', $episode)
             ->firstOrFail();
         $player_url = "https://video.dcote.net/metrics-api/videoplayer";
-        $poster_url = "poster=https://video.dcote.net/season-{$season}/episodes-banner-season{$season}.webp";
-        $skip_start = "skip_start=" . ($episodeModel->opening_start ?? '-1');
-        $episodeNumBeaty = $episode<10 ? '0'.$episode : $episode;
-        $episodeUrl = "{$player_url}?src=https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}/master.m3u8&{$poster_url}&{$skip_start}";
+        $episodeNumBeaty = str_pad((string) $episode, 2, '0', STR_PAD_LEFT);
+        $videoBaseUrl = "https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}";
+        $episodeUrl = $player_url . '?' . http_build_query([
+            'src' => "{$videoBaseUrl}/master.m3u8",
+            'poster' => "https://video.dcote.net/season-{$season}/episodes-banner-season{$season}.webp",
+            'skip_start' => $episodeModel->opening_start ?? '-1',
+            'ass' => "{$videoBaseUrl}/subtitles/ru.ass",
+            'ass_lang' => 'ru',
+        ], '', '&', PHP_QUERY_RFC3986);
         $completed = $episodeModel->completed;
 
         $prev_episode = $this->getPreviousEpisode($episodeModel);

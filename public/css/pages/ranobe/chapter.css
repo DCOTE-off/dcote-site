@@ -18,6 +18,8 @@ body::before {
     --font-size-baze:18px;
     --block-padding:5px;
     --text-intend:0.875em;
+    --text-line-height:1.6;
+    --cont-width:73%;
 }
 
 main {
@@ -31,7 +33,7 @@ main {
 }
 
 .chapter-container{
-    width: 73%;
+    width: var(--cont-width, 73%);
     font-size: var(--font-size-baze);
     max-width: 1440px;
 }
@@ -58,7 +60,7 @@ main {
     padding-block:var(--block-padding);
     text-indent: var(--text-intend);
     color:var(--primary-text-color);
-    line-height: 1.6;
+    line-height:var(--text-line-height);
 }
 
 .chapter-content strong{
@@ -97,9 +99,10 @@ main {
 @media (max-width:768px) {
     :root{
     --font-size-baze:16px;
+    --cont-width:95%;
     }
     .chapter-container{
-        width: 95%;
+        width: var(--cont-width, 95%);
     }
 
     .chapter-content img{

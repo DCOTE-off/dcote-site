@@ -79,8 +79,12 @@ Route::get('/news', function () {
 
 
 Route::get('/privacy_policy', function () {
-    return view('pages.privacy');
+    return view('pages.privacy-policy');
 })->name('privacy_policy');
+
+Route::get('/components', function () {
+    return view('pages.components');
+})->name('pr');
 
 Route::get('/settings', function () {
     return view('errors.404');

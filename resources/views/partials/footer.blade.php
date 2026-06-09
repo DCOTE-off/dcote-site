@@ -7,7 +7,7 @@
         <div class="footer-center">
             <p>Мы не претендуем на авторство и/или какие-либо иные права на какой-либо контент с авторским правом, представленный на сайте.</p>
             <div class="footer-links">
-                <a href="#">Политика конфеденциальности</a>
+                <a href="{{ route('privacy_policy') }}">Политика конфиденциальности</a>
                 <a href="{{ route('rules') }}">Правила сайта</a>
             </div>
         </div>
@@ -17,17 +17,17 @@
     </footer>
     <navbar class="mobile-bottom-nav">
         <a href="{{ route('favorite') }}" class="nav-item">
-            <svg class="nav-icon"><use href="#file-star"></use></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><use href="#file-star"></use></svg>
             <h2 class="nav-label">Избранное</h2>
         </a>
         @auth
             <a href="№" class="nav-item">
-                <svg class="nav-icon"><use href="#user"></use></svg>
+                <svg class="nav-icon" viewBox="0 0 24 24"><use href="#user"></use></svg>
                 <h2 class="nav-label">Аккаунт</h2>
             </a>
         @else
             <a href="{{ route('login') }}" class="nav-item">
-                <svg class="nav-icon"><use href="#user"></use></svg>
+                <svg class="nav-icon" viewBox="0 0 24 24"><use href="#user"></use></svg>
                 <h2 class="nav-label">Войти</h2>
             </a>
         @endauth
@@ -35,11 +35,11 @@
             <svg class="center-nav-icon"><use href="#dcote-logo-small"></use></svg>
         </a>
         <a href="/favorite" class="nav-item">
-            <svg class="nav-icon"><use href="#mail"></use></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><use href="#mail"></use></svg>
             <h2 class="nav-label">Уведомления</h2>
         </a>
         <button class="nav-item button-without-styles-all" id="hamburgerBtn">
-            <svg class="nav-icon"><use href="#stack-2"></use></svg>
+            <svg class="nav-icon" viewBox="0 0 24 24"><use href="#stack-2"></use></svg>
             <h2 class="nav-label">Меню</h2>
         </button>
     </navbar>

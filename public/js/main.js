@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             toastSuccess.classList.add('not-open');
             setTimeout(() => {
                 toastSuccess.remove();
-                toastError.remove();
+                toastError?.remove();
             }, 500);
         }, 4000);
     }
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             toastError.classList.remove('is-open');
             toastError.classList.add('not-open');
-            setTimeout(() => toast.remove(), 500);
+            setTimeout(() => toastError.remove(), 500);
         }, 4000);
     }
 
@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nav) {
         const updateNavHeight = () => {
             const height = nav.offsetHeight;
-            document.documentElement.style.setProperty('--nav-height', `${height}px`);
         };
 
         const navObserver = new ResizeObserver(updateNavHeight);
@@ -90,8 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
         }
-        
-        updateNavHeight();
     }
 
     const accountDdDesktopBtn = document.getElementById('account-dropdown-desktop-btn');

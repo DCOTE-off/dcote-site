@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class RanobeVolume extends Model
 {
@@ -31,8 +32,13 @@ class RanobeVolume extends Model
         'release_date_book' => 'datetime',
         'release_date_digital' => 'datetime',
         'pages_quantity' => 'integer',
-        'volume_images'=>'array',
+        'volume_images' => 'array',
     ];
+
+    protected static function booted(): void
+    {
+        static::deleting(fn (RanobeVolume $volume) => $volume->popularItems()->delete());
+    }
 
     public function year()
     {
@@ -44,11 +50,18 @@ class RanobeVolume extends Model
         return $this->hasMany(RanobeChapter::class, 'ranobe_volume_id');
     }
 
-    public function getColorAttribute() {
+    public function popularItems(): MorphMany
+    {
+        return $this->morphMany(Popular::class, 'target');
+    }
+
+    public function getColorAttribute()
+    {
         $colors = [
             'Вышел' => 'green',
             'Онгоинг' => 'purple',
         ];
+
         return $colors[$this->status] ?? 'yellow';
     }
 }

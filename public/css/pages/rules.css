@@ -7,9 +7,26 @@
     gap: clamp(1px, 1.95vw, 30px);
     display: flex;
     flex-direction: column;
+    backdrop-filter: blur(10px);
 
 }
 
-h1 {
+.cont-1 strong{
+    font-family: 'Vag-Bold';
+    font-weight: 400 !important;
+}
+
+.cont-1 h1 {
     text-align: center;
+}
+
+.cont-1 a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    text-decoration: underline;
+}
+
+.cont-1 a:hover {
+    color: #DF0E53;
 }
