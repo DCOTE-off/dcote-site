@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\AnimeSeason;
+use App\Models\Popular;
+use App\Models\RanobeVolume;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Relation::enforceMorphMap([
+            Popular::TYPE_ANIME => AnimeSeason::class,
+            Popular::TYPE_RANOBE => RanobeVolume::class,
+        ]);
     }
 }
