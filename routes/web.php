@@ -10,6 +10,17 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [MainController::class, 'index'])->name('home');
 
+
+Route::get('/sitemap.xml', function () {
+    return response()
+        ->file(public_path('sitemap.xml'), [
+            'Content-Type' => 'application/xml'
+        ]);
+});
+
+
+
+
 Route::prefix('auth')->group(function () {
     Route::get('/register', [AuthController::class, 'register'])->name('register');
     Route::get('/login', [AuthController::class, 'login'])->name('login');
