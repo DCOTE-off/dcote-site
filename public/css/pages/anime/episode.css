@@ -1,5 +1,16 @@
 @import url('../../main.css');
 
+#episode-iframe-player {
+    align-self: center;
+    aspect-ratio: 16 / 9;
+    border: 0;
+    border-radius: var(--fs-border-radius);
+    max-height: 95vh;
+    max-height: 95dvh;
+    width: min(100%, 168.8889vh);
+    width: min(100%, 168.8889dvh);
+}
+
 .episode-controls {
     display: flex;
     gap: var(--fs-gap20);
