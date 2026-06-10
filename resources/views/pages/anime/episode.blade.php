@@ -27,7 +27,6 @@
                 allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
                 allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"
-                style="border-radius: var(--fs-border-radius);width:min-content;aspect-ratio:16/9;max-height:95vh;border:0px;align-self:center"
                 loading="lazy"
                 id="episode-iframe-player">
             </iframe>
