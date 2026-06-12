@@ -5,8 +5,16 @@
 }
 
 @font-face {
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    src: url('../fonts/VAG-Rounded-Next-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag Rounded Next';
     src: url('../fonts/VAG-Rounded-Next-Bold.woff2') format('woff2');
+    font-weight: 700;
     font-display: swap;
 }
 
@@ -80,11 +88,11 @@ h1 {
 
 h2 {
     font-size: var(--fs-title2);
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
     line-height: 1.2em;
     color: white;
     margin: 0px;
-    font-weight: 400;
+    font-weight: 700;
 }
 
 h3 {
@@ -102,6 +110,7 @@ p {
     line-height: 1.4em;
     color: white;
     margin: 0px;
+    font-weight: 400;
 }
 
 
@@ -113,7 +122,8 @@ a:where(:not(.link-like-button):not(.no-glow):not(.disabled-link):not(.disabled_
 button,
 .link-like-button {
     color: white;
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
     font-size: var(--fs-nav-links);
     line-height: 1.4em;
     text-decoration: none;

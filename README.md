@@ -37,6 +37,13 @@ docker compose -f docker-compose.dev.yml exec app php artisan migrate
 docker compose -f docker-compose.dev.yml exec -T mysql mysql -u sail -p"password" dcote < dump.sql
 ```
 
+Для работы со storage создать симлинк:
+
+```bash
+docker compose -f docker-compose.dev.yml exec app php artisan storage:link
+```
+
+
 ## Работа с WSL
 
 Для открытия vs code в линуксовом окружении:

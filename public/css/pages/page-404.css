@@ -40,7 +40,8 @@
 }
 
 .desc-404 h3 {
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
 }
 
 @media(max-width:768px){

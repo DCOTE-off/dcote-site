@@ -53,7 +53,7 @@
 }
 
 .auth-form button{
-    font-family: 'Vag-Bold', sans-serif;
+    font-family: 'Vag Rounded Next', sans-serif;
     font-size: var(--fs-nav-links);
 }
 
@@ -202,9 +202,6 @@ h3{
     font-family: 'Vag-Medium';
 }
 
-.auth-image{
-    
-}
 
 @media (max-width:768px) {
     .auth-container{

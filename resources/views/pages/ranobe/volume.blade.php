@@ -35,7 +35,12 @@
             </picture>
         </div>
         <div class="desc slide-in-left">
-            <h1>{{ $volume_number_rounded }} ТОМ {{ $year }} ГОДА ОБУЧЕНИЯ</h1>
+            <h1>
+                {{ $volume_number_rounded }} ТОМ
+                @if($volume_number_rounded != 0)
+                    {{ $year }} ГОДА ОБУЧЕНИЯ
+                @endif
+            </h1>
             <p>{!! $volumeModel->volume_description ?? 'Описание {{$volume_number_rounded }} тома {{ $year }} года обучения'!!}</p>
             <div class="bottom-buttons">
                 <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В

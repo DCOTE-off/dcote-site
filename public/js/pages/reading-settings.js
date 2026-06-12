@@ -27,6 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isMobile = window.innerWidth < 768;
 
+    const fontMap = {
+        'Vag Rounded Next': "'Vag Rounded Next', sans-serif",
+        'Times New Roman': "'Times New Roman', Georgia, serif",
+        'Open Sans': "'Open Sans', sans-serif",
+    };
+
+    const themeMap = {
+        'Стандартная': { text: '#e9e9e9', bg: 'rgb(7, 18, 32)' },
+        'Тёмная':      { text: '#bfbfbf', bg: '#0a0a0a' },
+        'Серая':       { text: '#dbdbdb', bg: '#434751' },
+        'Светлая':     { text: '#212529', bg: '#f2f2f3' },
+        'Книжная':     { text: '#262425', bg: '#e5cf9d' },
+    };
+
     const defaultSettings = {
         indent: true,
         images: true,
@@ -36,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lineHeight: 1.6,
         paragraphGap: 10,
         contWidth: isMobile ? 95 : 73,
+        fontFamily: 'Vag Rounded Next',
+        theme: 'Стандартная',
     };
 
     function loadSettings() {
@@ -75,6 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         root.style.setProperty('--cont-width', `${settings.contWidth}%`);
         root.style.setProperty('--navigation-display', settings.navigation ? 'flex' : 'none');
+        root.style.setProperty('--font-family', fontMap[settings.fontFamily] || fontMap['Vag Rounded Next']);
+        root.style.setProperty('--primary-text-color', themeMap[settings.theme]?.text ?? '#e9e9e9');
+        root.style.setProperty('--body-bg-color', themeMap[settings.theme]?.bg ?? 'rgb(7, 18, 32)');
         if (chapterTitle) chapterTitle.style.display = settings.title ? '' : 'none';
 
         if (chapterContent) {
@@ -170,29 +189,78 @@ document.addEventListener('DOMContentLoaded', () => {
     const settings = loadSettings();
     applySettings(settings);
 
+    // Font selection
+    const fontOptions = document.querySelectorAll('#fontDdContent .dropdown-list-value');
+
+    if (fontOptions.length) {
+        fontOptions.forEach((option) => {
+            option.addEventListener('click', () => {
+                const value = option.textContent.trim();
+                updateSetting('fontFamily', value);
+                fontOptions.forEach((opt) => opt.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        // Restore selected state on load
+        fontOptions.forEach((opt) => {
+            if (opt.textContent.trim() === settings.fontFamily) {
+                opt.classList.add('selected');
+            }
+        });
+    }
+
+    // Theme selection
+    const themeOptions = document.querySelectorAll('#themeDdContent .dropdown-list-value');
+
+    if (themeOptions.length) {
+        themeOptions.forEach((option) => {
+            option.addEventListener('click', () => {
+                const value = option.textContent.trim();
+                updateSetting('theme', value);
+                themeOptions.forEach((opt) => opt.classList.remove('selected'));
+                option.classList.add('selected');
+            });
+        });
+
+        // Restore selected state on load
+        themeOptions.forEach((opt) => {
+            if (opt.textContent.trim() === settings.theme) {
+                opt.classList.add('selected');
+            }
+        });
+    }
+
     // Nav visibility — hide on scroll, show on tap of chapter content
     const readNavEl = document.querySelector('.read-nav');
     const mobileNavEl = document.querySelector('.mobile-bottom-nav');
 
     if (readNavEl) {
-        let navsVisible = true;
+        const navStateKey = 'dcote-nav-hidden';
+        let navsVisible;
+
+        try {
+            navsVisible = !JSON.parse(window.localStorage.getItem(navStateKey));
+        } catch (e) {
+            navsVisible = true;
+        }
+
         let lastScrollY = window.scrollY;
 
         function setNavs(visible) {
             navsVisible = visible;
-            readNavEl.classList.toggle('is-hidden', !visible);
-            if (mobileNavEl) {
-                mobileNavEl.classList.toggle('is-hidden', !visible);
-            }
+            document.documentElement.classList.toggle('nav-hidden', !visible);
+            try {
+                window.localStorage.setItem(navStateKey, JSON.stringify(!visible));
+            } catch (e) {}
         }
+
+        // Apply initial state
+        setNavs(navsVisible);
 
         window.addEventListener('scroll', () => {
             const delta = window.scrollY - lastScrollY;
-            if (delta > 5 && navsVisible) {
-                if (navsVisible && readSettings.classList.contains('is-open')) {
-                    readSettings.classList.remove('is-open');
-                    readSettings.classList.add('not-open');
-                }
+            if (delta > 5 && navsVisible && !readSettings.classList.contains('is-open')) {
                 setNavs(false);
             }
             lastScrollY = window.scrollY;

@@ -77,7 +77,8 @@
 }
 
 .cont .desc .info-block dt {
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
     background-color: #921545;
     color: #fff;
 }

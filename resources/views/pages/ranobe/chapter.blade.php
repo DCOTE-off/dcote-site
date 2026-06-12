@@ -13,6 +13,20 @@
             if (s.indent !== undefined) r.style.setProperty('--text-intend', s.indent ? '0.875em' : '0');
             if (s.navigation !== undefined) r.style.setProperty('--navigation-display', s.navigation ? 'flex' : 'none');
             if (s.contWidth) r.style.setProperty('--cont-width', s.contWidth + '%');
+            if (s.fontFamily) {
+                var fontCSS = {'Vag Rounded Next':"'Vag Rounded Next', sans-serif",'Times New Roman':"'Times New Roman', Georgia, serif",'Open Sans':"'Open Sans', sans-serif"}[s.fontFamily];
+                if (fontCSS) r.style.setProperty('--font-family', fontCSS);
+            }
+            if (s.theme) {
+                var themeMap = {'Стандартная':{text:'#e9e9e9',bg:'rgb(7, 18, 32)'},'Тёмная':{text:'#dddddd',bg:'#141414'},'Серая':{text:'#dbdbdb',bg:'#434751'},'Светлая':{text:'#212529',bg:'#f2f2f3'},'Книжная':{text:'#262425',bg:'#e5cf9d'}}[s.theme];
+                if (themeMap) {
+                    r.style.setProperty('--primary-text-color', themeMap.text);
+                    r.style.setProperty('--body-bg-color', themeMap.bg);
+                }
+            }
+        }
+        if (window.localStorage.getItem('dcote-nav-hidden') === 'true') {
+            document.documentElement.classList.add('nav-hidden');
         }
     } catch(e) {}
 })();
@@ -21,12 +35,11 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/ranobe/chapter.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown-menu.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/dropdown-select.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages/reading-settings.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
+    <script src="{{ asset('js/components/dropdown-select.js') }}"></script>
     <script src="{{ asset('js/pages/reading-settings.js') }}"></script>
 @endpush
 @section('title', "Читать «Класс превосходства» | {$year} год {$volume_number_rounded} том {$chapter} глава | DCOTE")
@@ -100,6 +113,58 @@
         <div class="label-and-range">
             <label for="contWidth"><p>Ширина контейнера:</p> <strong><p id="contWidthValue">80</p><p>%</p></strong></label>
             <input type="range" id="contWidth" min="1" max="100" value="80" step="1">
+        </div>
+        <div class="dd-buttons">
+            <div class="dropdown-select-wrapper">
+                <button class="dropdown-select-btn no-glow" data-target="fontDdContent" aria-expanded="false">ШРИФТ
+                    <svg class="dropdown-icon">
+                    <use href="#dropdown"></use>
+                    </svg>
+                </button>
+                <div class="dropdown-content" id="fontDdContent">
+                    <button class="dropdown-list-value button-without-styles-all">
+                        Vag Rounded Next
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                    <button class="dropdown-list-value button-without-styles-all">
+                        Times New Roman
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                    <button class="dropdown-list-value button-without-styles-all">
+                        Open Sans
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                </div>
+            </div>
+            <div class="dropdown-select-wrapper">
+                <button class="dropdown-select-btn no-glow" data-target="themeDdContent" aria-expanded="false">ТЕМА
+                    <svg class="dropdown-icon">
+                    <use href="#dropdown"></use>
+                    </svg>
+                </button>
+                <div class="dropdown-content" id="themeDdContent">
+                    <button class="dropdown-list-value button-without-styles-all" id="standart-theme">
+                        Стандартная
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                    <button class="dropdown-list-value button-without-styles-all" id="dark-theme">
+                        Тёмная
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                    <button class="dropdown-list-value button-without-styles-all" id="grey-theme">
+                        Серая
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                    <button class="dropdown-list-value button-without-styles-all" id="light-theme">
+                        Светлая
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                    <button class="dropdown-list-value button-without-styles-all" id="book-theme">
+                        Книжная
+                        <span class="check-mark-bg"><svg class="check-mark-icon"><use href="#check-mark"></use></svg></span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="read-nav">

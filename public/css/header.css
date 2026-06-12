@@ -244,7 +244,8 @@
 .navigation-links {
     display: var(--navigation-display, flex);
     font-size: var(--fs-nav-links);
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
     color: white;
     gap: var(--fs-gap10);
     justify-content: center;
@@ -265,7 +266,8 @@
 .navigation-links p {
     margin: 0px;
     font-size: var(--fs-nav-links);
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
 }
 
 .navigation-links a {

@@ -253,7 +253,8 @@
 .popular .popular-details-title {
     padding: var(--fs-gap10);
     background-color: #921545;
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
     text-align: center;
 }
 
@@ -281,7 +282,8 @@
 .popular .popular-info dt {
     background-color: #921545;
     color: white;
-    font-family: 'Vag-Bold';
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
     white-space: nowrap;
 }
 
