@@ -533,7 +533,7 @@
 
 .content-line3 .about-island {
     padding: var(--fs-padding);
-    background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
+    background: linear-gradient(90deg, #0B172B 0%, rgba(223, 14, 83, 0.3) 100%);
     backdrop-filter: blur(10px);
     width: 62%;
     gap: var(--fs-gap10);
@@ -644,6 +644,8 @@
 .content-line4 .top-classes .rating .school-class {
     display: flex;
     justify-content: flex-start;
+    position: relative;
+    will-change: transform;
 }
 
 .content-line4 .top-classes .rating img {
@@ -653,6 +655,19 @@
     border-top-left-radius: var(--fs-border-radius);
     border-bottom-left-radius: var(--fs-border-radius);
     flex-shrink: 0;
+    object-fit: cover;
+}
+
+.content-line4 .top-classes .rating .rating-image-outgoing {
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 2;
+    pointer-events: none;
+    animation: rating-image-out 500ms ease both;
+}
+
+.content-line4 .top-classes .rating .rating-image-incoming {
+    animation: rating-image-in 500ms ease both;
 }
 
 .content-line4 .top-classes .rating .school-class .info {
@@ -673,9 +688,54 @@
     border-bottom-right-radius: var(--fs-border-radius);
     display: flex;
     justify-content: flex-end;
-    width: fit-content;
-    min-width: var(--points-width, auto);
+    width: var(--points-width, auto);
     margin-top: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: background-color 350ms ease;
+    will-change: width;
+}
+
+.content-line4 .top-classes .rating.rating-intro-ready:not(.is-rating-visible) .points-bg {
+    width: 0;
+    padding-inline: 0;
+}
+
+.content-line4 .top-classes .rating.is-rating-visible:not(.rating-intro-complete) .points-bg {
+    animation: rating-points-intro 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(120ms + var(--rating-index, 0) * 90ms);
+}
+
+@keyframes rating-points-intro {
+    from {
+        width: 0;
+        padding-inline: 0;
+    }
+
+    to {
+        width: var(--points-width, auto);
+    }
+}
+
+@keyframes rating-image-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes rating-image-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .content-line4 .top-classes-buttons {
@@ -687,6 +747,20 @@
 .top-classes .top-classes-buttons .classes-button-active {
     background-color: rgb(143, 17, 68);
     border-color: rgb(143, 17, 68);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .content-line4 .top-classes .rating .school-class,
+    .content-line4 .top-classes .rating img,
+    .content-line4 .top-classes .points-bg {
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .content-line4 .top-classes .rating.rating-intro-ready:not(.is-rating-visible) .points-bg {
+        width: var(--points-width, auto);
+        padding-inline: clamp(1px, 0.65vw, 5px);
+    }
 }
 
 
@@ -925,7 +999,7 @@
 
     .content-line3 .about-island {
         width: 100%;
-        background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
+        background: linear-gradient(90deg, #0B172B 0%, rgba(223, 14, 83, 0.3) 100%);
     }
 
 
