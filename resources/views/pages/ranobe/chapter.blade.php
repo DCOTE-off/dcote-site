@@ -18,7 +18,7 @@
                 if (fontCSS) r.style.setProperty('--font-family', fontCSS);
             }
             if (s.theme) {
-                var themeMap = {'Стандартная':{text:'#e9e9e9',bg:'rgb(7, 18, 32)'},'Тёмная':{text:'#dddddd',bg:'#141414'},'Серая':{text:'#dbdbdb',bg:'#434751'},'Светлая':{text:'#212529',bg:'#f2f2f3'},'Книжная':{text:'#262425',bg:'#e5cf9d'}}[s.theme];
+                var themeMap = {'Стандартная':{text:'#e9e9e9',bg:'rgb(7, 18, 32)'},'Тёмная':{text:'#bfbfbf',bg:'#0a0a0a'},'Серая':{text:'#dbdbdb',bg:'#434751'},'Светлая':{text:'#212529',bg:'#f2f2f3'},'Книжная':{text:'#262425',bg:'#e5cf9d'}}[s.theme];
                 if (themeMap) {
                     r.style.setProperty('--primary-text-color', themeMap.text);
                     r.style.setProperty('--body-bg-color', themeMap.bg);
@@ -167,9 +167,22 @@
             </div>
         </div>
     </div>
-    <div class="read-nav">
+    <div class="read-nav desktop">
+        <button class="read-item button-without-styles-all" id="desktopMark">
+            <svg class="nav-icon" viewBox="0 0 11 15"><use href="#mark"></use></svg>
+        </button>
+        <a class="read-item" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">
+            <svg class="nav-icon" viewBox="0 0 17 15"><use href="#list-details"></use></svg>
+        </a>
+        <button class="read-item button-without-styles-all settingsReadBtn">
+            <svg class="nav-icon" viewBox="0 0 25 25"><use href="#settings"></use></svg>
+        </button>
+    </div>
+    <div class="read-nav mobile">
         <a class="read-item {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}">
-            <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left"></use></svg>
+            @if($prev_link)
+                <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left"></use></svg>
+            @endif
         </a>
         <div class="center-items">
             <a class="read-item" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">
@@ -178,35 +191,35 @@
             <button class="read-item button-without-styles-all">
                 <svg class="nav-icon" viewBox="0 0 11 15"><use href="#mark"></use></svg>
             </button>
-            <button class="read-item button-without-styles-all" id="settingsReadBtn">
+            <button class="read-item button-without-styles-all settingsReadBtn">
                 <svg class="nav-icon" viewBox="0 0 25 25"><use href="#settings"></use></svg>
             </button>
         </div>
         <a class="read-item {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}">
+            @if($next_link)
+                <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right"></use></svg>
+            @endif
+        </a>
+    </div>
+</div>
+<div class="chapters-controls">
+    <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">ПРЕДЫДУЩАЯ ГЛАВА</a>
+    <a class="link-like-button" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">ВСЕ ГЛАВЫ</a>
+    <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}" class="next-episode-btn">СЛЕДУЮЩАЯ ГЛАВА</a>
+</div>
+<div class="chapters-controls mobile">
+    <a class="chapter-control-item {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}">
+        @if($prev_link)
+            <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left"></use></svg>
+        @endif
+    </a>
+    <a class="chapter-control-item" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">
+        <svg class="nav-icon" viewBox="0 0 17 15"><use href="#list-details"></use></svg>
+    </a>
+    <a class="chapter-control-item {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}">
+        @if($next_link)
             <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right"></use></svg>
-        </a>
-    </div>
-    <div class="chapters-controls">
-        <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">ПРЕДЫДУЩАЯ ГЛАВА</a>
-        <a class="link-like-button" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">ВСЕ ГЛАВЫ</a>
-        <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}" class="next-episode-btn">СЛЕДУЮЩАЯ ГЛАВА</a>
-    </div>
-    <div class="chapters-controls mobile">
-        <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">
-            <svg class="slider-icon" width="30" height="30">
-                <use href="#arrow-left"></use>
-            </svg>
-        </a>
-        <a class="link-like-button" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">
-            <svg class="slider-icon" width="30" height="30">
-                <use href="#list-details"></use>
-            </svg>
-        </a>
-        <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}"  href="{{ $next_link }}" class="next-episode-btn">
-            <svg class="slider-icon" width="30" height="30">
-                <use href="#arrow-right"></use>
-            </svg>
-        </a>
-    </div>
+        @endif
+    </a>
 </div>
     @endsection

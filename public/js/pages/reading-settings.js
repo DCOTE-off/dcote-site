@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const storageKey = 'dcote-reading-settings';
-    const settingsReadBtn = document.getElementById('settingsReadBtn');
+    const settingsReadBtns = document.querySelectorAll('.settingsReadBtn');
     const readSettings = document.querySelector('.read-settings');
     const chapterContainer = document.querySelector('.chapter-container');
     const chapterContent = document.querySelector('.chapter-content');
@@ -57,9 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
     function loadSettings() {
         try {
             const saved = window.localStorage.getItem(storageKey);
-            return saved ? JSON.parse(saved) : defaultSettings;
+            return saved ? { ...defaultSettings, ...JSON.parse(saved) } : { ...defaultSettings };
         } catch (error) {
-            return defaultSettings;
+            return { ...defaultSettings };
         }
     }
 
@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (controls.indent) controls.indent.checked = settings.indent;
         if (controls.images) controls.images.checked = settings.images;
         if (controls.title) controls.title.checked = settings.title;
+        if (controls.navigation) controls.navigation.checked = settings.navigation;
         if (controls.fontSize) controls.fontSize.value = settings.fontSize;
         if (controls.lineHeight) controls.lineHeight.value = settings.lineHeight;
         if (controls.paragraphGap) controls.paragraphGap.value = settings.paragraphGap;
@@ -110,8 +111,8 @@ document.addEventListener('DOMContentLoaded', () => {
         applySettings(currentSettings);
     }
 
-    if (settingsReadBtn && readSettings) {
-        settingsReadBtn.addEventListener('click', () => {
+    if (readSettings) {
+        function toggleReadSettings() {
             if (readSettings.classList.contains('is-open')) {
                 readSettings.classList.remove('is-open');
                 readSettings.classList.add('not-open');
@@ -119,6 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 readSettings.classList.remove('not-open');
                 readSettings.classList.add('is-open');
             }
+        }
+        settingsReadBtns.forEach((btn) => {
+            btn.addEventListener('click', toggleReadSettings);
         });
     }
 

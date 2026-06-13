@@ -63,15 +63,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1.6vw;
+    padding: 0.39vw;
     background-color: #921545;
     border-radius: calc(var(--fs-border-radius)/2);
     opacity: 0;
 }
 
 .check-mark-icon{
-    width: 2.67vw;
-    height: 2.67vw;
+    width: 0.65vw;
+    height: 0.65vw;
     display: block;
 }
 
@@ -81,5 +81,14 @@
     .dropdown-icon {
         width: clamp(1px, 3.738vw, 30px);
         height: clamp(1px, 3.738vw, 30px);
+    }
+
+    .check-mark-icon{
+        width: 2.67vw;
+        height: 2.67vw;
+    }
+
+    .check-mark-bg{
+        padding: 1.6vw;
     }
 }
