@@ -68,7 +68,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('manga.index') }}">
+        <a href="{{ route('home') }}">
             <div class="wrapper">
                 <picture>
                     <source media="(max-width: 768px)" srcset="/images/index/category-manga-bw-mobile.webp" type="image/webp">
@@ -80,7 +80,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('illustrations.index') }}">
+        <a href="{{ route('home') }}">
             <div class="wrapper">
                 <picture>
                     <source media="(max-width: 768px)" srcset="/images/index/category-illustrations-bw-mobile.webp" type="image/webp">
@@ -92,7 +92,7 @@
                 </div>
             </div>
         </a>
-        <a href="{{ route('characters.index') }}">
+        <a href="{{ route('home') }}">
             <div class="wrapper">
                 <picture>
                     <source media="(max-width: 768px)" srcset="/images/index/category-characters-bw-mobile.webp" type="image/webp">

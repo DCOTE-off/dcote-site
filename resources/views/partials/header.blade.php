@@ -76,7 +76,13 @@
     </div>
     <div class="side-menu" id="sideMenu">
         <div class="side-links">
-            <a class="link-like-button no-glow side-button" href="{{ route('anime.index') }}">
+            <a class="link-like-button side-button" href="{{ route('ranobe.index') }}">
+                <svg class="side-menu-icon">
+                    <use href="#side-menu-ranobe"></use>
+                </svg>
+                РАНОБЭ
+            </a>
+            <a class="link-like-button side-button" href="{{ route('anime.index') }}">
                 <svg class="side-menu-icon">
                     <use href="#side-menu-anime"></use>
                 </svg>
@@ -88,31 +94,25 @@
                 </svg>
                 О ПРОЕКТЕ
             </a>
-            <a class="link-like-button no-glow side-button" href="{{ route('news.index') }}">
+            <a class="link-like-button no-glow disabled_a side-button" aria-disabled="true">
                 <svg class="side-menu-icon">
                     <use href="#side-menu-news"></use>
                 </svg>
                 НОВОСТИ
             </a>
-            <a class="link-like-button no-glow side-button" href="{{ route('ranobe.index') }}">
-                <svg class="side-menu-icon">
-                    <use href="#side-menu-ranobe"></use>
-                </svg>
-                РАНОБЭ
-            </a>
-            <a class="link-like-button no-glow side-button" href="{{ route('manga.index') }}">
+            <a class="link-like-button no-glow disabled_a side-button" aria-disabled="true">
                 <svg class="side-menu-icon">
                     <use href="#side-menu-manga"></use>
                 </svg>
                 МАНГА
             </a>
-            <a class="link-like-button no-glow side-button" href="{{ route('illustrations.index') }}">
+            <a class="link-like-button no-glow disabled_a side-button" aria-disabled="true">
                 <svg class="side-menu-icon">
                     <use href="#side-menu-illustrations"></use>
                 </svg>
                 ИЛЛЮСТРАЦИИ
             </a>
-            <a class="link-like-button no-glow side-button" href="{{ route('characters.index') }}">
+            <a class="link-like-button no-glow disabled_a side-button" aria-disabled="true">
                 <svg class="side-menu-icon">
                     <use href="#side-menu-characters"></use>
                 </svg>
