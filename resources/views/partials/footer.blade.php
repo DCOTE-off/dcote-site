@@ -16,27 +16,27 @@
         </div>
     </footer>
     <navbar class="mobile-bottom-nav">
-        <a href="{{ route('favorite') }}" class="nav-item">
-            <svg class="nav-icon" viewBox="0 0 24 24"><use href="#file-star"></use></svg>
-            <h2 class="nav-label">Избранное</h2>
-        </a>
         @auth
-            <a href="№" class="nav-item">
+            <button class="nav-item account-dropdown-btn button-without-styles-all">
                 <svg class="nav-icon" viewBox="0 0 24 24"><use href="#user"></use></svg>
                 <h2 class="nav-label">Аккаунт</h2>
-            </a>
+            </button>
         @else
             <a href="{{ route('login') }}" class="nav-item">
                 <svg class="nav-icon" viewBox="0 0 24 24"><use href="#user"></use></svg>
                 <h2 class="nav-label">Войти</h2>
             </a>
         @endauth
-        <a href="/" class="nav-item">
-            <svg class="center-nav-icon"><use href="#dcote-logo-small"></use></svg>
-        </a>
         <a href="/favorite" class="nav-item">
             <svg class="nav-icon" viewBox="0 0 24 24"><use href="#mail"></use></svg>
             <h2 class="nav-label">Уведомления</h2>
+        </a>
+        <a href="/" class="nav-item">
+            <svg class="center-nav-icon"><use href="#dcote-logo-small"></use></svg>
+        </a>
+        <a href="{{ route('favorite') }}" class="nav-item">
+            <svg class="nav-icon" viewBox="0 0 24 24"><use href="#file-star"></use></svg>
+            <h2 class="nav-label">Избранное</h2>
         </a>
         <button class="nav-item button-without-styles-all" id="hamburgerBtn">
             <svg class="nav-icon" viewBox="0 0 24 24"><use href="#stack-2"></use></svg>

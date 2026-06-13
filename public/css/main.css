@@ -406,7 +406,7 @@ main {
     .toast-container{
         min-width: 80%;
         min-height: unset;
-        bottom: calc(var(--fs-gap20) + var(--nav-height));
+        bottom: calc(var(--fs-gap20) + 18.05vw);
     }
 
 }

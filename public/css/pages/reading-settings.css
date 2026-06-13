@@ -273,6 +273,14 @@ html.nav-hidden .mobile-bottom-nav {
         padding-bottom: calc(var(--fs-gap20) + 18.05vw + 9.345vw + var(--fs-gap10));
     }
 
+    .account-dropdown-any{
+        bottom: calc(var(--fs-gap20) + 18.05vw + 9.345vw + var(--fs-gap10));
+    }
+
+    .toast-container{
+        bottom: calc(var(--fs-gap20) + 18.05vw + 9.345vw + var(--fs-gap10));
+    }
+
     .settings-btn{
         width: clamp(1px,26.7vw,200px);
         height: clamp(1px,6.675vw,100px);

@@ -99,8 +99,8 @@
             </div>
         </div>
         <div class="label-and-range">
-            <label for="fontSize"><p>Размер шрифта:</p> <strong><p id="fontSizeValue">16</p><p>px</p></strong></label>
-            <input type="range" id="fontSize" min="8" max="40" value="16" step="1">
+            <label for="fontSize"><p>Размер шрифта:</p> <strong><p id="fontSizeValue">18</p><p>px</p></strong></label>
+            <input type="range" id="fontSize" min="8" max="40" value="18" step="1">
         </div>
         <div class="label-and-range">
             <label for="lineHeight"><p>Высота строк:</p> <strong><p id="lineHeightValue">1.6</p></strong></label>
@@ -111,8 +111,8 @@
             <input type="range" id="paragraphGap" min="5" max="45" value="10" step="1">
         </div>
         <div class="label-and-range">
-            <label for="contWidth"><p>Ширина контейнера:</p> <strong><p id="contWidthValue">80</p><p>%</p></strong></label>
-            <input type="range" id="contWidth" min="1" max="100" value="80" step="1">
+            <label for="contWidth"><p>Ширина контейнера:</p> <strong><p id="contWidthValue">73</p><p>%</p></strong></label>
+            <input type="range" id="contWidth" min="1" max="100" value="73" step="1">
         </div>
         <div class="dd-buttons">
             <div class="dropdown-select-wrapper">
@@ -179,7 +179,7 @@
         </button>
     </div>
     <div class="read-nav mobile">
-        <a class="read-item {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}">
+        <a class="read-item {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link ?: '#' }}">
             @if($prev_link)
                 <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left"></use></svg>
             @endif
@@ -195,7 +195,7 @@
                 <svg class="nav-icon" viewBox="0 0 25 25"><use href="#settings"></use></svg>
             </button>
         </div>
-        <a class="read-item {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}">
+        <a class="read-item {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link ?: '#' }}">
             @if($next_link)
                 <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right"></use></svg>
             @endif
@@ -203,23 +203,23 @@
     </div>
 </div>
 <div class="chapters-controls">
-    <a class="link-like-button {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}" class="prev-episode-btn">ПРЕДЫДУЩАЯ ГЛАВА</a>
+    <a class="link-like-button prev-episode-btn {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link ?: '#' }}">ПРЕДЫДУЩАЯ ГЛАВА</a>
     <a class="link-like-button" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">ВСЕ ГЛАВЫ</a>
-    <a class="link-like-button {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}" class="next-episode-btn">СЛЕДУЮЩАЯ ГЛАВА</a>
+    <a class="link-like-button next-episode-btn {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link ?: '#' }}">СЛЕДУЮЩАЯ ГЛАВА</a>
 </div>
 <div class="chapters-controls mobile">
-    <a class="chapter-control-item {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}">
-        @if($prev_link)
-            <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left"></use></svg>
-        @endif
-    </a>
-    <a class="chapter-control-item" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">
-        <svg class="nav-icon" viewBox="0 0 17 15"><use href="#list-details"></use></svg>
-    </a>
-    <a class="chapter-control-item {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link }}">
-        @if($next_link)
-            <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right"></use></svg>
-        @endif
-    </a>
+    <a class="chapter-control-item {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link ?: '#' }}">
+            @if($prev_link)
+                <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left"></use></svg>
+            @endif
+        </a>
+        <a class="chapter-control-item" href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}">
+            <svg class="nav-icon" viewBox="0 0 17 15"><use href="#list-details"></use></svg>
+        </a>
+        <a class="chapter-control-item {{ !$next_link ? 'disabled_a' : '' }}" href="{{ $next_link ?: '#' }}">
+            @if($next_link)
+                <svg class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right"></use></svg>
+            @endif
+        </a>
 </div>
     @endsection

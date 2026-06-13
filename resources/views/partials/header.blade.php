@@ -22,7 +22,7 @@
                     </svg>
                 </a>
                 @auth
-                    <button class="login-btn" id="account-dropdown-desktop-btn">
+                    <button class="login-btn account-dropdown-btn">
                         АККАУНТ
                     </button>
                 @else
@@ -31,14 +31,14 @@
             </div>
         </div>
     </div>
-    <div class="account-dropdown-desktop">
+    <div class="account-dropdown-any">
         <a class="link-like-button side-button" href="{{ route('account') }}">
             <svg class="account-desktop-menu-icon">
                 <use href="#user"></use>
             </svg>
             Мой профиль
         </a>
-        <a class="link-like-button side-button" style="background: #c6750c;box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px #c6750c;" href="{{ route('favorite') }}">
+        <a class="link-like-button side-button" id="account-dd-fav-item" style="background: #c6750c;box-shadow: 0 0px clamp(10px, 1.3vw, 20px) 0px #c6750c;" href="{{ route('favorite') }}">
             <svg class="account-desktop-menu-icon">
                 <use href="#file-star"></use>
             </svg>

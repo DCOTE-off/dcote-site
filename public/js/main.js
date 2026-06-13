@@ -91,11 +91,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const accountDdDesktopBtn = document.getElementById('account-dropdown-desktop-btn');
-    const accountMenuDesktop = document.querySelector('.account-dropdown-desktop')
+    const accountDdDesktopBtns = document.querySelectorAll('.account-dropdown-btn');
+    const accountMenuDesktop = document.querySelector('.account-dropdown-any')
 
-    if (accountDdDesktopBtn) {
-        accountDdDesktopBtn.addEventListener('click', () => {
+    function isClickOnAnyAccountBtn(target) {
+        return [...accountDdDesktopBtns].some((btn) => btn.contains(target));
+    }
+
+    if (accountDdDesktopBtns.length && accountMenuDesktop) {
+        function toggleAccountMenu() {
             if (accountMenuDesktop.classList.contains('is-open')) {
                 accountMenuDesktop.classList.remove('is-open');
                 accountMenuDesktop.classList.add('not-open');
@@ -103,13 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 accountMenuDesktop.classList.remove('not-open');
                 accountMenuDesktop.classList.add('is-open');
             }
+        }
+
+        accountDdDesktopBtns.forEach((btn) => {
+            btn.addEventListener('click', toggleAccountMenu);
         });
 
         document.addEventListener('click', (event) => {
-            const isClickOnDdDesktopAccountBtn = accountDdDesktopBtn.contains(event.target);
-            const isClickInsideMenu = accountMenuDesktop.contains(event.target);
-
-            if (!isClickOnDdDesktopAccountBtn && !isClickInsideMenu) {
+            if (!isClickOnAnyAccountBtn(event.target) && !accountMenuDesktop.contains(event.target)) {
                 if (accountMenuDesktop.classList.contains('is-open')) {
                     accountMenuDesktop.classList.remove('is-open');
                     accountMenuDesktop.classList.add('not-open');
