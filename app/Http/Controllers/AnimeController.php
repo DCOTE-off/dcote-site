@@ -43,7 +43,7 @@ class AnimeController extends Controller
         $videoBaseUrl = "https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}";
         $episodeUrl = $player_url . '?' . http_build_query([
             'src' => "{$videoBaseUrl}/master.m3u8",
-            'poster' => "https://video.dcote.net/season-0{$season}/banner.webp",
+            'poster' => asset("images/anime/episodes-banner-season{$season}.webp"),
             'skip_start' => $episodeModel->opening_start ?? '-1',
             'ass' => "{$videoBaseUrl}/subtitles/ru.ass",
             'ass_lang' => 'ru',

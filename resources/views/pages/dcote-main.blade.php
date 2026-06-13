@@ -189,38 +189,38 @@
                 <h1>РЕЙТИНГ КЛАССОВ</h1>
             </div>
             <div class="spoilers-btn-cont">
-                <button class="spoilers-btn no-glow button-without-styles">
+                <button class="spoilers-btn no-glow button-without-styles" type="button" aria-pressed="false">
                     <span>БЕЗ СПОЙЛЕРОВ</span>
                     <span>СО СПОЙЛЕРАМИ</span>
                 </button>
             </div>
             <div class="rating">
                 @foreach ($classes_list_default as $class)
-                        <div class="school-class">
-                            <img src="{{ $class->leader_img }}" loading="lazy" decoding="async">
+                        <div class="school-class" data-rating-key="{{ $class->leader }}">
+                            <img src="{{ $class->leader_img }}" loading="lazy" decoding="async" alt="{{ $class->leader }}">
                             <div class="info">
                                 <div class="text">
                                     <h3>Класс {{ $class->letter }}</h3>
                                     <p>{{ $class->leader }}</p>
                                 </div>
-                                <div class="points-bg" style="--points-width: {{ $class->percent }}%; background: {{ $class->color }};">
-                                    <p><b>{{ $class->class_points }}</b> классных очков</p>
+                                <div class="points-bg" style="--points-width: {{ $class->percent }}%; --rating-index: {{ $loop->index }}; background: {{ $class->color }};">
+                                    <p><b>{{ $class->class_points }}</b> очков</p>
                                 </div>
                             </div>
                         </div>
                 @endforeach
             </div>
-            <div class="rating spoilers hidden">
+            <div class="rating spoilers hidden" aria-hidden="true">
                 @foreach ($classes_list_spoilers as $class)
-                    <div class="school-class">
-                        <img src="{{ $class->leader_img }}" loading="lazy" decoding="async">
+                    <div class="school-class" data-rating-key="{{ $class->leader }}">
+                        <img src="{{ $class->leader_img }}" loading="lazy" decoding="async" alt="{{ $class->leader }}">
                         <div class="info">
                             <div class="text">
                                 <h3>Класс {{ $class->letter }}</h3>
                                 <p>{{ $class->leader }}</p>
                             </div>
-                            <div class="points-bg" style="--points-width: {{ $class->percent }}%;background: {{ $class->color }};">
-                                <p><b>{{ $class->class_points }}</b> классных очков</p>
+                            <div class="points-bg" style="--points-width: {{ $class->percent }}%; --rating-index: {{ $loop->index }}; background: {{ $class->color }};">
+                                <p><b>{{ $class->class_points }}</b> очков</p>
                             </div>
                         </div>
                     </div>

@@ -24,7 +24,7 @@
     @else
             <iframe
                 src="{{ $episodeUrl }}"
-                allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                allow="autoplay; encrypted-media; picture-in-picture"
                 allowfullscreen
                 referrerpolicy="no-referrer-when-downgrade"
                 loading="lazy"
