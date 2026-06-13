@@ -289,8 +289,11 @@ html.nav-hidden .mobile-bottom-nav {
     .read-settings{
         bottom: calc(var(--fs-gap20) + 18.05vw + 9.345vw + var(--fs-gap10));
         width: calc(100% - 2 * clamp(1px, 2.67vw, 100px));
-        justify-self: center;
-        right: unset;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        max-height: calc(100dvh - ((18.05vw + 9.345vw + var(--fs-gap20) + var(--fs-gap20))));
+        overflow-y: auto;
     }
 
     .read-nav.desktop{
@@ -303,9 +306,10 @@ html.nav-hidden .mobile-bottom-nav {
         background: rgb(78, 28, 57);
         border-radius: var(--fs-border-radius);
         width: 84%;
-        align-self: center;
-        justify-self: center;
         position: fixed;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
         bottom: calc(var(--fs-gap20) + 18.05vw);
         z-index: 900;
         transition: transform 0.35s ease, opacity 0.35s ease;
