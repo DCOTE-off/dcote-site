@@ -7,6 +7,7 @@
 @endpush
 @push('scripts')
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
+    <script src="{{ asset('js/pages/cover-description-cards.js') }}"></script>
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="{{ asset('js/pages/ranobe/volume.js') }}"></script>
 @endpush
@@ -22,7 +23,7 @@
     <p>/</p>
     <a href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}"><span>{{ $volume_number_rounded }} ТОМ</span></a>
 </div>
-    <div class="volume-cont scale-in">
+    <div class="volume-cont scale-in" data-cover-description-card>
         <div class="image-wrapper">
             <picture>
                 <source media="(max-width: 768px)" 
@@ -67,13 +68,23 @@
     <div class="volume-info">
         <div class="chapters-cont scale-in">
             <div class="chapters-head">
-                <h1>ОГЛАВЛЕНИЕ</h1>
-                <button type="button" class="sort-toggle button-without-styles-all" aria-label="Сортировать по возрастанию/убыванию">
-                    <svg class="sort-descending" width="20" height="20" style="display: none;">
-                        <use href="#sort-descending-filled"></use>
+                <button type="button" class="sort-toggle chapter-control no-glow" aria-label="Сортировать по возрастанию/убыванию">
+                    <svg class="sort-descending sort-icon" aria-hidden="true" style="display: none;">
+                        <use href="#sort-descending-filled-compact"></use>
                     </svg>
-                    <svg class="sort-ascending" width="20" height="20">
-                        <use href="#sort-ascending-filled"></use>
+                    <svg class="sort-ascending sort-icon" aria-hidden="true">
+                        <use href="#sort-ascending-filled-compact"></use>
+                    </svg>
+                    <span>СОРТИРОВКА</span>
+                </button>
+                <h1>ОГЛАВЛЕНИЕ</h1>
+                <button type="button" class="filter-toggle chapter-control dropdown-btn no-glow" disabled>
+                    <svg class="filter-icon" aria-hidden="true">
+                        <use href="#filter-filled"></use>
+                    </svg>
+                    <span>ФИЛЬТР</span>
+                    <svg class="dropdown-icon" aria-hidden="true">
+                        <use href="#dropdown"></use>
                     </svg>
                 </button>
             </div>
