@@ -5,6 +5,7 @@ use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RanobeController;
+use App\Models\Role;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
@@ -44,7 +45,18 @@ Route::prefix('ranobe')->group(function () {
 });
 
 Route::get('/about-project', function () {
-    return view('pages.about-project');
+    $departmentUsers = Role::query()
+        ->whereIn('name', ['Редактор', 'Модератор'])
+        ->with(['users' => fn ($query) => $query
+            ->select(['id', 'nickname', 'avatar', 'role_id'])
+            ->orderBy('nickname')])
+        ->get(['id', 'name'])
+        ->keyBy('name');
+
+    return view('pages.about-project', [
+        'editors' => $departmentUsers->get('Редактор')?->users ?? collect(),
+        'moderators' => $departmentUsers->get('Модератор')?->users ?? collect(),
+    ]);
 })->name('about-project');
 
 Route::get('/about-school', function () {

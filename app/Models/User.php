@@ -40,6 +40,19 @@ class User extends Authenticatable implements FilamentUser,HasName
         return $this->belongsTo(Role::class);
     }
 
+    public function getAvatarUrlAttribute(): string
+    {
+        if (!$this->avatar) {
+            return asset('images/user-avatar.webp');
+        }
+
+        if (str_starts_with($this->avatar, 'http://') || str_starts_with($this->avatar, 'https://') || str_starts_with($this->avatar, '/')) {
+            return $this->avatar;
+        }
+
+        return asset('storage/' . ltrim($this->avatar, '/'));
+    }
+
 
     public function canAccessPanel(Panel $panel): bool
     {
