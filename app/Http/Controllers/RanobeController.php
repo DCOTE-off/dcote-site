@@ -25,32 +25,75 @@ class RanobeController extends Controller
 
     public function showYear(int $year)
     {
-        $yearModel = RanobeYear::where('year_number',$year)->firstOrFail();
-        $volumes = $yearModel->volumes()->orderBy('general_number','desc')->get();
-        return view('pages.ranobe.year', compact('year','volumes'));
+        $yearModel = RanobeYear::where('year_number', $year)->firstOrFail();
+        $userId = auth()->id();
+
+        $volumes = $yearModel->volumes()
+            ->orderBy('general_number', 'desc')
+            ->addSelect(['volume_avg_rating' => function ($query) {
+                $query->selectRaw('COALESCE(AVG(rating), 0)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'ranobe_volume')
+                    ->whereColumn('rateable_id', 'ranobe_volumes.id');
+            }])
+            ->addSelect(['volume_ratings_count' => function ($query) {
+                $query->selectRaw('COUNT(*)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'ranobe_volume')
+                    ->whereColumn('rateable_id', 'ranobe_volumes.id');
+            }])
+            ->addSelect(['volume_user_rating' => function ($query) use ($userId) {
+                $query->selectRaw('COALESCE(AVG(rating), 0)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'ranobe_volume')
+                    ->where('user_id', $userId)
+                    ->whereColumn('rateable_id', 'ranobe_volumes.id');
+            }])
+            ->get();
+        return view('pages.ranobe.year', compact('year', 'volumes'));
     }
 
     public function showVolume(int $year, float $volume)
     {
+        $userId = auth()->id();
+
         $volumeModel = RanobeVolume::query()
-            ->select('id', 'volume_description','volume_number','cover_image','cover_image_mobile') 
+            ->select('id', 'volume_description', 'volume_number', 'cover_image', 'cover_image_mobile', 'promo_link')
+            ->addSelect(['volume_avg_rating' => function ($query) {
+                $query->selectRaw('COALESCE(AVG(rating), 0)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'ranobe_volume')
+                    ->whereColumn('rateable_id', 'ranobe_volumes.id');
+            }])
+            ->addSelect(['volume_ratings_count' => function ($query) {
+                $query->selectRaw('COUNT(*)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'ranobe_volume')
+                    ->whereColumn('rateable_id', 'ranobe_volumes.id');
+            }])
+            ->addSelect(['volume_user_rating' => function ($query) use ($userId) {
+                $query->selectRaw('COALESCE(AVG(rating), 0)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'ranobe_volume')
+                    ->where('user_id', $userId)
+                    ->whereColumn('rateable_id', 'ranobe_volumes.id');
+            }])
             ->where('volume_number', $volume)
             ->with(['chapters' => function ($query) {
-                $query->select('id', 'ranobe_volume_id', 'title','chapter_number');
+                $query->select('id', 'ranobe_volume_id', 'title', 'chapter_number');
             }])
             ->whereHas('year', function ($query) use ($year) {
                 $query->where('year_number', $year);
             })
             ->firstOrFail();
-        $chapters = $volumeModel->chapters()->orderBy('chapter_number','asc')->get();
+        $chapters = $volumeModel->chapters()->orderBy('chapter_number', 'asc')->get();
         $volume_number_rounded = floatval($volumeModel->volume_number);
         $path = "ranobe/year-$year/volume-$volume_number_rounded/images/";
 
-        $color_images = FilesCollectionHelper::findFiles($path,'-color','public');
-        $bw_images = FilesCollectionHelper::findFiles($path,'-bw','public');
+        $color_images = FilesCollectionHelper::findFiles($path, '-color', 'public');
+        $bw_images = FilesCollectionHelper::findFiles($path, '-bw', 'public');
 
-
-        return view('pages.ranobe.volume',compact('year','volumeModel','chapters','volume_number_rounded','color_images','bw_images','path'));
+        return view('pages.ranobe.volume', compact('year', 'volumeModel', 'chapters', 'volume_number_rounded', 'color_images', 'bw_images', 'path'));
     }
 
 
@@ -76,10 +119,12 @@ class RanobeController extends Controller
             'chapter' => floatval($next_chapter->chapter_number)
         ]) : null;
         $content = $chapterModel->chapter_content;
-        $htmlContent = MarkdownRanobeHelper::parse($content,$year,$volume);
+        $htmlContent = MarkdownRanobeHelper::parse($content, $year, $volume);
         $volume_number_rounded = floatval($volume);
-        return view('pages.ranobe.chapter', compact('htmlContent','chapterModel','volume_number_rounded','year','chapter',
-        'prev_link','next_link'));
+        return view('pages.ranobe.chapter', compact(
+            'htmlContent', 'chapterModel', 'volume_number_rounded', 'year', 'chapter',
+            'prev_link', 'next_link',
+        ));
     }
 
     private function getPreviousChapter(RanobeChapter $chapterModel): ?RanobeChapter

@@ -1,98 +1,147 @@
 @import url('../main.css');
 
-.rating-btn-for-popup,
-.rating-btn {
-    border: none;
-    padding: clamp(1px, 0.325vw, 5px);
 
-}
-
-.rating-btn-for-popup .star-icon,
-.rating-btn .star-icon{
-    width: clamp(1px, 2.275vw, 35px);
-    height: clamp(1px, 2.275vw, 35px);
-    transition: 0.3s;
-}
-
-.rating-btn-for-popup:hover,
-.rating-btn:hover {
-    background: none;
-}
-
-.rating-btn-for-popup:hover .star-icon,
-.rating-btn:hover .star-icon {
-    color: rgb(229, 11, 85);
-}
-
-.rating-btn-for-popup.active,
-.rating-btn.active,
-.rating-btn-for-popup.active_long {
-    color: rgb(229, 11, 85);
-}
-
-.rating {
-    text-align: center;
-    position: relative;
-    gap: var(--fs-gap10);
+.rating-widget{
     display: flex;
     flex-direction: column;
+    gap:var(--fs-gap10);
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-.rating .star-and-number {
+.star-and-avg{
+    display: flex;
+    gap:var(--fs-gap10);
+    align-items: center;
+}
+
+.toggle-rating-menu-btn{
+    padding: 0px;
+
+}
+
+.star-rating-icon{
+    width: clamp(1px,2.275vw,35px);
+    height: clamp(1px,2.275vw,35px);
+    color: white;
+    transition: color 0.3s;
+    transition: transform 0.3s;
+}
+
+
+.rating-popup-menu{
+    background: #1D162E;
+    box-shadow: inset 0 0 0 var(--fs-border2px) #921545;
+    border-radius: var(--fs-border-radius);
+    display: none;
+    flex-direction: column;
+    padding: var(--fs-padding);
+    gap:var(--fs-gap10);
+    z-index: 300;
+}
+
+.stars-row{
+    display: flex;
+    gap:var(--fs-gap20);
+}
+
+.star-value-button{
+    padding: 0px;
+}
+
+.star-value-icon{
+    color: white;
+    transition: color 0.3s;
+}
+
+
+.star-value-icon.filled{
+    color:#921545;
+}
+
+.toggle-rating-menu-btn.active .star-rating-icon,
+.toggle-rating-menu-btn.has-rating .star-rating-icon,
+.star-value-button.picked .star-value-icon,
+.star-value-icon:hover{
+    color:#DF0E53;
+}
+
+
+
+.toggle-rating-menu-btn:hover .star-rating-icon{
+    transform: scale(0.9);
+}
+
+.star-rating-icon.visual{
+    color:#ffb147;
+}
+
+.rating-popup-info{
     display: flex;
     align-items: center;
     justify-content: center;
+    gap:var(--fs-gap20)
 }
 
-.rating .star-and-number.visual {
-    gap: var(--fs-gap10);
+.your-choosen-rating {
+    display: inline-block;
+    min-width: 2ch;
+    text-align: center;
 }
 
-.rating .star-and-number .star-icon{
-    width: clamp(1px, 2.275vw, 35px);   
-    height: clamp(1px, 2.275vw, 35px);
+.rating-value{
+    display: inline-block;
+    min-width: 3ch;
 }
 
-.rating .popup-stars {
+.rating-popup-menu.is-open{
+    display: flex;
     position: absolute;
-    z-index: 2000;
-    display: flex;
-    top: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    background: linear-gradient(360deg, #0b172b, #331635);
-    padding: var(--fs-padding);
+    right: calc(100% + var(--fs-gap20));
+}
+
+
+.popup-overlay{
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(2.5px);
+    background: rgba(29, 22, 46, 0.7);
+    box-shadow: inset 0 0 0 var(--fs-border2px) #921545;
     border-radius: var(--fs-border-radius);
-}
-
-.rating .popup-stars .popup-stars-column {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: clamp(1px, 0.325vw, 5px);
+    justify-content: center;
+    padding: var(--fs-padding);
+    text-align: center;
 }
 
-@media (max-width:768px) {
-    .rating-btn-for-popup .star-icon,
-    .rating-btn .star-icon,
-    .page-anime .star-icon,
-    .rating .star-and-number .star-icon {
-        width: clamp(1px, 8vw, 100px);
-        height: clamp(1px, 8vw, 100px);
-        transition: 0.3s;
+.popup-overlay a{
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.popup-overlay a p:hover{
+    color:#DF0E53;
+}
+.popup-overlay a p{
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+}
+
+
+@media (max-width:768px){
+    .star-rating-icon{
+        width: 6.675vw;
+        height: 6.675vw;
     }
 
-
-    .rating .star-and-number.visual h3 {
-        font-weight: bold;
+    .rating-popup-menu{
+        gap:var(--fs-gap10);
+        padding: var(--fs-gap10);
     }
 
-    .page-anime .dropdown-icon {
-        width: clamp(1px, 5.34vw, 100px);
-        height: clamp(1px, 5.34vw, 100px);
-    }
-
-    .page-anime .dropdown-btn {
-        gap: clamp(1px, 0.8vw, 15px);
+    .stars-row{
+        gap:var(--fs-gap10);
     }
 }

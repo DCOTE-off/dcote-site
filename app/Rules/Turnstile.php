@@ -11,6 +11,10 @@ class Turnstile implements ValidationRule{
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        if (!config('services.cloudflare.enabled')) {
+            return;
+        }
+
         $response = Http::asForm()->post('https://challenges.cloudflare.com/turnstile/v0/siteverify', [
             'secret' => config('services.cloudflare.secret'),
             'response' => $value,

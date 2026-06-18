@@ -122,7 +122,6 @@
     width: 100%;
     min-width: 0;
     border-radius: var(--fs-border-radius);
-    overflow: hidden;
     background: linear-gradient(0deg, #0b172b, #df0e5441);
     backdrop-filter: blur(10px);
     padding: var(--fs-padding);
@@ -318,6 +317,13 @@
 }
 .modal-prev{
     left: clamp(1px,8.45vw,130px);
+}
+
+
+.rating-popup-menu.is-open{
+    right: 50% !important;
+    transform: translateX(50%);
+    top:calc(var(--fs-gap20) + 100%)
 }
 
 @media (max-width:768px) {

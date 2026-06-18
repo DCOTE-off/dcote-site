@@ -68,7 +68,6 @@
     flex-direction: column;
     width: 100%;
     border-radius: var(--fs-border-radius);
-    overflow: hidden;
     background: linear-gradient(0deg, #0b172b, #df0e5441);
     backdrop-filter: blur(10px);
     padding: var(--fs-padding);
@@ -103,16 +102,6 @@
 .cont2 .episode-cont .eye-filled.mobile {
     display: none;
 }
-
-.rating .popup-stars {
-    right: 100%;
-    bottom: 50%;
-    top: unset;
-    left: unset;
-    transform: unset;
-    transform: translateY(50%);
-}
-
 
 .cont2 .episode-cont .card-link {
     width: 70%;
@@ -155,19 +144,10 @@
 
 .cont2 .episode-cont .stars-and-comms {
     display: flex;
-    width: 15%;
+    width: 25%;
     align-items: center;
-    margin-left: auto;
-}
-
-.cont2 .episode-cont .stars-and-comms .first-btn {
-    display: flex;
-    width: 40%;
-}
-
-.cont2 .episode-cont .stars-and-comms .second-btn {
-    display: flex;
-    width: 60%;
+    justify-content: right;
+    gap:calc(var(--fs-gap20) + var(--fs-gap10))
 }
 
 .cont2 .episode-cont .second-btn {
@@ -217,9 +197,27 @@
     height: clamp(1px, 3.5vw, 54px);
 }
 
+
+.trailer-link-desktop{
+    display: block !important;
+}
+
+.trailer-link-mobile{
+    display: none !important;
+}
+
+
+
 @media (max-width:768px) {
     .cont {
         flex-direction: column;
+    }
+
+    .trailer-link-desktop{
+        display: none !important;
+    }
+    .trailer-link-mobile{
+        display: block !important;
     }
 
     .cont .image-wrapper {
@@ -296,14 +294,15 @@
     }
 
     .cont2 .episode-cont .stars-and-comms {
-        display: flex;
+        display: grid;
         width: 100%;
         align-items: center;
-        justify-content: space-between;
+        grid-template-columns: 1fr auto 1fr;
     }
 
     .cont2 .episode-cont .stars-and-comms .first-btn {
         display: flex;
+        justify-content: end;
         width: auto;
     }
 
@@ -323,12 +322,8 @@
         height: clamp(1px, 8vw, 100px);
     }
 
-    .rating .popup-stars {
-        left: -10%;
-        top: 100%;
-        bottom: unset;
-        right: unset;
-        transform: unset;
-        transform: translateY(-150%);
+    .rating-popup-menu.is-open{
+        right: -3.2vw !important;
+        top:calc(var(--fs-gap20) + 100%)
     }
 }

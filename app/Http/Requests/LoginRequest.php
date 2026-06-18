@@ -12,7 +12,7 @@ class LoginRequest extends FormRequest
         return [
             'tag' => ['required', 'string'],
             'password' => ['required', 'string'],
-            'cf-turnstile-response' => ['required', new Turnstile],
+            'cf-turnstile-response' => config('services.cloudflare.enabled') ? ['required', new Turnstile] : ['nullable'],
         ];
     }
 

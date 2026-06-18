@@ -37,6 +37,9 @@ class AnimeEpisodeResource extends Resource
                         Forms\Components\TextInput::make('episode_name')
                             ->label('Название эпизода')
                             ->required(),
+                        Forms\Components\TextInput::make('trailer_link')
+                            ->label('Ссылка на трейлер')
+                            ->url(),
                         Forms\Components\Checkbox::make('completed')
                             ->label('Вышел')
                             ->inline(false),
@@ -64,6 +67,8 @@ class AnimeEpisodeResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('episode_name')
                     ->label('Название'),
+                Tables\Columns\TextColumn::make('trailer_link')
+                    ->label('Трейлер'),
                 Tables\Columns\CheckboxColumn::make('completed')
                     ->label('Вышел'),
                 Tables\Columns\TextColumn::make('opening_start')

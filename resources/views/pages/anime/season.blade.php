@@ -1,10 +1,12 @@
 @extends('layouts.app') 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/anime/season.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
+
 @endpush
 @push('scripts')
+    <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
 @endpush
 @section('title', "Аниме «Класс превосходства» {$season} сезон | Список серий | DCOTE")
@@ -89,32 +91,21 @@
                             @endif
                         </a>
                         <div class="stars-and-comms">
-                            <div class="first-btn">
-                                <div class="rating">
-                                    <div class="popup-stars hidden">
-                                        @for ($i = 1; $i <= 10; $i++)
-                                            <div class="popup-stars-column"><button class="rating-btn button-without-styles" data-rating="{{ $i }}" aria-label="оценка"><svg class="star-icon" width="30" height="30">
-                                                        <use href="#star"></use>
-                                                    </svg></button>
-                                                <p>{{ $i }}</p>
-                                            </div>
-                                        @endfor
-                                    </div>
-                                    <div class="star-and-number"><button class="rating-btn-for-popup button-without-styles" aria-label="оценка"><svg class="star-icon" width="30" height="30">
-                                                <use href="#star"></use>
-                                            </svg></button>
-                                        <h3>9</h3>
-                                    </div>
-                                </div>
-                            </div>
                             <svg class="eye-filled mobile" width="30" height="30">
                                 <use href="#eye-filled"></use>
                             </svg>
-                            <div class="second-btn"><button class="message-btn button-without-styles"><svg class="message-icon" width="30" height="30">
-                                        <use href="#message-filled"></use>
-                                    </svg></button>
-                                <h3>9</h3>
+                            <a href="{{ $episode->trailer_link ?? '' }}"class="link-like-button no-glow trailer-link-mobile">ТРЕЙЛЕР</a>
+                            <div class="first-btn">
+                                @include('partials.rating', [
+                                    'rateableType' => 'anime_episode',
+                                    'rateableId' => $episode->id,
+                                    'userRating' => optional($userRatings->get($episode->id))->rating ?? 0,
+                                    'avgRating' => round((float) ($episode->avg_rating ?? 0), 1),
+                                    'ratingsCount' => $episode->ratings_count ?? 0,
+                                    'noExtra' => true,
+                                ])
                             </div>
+                            <a href="{{ $episode->trailer_link ?? '' }}"class="link-like-button no-glow trailer-link-desktop">ТРЕЙЛЕР СЕРИИ</a>
                         </div>
                     </div>
                 @endforeach

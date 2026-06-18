@@ -34,11 +34,11 @@
 @endpush
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/ranobe/chapter.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown-select.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages/reading-settings.css') }}">
 @endpush
 @push('scripts')
+    <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/components/dropdown-select.js') }}"></script>
     <script src="{{ asset('js/pages/reading-settings.js') }}"></script>
 @endpush

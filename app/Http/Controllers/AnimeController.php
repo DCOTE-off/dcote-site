@@ -3,31 +3,68 @@
 namespace App\Http\Controllers;
 use App\Models\AnimeSeason;
 use App\Models\AnimeEpisode;
+use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
 
 class AnimeController extends Controller
 {
     public function index()
     {
-        $seasons_list = AnimeSeason::orderBy('id','desc')->get();
+        $seasons_list = AnimeSeason::orderBy('id', 'desc')
+            ->addSelect(['season_avg_rating' => function ($query) {
+                $query->selectRaw('COALESCE(AVG(rating), 0)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'anime_episode')
+                    ->whereIn('rateable_id', function ($q) {
+                        $q->select('id')
+                            ->from('anime_episodes')
+                            ->whereColumn('season_id', 'anime_seasons.id');
+                    });
+            }])
+            ->addSelect(['season_ratings_count' => function ($query) {
+                $query->selectRaw('COUNT(*)')
+                    ->from('ratings')
+                    ->where('rateable_type', 'anime_episode')
+                    ->whereIn('rateable_id', function ($q) {
+                        $q->select('id')
+                            ->from('anime_episodes')
+                            ->whereColumn('season_id', 'anime_seasons.id');
+                    });
+            }])
+            ->get();
+
         $season_realesed = AnimeEpisode::select('season_id', DB::raw('COUNT(*) as episode_count'))
             ->whereIn('season_id', [1, 2, 3, 4])
             ->groupBy('season_id')
             ->orderBy('season_id', 'desc')
             ->get();
-            
-        return view('pages.anime.index',compact('seasons_list','season_realesed'));
+
+        return view('pages.anime.index', compact('seasons_list', 'season_realesed'));
     }
 
     public function showSeason(int $season)
     {
         $seasonModel = AnimeSeason::findOrFail($season);
         $about_season = (object) [
-        'season_description' => $seasonModel->season_description,
-        'trailer_link'=> $seasonModel->trailer_link
+            'season_description' => $seasonModel->season_description,
+            'trailer_link' => $seasonModel->trailer_link,
         ];
-        $episodes = AnimeEpisode::where('season_id',$season)->orderBy('episode_number','desc')->get();
-        return view('pages.anime.season', compact('season','about_season','episodes'));
+        $episodes = AnimeEpisode::where('season_id', $season)
+            ->withAvg('ratings as avg_rating', 'rating')
+            ->withCount('ratings as ratings_count')
+            ->orderBy('episode_number', 'desc')
+            ->get();
+
+        $userRatings = collect();
+        if (auth()->check()) {
+            $userRatings = Rating::where('user_id', auth()->id())
+                ->where('rateable_type', 'anime_episode')
+                ->whereIn('rateable_id', $episodes->pluck('id'))
+                ->get()
+                ->keyBy('rateable_id');
+        }
+
+        return view('pages.anime.season', compact('season', 'about_season', 'episodes', 'userRatings'));
     }
 
     public function showEpisode(int $season, int $episode)
@@ -37,7 +74,18 @@ class AnimeController extends Controller
 
         $episodeModel = AnimeEpisode::where('season_id', $season)
             ->where('episode_number', $episode)
+            ->withAvg('ratings as episode_avg_rating', 'rating')
+            ->withCount('ratings as episode_ratings_count')
             ->firstOrFail();
+
+        $episodeAvgRating = $episodeModel->episode_avg_rating;
+        $episodeRatingsCount = $episodeModel->episode_ratings_count;
+        $userRating = auth()->check()
+            ? Rating::where('user_id', auth()->id())
+                ->where('rateable_type', 'anime_episode')
+                ->where('rateable_id', $episodeModel->id)
+                ->value('rating') ?? 0
+            : 0;
         $player_url = "https://video.dcote.net/metrics-api/videoplayer";
         $episodeNumBeaty = str_pad((string) $episode, 2, '0', STR_PAD_LEFT);
         $videoBaseUrl = "https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}";
@@ -65,7 +113,11 @@ class AnimeController extends Controller
 
 
 
-        return view('pages.anime.episode', compact('season', 'episode','episodeUrl','total_episodes','completed','next_link','prev_link'));
+        return view('pages.anime.episode', compact(
+            'season', 'episode', 'episodeUrl', 'total_episodes', 'completed',
+            'next_link', 'prev_link', 'episodeModel', 'episodeAvgRating',
+            'episodeRatingsCount', 'userRating'
+        ));
     }
 
     private function getPreviousEpisode(AnimeEpisode $episodeModel): ?AnimeEpisode

@@ -62,6 +62,9 @@ class RanobeVolumeResource extends Resource
                     ->label('ISBN')
                     ->required()
                     ->maxLength(255),
+                Forms\Components\TextInput::make('promo_link')
+                    ->label('Ссылка на промо')
+                    ->url(),
                 Forms\Components\Textarea::make('volume_description')
                     ->required()
                     ->columnSpanFull()
@@ -174,6 +177,9 @@ class RanobeVolumeResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('isbn')
                     ->label('ISBN'),
+                Tables\Columns\TextColumn::make('promo_link')
+                    ->label('Промо')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('ranobe_year_id')

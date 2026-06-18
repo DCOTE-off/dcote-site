@@ -1,11 +1,12 @@
 @extends('layouts.app') 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('css/pages/ranobe/volume.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
 @endpush
 @push('scripts')
+    <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="{{ asset('js/pages/ranobe/volume.js') }}"></script>
@@ -76,6 +77,15 @@
                         <use href="#sort-ascending-filled"></use>
                     </svg>
                 </button>
+            </div>
+            <div style="width: max-content;align-self:center">
+            @include('partials.rating', [
+                    'rateableType' => 'ranobe_volume',
+                    'rateableId' => $volumeModel->id,
+                    'userRating' => $volumeModel->volume_user_rating ?? 0,
+                    'avgRating' => round((float) ($volumeModel->volume_avg_rating ?? 0), 1),
+                    'ratingsCount' => $volumeModel->volume_ratings_count ?? 0,
+                ])
             </div>
             <div class="grid-area">
                 @if (!empty($chapters))

@@ -23,6 +23,7 @@ class RanobeVolume extends Model
         'pages_quantity',
         'isbn',
         'volume_description',
+        'promo_link',
         'volume_images',
     ];
 
@@ -53,6 +54,11 @@ class RanobeVolume extends Model
     public function popularItems(): MorphMany
     {
         return $this->morphMany(Popular::class, 'target');
+    }
+
+    public function ratings(): MorphMany
+    {
+        return $this->morphMany(Rating::class, 'rateable');
     }
 
     public function getColorAttribute()

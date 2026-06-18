@@ -31,8 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
     'cloudflare' => [
-    'secret' => env('TURNSTILE_SECRET_KEY'),
-    'site_key' => env('TURNSTILE_SITE_KEY'),
+        'enabled' => env('TURNSTILE_ENABLED', true),
+        'secret' => env('TURNSTILE_SECRET_KEY'),
+        'site_key' => env('TURNSTILE_SITE_KEY'),
     ],
 
 ];
