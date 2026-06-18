@@ -22,17 +22,19 @@ class ClassesTopResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-                Forms\Components\Section::make() 
+                Forms\Components\Section::make()
                     ->schema([
                         Forms\Components\TextInput::make('letter')
                             ->label('Буква класса')
-                            ->required()
-                            ->maxLength(1),
+                            ->disabled()
+                            ->dehydrated(false)
+                            ->helperText('Назначается автоматически по количеству очков.'),
                         Forms\Components\TextInput::make('leader')
                             ->label('Лидер')
                             ->required(),
                         Forms\Components\TextInput::make('class_points')
                             ->label('Очки')
+                            ->numeric()
                             ->required(),
                         Forms\Components\TextInput::make('leader_img')
                             ->label('Картинка лида')

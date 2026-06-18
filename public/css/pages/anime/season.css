@@ -93,6 +93,10 @@
     gap: var(--fs-gap20);
 }
 
+.cont2 .grid-area.is-sorting > * {
+    pointer-events: none;
+}
+
 
 
 .cont2 .episode-cont {

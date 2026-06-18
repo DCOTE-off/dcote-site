@@ -76,6 +76,10 @@
     gap: var(--fs-gap20);
 }
 
+.chapters-cont .grid-area.is-sorting > * {
+    pointer-events: none;
+}
+
 
 .chapters-cont .chapters-head {
     display: grid;
