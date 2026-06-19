@@ -42,14 +42,14 @@ class AnimeEpisodeResource extends Resource
                             ->url(),
                         Forms\Components\Checkbox::make('completed')
                             ->label('Вышел')
-                            ->helperText('Автоматически включается, когда наступает дата «Появится в».')
+                            ->helperText('Автоматически включается при первом запросе после даты «Появится в».')
                             ->inline(false),
                         Forms\Components\TextInput::make('opening_start')
                             ->label('Начало опенинга (def=-1)')
                             ->required(),
                         Forms\Components\DateTimePicker::make('appear_in')
                             ->label('Появится в')
-                            ->helperText('После наступления этой даты scheduler поставит галочку «Вышел».'),
+                            ->helperText('После этой даты следующий запрос к странице поставит галочку «Вышел».'),
                     ])
                     ->columns(2),
             ]);
