@@ -8,7 +8,6 @@
 @push('scripts')
     <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
-    <script src="{{ asset('js/pages/cover-description-cards.js') }}"></script>
 @endpush
 @section('title', "Аниме «Класс превосходства» {$season} сезон | Список серий | DCOTE")
 @section('description', "Смотреть {$season} сезон «Добро пожаловать в класс превосходства» онлайн. Описание сезона, список серий и даты выхода на сайте DCOTE.")
@@ -20,7 +19,7 @@
     <p>/</p>
     <a class="current-page" href="{{ route('anime.season', ['season' => $season]) }}"><span>{{ $season }} СЕЗОН</span></a>
 </div>
-    <div class="cont scale-in" data-cover-description-card>
+    <div class="cont scale-in">
         <div class="image-wrapper">
             <picture>
                 <source media="(max-width: 768px)" srcset="/images/anime/anime-banner-season-{{ $season }}-mobile.webp" type="image/webp">
@@ -79,22 +78,23 @@
         <div class="grid-area"
              id="episodes-list"
              data-collapsible-episodes
-             data-season="{{ $season }}">
+             data-season="{{ $season }}"
+             data-server-now="{{ now()->toIso8601String() }}">
             @if (!empty($episodes))
                 @foreach ($episodes as $index => $episode)
                     @php
-                        $episodeAppearAt = !empty($episode->appear_in)
-                            ? \Illuminate\Support\Carbon::parse($episode->appear_in)
-                            : null;
-                        $isUpcoming = $episodeAppearAt?->isFuture() ?? false;
+                        // completed управляет доступностью; appear_in нужен только для автоматического выпуска и таймера.
+                        $isUpcoming = !$episode->completed;
+                        $hasReleaseDate = $isUpcoming && $episode->appear_in?->isFuture();
                     @endphp
                     <div class="episode-cont{{ $isUpcoming ? ' has-appear-in' : '' }}"
                          data-episode-number="{{ $episode->episode_number }}"
                          data-is-upcoming="{{ $isUpcoming ? 'true' : 'false' }}"
                          data-bookmark-state="unbookmarked"
-                         @if ($isUpcoming)
-                             data-appear-at="{{ $episodeAppearAt->toIso8601String() }}"
-                         @else
+                         @if ($hasReleaseDate)
+                             data-appear-at="{{ $episode->appear_in->toIso8601String() }}"
+                         @endif
+                         @if (!$isUpcoming)
                              data-watch-state="unwatched"
                          @endif>
                         <a class="card-link" href="{{ route('anime.episode',['season'=>$season,'episode'=>$episode->episode_number]) }}">
@@ -158,8 +158,10 @@
                                 </span>
                                 @if ($isUpcoming)
                                     <div class="appear-in appear-in-mobile">
-                                        <p data-episode-countdown-label>До выхода серии:</p>
-                                        <h3 data-episode-countdown>—</h3>
+                                        <p>До выхода серии:</p>
+                                        <h3 @if ($hasReleaseDate) data-episode-countdown @endif>
+                                            {{ $hasReleaseDate ? '—' : 'Дата уточняется' }}
+                                        </h3>
                                     </div>
                                 @endif
                             </div>
@@ -202,8 +204,10 @@
                         @if ($isUpcoming)
                             <a class="appear-in appear-in-desktop"
                                href="{{ route('anime.episode',['season'=>$season,'episode'=>$episode->episode_number]) }}">
-                                <p data-episode-countdown-label>До выхода серии:</p>
-                                <h3 data-episode-countdown>—</h3>
+                                <p>До выхода серии:</p>
+                                <h3 @if ($hasReleaseDate) data-episode-countdown @endif>
+                                    {{ $hasReleaseDate ? '—' : 'Дата уточняется' }}
+                                </h3>
                             </a>
                         @endif
                         <div class="stars-and-comms">

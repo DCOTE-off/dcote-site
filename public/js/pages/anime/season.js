@@ -25,204 +25,65 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Контракт таймера: Blade передаёт ISO-даты будущих серий и текущее время сервера.
     function setupEpisodeCountdowns(container) {
+        const serverNow = Date.parse(container.dataset.serverNow);
+        const serverClockOffset = Number.isNaN(serverNow) ? 0 : serverNow - Date.now();
+        const unitFormatters = {
+            day: new Intl.NumberFormat('ru', { style: 'unit', unit: 'day', unitDisplay: 'long' }),
+            hour: new Intl.NumberFormat('ru', { style: 'unit', unit: 'hour', unitDisplay: 'long' }),
+            minute: new Intl.NumberFormat('ru', { style: 'unit', unit: 'minute', unitDisplay: 'long' }),
+        };
         const episodes = getEpisodeItems(container)
-            .filter(episode => episode.dataset.appearAt);
+            .map(element => ({
+                releaseAt: Date.parse(element.dataset.appearAt),
+                outputs: element.querySelectorAll('[data-episode-countdown]'),
+            }))
+            .filter(episode => !Number.isNaN(episode.releaseAt) && episode.outputs.length);
 
-        if (episodes.length === 0) {
+        if (!episodes.length) {
             return;
         }
 
-        function getPluralForm(value, forms) {
-            const absoluteValue = Math.abs(value) % 100;
-            const lastDigit = absoluteValue % 10;
+        // Таймер показывает только дни, часы и минуты, поэтому обновлять DOM каждую секунду не нужно.
+        function formatRemaining(milliseconds) {
+            const totalMinutes = Math.ceil(milliseconds / 60000);
+            const days = Math.floor(totalMinutes / 1440);
+            const hours = Math.floor((totalMinutes % 1440) / 60);
+            const minutes = totalMinutes % 60;
 
-            if (absoluteValue > 10 && absoluteValue < 20) {
-                return forms[2];
-            }
-
-            if (lastDigit === 1) {
-                return forms[0];
-            }
-
-            if (lastDigit >= 2 && lastDigit <= 4) {
-                return forms[1];
-            }
-
-            return forms[2];
-        }
-
-        function getRemainingTime(milliseconds) {
-            const totalMinutes = Math.max(0, Math.ceil(milliseconds / 60000));
-
-            return {
-                days: Math.floor(totalMinutes / 1440),
-                hours: Math.floor((totalMinutes % 1440) / 60),
-                minutes: totalMinutes % 60,
-            };
-        }
-
-        function animateCountdownNumber(numberElement, nextValue) {
-            const currentValue = numberElement.dataset.value;
-            const nextValueText = String(nextValue);
-
-            if (currentValue === nextValueText) {
-                return;
-            }
-
-            numberElement.dataset.value = nextValueText;
-
-            if (
-                currentValue === undefined
-                || reducedMotion.matches
-                || numberElement.getClientRects().length === 0
-            ) {
-                numberElement.style.width = '';
-                numberElement.textContent = nextValueText;
-                return;
-            }
-
-            numberElement.classList.remove('is-changing');
-            numberElement.style.width = `${Math.max(currentValue.length, nextValueText.length)}ch`;
-            numberElement.innerHTML = `
-                <span class="episode-countdown-number-current">${currentValue}</span>
-                <span class="episode-countdown-number-next">${nextValueText}</span>
-            `;
-            void numberElement.offsetWidth;
-            numberElement.classList.add('is-changing');
-
-            let animationFinished = false;
-
-            function finishAnimation() {
-                if (animationFinished) {
-                    return;
-                }
-
-                animationFinished = true;
-                numberElement.classList.remove('is-changing');
-                numberElement.style.width = '';
-                numberElement.textContent = nextValueText;
-            }
-
-            numberElement.querySelector('.episode-countdown-number-next')
-                ?.addEventListener('animationend', finishAnimation, { once: true });
-            window.setTimeout(finishAnimation, 450);
-        }
-
-        function renderCountdownValue(valueElement, remainingTime) {
-            if (!valueElement.hasAttribute('data-countdown-initialized')) {
-                valueElement.textContent = '';
-                valueElement.setAttribute('data-countdown-initialized', '');
-            }
-
-            const units = [
-                {
-                    key: 'days',
-                    value: remainingTime.days,
-                    forms: ['день', 'дня', 'дней'],
-                    hideWhenZero: true,
-                },
-                {
-                    key: 'hours',
-                    value: remainingTime.hours,
-                    forms: ['час', 'часа', 'часов'],
-                    hideWhenZero: true,
-                },
-                {
-                    key: 'minutes',
-                    value: remainingTime.minutes,
-                    forms: ['минута', 'минуты', 'минут'],
-                    hideWhenZero: false,
-                },
-            ];
-
-            units.forEach(unit => {
-                let unitElement = valueElement.querySelector(`[data-countdown-unit="${unit.key}"]`);
-
-                if (unit.hideWhenZero && unit.value === 0) {
-                    unitElement?.remove();
-                    return;
-                }
-
-                if (!unitElement) {
-                    unitElement = document.createElement('span');
-                    unitElement.className = 'episode-countdown-part';
-                    unitElement.dataset.countdownUnit = unit.key;
-                    unitElement.innerHTML = `
-                        <span class="episode-countdown-number"></span>
-                        <span class="episode-countdown-label"></span>
-                    `;
-
-                    const followingUnit = units
-                        .slice(units.findIndex(item => item.key === unit.key) + 1)
-                        .map(item => valueElement.querySelector(`[data-countdown-unit="${item.key}"]`))
-                        .find(Boolean);
-
-                    valueElement.insertBefore(unitElement, followingUnit || null);
-                }
-
-                animateCountdownNumber(
-                    unitElement.querySelector('.episode-countdown-number'),
-                    unit.value
-                );
-                unitElement.querySelector('.episode-countdown-label').textContent =
-                    getPluralForm(unit.value, unit.forms);
-            });
-        }
-
-        function updateCountdown(episode, now) {
-            const releaseTime = Date.parse(episode.dataset.appearAt);
-            const values = episode.querySelectorAll('[data-episode-countdown]');
-            const labels = episode.querySelectorAll('[data-episode-countdown-label]');
-
-            if (Number.isNaN(releaseTime)) {
-                values.forEach(value => {
-                    value.textContent = 'Дата уточняется';
-                });
-                return false;
-            }
-
-            const remaining = releaseTime - now;
-
-            if (remaining <= 0) {
-                labels.forEach(label => {
-                    label.textContent = 'Статус серии:';
-                });
-                values.forEach(value => {
-                    value.textContent = 'Вышел';
-                });
-                episode.classList.add('is-release-reached');
-                return false;
-            }
-
-            values.forEach(value => {
-                renderCountdownValue(value, getRemainingTime(remaining));
-            });
-            return true;
+            return [
+                days > 0 ? unitFormatters.day.format(days) : null,
+                hours > 0 ? unitFormatters.hour.format(hours) : null,
+                unitFormatters.minute.format(minutes),
+            ].filter(Boolean).join(' ');
         }
 
         function updateCountdowns() {
-            const now = Date.now();
-            let hasActiveCountdown = false;
+            // Считаем от серверного времени: часы пользователя не должны раньше срока разблокировать серию.
+            const now = Date.now() + serverClockOffset;
+            let nextUpdateIn = 60000;
 
-            episodes.forEach(episode => {
-                if (updateCountdown(episode, now)) {
-                    hasActiveCountdown = true;
+            for (const episode of episodes) {
+                const remaining = episode.releaseAt - now;
+
+                if (remaining <= 0) {
+                    // После выхода Blade должен заново собрать карточку уже с активными действиями.
+                    window.location.reload();
+                    return;
                 }
-            });
 
-            return hasActiveCountdown;
-        }
-
-        if (!updateCountdowns()) {
-            return;
-        }
-
-        const timerId = window.setInterval(() => {
-            if (!updateCountdowns()) {
-                window.clearInterval(timerId);
+                const text = formatRemaining(remaining);
+                episode.outputs.forEach(output => {
+                    output.textContent = text;
+                });
+                nextUpdateIn = Math.min(nextUpdateIn, remaining);
             }
-        }, 1000);
+
+            window.setTimeout(updateCountdowns, Math.max(1000, nextUpdateIn));
+        }
+
+        updateCountdowns();
     }
 
     function setupBookmarkStates(container) {

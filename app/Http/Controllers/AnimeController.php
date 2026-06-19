@@ -35,6 +35,7 @@ class AnimeController extends Controller
 
         $season_realesed = AnimeEpisode::select('season_id', DB::raw('COUNT(*) as episode_count'))
             ->whereIn('season_id', [1, 2, 3, 4])
+            ->where('completed', true)
             ->groupBy('season_id')
             ->orderBy('season_id', 'desc')
             ->get();
@@ -44,6 +45,9 @@ class AnimeController extends Controller
 
     public function showSeason(int $season)
     {
+        // Страховка для окружений без scheduler: любой запрос также синхронизирует просроченные серии.
+        AnimeEpisode::releaseDue();
+
         $seasonModel = AnimeSeason::findOrFail($season);
         $about_season = (object) [
             'season_description' => $seasonModel->season_description,
@@ -69,6 +73,8 @@ class AnimeController extends Controller
 
     public function showEpisode(int $season, int $episode)
     {
+        AnimeEpisode::releaseDue();
+
         $seasonModel = AnimeSeason::withCount('episodes')->findOrFail($season);
         $total_episodes = $seasonModel->episodes_count ?? 0;
 

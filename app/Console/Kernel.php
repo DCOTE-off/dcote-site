@@ -15,6 +15,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // completed — источник истины для доступности серии; синхронизируем его с appear_in каждую минуту.
+        $schedule->command('anime:release-due-episodes')
+                ->everyMinute()
+                ->withoutOverlapping();
+
         $schedule->command('sitemap:generate')
                 ->dailyAt('03:00')
                 ->sendOutputTo(storage_path('logs/sitemap.log'));

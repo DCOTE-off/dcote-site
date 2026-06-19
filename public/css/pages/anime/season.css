@@ -3,24 +3,16 @@
 .cont {
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
     width: 100%;
     border-radius: var(--fs-border-radius);
     overflow: hidden;
 }
 
 .cont .image-wrapper {
-    flex: 0 0 var(--cover-width, 32%);
-    width: var(--cover-width, 32%);
-    aspect-ratio: var(--cover-aspect-ratio, 1220 / 1706);
+    width: 32%;
+    object-fit: cover;
     overflow: hidden;
     z-index: 5;
-}
-
-.cont .image-wrapper picture {
-    display: block;
-    width: 100%;
-    height: 100%;
 }
 
 .cont .image-wrapper img {
@@ -28,13 +20,12 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
+    aspect-ratio: 0.71;
     display: block;
 }
 
 .cont .desc {
-    flex: 1 1 0;
-    width: auto;
-    min-width: 0;
+    width: 68%;
     background: linear-gradient(270deg, #0b172b, #df0e5441);
     backdrop-filter: blur(10px);
     padding: var(--fs-padding);
@@ -394,74 +385,6 @@
     white-space: nowrap;
 }
 
-.cont2 .episode-cont [data-episode-countdown] {
-    align-items: center;
-    display: inline-flex;
-    gap: 0.35em;
-    justify-content: center;
-}
-
-.cont2 .episode-cont .episode-countdown-part {
-    align-items: baseline;
-    display: inline-flex;
-    gap: 0.2em;
-}
-
-.cont2 .episode-cont .episode-countdown-number {
-    display: inline-block;
-    min-width: 1ch;
-    position: relative;
-    text-align: center;
-}
-
-.cont2 .episode-cont .episode-countdown-number.is-changing {
-    overflow: hidden;
-}
-
-.cont2 .episode-cont .episode-countdown-number.is-changing .episode-countdown-number-current,
-.cont2 .episode-cont .episode-countdown-number.is-changing .episode-countdown-number-next {
-    display: block;
-    inset: 0;
-    position: absolute;
-}
-
-.cont2 .episode-cont .episode-countdown-number.is-changing .episode-countdown-number-current {
-    animation: episode-countdown-number-out 360ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-.cont2 .episode-cont .episode-countdown-number.is-changing .episode-countdown-number-next {
-    animation: episode-countdown-number-in 360ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-@keyframes episode-countdown-number-out {
-    from {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-110%);
-    }
-}
-
-@keyframes episode-countdown-number-in {
-    from {
-        opacity: 0;
-        transform: translateY(110%);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .cont2 .episode-cont .episode-countdown-number.is-changing .episode-countdown-number-current,
-    .cont2 .episode-cont .episode-countdown-number.is-changing .episode-countdown-number-next {
-        animation: none;
-    }
-}
-
 .cont2 .episode-cont .appear-in-mobile {
     display: none;
 }
@@ -596,7 +519,6 @@
 @media (max-width:768px) {
     .cont {
         flex-direction: column;
-        align-items: stretch;
     }
 
     .trailer-link-desktop{
@@ -607,22 +529,11 @@
     }
 
     .cont .image-wrapper {
-        flex-basis: auto;
         width: 100%;
-        height: auto;
-        aspect-ratio: auto;
-    }
-
-    .cont .image-wrapper picture,
-    .cont .image-wrapper img {
-        height: auto;
-        aspect-ratio: auto;
     }
 
     .cont .desc {
-        flex: auto;
         width: 100%;
-        height: auto;
         background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
     }
 
