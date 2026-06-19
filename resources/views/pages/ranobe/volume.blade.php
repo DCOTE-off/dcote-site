@@ -8,7 +8,6 @@
 @push('scripts')
     <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
-    <script src="{{ asset('js/pages/cover-description-cards.js') }}"></script>
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="{{ asset('js/pages/ranobe/volume.js') }}"></script>
 @endpush
@@ -24,7 +23,7 @@
     <p>/</p>
     <a href="{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}"><span>{{ $volume_number_rounded }} ТОМ</span></a>
 </div>
-    <div class="volume-cont scale-in" data-cover-description-card>
+    <div class="volume-cont scale-in">
         <div class="image-wrapper">
             <picture>
                 <source media="(max-width: 768px)" 
