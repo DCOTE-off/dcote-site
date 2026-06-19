@@ -19,7 +19,7 @@ class ReleaseDueAnimeEpisodesTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_command_marks_only_due_episodes_as_completed(): void
+    public function test_release_due_marks_only_due_episodes_as_completed(): void
     {
         Carbon::setTestNow('2030-01-15 12:00:00');
         $season = AnimeSeason::query()->firstOrFail();
@@ -29,15 +29,13 @@ class ReleaseDueAnimeEpisodesTest extends TestCase
         $futureEpisode = $this->createEpisode($season, $episodeNumber + 1, false, now()->addMinute());
         $completedEpisode = $this->createEpisode($season, $episodeNumber + 2, true, now()->subMinute());
 
-        $this->artisan('anime:release-due-episodes')->assertSuccessful();
+        $this->assertSame(1, AnimeEpisode::releaseDue());
 
         $this->assertTrue($dueEpisode->fresh()->completed);
         $this->assertFalse($futureEpisode->fresh()->completed);
         $this->assertTrue($completedEpisode->fresh()->completed);
 
-        $this->artisan('anime:release-due-episodes')
-            ->expectsOutput('Released anime episodes: 0')
-            ->assertSuccessful();
+        $this->assertSame(0, AnimeEpisode::releaseDue());
     }
 
     private function createEpisode(

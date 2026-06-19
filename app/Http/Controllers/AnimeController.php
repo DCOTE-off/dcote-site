@@ -45,7 +45,7 @@ class AnimeController extends Controller
 
     public function showSeason(int $season)
     {
-        // Страховка для окружений без scheduler: любой запрос также синхронизирует просроченные серии.
+        // Таймер перезагружает страницу в момент выхода; этот запрос фиксирует completed в БД.
         AnimeEpisode::releaseDue();
 
         $seasonModel = AnimeSeason::findOrFail($season);
