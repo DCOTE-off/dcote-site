@@ -117,6 +117,8 @@ function sendRating(type, id, value, widget, valueEl, countEl) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
     if (!csrfToken) return;
 
+    animateRatingIcon(widget);
+
     const method = value ? 'POST' : 'DELETE';
     const body = value
         ? JSON.stringify({ rateable_type: type, rateable_id: id, rating: value })
@@ -133,8 +135,17 @@ function sendRating(type, id, value, widget, valueEl, countEl) {
     })
         .then(res => res.json())
         .then(data => {
+            const previousAverage = Number.parseFloat(valueEl.textContent) || 0;
+            const nextAverage = Number(data.avg_rating ?? 0);
+            const formattedAverage = nextAverage.toFixed(1);
+
             widget.dataset.userRating = data.user_rating;
-            valueEl.textContent = data.avg_rating;
+
+            if (previousAverage !== nextAverage) {
+                animateRatingValue(valueEl, previousAverage.toFixed(1), formattedAverage, nextAverage > previousAverage);
+            } else {
+                valueEl.textContent = formattedAverage;
+            }
 
             if (data.ratings_count !== undefined) {
                 widget.querySelectorAll('.ratings-count').forEach(el => {
@@ -153,12 +164,7 @@ function sendRating(type, id, value, widget, valueEl, countEl) {
                 });
             }
 
-            const popup = widget.querySelector('.rating-popup-menu');
             const toggle = widget.querySelector('.toggle-rating-menu-btn');
-            if (popup && popup.classList.contains('is-open')) {
-                popup.classList.remove('is-open');
-                toggle.classList.remove('active');
-            }
 
             if (data.user_rating) {
                 toggle.classList.add('has-rating');
@@ -167,4 +173,40 @@ function sendRating(type, id, value, widget, valueEl, countEl) {
             }
         })
         .catch(() => {});
+}
+
+function animateRatingIcon(widget) {
+    const toggle = widget.querySelector('.toggle-rating-menu-btn');
+
+    if (!toggle) return;
+
+    toggle.classList.remove('is-rating-updated');
+    void toggle.offsetWidth;
+    toggle.classList.add('is-rating-updated');
+    toggle.addEventListener('animationend', () => {
+        toggle.classList.remove('is-rating-updated');
+    }, { once: true });
+}
+
+function animateRatingValue(valueEl, previousValue, nextValue, isIncreasing) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        valueEl.textContent = nextValue;
+        return;
+    }
+
+    valueEl.classList.remove('is-changing');
+    valueEl.dataset.direction = isIncreasing ? 'up' : 'down';
+    valueEl.innerHTML = `
+        <span class="rating-value-current">${previousValue}</span>
+        <span class="rating-value-next">${nextValue}</span>
+    `;
+    void valueEl.offsetWidth;
+    valueEl.classList.add('is-changing');
+
+    const nextValueEl = valueEl.querySelector('.rating-value-next');
+    nextValueEl.addEventListener('animationend', () => {
+        valueEl.classList.remove('is-changing');
+        delete valueEl.dataset.direction;
+        valueEl.textContent = nextValue;
+    }, { once: true });
 }

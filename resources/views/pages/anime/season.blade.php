@@ -76,44 +76,153 @@
             </button>
         </div>
         <p class="info-schedule">Каждая новая серия выходит в <b>среду</b> в <b>15:30 по МСК</b>! Русские субтитры появляются на сайте спустя <b>полчаса-час</b>.</p>
-        <div class="grid-area">
+        <div class="grid-area"
+             id="episodes-list"
+             data-collapsible-episodes
+             data-season="{{ $season }}">
             @if (!empty($episodes))
                 @foreach ($episodes as $index => $episode)
-                    <div class="episode-cont">
-                        <svg class="eye-filled" width="30" height="30">
-                            <use href="#eye-filled"></use>
-                        </svg>
+                    @php
+                        $episodeAppearAt = !empty($episode->appear_in)
+                            ? \Illuminate\Support\Carbon::parse($episode->appear_in)
+                            : null;
+                        $isUpcoming = $episodeAppearAt?->isFuture() ?? false;
+                    @endphp
+                    <div class="episode-cont{{ $isUpcoming ? ' has-appear-in' : '' }}"
+                         data-episode-number="{{ $episode->episode_number }}"
+                         data-is-upcoming="{{ $isUpcoming ? 'true' : 'false' }}"
+                         data-bookmark-state="unbookmarked"
+                         @if ($isUpcoming)
+                             data-appear-at="{{ $episodeAppearAt->toIso8601String() }}"
+                         @else
+                             data-watch-state="unwatched"
+                         @endif>
                         <a class="card-link" href="{{ route('anime.episode',['season'=>$season,'episode'=>$episode->episode_number]) }}">
                             <div class="card-title mobile">
-                                <h3>{{ $episode->episode_number }} серия</h3>
+                                <h3 class="episode-number">
+                                    <span>{{ $episode->episode_number }} серия</span>
+                                    <img class="open-in-new-tab-icon"
+                                         src="{{ asset('svgs/open-in-new-tab.svg') }}"
+                                         alt="Открыть серию в новой вкладке"
+                                         role="link"
+                                         tabindex="0"
+                                         data-open-in-new-tab>
+                                </h3>
                                 <p>{{ $episode->episode_name }}</p>
                             </div>
-                            <div class="image-wrapper">
-                                <img src="/images/anime/episodes-banner-season{{ $season }}.webp"></div>
+                            <div class="image-wrapper{{ $isUpcoming ? ' has-appear-in' : '' }}">
+                                <img class="episode-cover-image" src="/images/anime/episodes-banner-season{{ $season }}.webp">
+                                {{-- Client-side bookmark placeholder.
+                                     Current persistence: localStorage.
+                                     Future backend integration point: hydrate data-bookmark-state and
+                                     replace localStorage persistence in season.js. --}}
+                                <span class="episode-bookmark-toggle episode-bookmark-toggle--mobile{{ $isUpcoming ? ' is-disabled' : '' }}"
+                                      @if (!$isUpcoming)
+                                          role="button"
+                                          tabindex="0"
+                                          aria-label="Добавить серию в закладки"
+                                          aria-pressed="false"
+                                          title="Добавить в закладки"
+                                          data-bookmark-toggle
+                                      @else
+                                          aria-disabled="true"
+                                          title="Закладка недоступна до выхода серии"
+                                      @endif>
+                                    <span class="episode-bookmark-icon" aria-hidden="true"></span>
+                                </span>
+                                {{-- Client-side watch state.
+                                     Current persistence for released episodes: localStorage.
+                                     Upcoming episodes render a disabled unwatched indicator.
+                                     Future backend integration point: hydrate data-watch-state from
+                                     per-user viewing progress and replace localStorage in season.js. --}}
+                                <span class="episode-watch-state is-unwatched{{ $isUpcoming ? ' is-disabled' : '' }}"
+                                      @if (!$isUpcoming)
+                                          role="button"
+                                          tabindex="0"
+                                          aria-label="Отметить серию просмотренной"
+                                          aria-pressed="false"
+                                          title="Не просмотрено"
+                                          data-watch-toggle
+                                      @else
+                                          aria-disabled="true"
+                                          title="Просмотр недоступен до выхода серии"
+                                      @endif>
+                                    <img src="{{ asset('svgs/disabled-eye.svg') }}"
+                                         @if (!$isUpcoming)
+                                             data-watch-icon
+                                             data-unwatched-src="{{ asset('svgs/disabled-eye.svg') }}"
+                                             data-watched-src="{{ asset('svgs/eye.svg') }}"
+                                         @endif
+                                         alt=""
+                                         aria-hidden="true">
+                                </span>
+                                @if ($isUpcoming)
+                                    <div class="appear-in appear-in-mobile">
+                                        <p data-episode-countdown-label>До выхода серии:</p>
+                                        <h3 data-episode-countdown>—</h3>
+                                    </div>
+                                @endif
+                            </div>
                             <div class="card-title">
-                                <h3>{{ $episode->episode_number }} серия</h3>
+                                <h3 class="episode-number">
+                                    <span>{{ $episode->episode_number }} серия</span>
+                                    <img class="open-in-new-tab-icon"
+                                         src="{{ asset('svgs/open-in-new-tab.svg') }}"
+                                         alt="Открыть серию в новой вкладке"
+                                         role="link"
+                                         tabindex="0"
+                                         data-open-in-new-tab>
+                                </h3>
                                 <p>{{ $episode->episode_name }}</p>
-                            </div>
-                            @if (!empty($episode->appear_in))
-                                <div class="appear-in" style="display:flex;width:100%;flex-direction:column;margin-left:auto;margin-right:auto;text-align:center;">
-                                    <p>До выхода серии:</p>
-                                    <h3>6 дней 22 часа 11 минут</h3>
+                                <div class="episode-meta-actions">
+                                    <span class="episode-bookmark-toggle episode-bookmark-toggle--desktop{{ $isUpcoming ? ' is-disabled' : '' }}"
+                                          @if (!$isUpcoming)
+                                              role="button"
+                                              tabindex="0"
+                                              aria-label="Добавить серию в закладки"
+                                              aria-pressed="false"
+                                              title="Добавить в закладки"
+                                              data-bookmark-toggle
+                                          @else
+                                              aria-disabled="true"
+                                              title="Закладка недоступна до выхода серии"
+                                          @endif>
+                                        <span class="episode-bookmark-icon" aria-hidden="true"></span>
+                                    </span>
+                                    {{-- Temporary comments count placeholder. Replace 0 with the episode comment count. --}}
+                                    <span class="episode-comments episode-comments--desktop{{ $isUpcoming ? ' is-disabled' : '' }}"
+                                          aria-label="Комментариев: 0"
+                                          title="Комментариев: 0">
+                                        <img src="{{ asset('svgs/message1.svg') }}" alt="" aria-hidden="true">
+                                        <span class="episode-comments-count">0</span>
+                                    </span>
                                 </div>
-                            @endif
+                            </div>
                         </a>
+                        @if ($isUpcoming)
+                            <a class="appear-in appear-in-desktop"
+                               href="{{ route('anime.episode',['season'=>$season,'episode'=>$episode->episode_number]) }}">
+                                <p data-episode-countdown-label>До выхода серии:</p>
+                                <h3 data-episode-countdown>—</h3>
+                            </a>
+                        @endif
                         <div class="stars-and-comms">
-                            <svg class="eye-filled mobile" width="30" height="30">
-                                <use href="#eye-filled"></use>
-                            </svg>
+                            <span class="episode-comments episode-comments--mobile{{ $isUpcoming ? ' is-disabled' : '' }}"
+                                  aria-label="Комментариев: 0"
+                                  title="Комментариев: 0">
+                                <img src="{{ asset('svgs/message1.svg') }}" alt="" aria-hidden="true">
+                                <span class="episode-comments-count">0</span>
+                            </span>
                             <a href="{{ $episode->trailer_link ?? '' }}"class="link-like-button no-glow trailer-link-mobile">ТРЕЙЛЕР</a>
                             <div class="first-btn">
                                 @include('partials.rating', [
                                     'rateableType' => 'anime_episode',
                                     'rateableId' => $episode->id,
-                                    'userRating' => optional($userRatings->get($episode->id))->rating ?? 0,
-                                    'avgRating' => round((float) ($episode->avg_rating ?? 0), 1),
-                                    'ratingsCount' => $episode->ratings_count ?? 0,
+                                    'userRating' => $isUpcoming ? 0 : (optional($userRatings->get($episode->id))->rating ?? 0),
+                                    'avgRating' => $isUpcoming ? '0.0' : round((float) ($episode->avg_rating ?? 0), 1),
+                                    'ratingsCount' => $isUpcoming ? 0 : ($episode->ratings_count ?? 0),
                                     'noExtra' => true,
+                                    'disabled' => $isUpcoming,
                                 ])
                             </div>
                             <a href="{{ $episode->trailer_link ?? '' }}"class="link-like-button no-glow trailer-link-desktop">ТРЕЙЛЕР СЕРИИ</a>
@@ -122,5 +231,15 @@
                 @endforeach
             @endif
         </div>
+        <button type="button"
+                class="episode-list-toggle dropdown-btn button-without-styles-all"
+                aria-controls="episodes-list"
+                aria-expanded="false"
+                hidden>
+            <span>Развернуть</span>
+            <svg class="dropdown-icon" aria-hidden="true">
+                <use href="#dropdown"></use>
+            </svg>
+        </button>
     </div>
     @endsection
