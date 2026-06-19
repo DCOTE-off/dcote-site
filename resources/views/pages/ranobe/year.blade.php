@@ -8,6 +8,7 @@
 @push('scripts')
     <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
+    <script src="{{ asset('js/pages/cover-description-cards.js') }}"></script>
 @endpush
 @section('title', "Читать «Класс превосходства» | {$year} год | DCOTE")
 @section('description', "Список всех томов {$year} года новеллы «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с высоким качеством перевода на DCOTE.")
@@ -26,7 +27,7 @@
             $released = (int)$volume->chapters()->count() ?? 0;
             $percent = ($total > 0) ? min(100, round(($released / $total) * 100, 2)) : 0;
         @endphp
-        <div class="cont scale-in" data-volume="{{ (int)$volume_number_rounded }}">
+        <div class="cont scale-in" data-cover-description-card data-volume="{{ (int)$volume_number_rounded }}">
             <div class="image-wrapper">
                 <picture>
                     <source media="(max-width: 768px)" 
@@ -92,8 +93,10 @@
                         </div>
                     </div>
                 </div>
-                <p><b>Переведено:</b> {{ $released }} из {{ $total }} глав</p>
-                <div class="progress-bar" style="--progress-width: {{ $percent }}%"></div>
+                <div class="progress-info">
+                    <p><b>Переведено:</b> {{ $released }} из {{ $total }} глав</p>
+                    <div class="progress-bar" style="--progress-width: {{ $percent }}%"></div>
+                </div>
                 <a class="link-like-button" href='{{ route('ranobe.volume',['year'=>$year,'volume'=>$volume_number_rounded]) }}'>СТРАНИЦА ТОМА</a>
                 <div class="button-line">
                     <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В

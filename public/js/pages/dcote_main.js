@@ -181,7 +181,48 @@ const popularNext = document.querySelector('[data-popular-next]');
 
 if (popularSlides.length && popularPrev && popularNext) {
     let activePopularIndex = 0;
+    let isPopularAnimating = false;
+    let popularInfoWidthFrame;
+    const popular = popularSlides[0].closest('.popular');
     const isPopularCarousel = popularSlides.length >= 3;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const animationClasses = [
+        'is-entering-from-left',
+        'is-entering-from-right',
+        'is-leaving-to-left',
+        'is-leaving-to-right',
+    ];
+
+    const updatePopularInfoLabelWidth = () => {
+        if (!popular) {
+            return;
+        }
+
+        const hiddenStates = popularSlides.map((slide) => slide.hidden);
+        popular.style.removeProperty('--popular-info-label-width');
+
+        popularSlides.forEach((slide) => {
+            slide.hidden = false;
+        });
+
+        const labelWidths = popularSlides.flatMap((slide) => (
+            Array.from(slide.querySelectorAll('.popular-info dt'), (label) => label.getBoundingClientRect().width)
+        ));
+        const widestLabel = Math.ceil(Math.max(0, ...labelWidths));
+
+        popularSlides.forEach((slide, slideIndex) => {
+            slide.hidden = hiddenStates[slideIndex];
+        });
+
+        if (widestLabel) {
+            popular.style.setProperty('--popular-info-label-width', `${widestLabel}px`);
+        }
+    };
+
+    const queuePopularInfoLabelWidthUpdate = () => {
+        window.cancelAnimationFrame(popularInfoWidthFrame);
+        popularInfoWidthFrame = window.requestAnimationFrame(updatePopularInfoLabelWidth);
+    };
 
     const updatePopularNavigation = () => {
         if (isPopularCarousel) {
@@ -194,22 +235,77 @@ if (popularSlides.length && popularPrev && popularNext) {
         popularNext.disabled = activePopularIndex === popularSlides.length - 1;
     };
 
-    const showPopularSlide = (index) => {
-        activePopularIndex = isPopularCarousel
+    const showPopularSlide = (index, direction) => {
+        if (isPopularAnimating) {
+            return;
+        }
+
+        const nextPopularIndex = isPopularCarousel
             ? (index + popularSlides.length) % popularSlides.length
             : Math.max(0, Math.min(popularSlides.length - 1, index));
 
-        popularSlides.forEach((slide, slideIndex) => {
-            slide.hidden = slideIndex !== activePopularIndex;
-        });
+        if (nextPopularIndex === activePopularIndex) {
+            return;
+        }
+
+        const outgoingSlide = popularSlides[activePopularIndex];
+        const incomingSlide = popularSlides[nextPopularIndex];
+        const isMovingForward = direction > 0;
+
+        activePopularIndex = nextPopularIndex;
+        incomingSlide.hidden = false;
+        incomingSlide.setAttribute('aria-hidden', 'false');
+        outgoingSlide.setAttribute('aria-hidden', 'true');
 
         updatePopularNavigation();
+
+        if (reducedMotion.matches) {
+            outgoingSlide.hidden = true;
+            return;
+        }
+
+        isPopularAnimating = true;
+        incomingSlide.classList.add(isMovingForward ? 'is-entering-from-right' : 'is-entering-from-left');
+        outgoingSlide.classList.add(isMovingForward ? 'is-leaving-to-left' : 'is-leaving-to-right');
+
+        let animationFinished = false;
+        const finishPopularAnimation = () => {
+            if (animationFinished) {
+                return;
+            }
+
+            animationFinished = true;
+            incomingSlide.removeEventListener('animationend', handlePopularAnimationEnd);
+            animationClasses.forEach((className) => {
+                incomingSlide.classList.remove(className);
+                outgoingSlide.classList.remove(className);
+            });
+            outgoingSlide.hidden = true;
+            isPopularAnimating = false;
+        };
+        const handlePopularAnimationEnd = (event) => {
+            if (event.target === incomingSlide) {
+                finishPopularAnimation();
+            }
+        };
+
+        incomingSlide.addEventListener('animationend', handlePopularAnimationEnd);
+        window.setTimeout(finishPopularAnimation, 500);
     };
 
-    popularPrev.addEventListener('click', () => showPopularSlide(activePopularIndex - 1));
-    popularNext.addEventListener('click', () => showPopularSlide(activePopularIndex + 1));
+    popularSlides.forEach((slide, slideIndex) => {
+        const isActive = slideIndex === activePopularIndex;
+        slide.hidden = !isActive;
+        slide.setAttribute('aria-hidden', String(!isActive));
+    });
 
-    showPopularSlide(activePopularIndex);
+    popularPrev.addEventListener('click', () => showPopularSlide(activePopularIndex - 1, -1));
+    popularNext.addEventListener('click', () => showPopularSlide(activePopularIndex + 1, 1));
+
+    updatePopularNavigation();
+    queuePopularInfoLabelWidthUpdate();
+    document.fonts?.ready.then(queuePopularInfoLabelWidthUpdate);
+    window.addEventListener('resize', queuePopularInfoLabelWidthUpdate, { passive: true });
 }
 
 const updatesViewport = document.querySelector('.updates-news-viewport');

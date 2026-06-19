@@ -8,6 +8,7 @@
 @push('scripts')
     <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
+    <script src="{{ asset('js/pages/cover-description-cards.js') }}"></script>
 @endpush
 @section('title', "Аниме «Класс превосходства» {$season} сезон | Список серий | DCOTE")
 @section('description', "Смотреть {$season} сезон «Добро пожаловать в класс превосходства» онлайн. Описание сезона, список серий и даты выхода на сайте DCOTE.")
@@ -19,7 +20,7 @@
     <p>/</p>
     <a class="current-page" href="{{ route('anime.season', ['season' => $season]) }}"><span>{{ $season }} СЕЗОН</span></a>
 </div>
-    <div class="cont scale-in">
+    <div class="cont scale-in" data-cover-description-card>
         <div class="image-wrapper">
             <picture>
                 <source media="(max-width: 768px)" srcset="/images/anime/anime-banner-season-{{ $season }}-mobile.webp" type="image/webp">
@@ -54,13 +55,23 @@
     </div>
     <div class="cont2 scale-in">
         <div class="episodes-head">
-            <h1>СПИСОК СЕРИЙ</h1>
-            <button type="button" class="sort-toggle button-without-styles-all" aria-label="Сортировать по возрастанию/убыванию">
-                <svg class="sort-descending" width="20" height="20" style="display: none;">
-                    <use href="#sort-descending-filled"></use>
+            <button type="button" class="sort-toggle episode-control no-glow" aria-label="Сортировать по возрастанию/убыванию">
+                <svg class="sort-descending sort-icon" aria-hidden="true" style="display: none;">
+                    <use href="#sort-descending-filled-compact"></use>
                 </svg>
-                <svg class="sort-ascending" width="20" height="20">
-                    <use href="#sort-ascending-filled"></use>
+                <svg class="sort-ascending sort-icon" aria-hidden="true">
+                    <use href="#sort-ascending-filled-compact"></use>
+                </svg>
+                <span>СОРТИРОВКА</span>
+            </button>
+            <h1>СПИСОК СЕРИЙ</h1>
+            <button type="button" class="filter-toggle episode-control dropdown-btn no-glow" disabled>
+                <svg class="filter-icon" aria-hidden="true">
+                    <use href="#filter-filled"></use>
+                </svg>
+                <span>ФИЛЬТР</span>
+                <svg class="dropdown-icon" aria-hidden="true">
+                    <use href="#dropdown"></use>
                 </svg>
             </button>
         </div>
