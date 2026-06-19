@@ -29,6 +29,9 @@ class AnimeEpisodeResource extends Resource
                 Forms\Components\TextInput::make('episode_name')
                     ->maxLength(255)
                     ->default(null),
+                Forms\Components\TextInput::make('trailer_link')
+                    ->url()
+                    ->default(null),
                 Forms\Components\Toggle::make('has_dub'),
                 Forms\Components\Toggle::make('has_sub'),
                 Forms\Components\Toggle::make('has_anilibria'),
@@ -51,6 +54,7 @@ class AnimeEpisodeResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('episode_name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('trailer_link'),
                 Tables\Columns\IconColumn::make('has_dub')
                     ->boolean(),
                 Tables\Columns\IconColumn::make('has_sub')

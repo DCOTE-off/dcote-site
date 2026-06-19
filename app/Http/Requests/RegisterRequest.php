@@ -12,7 +12,7 @@ class RegisterRequest extends FormRequest
                 'tag' => ['required', 'string', 'lowercase', 'regex:/^[a-z0-9_]{5,32}$/', 'unique:users,username'],
                 'nickname' => ['required', 'string', 'min:1', 'max:64'],
                 'password' => ['required', 'string', 'min:8', 'max:72', 'confirmed'],
-                'cf-turnstile-response' => ['required', new Turnstile],
+                'cf-turnstile-response' => config('services.cloudflare.enabled') ? ['required', new Turnstile] : ['nullable'],
             ];
     }
 

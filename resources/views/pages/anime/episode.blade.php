@@ -1,10 +1,11 @@
 @extends('layouts.app') 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/anime/episode.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
 @endpush
 @push('scripts')
+    <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/pages/anime/episode.js') }}"></script>
 @endpush
 @section('title', "«Класс превосходства» {$season} сезон {$episode} серия | Смотреть онлайн | DCOTE")
@@ -19,6 +20,17 @@
     <p>/</p>
     <a class="current-page" href="{{ route('anime.episode', ['season' => $season,'episode'=>$episode]) }}"><span>{{ $episode }} СЕРИЯ</span></a>
 </div>
+    @if (isset($episodeModel) && $completed)
+        <div style="width: max-content;align-self:center">
+            @include('partials.rating', [
+                'rateableType' => 'anime_episode',
+                'rateableId' => $episodeModel->id,
+                'userRating' => $userRating ?? 0,
+                'avgRating' => round((float) ($episodeAvgRating ?? 0), 1),
+                'ratingsCount' => $episodeRatingsCount ?? 0,
+            ])
+        </div>
+    @endif
     @if (!$completed)
         <h1 style="text-align: center;">СЕРИИ ПОКА НЕТ</h1>
     @else

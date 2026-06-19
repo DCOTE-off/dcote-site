@@ -88,4 +88,10 @@
     .iframe-wrapper {
         padding-inline: 0%;
     }
+
+    .rating-popup-menu.is-open{
+        right: 50% !important;
+        transform: translateX(50%);
+        top:calc(var(--fs-gap20) + 100%)
+    }
 }
