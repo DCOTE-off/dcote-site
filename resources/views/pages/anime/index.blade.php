@@ -20,7 +20,7 @@
     @foreach ($seasons_list as $index => $season)
         @php
             $total = (int)$season->number_of_episodes;
-            $released = (int)$season_realesed[$index]->episode_count;
+            $released = (int)$season->released_episodes_count;
             $percent = ($total > 0) ? min(100, round(($released / $total) * 100, 2)) : 0;
         @endphp
         <div class="cont scale-in" data-season="{{ (int)$season->season_number }}">
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="progress-info">
-                    <p><b>Выпущено:</b> {{ $season_realesed[$index]->episode_count }} из {{ $season->number_of_episodes }} серий</p>
+                    <p><b>Выпущено:</b> {{ $released }} из {{ $season->number_of_episodes }} серий</p>
                     <div class="progress-bar" style="--progress-width: {{ $percent }}%"></div>
                 </div>
                 <a class="link-like-button" href='{{ route('anime.season',['season'=> (int)$season->season_number]) }}'>СТРАНИЦА СЕЗОНА</a>

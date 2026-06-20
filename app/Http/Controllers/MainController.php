@@ -85,9 +85,9 @@ class MainController extends Controller
 
     private function makeAnimePopularCard(AnimeSeason $season): array
     {
-        $season->loadCount('episodes');
+        $season->loadCount('releasedEpisodes');
 
-        $released = (int) $season->episodes_count;
+        $released = (int) $season->released_episodes_count;
         $total = (int) $season->number_of_episodes;
         $mobileImage = "/images/anime/anime-banner-season-{$season->id}-mobile.webp";
 

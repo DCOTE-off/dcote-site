@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AnimeSeason extends Model
@@ -31,9 +32,14 @@ class AnimeSeason extends Model
         static::deleting(fn (AnimeSeason $season) => $season->popularItems()->delete());
     }
 
-    public function episodes()
+    public function episodes(): HasMany
     {
         return $this->hasMany(AnimeEpisode::class, 'season_id', 'id');
+    }
+
+    public function releasedEpisodes(): HasMany
+    {
+        return $this->episodes()->where('completed', true);
     }
 
     public function popularItems(): MorphMany
