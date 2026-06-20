@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 use App\Models\AnimeSeason;
 use App\Models\AnimeEpisode;
 use App\Models\Rating;
-use Illuminate\Support\Facades\DB;
 
 class AnimeController extends Controller
 {
     public function index()
     {
         $seasons_list = AnimeSeason::orderBy('id', 'desc')
+            ->withCount('releasedEpisodes')
             ->addSelect(['season_avg_rating' => function ($query) {
                 $query->selectRaw('COALESCE(AVG(rating), 0)')
                     ->from('ratings')
@@ -33,14 +33,7 @@ class AnimeController extends Controller
             }])
             ->get();
 
-        $season_realesed = AnimeEpisode::select('season_id', DB::raw('COUNT(*) as episode_count'))
-            ->whereIn('season_id', [1, 2, 3, 4])
-            ->where('completed', true)
-            ->groupBy('season_id')
-            ->orderBy('season_id', 'desc')
-            ->get();
-
-        return view('pages.anime.index', compact('seasons_list', 'season_realesed'));
+        return view('pages.anime.index', compact('seasons_list'));
     }
 
     public function showSeason(int $season)
