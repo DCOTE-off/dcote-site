@@ -3,6 +3,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const sortingContainers = new WeakSet();
     const WATCH_STORAGE_PREFIX = 'dcote:anime:watch-state:v1';
     const BOOKMARK_STORAGE_PREFIX = 'dcote:anime:bookmark-state:v1';
+    const INTERACTION_DURATION = 350;
+
+    function bindActivation(controls, handler) {
+        const elements = controls instanceof Element ? [controls] : controls;
+
+        elements.forEach(control => {
+            control.addEventListener('click', handler);
+            control.addEventListener('keydown', event => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    handler(event);
+                }
+            });
+        });
+    }
+
+    function readStoredState(storageKey, activeState, fallbackState) {
+        try {
+            return localStorage.getItem(storageKey) === activeState ? activeState : fallbackState;
+        } catch {
+            return fallbackState;
+        }
+    }
+
+    function persistState(storageKey, state) {
+        try {
+            localStorage.setItem(storageKey, state);
+        } catch {
+            // Состояние серии продолжает работать в рамках страницы, даже если хранилище недоступно.
+        }
+    }
+
+    function pulseInteraction(element, className) {
+        element?.classList.add(className);
+        window.setTimeout(() => element?.classList.remove(className), INTERACTION_DURATION);
+    }
 
     function setupDisabledEpisodeControls(container) {
         const selector = [
@@ -10,18 +45,9 @@ document.addEventListener('DOMContentLoaded', () => {
             '.episode-bookmark-toggle[aria-disabled="true"]',
         ].join(', ');
 
-        container.querySelectorAll(selector).forEach(control => {
-            function blockDisabledControl(event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-
-            control.addEventListener('click', blockDisabledControl);
-            control.addEventListener('keydown', event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    blockDisabledControl(event);
-                }
-            });
+        bindActivation(container.querySelectorAll(selector), event => {
+            event.preventDefault();
+            event.stopPropagation();
         });
     }
 
@@ -103,24 +129,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const storageKey = `${BOOKMARK_STORAGE_PREFIX}:${season}:${episodeNumber}`;
 
-            function readStoredState() {
-                try {
-                    return localStorage.getItem(storageKey) === 'bookmarked'
-                        ? 'bookmarked'
-                        : 'unbookmarked';
-                } catch {
-                    return 'unbookmarked';
-                }
-            }
-
-            function persistState(state) {
-                try {
-                    localStorage.setItem(storageKey, state);
-                } catch {
-                    // Replace with the bookmark API when server persistence is implemented.
-                }
-            }
-
             function renderState(state) {
                 const bookmarked = state === 'bookmarked';
 
@@ -141,30 +149,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.stopPropagation();
 
                 const imageWrapper = event.currentTarget.closest('.image-wrapper');
-                imageWrapper?.classList.add('is-bookmark-interacting');
 
                 const nextState = episode.dataset.bookmarkState === 'bookmarked'
                     ? 'unbookmarked'
                     : 'bookmarked';
 
-                persistState(nextState);
+                persistState(storageKey, nextState);
                 renderState(nextState);
-
-                window.setTimeout(() => {
-                    imageWrapper?.classList.remove('is-bookmark-interacting');
-                }, 350);
+                pulseInteraction(imageWrapper, 'is-bookmark-interacting');
             }
 
-            toggles.forEach(toggle => {
-                toggle.addEventListener('click', toggleState);
-                toggle.addEventListener('keydown', event => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        toggleState(event);
-                    }
-                });
-            });
+            bindActivation(toggles, toggleState);
 
-            renderState(readStoredState());
+            renderState(readStoredState(storageKey, 'bookmarked', 'unbookmarked'));
         });
     }
 
@@ -186,22 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const storageKey = `${WATCH_STORAGE_PREFIX}:${season}:${episodeNumber}`;
 
-            function readStoredState() {
-                try {
-                    return localStorage.getItem(storageKey) === 'watched' ? 'watched' : 'unwatched';
-                } catch {
-                    return 'unwatched';
-                }
-            }
-
-            function persistState(state) {
-                try {
-                    localStorage.setItem(storageKey, state);
-                } catch {
-                    // localStorage may be unavailable in private or restricted contexts.
-                }
-            }
-
             function renderState(state) {
                 const watched = state === 'watched';
 
@@ -222,28 +203,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.stopPropagation();
 
                 const imageWrapper = toggle.closest('.image-wrapper');
-                imageWrapper?.classList.add('is-watch-state-interacting');
 
                 const nextState = episode.dataset.watchState === 'watched'
                     ? 'unwatched'
                     : 'watched';
 
-                persistState(nextState);
+                persistState(storageKey, nextState);
                 renderState(nextState);
-
-                window.setTimeout(() => {
-                    imageWrapper?.classList.remove('is-watch-state-interacting');
-                }, 350);
+                pulseInteraction(imageWrapper, 'is-watch-state-interacting');
             }
 
-            toggle.addEventListener('click', toggleState);
-            toggle.addEventListener('keydown', event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    toggleState(event);
-                }
-            });
+            bindActivation(toggle, toggleState);
 
-            renderState(readStoredState());
+            renderState(readStoredState(storageKey, 'watched', 'unwatched'));
         });
     }
 
@@ -526,20 +498,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.querySelectorAll('[data-open-in-new-tab]').forEach(icon => {
-        function openInNewTab(event) {
+        bindActivation(icon, event => {
             event.preventDefault();
             event.stopPropagation();
 
             const cardLink = icon.closest('.card-link');
             if (cardLink?.href) {
                 window.open(cardLink.href, '_blank', 'noopener,noreferrer');
-            }
-        }
-
-        icon.addEventListener('click', openInNewTab);
-        icon.addEventListener('keydown', event => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                openInNewTab(event);
             }
         });
     });

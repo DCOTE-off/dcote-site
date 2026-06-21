@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const storageKey = 'dcote-reading-settings';
-    const settingsReadBtns = document.querySelectorAll('.settingsReadBtn');
+    const STORAGE_KEY = 'dcote-reading-settings';
+    const NAV_STATE_KEY = 'dcote-nav-hidden';
+    const PROGRESS_KEY = 'dcote-reading-progress';
+
+    const root = document.documentElement;
     const readSettings = document.querySelector('.read-settings');
     const chapterContainer = document.querySelector('.chapter-container');
     const chapterContent = document.querySelector('.chapter-content');
     const chapterTitle = document.querySelector('.main-title');
-    const root = document.documentElement;
 
     const controls = {
         indent: document.getElementById('indentCheckbox'),
@@ -18,14 +20,12 @@ document.addEventListener('DOMContentLoaded', () => {
         contWidth: document.getElementById('contWidth'),
     };
 
-    const values = {
+    const valueOutputs = {
         fontSize: document.getElementById('fontSizeValue'),
         lineHeight: document.getElementById('lineHeightValue'),
         paragraphGap: document.getElementById('paragraphGapValue'),
         contWidth: document.getElementById('contWidthValue'),
     };
-
-    const isMobile = window.innerWidth < 768;
 
     const fontMap = {
         'Vag Rounded Next': "'Vag Rounded Next', sans-serif",
@@ -35,12 +35,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const themeMap = {
         'Стандартная': { text: '#e9e9e9', bg: 'rgb(7, 18, 32)' },
-        'Тёмная':      { text: '#bfbfbf', bg: '#0a0a0a' },
-        'Серая':       { text: '#dbdbdb', bg: '#434751' },
-        'Светлая':     { text: '#212529', bg: '#f2f2f3' },
-        'Книжная':     { text: '#262425', bg: '#e5cf9d' },
+        'Тёмная': { text: '#bfbfbf', bg: '#0a0a0a' },
+        'Серая': { text: '#dbdbdb', bg: '#434751' },
+        'Светлая': { text: '#212529', bg: '#f2f2f3' },
+        'Книжная': { text: '#262425', bg: '#e5cf9d' },
     };
 
+    const isMobile = window.innerWidth < 768;
     const defaultSettings = {
         indent: true,
         images: true,
@@ -56,267 +57,238 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadSettings() {
         try {
-            const saved = window.localStorage.getItem(storageKey);
-            return saved ? { ...defaultSettings, ...JSON.parse(saved) } : { ...defaultSettings };
-        } catch (error) {
+            const savedSettings = window.localStorage.getItem(STORAGE_KEY);
+            return savedSettings
+                ? { ...defaultSettings, ...JSON.parse(savedSettings) }
+                : { ...defaultSettings };
+        } catch {
             return { ...defaultSettings };
         }
     }
 
     function saveSettings(settings) {
         try {
-            window.localStorage.setItem(storageKey, JSON.stringify(settings));
-        } catch (error) {
+            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+        } catch {
+            // Чтение должно работать, даже если хранилище заблокировано или заполнено.
+        }
+    }
+
+    function setControlValue(name, value) {
+        if (controls[name]) {
+            controls[name].value = value;
+        }
+
+        if (valueOutputs[name]) {
+            valueOutputs[name].textContent = value;
         }
     }
 
     function applySettings(settings) {
-        if (controls.indent) controls.indent.checked = settings.indent;
-        if (controls.images) controls.images.checked = settings.images;
-        if (controls.title) controls.title.checked = settings.title;
-        if (controls.navigation) controls.navigation.checked = settings.navigation;
-        if (controls.fontSize) controls.fontSize.value = settings.fontSize;
-        if (controls.lineHeight) controls.lineHeight.value = settings.lineHeight;
-        if (controls.paragraphGap) controls.paragraphGap.value = settings.paragraphGap;
-        if (controls.contWidth) controls.contWidth.value = settings.contWidth;
+        ['indent', 'images', 'title', 'navigation'].forEach((name) => {
+            if (controls[name]) {
+                controls[name].checked = settings[name];
+            }
+        });
 
-        if (values.fontSize) values.fontSize.textContent = settings.fontSize;
-        if (values.lineHeight) values.lineHeight.textContent = settings.lineHeight;
-        if (values.paragraphGap) values.paragraphGap.textContent = settings.paragraphGap;
-        if (values.contWidth) values.contWidth.textContent = settings.contWidth;
+        setControlValue('fontSize', settings.fontSize);
+        setControlValue('lineHeight', settings.lineHeight);
+        setControlValue('paragraphGap', settings.paragraphGap);
+        setControlValue('contWidth', settings.contWidth);
 
         root.style.setProperty('--font-size-baze', `${settings.fontSize}px`);
-        root.style.setProperty('--block-padding', `${(settings.paragraphGap /2)}px`);
-        root.style.setProperty('--text-line-height', `${settings.lineHeight}`);
+        root.style.setProperty('--block-padding', `${settings.paragraphGap / 2}px`);
+        root.style.setProperty('--text-line-height', String(settings.lineHeight));
         root.style.setProperty('--text-intend', settings.indent ? '0.875em' : '0');
-
         root.style.setProperty('--cont-width', `${settings.contWidth}%`);
         root.style.setProperty('--navigation-display', settings.navigation ? 'flex' : 'none');
         root.style.setProperty('--font-family', fontMap[settings.fontFamily] || fontMap['Vag Rounded Next']);
         root.style.setProperty('--primary-text-color', themeMap[settings.theme]?.text ?? '#e9e9e9');
         root.style.setProperty('--body-bg-color', themeMap[settings.theme]?.bg ?? 'rgb(7, 18, 32)');
-        if (chapterTitle) chapterTitle.style.display = settings.title ? '' : 'none';
 
-        if (chapterContent) {
-            chapterContent.querySelectorAll('img').forEach((img) => {
-                img.style.display = settings.images ? '' : 'none';
-            });
+        if (chapterTitle) {
+            chapterTitle.style.display = settings.title ? '' : 'none';
         }
+
+        chapterContent?.querySelectorAll('img').forEach((image) => {
+            image.style.display = settings.images ? '' : 'none';
+        });
     }
+
+    let settings = loadSettings();
 
     function updateSetting(name, value) {
-        const currentSettings = loadSettings();
-        currentSettings[name] = value;
-        saveSettings(currentSettings);
-        applySettings(currentSettings);
+        settings = { ...settings, [name]: value };
+        saveSettings(settings);
+        applySettings(settings);
     }
 
-    if (readSettings) {
-        function toggleReadSettings() {
-            if (readSettings.classList.contains('is-open')) {
-                readSettings.classList.remove('is-open');
-                readSettings.classList.add('not-open');
-            } else {
-                readSettings.classList.remove('not-open');
-                readSettings.classList.add('is-open');
-            }
+    function setSettingsPanelOpen(isOpen) {
+        if (!readSettings) {
+            return;
         }
-        settingsReadBtns.forEach((btn) => {
-            btn.addEventListener('click', toggleReadSettings);
+
+        readSettings.classList.toggle('is-open', isOpen);
+        readSettings.classList.toggle('not-open', !isOpen);
+    }
+
+    function bindCheckbox(name) {
+        controls[name]?.addEventListener('change', (event) => {
+            updateSetting(name, event.target.checked);
         });
     }
 
-    if (controls.indent) {
-        controls.indent.addEventListener('change', (event) => {
-            updateSetting('indent', event.target.checked);
-        });
-    }
-
-    if (controls.images) {
-        controls.images.addEventListener('change', (event) => {
-            updateSetting('images', event.target.checked);
-        });
-    }
-
-    if (controls.title) {
-        controls.title.addEventListener('change', (event) => {
-            updateSetting('title', event.target.checked);
-        });
-    }
-
-    if (controls.navigation) {
-        controls.navigation.addEventListener('change', (event) => {
-            updateSetting('navigation', event.target.checked);
-        });
-    }
-
-    if (controls.fontSize) {
-        controls.fontSize.addEventListener('input', (event) => {
+    function bindRange(name, formatValue = String) {
+        controls[name]?.addEventListener('input', (event) => {
             const value = Number(event.target.value);
-            if (!Number.isNaN(value)) {
-                values.fontSize.textContent = value;
-                updateSetting('fontSize', value);
+
+            if (Number.isNaN(value)) {
+                return;
             }
+
+            if (valueOutputs[name]) {
+                valueOutputs[name].textContent = formatValue(value);
+            }
+
+            updateSetting(name, value);
         });
     }
 
-    if (controls.lineHeight) {
-        controls.lineHeight.addEventListener('input', (event) => {
-            const value = Number(event.target.value);
-            if (!Number.isNaN(value)) {
-                values.lineHeight.textContent = value.toFixed(1);
-                updateSetting('lineHeight', value);
-            }
-        });
-    }
+    function setupChoiceGroup(selector, settingName) {
+        const options = Array.from(document.querySelectorAll(selector));
 
-    if (controls.paragraphGap) {
-        controls.paragraphGap.addEventListener('input', (event) => {
-            const value = Number(event.target.value);
-            if (!Number.isNaN(value)) {
-                values.paragraphGap.textContent = value;
-                updateSetting('paragraphGap', value);
-            }
-        });
-    }
+        options.forEach((option) => {
+            const optionValue = option.textContent.trim();
+            option.classList.toggle('selected', optionValue === settings[settingName]);
 
-    if (controls.contWidth) {
-        controls.contWidth.addEventListener('input', (event) => {
-            const value = Number(event.target.value);
-            if (!Number.isNaN(value)) {
-                values.contWidth.textContent = value;
-                updateSetting('contWidth', value);
-            }
-        });
-    }
-
-    const settings = loadSettings();
-    applySettings(settings);
-
-    // Font selection
-    const fontOptions = document.querySelectorAll('#fontDdContent .dropdown-list-value');
-
-    if (fontOptions.length) {
-        fontOptions.forEach((option) => {
             option.addEventListener('click', () => {
-                const value = option.textContent.trim();
-                updateSetting('fontFamily', value);
-                fontOptions.forEach((opt) => opt.classList.remove('selected'));
-                option.classList.add('selected');
+                updateSetting(settingName, optionValue);
+                options.forEach((item) => item.classList.toggle('selected', item === option));
+            });
+        });
+    }
+
+    function setupSettingsControls() {
+        document.querySelectorAll('.settingsReadBtn').forEach((button) => {
+            button.addEventListener('click', () => {
+                setSettingsPanelOpen(!readSettings?.classList.contains('is-open'));
             });
         });
 
-        // Restore selected state on load
-        fontOptions.forEach((opt) => {
-            if (opt.textContent.trim() === settings.fontFamily) {
-                opt.classList.add('selected');
-            }
-        });
+        ['indent', 'images', 'title', 'navigation'].forEach(bindCheckbox);
+        bindRange('fontSize');
+        bindRange('lineHeight', (value) => value.toFixed(1));
+        bindRange('paragraphGap');
+        bindRange('contWidth');
+
+        setupChoiceGroup('#fontDdContent .dropdown-list-value', 'fontFamily');
+        setupChoiceGroup('#themeDdContent .dropdown-list-value', 'theme');
     }
 
-    // Theme selection
-    const themeOptions = document.querySelectorAll('#themeDdContent .dropdown-list-value');
+    function setupNavigationVisibility() {
+        if (!document.querySelector('.read-nav')) {
+            return;
+        }
 
-    if (themeOptions.length) {
-        themeOptions.forEach((option) => {
-            option.addEventListener('click', () => {
-                const value = option.textContent.trim();
-                updateSetting('theme', value);
-                themeOptions.forEach((opt) => opt.classList.remove('selected'));
-                option.classList.add('selected');
-            });
-        });
-
-        // Restore selected state on load
-        themeOptions.forEach((opt) => {
-            if (opt.textContent.trim() === settings.theme) {
-                opt.classList.add('selected');
-            }
-        });
-    }
-
-    // Nav visibility — hide on scroll, show on tap of chapter content
-    const readNavEl = document.querySelector('.read-nav');
-    const mobileNavEl = document.querySelector('.mobile-bottom-nav');
-
-    if (readNavEl) {
-        const navStateKey = 'dcote-nav-hidden';
-        let navsVisible;
+        let navigationIsVisible = true;
 
         try {
-            navsVisible = !JSON.parse(window.localStorage.getItem(navStateKey));
-        } catch (e) {
-            navsVisible = true;
+            navigationIsVisible = !JSON.parse(window.localStorage.getItem(NAV_STATE_KEY));
+        } catch {
+            // Если сохранённое значение недоступно, навигация по умолчанию остаётся видимой.
         }
 
         let lastScrollY = window.scrollY;
 
-        function setNavs(visible) {
-            navsVisible = visible;
-            document.documentElement.classList.toggle('nav-hidden', !visible);
+        function setNavigationVisible(isVisible) {
+            navigationIsVisible = isVisible;
+            root.classList.toggle('nav-hidden', !isVisible);
+
             try {
-                window.localStorage.setItem(navStateKey, JSON.stringify(!visible));
-            } catch (e) {}
+                window.localStorage.setItem(NAV_STATE_KEY, JSON.stringify(!isVisible));
+            } catch {
+                // Навигация продолжает работать и без сохранения состояния.
+            }
         }
 
-        // Apply initial state
-        setNavs(navsVisible);
+        setNavigationVisible(navigationIsVisible);
 
         window.addEventListener('scroll', () => {
-            const delta = window.scrollY - lastScrollY;
-            if (delta > 5 && navsVisible && !readSettings.classList.contains('is-open')) {
-                setNavs(false);
+            const scrollDelta = window.scrollY - lastScrollY;
+            const settingsAreOpen = readSettings?.classList.contains('is-open');
+
+            if (scrollDelta > 5 && navigationIsVisible && !settingsAreOpen) {
+                setNavigationVisible(false);
             }
+
             lastScrollY = window.scrollY;
         }, { passive: true });
 
         document.addEventListener('click', (event) => {
-            if (chapterContent && chapterContent.contains(event.target)) {
-                if (navsVisible && readSettings.classList.contains('is-open')) {
-                    readSettings.classList.remove('is-open');
-                    readSettings.classList.add('not-open');
-                }
-                setNavs(!navsVisible);
+            if (!chapterContent?.contains(event.target)) {
+                return;
             }
+
+            if (navigationIsVisible && readSettings?.classList.contains('is-open')) {
+                setSettingsPanelOpen(false);
+            }
+
+            setNavigationVisible(!navigationIsVisible);
         });
     }
 
-    // Reading progress — remember scroll only for the last visited page
-    if (chapterContainer) {
-        const progressKey = 'dcote-reading-progress';
+    function setupReadingProgress() {
+        if (!chapterContainer) {
+            return;
+        }
+
         let saveTimeout;
 
         function restoreProgress() {
             try {
-                const saved = window.localStorage.getItem(progressKey);
-                if (saved) {
-                    const data = JSON.parse(saved);
-                    if (data && data.pathname === window.location.pathname) {
-                        const pos = parseInt(data.scrollY, 10);
-                        if (!isNaN(pos) && pos > 0) {
-                            window.scrollTo(0, pos);
-                        }
-                    }
+                const savedProgress = window.localStorage.getItem(PROGRESS_KEY);
+
+                if (!savedProgress) {
+                    return;
                 }
-            } catch (e) {}
+
+                const progress = JSON.parse(savedProgress);
+                const scrollY = Number.parseInt(progress?.scrollY, 10);
+
+                if (
+                    progress?.pathname === window.location.pathname
+                    && Number.isFinite(scrollY)
+                    && scrollY > 0
+                ) {
+                    window.scrollTo(0, scrollY);
+                }
+            } catch {
+                // Повреждённые или недоступные данные не должны мешать чтению главы.
+            }
         }
 
-        // Initial restore after settings are applied
-        restoreProgress();
-        // Retry after images/layout settle
-        setTimeout(restoreProgress, 300);
-        window.addEventListener('load', restoreProgress);
+        function saveProgress() {
+            try {
+                window.localStorage.setItem(PROGRESS_KEY, JSON.stringify({
+                    pathname: window.location.pathname,
+                    scrollY: window.scrollY,
+                }));
+            } catch {
+                // Сохранение позиции чтения не является обязательным для работы страницы.
+            }
+        }
 
+        restoreProgress();
+        window.setTimeout(restoreProgress, 300);
+        window.addEventListener('load', restoreProgress);
         window.addEventListener('scroll', () => {
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(() => {
-                try {
-                    window.localStorage.setItem(progressKey, JSON.stringify({
-                        pathname: window.location.pathname,
-                        scrollY: window.scrollY,
-                    }));
-                } catch (e) {}
-            }, 300);
+            window.clearTimeout(saveTimeout);
+            saveTimeout = window.setTimeout(saveProgress, 300);
         }, { passive: true });
     }
+
+    applySettings(settings);
+    setupSettingsControls();
+    setupNavigationVisibility();
+    setupReadingProgress();
 });

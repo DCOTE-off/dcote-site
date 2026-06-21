@@ -1,135 +1,112 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    const fixBackgroundHeight = () => {
-    const fullHeight = window.innerHeight;
-    document.documentElement.style.setProperty('--fixed-height', `${fullHeight}px`);
-    };
+    function setAnimatedOpenState(element, isOpen) {
+        element.classList.toggle('is-open', isOpen);
+        element.classList.toggle('not-open', !isOpen);
+    }
 
-    const toastSuccess = document.getElementById('toast-success');
-    const toastError = document.getElementById('toast-error');
+    function setupViewportHeight() {
+        const updateHeight = () => {
+            document.documentElement.style.setProperty('--fixed-height', `${window.innerHeight}px`);
+        };
 
-    if (toastSuccess) {
-        setTimeout(() => {
-            toastSuccess.classList.add('is-open');
-        }, 100);
-        setTimeout(() => {
-            toastSuccess.classList.remove('is-open');
-            toastSuccess.classList.add('not-open');
-            setTimeout(() => {
-                toastSuccess.remove();
-                toastError?.remove();
+        updateHeight();
+        window.addEventListener('orientationchange', () => {
+            window.setTimeout(updateHeight, 100);
+        });
+    }
+
+    function setupToast(toast, afterRemove) {
+        if (!toast) {
+            return;
+        }
+
+        window.setTimeout(() => toast.classList.add('is-open'), 100);
+        window.setTimeout(() => {
+            setAnimatedOpenState(toast, false);
+            window.setTimeout(() => {
+                toast.remove();
+                afterRemove?.();
             }, 500);
         }, 4000);
     }
-    if (toastError) {
-        setTimeout(() => {
-            toastError.classList.add('is-open');
-        }, 100);
-        setTimeout(() => {
-            toastError.classList.remove('is-open');
-            toastError.classList.add('not-open');
-            setTimeout(() => toastError.remove(), 500);
-        }, 4000);
-    }
 
-    fixBackgroundHeight();
-    window.addEventListener('orientationchange', () => {
-        setTimeout(fixBackgroundHeight, 100); 
-    });
+    function setupSideMenu() {
+        const hamburger = document.getElementById('hamburgerBtn');
+        const sideMenu = document.getElementById('sideMenu');
 
-    const hamburger = document.getElementById('hamburgerBtn');
-    const sideMenu = document.getElementById('sideMenu');
+        if (!hamburger || !sideMenu) {
+            return;
+        }
 
-    if (hamburger && sideMenu) {
         hamburger.addEventListener('click', () => {
-            if (sideMenu.classList.contains('is-open')) {
-                sideMenu.classList.remove('is-open');
-                sideMenu.classList.add('not-open');
-            } else {
-                sideMenu.classList.remove('not-open');
-                sideMenu.classList.add('is-open');
-            }
+            setAnimatedOpenState(sideMenu, !sideMenu.classList.contains('is-open'));
         });
 
         document.addEventListener('click', (event) => {
-            const isClickOnHamburger = hamburger.contains(event.target);
-            const isClickInsideMenu = sideMenu.contains(event.target);
+            const clickedMenuControl = hamburger.contains(event.target) || sideMenu.contains(event.target);
 
-            if (!isClickOnHamburger && !isClickInsideMenu) {
-                if (sideMenu.classList.contains('is-open')) {
-                    sideMenu.classList.remove('is-open');
-                    sideMenu.classList.add('not-open');
-                }
+            if (!clickedMenuControl && sideMenu.classList.contains('is-open')) {
+                setAnimatedOpenState(sideMenu, false);
             }
         });
     }
-    const nav = document.querySelector('.mobile-bottom-nav');
 
-    if (nav) {
-        const updateNavHeight = () => {
-            const height = nav.offsetHeight;
-        };
+    function setupMobileNavigation() {
+        const navigation = document.querySelector('.mobile-bottom-nav');
 
-        const navObserver = new ResizeObserver(updateNavHeight);
-        navObserver.observe(nav);
+        if (!navigation || !window.visualViewport) {
+            return;
+        }
 
-        if (window.visualViewport) {
-            const initialHeight = window.visualViewport.height;
-            
-            window.visualViewport.addEventListener('resize', () => {
-                const currentHeight = window.visualViewport.height;
-                const isKeyboardOpen = currentHeight < initialHeight * 0.85;
+        const initialViewportHeight = window.visualViewport.height;
 
-                if (isKeyboardOpen) {
-                    nav.style.opacity = '0';
-                    nav.style.pointerEvents = 'none';
-                } else {
-                    nav.style.opacity = '1';
-                    nav.style.pointerEvents = 'auto';
-                }
+        window.visualViewport.addEventListener('resize', () => {
+            const keyboardIsOpen = window.visualViewport.height < initialViewportHeight * 0.85;
+
+            navigation.style.opacity = keyboardIsOpen ? '0' : '1';
+            navigation.style.pointerEvents = keyboardIsOpen ? 'none' : 'auto';
+        });
+    }
+
+    function setupAccountMenu() {
+        const buttons = Array.from(document.querySelectorAll('.account-dropdown-btn'));
+        const menu = document.querySelector('.account-dropdown-any');
+
+        if (buttons.length === 0 || !menu) {
+            return;
+        }
+
+        buttons.forEach((button) => {
+            button.addEventListener('click', () => {
+                setAnimatedOpenState(menu, !menu.classList.contains('is-open'));
             });
-        }
-    }
-
-    const accountDdDesktopBtns = document.querySelectorAll('.account-dropdown-btn');
-    const accountMenuDesktop = document.querySelector('.account-dropdown-any')
-
-    function isClickOnAnyAccountBtn(target) {
-        return [...accountDdDesktopBtns].some((btn) => btn.contains(target));
-    }
-
-    if (accountDdDesktopBtns.length && accountMenuDesktop) {
-        function toggleAccountMenu() {
-            if (accountMenuDesktop.classList.contains('is-open')) {
-                accountMenuDesktop.classList.remove('is-open');
-                accountMenuDesktop.classList.add('not-open');
-            } else {
-                accountMenuDesktop.classList.remove('not-open');
-                accountMenuDesktop.classList.add('is-open');
-            }
-        }
-
-        accountDdDesktopBtns.forEach((btn) => {
-            btn.addEventListener('click', toggleAccountMenu);
         });
 
         document.addEventListener('click', (event) => {
-            if (!isClickOnAnyAccountBtn(event.target) && !accountMenuDesktop.contains(event.target)) {
-                if (accountMenuDesktop.classList.contains('is-open')) {
-                    accountMenuDesktop.classList.remove('is-open');
-                    accountMenuDesktop.classList.add('not-open');
-                }
+            const clickedButton = buttons.some((button) => button.contains(event.target));
+
+            if (!clickedButton && !menu.contains(event.target) && menu.classList.contains('is-open')) {
+                setAnimatedOpenState(menu, false);
             }
         });
     }
 
-    const header = document.querySelector('.navbar');
+    function setupHeaderHeight() {
+        const header = document.querySelector('.navbar');
 
-    if (header) {
-        const updateHeaderHeight = () => {
-            const headerHeight = header.offsetHeight;
-            document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-        };
-        updateHeaderHeight();
+        if (header) {
+            document.documentElement.style.setProperty('--header-height', `${header.offsetHeight}px`);
+        }
     }
+
+    const successToast = document.getElementById('toast-success');
+    const errorToast = document.getElementById('toast-error');
+
+    setupViewportHeight();
+    setupToast(successToast, () => errorToast?.remove());
+    setupToast(errorToast);
+    setupSideMenu();
+    setupMobileNavigation();
+    setupAccountMenu();
+    setupHeaderHeight();
 });
