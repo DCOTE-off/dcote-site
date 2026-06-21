@@ -2,9 +2,6 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/rules.css') }}">
 @endpush
-@push('scripts')
-    <script src="{{ asset('js/pages/dcote_main.js') }}"></script>
-@endpush
 @section('title', 'DCOTE | Правила сайта')
 @section('description', 'Ознакомтесь с правилами сайта DCOTE')
 @section('content')

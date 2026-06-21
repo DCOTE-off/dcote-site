@@ -1,8 +1,4 @@
-/* header.css */
-@import '/header.css';
-
-/* main.css */
-@import '/main.css';
-
-/* footer.css */
-@import '/footer.css';
+/* Точка входа для проверки Vite; рабочие страницы по-прежнему подключают эти файлы напрямую. */
+@import '../../public/css/header.css';
+@import '../../public/css/main.css';
+@import '../../public/css/footer.css';

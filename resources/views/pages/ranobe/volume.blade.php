@@ -2,6 +2,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="{{ asset('css/components/image-carousel-modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages/ranobe/volume.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
 @endpush
@@ -9,7 +10,7 @@
     <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/pages/anime/season.js') }}"></script>
     <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
-    <script src="{{ asset('js/pages/ranobe/volume.js') }}"></script>
+    <script src="{{ asset('js/components/image-carousel-modal.js') }}"></script>
 @endpush
 @section('title', "Читать ранобэ «Класс превосходства» {$year} год {$volume_number_rounded} том | DCOTE")
 @section('description', "Читать {$year} год {$volume_number_rounded} год ранобэ «Добро пожаловать в класс превосходства» онлайн. Описание тома, список глав и даты выхода на сайте DCOTE.")
@@ -145,7 +146,7 @@
             </div>
         </div>
     </div>
-    <div id="imageModal" class="modal">
+    <div id="imageModal" class="modal" data-caption-from-alt>
         <span class="modal-close" aria-label="Закрыть окно">
             <img src="{{ asset('svgs/close.svg') }}" alt="Закрыть">
         </span>

@@ -1,6 +1,8 @@
+// Переключение рейтинга использует FLIP: сначала запоминаются позиции карточек,
+// затем DOM перестраивается и карточки анимируются из старых координат в новые.
 const spoilersBtn = document.querySelector('.spoilers-btn');
-const ratingDefault = document.querySelector('.rating:not(.spoilers)')
-const ratingSpoilers = document.querySelector('.rating.spoilers')
+const ratingDefault = document.querySelector('.rating:not(.spoilers)');
+const ratingSpoilers = document.querySelector('.rating.spoilers');
 
 if (spoilersBtn && ratingDefault && ratingSpoilers) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -175,6 +177,7 @@ if (spoilersBtn && ratingDefault && ratingSpoilers) {
     }
 }
 
+// Карусель популярного хранит в DOM только один видимый слайд после завершения перехода.
 const popularSlides = Array.from(document.querySelectorAll('[data-popular-slide]'));
 const popularPrev = document.querySelector('[data-popular-prev]');
 const popularNext = document.querySelector('[data-popular-next]');
@@ -308,6 +311,7 @@ if (popularSlides.length && popularPrev && popularNext) {
     window.addEventListener('resize', queuePopularInfoLabelWidthUpdate, { passive: true });
 }
 
+// Встроенная прокрутка остаётся источником состояния, пользовательская полоса только отражает её позицию.
 const updatesViewport = document.querySelector('.updates-news-viewport');
 const updatesNews = updatesViewport?.querySelector('.updates-news');
 const updates = updatesViewport?.closest('.updates');
