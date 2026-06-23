@@ -1,6 +1,43 @@
-# DCOTE Site
+<div align="center">
 
-Laravel-приложение с отдельными Docker-сценариями для разработки и production.
+# DCOTE
+
+**Фан-сайт ранобэ «Добро пожаловать в класс превосходства» (You-Zitsu / Classroom of the Elite)**
+
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white)](https://mysql.com)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://docker.com)
+[![Filament](https://img.shields.io/badge/Filament-3-FFA500)](https://filamentphp.com)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
+[![Sanctum](https://img.shields.io/badge/Sanctum-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/docs/sanctum)
+
+</div>
+
+## О проекте
+
+[dcote.net](https://dcote.net/) — фан-сайт по серии ранобэ и аниме **«Добро пожаловать в класс превосходства» (You-Zitsu / Classroom of the Elite)**. Реализован на **Laravel 12** с рейтингами, Vite-сборкой, Filament Admin и двумя Docker-сценариями.
+Были сделаны:
+- Библиотека переводов ранобэ с разбивкой по годам, томам и главам
+- Страницы сезонов и серий аниме со встроенными плеерами
+- Систему пользовательских рейтингов (1–10) с API upsert
+- Галереи иллюстраций с автопоиском файлов
+- Cookie-авторизация через Laravel Sanctum
+- Filament-админка для управления контентом
+
+## Стек
+
+- **Backend:** Laravel 12, PHP 8.4, MySQL 8
+- **Frontend:** Blade, Vite 6, vanilla JS
+- **Admin:** Filament 3
+- **Auth:** Laravel Sanctum
+- **Storage:** Cloudflare R2 (S3-совместимое объектное хранилище)
+- **Infra:** Docker, docker-compose (dev + prod), Nginx, Nginx Proxy Manager
+- **Прочее:** Cloudflare Turnstile, Floating UI
+
+---
+
+<br>
 
 ## Docker Dev
 
