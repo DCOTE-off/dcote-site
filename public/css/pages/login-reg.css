@@ -52,6 +52,20 @@
     gap: var(--fs-gap20);
 }
 
+.turnstile-slot {
+    --turnstile-scale: 1;
+    width: calc(300px * var(--turnstile-scale));
+    height: calc(65px * var(--turnstile-scale));
+    flex: none;
+}
+
+.turnstile-slot .cf-turnstile {
+    width: 300px;
+    height: 65px;
+    transform: scale(var(--turnstile-scale));
+    transform-origin: top left;
+}
+
 .auth-form button{
     font-family: 'Vag Rounded Next', sans-serif;
     font-size: var(--fs-nav-links);
@@ -255,5 +269,43 @@ h3{
     input:-webkit-autofill:focus, 
     input:-webkit-autofill:active {
         font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+}
+
+@media (min-width: 769px) {
+    .auth-container-login {
+        width: auto;
+        max-width: 100%;
+        /* Match registration's 57% info column while keeping the 820x940 cover uncropped. */
+        --login-info-width: min(54.78vw, 843.6px);
+        --login-image-width: calc(26.42vw + 76.46px);
+    }
+
+    .auth-container-login .auth-image {
+        width: var(--login-image-width);
+        flex: 0 0 var(--login-image-width);
+        aspect-ratio: 820 / 940;
+        position: relative;
+    }
+
+    .auth-container-login .auth-image picture {
+        position: absolute;
+        inset: 0;
+    }
+
+    .auth-container-login .auth-image img {
+        object-fit: contain;
+    }
+
+    .auth-container-login .auth-form {
+        width: var(--login-info-width);
+        flex: 0 0 var(--login-info-width);
+    }
+}
+
+@media (min-width: 985px) {
+    .auth-container-login {
+        /* Above this width the form wraps less, so the cover follows the second linear segment. */
+        --login-image-width: min(calc(27.71vw + 63.75px), 495.94px);
     }
 }

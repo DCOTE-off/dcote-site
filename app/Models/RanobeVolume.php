@@ -10,6 +10,10 @@ class RanobeVolume extends Model
 {
     use HasFactory;
 
+    public const STATUS_RELEASED = 'Вышел';
+
+    public const STATUS_ONGOING = 'Онгоинг';
+
     protected $fillable = [
         'volume_number',
         'general_number',
@@ -61,11 +65,22 @@ class RanobeVolume extends Model
         return $this->morphMany(Rating::class, 'rateable');
     }
 
-    public function getColorAttribute()
+    public static function syncFinishedStatuses(): int
+    {
+        return static::query()
+            ->where('status', self::STATUS_ONGOING)
+            ->where('all_chapters', '>', 0)
+            ->whereRaw(
+                '(select count(*) from ranobe_chapters where ranobe_chapters.ranobe_volume_id = ranobe_volumes.id) >= ranobe_volumes.all_chapters'
+            )
+            ->update(['status' => self::STATUS_RELEASED]);
+    }
+
+    public function getColorAttribute(): string
     {
         $colors = [
-            'Вышел' => 'green',
-            'Онгоинг' => 'purple',
+            self::STATUS_RELEASED => 'green',
+            self::STATUS_ONGOING => 'purple',
         ];
 
         return $colors[$this->status] ?? 'yellow';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
 use App\Models\ClassesTop;
 use App\Models\Popular;
@@ -14,6 +15,10 @@ class MainController extends Controller
 {
     public function index()
     {
+        AnimeEpisode::releaseDue();
+        AnimeSeason::syncFinishedStatuses();
+        RanobeVolume::syncFinishedStatuses();
+
         $classes_list_default = ClassesTop::where('spoilers', 0)
             ->orderBy('class_points', 'desc')
             ->get();
@@ -49,6 +54,7 @@ class MainController extends Controller
             ->with('target')
             ->get()
             ->pluck('target')
+            ->reject(fn ($target) => $target instanceof AnimeSeason && $target->isAnnounced())
             ->filter();
 
         if ($popularTargets->isEmpty()) {
@@ -89,14 +95,14 @@ class MainController extends Controller
 
         $released = (int) $season->released_episodes_count;
         $total = (int) $season->number_of_episodes;
-        $mobileImage = "/images/anime/anime-banner-season-{$season->id}-mobile.webp";
+        $mobileImage = "/images/anime/anime-banner-season-{$season->season_number}-mobile.webp";
 
         return [
             'category' => 'АНИМЕ',
             'title' => "{$season->season_number} СЕЗОН",
             'image' => file_exists(public_path($mobileImage))
                 ? $mobileImage
-                : ($season->img_src ?: "/images/anime/anime-banner-season-{$season->id}.webp"),
+                : ($season->img_src ?: "/images/anime/anime-banner-season-{$season->season_number}.webp"),
             'alt' => "Обложка аниме, {$season->season_number} сезон",
             'info' => [
                 ['label' => 'Статус сериала:', 'value' => $season->status, 'class' => $season->color],

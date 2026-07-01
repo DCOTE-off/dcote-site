@@ -2,12 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AnimeSeason extends Model
 {
+    public const STATUS_RELEASED = 'Вышел';
+
+    public const STATUS_ONGOING = 'Онгоинг';
+
+    public const STATUS_ANNOUNCED = 'Анонс';
+
     protected $table = 'anime_seasons';
 
     public $timestamps = false;
@@ -42,16 +49,43 @@ class AnimeSeason extends Model
         return $this->episodes()->where('completed', true);
     }
 
+    public static function syncFinishedStatuses(): int
+    {
+        return static::query()
+            ->where('status', self::STATUS_ONGOING)
+            ->where('number_of_episodes', '>', 0)
+            ->whereRaw(
+                '(select count(*) from anime_episodes where anime_episodes.season_id = anime_seasons.id and anime_episodes.completed = 1) >= anime_seasons.number_of_episodes'
+            )
+            ->update(['status' => self::STATUS_RELEASED]);
+    }
+
     public function popularItems(): MorphMany
     {
         return $this->morphMany(Popular::class, 'target');
     }
 
-    public function getColorAttribute()
+    public function isAnnounced(): bool
+    {
+        return $this->status === self::STATUS_ANNOUNCED;
+    }
+
+    public function isOngoing(): bool
+    {
+        return $this->status === self::STATUS_ONGOING;
+    }
+
+    public function scopeNotAnnounced(Builder $query): Builder
+    {
+        return $query->where('status', '!=', self::STATUS_ANNOUNCED);
+    }
+
+    public function getColorAttribute(): string
     {
         $colors = [
-            'Вышел' => 'green',
-            'Онгоинг' => 'purple',
+            self::STATUS_RELEASED => 'green',
+            self::STATUS_ONGOING => 'purple',
+            self::STATUS_ANNOUNCED => 'yellow',
         ];
 
         return $colors[$this->status] ?? 'yellow';

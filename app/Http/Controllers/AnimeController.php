@@ -1,15 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\AnimeSeason;
+
 use App\Models\AnimeEpisode;
+use App\Models\AnimeSeason;
 use App\Models\Rating;
 
 class AnimeController extends Controller
 {
     public function index()
     {
-        $seasons_list = AnimeSeason::orderBy('id', 'desc')
+        $this->syncReleaseState();
+
+        $seasons_list = AnimeSeason::orderBy('season_number', 'desc')
             ->withCount('releasedEpisodes')
             ->addSelect(['season_avg_rating' => function ($query) {
                 $query->selectRaw('COALESCE(AVG(rating), 0)')
@@ -38,15 +41,18 @@ class AnimeController extends Controller
 
     public function showSeason(int $season)
     {
-        // Таймер перезагружает страницу в момент выхода; этот запрос фиксирует completed в БД.
-        AnimeEpisode::releaseDue();
+        $this->syncReleaseState();
 
-        $seasonModel = AnimeSeason::findOrFail($season);
+        $seasonModel = AnimeSeason::where('season_number', $season)->firstOrFail();
+        abort_if($seasonModel->isAnnounced(), 404);
+
+        $season = (int) $seasonModel->season_number;
+        $showReleaseSchedule = $seasonModel->isOngoing();
         $about_season = (object) [
             'season_description' => $seasonModel->season_description,
             'trailer_link' => $seasonModel->trailer_link,
         ];
-        $episodes = AnimeEpisode::where('season_id', $season)
+        $episodes = AnimeEpisode::where('season_id', $seasonModel->id)
             ->withAvg('ratings as avg_rating', 'rating')
             ->withCount('ratings as ratings_count')
             ->orderBy('episode_number', 'desc')
@@ -61,17 +67,22 @@ class AnimeController extends Controller
                 ->keyBy('rateable_id');
         }
 
-        return view('pages.anime.season', compact('season', 'about_season', 'episodes', 'userRatings'));
+        return view('pages.anime.season', compact('season', 'about_season', 'episodes', 'userRatings', 'showReleaseSchedule'));
     }
 
     public function showEpisode(int $season, int $episode)
     {
-        AnimeEpisode::releaseDue();
+        $this->syncReleaseState();
 
-        $seasonModel = AnimeSeason::withCount('episodes')->findOrFail($season);
+        $seasonModel = AnimeSeason::where('season_number', $season)
+            ->withCount('episodes')
+            ->firstOrFail();
+        abort_if($seasonModel->isAnnounced(), 404);
+
+        $season = (int) $seasonModel->season_number;
         $total_episodes = $seasonModel->episodes_count ?? 0;
 
-        $episodeModel = AnimeEpisode::where('season_id', $season)
+        $episodeModel = AnimeEpisode::where('season_id', $seasonModel->id)
             ->where('episode_number', $episode)
             ->withAvg('ratings as episode_avg_rating', 'rating')
             ->withCount('ratings as episode_ratings_count')
@@ -85,10 +96,10 @@ class AnimeController extends Controller
                 ->where('rateable_id', $episodeModel->id)
                 ->value('rating') ?? 0
             : 0;
-        $player_url = "https://video.dcote.net/metrics-api/videoplayer";
+        $player_url = 'https://video.dcote.net/metrics-api/videoplayer';
         $episodeNumBeaty = str_pad((string) $episode, 2, '0', STR_PAD_LEFT);
         $videoBaseUrl = "https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}";
-        $episodeUrl = $player_url . '?' . http_build_query([
+        $episodeUrl = $player_url.'?'.http_build_query([
             'src' => "{$videoBaseUrl}/master.m3u8",
             'poster' => asset("images/anime/episodes-banner-season{$season}.webp"),
             'skip_start' => $episodeModel->opening_start ?? '-1',
@@ -109,14 +120,18 @@ class AnimeController extends Controller
             'episode' => ($next_episode->episode_number),
         ]) : null;
 
-
-
-
         return view('pages.anime.episode', compact(
             'season', 'episode', 'episodeUrl', 'total_episodes', 'completed',
             'next_link', 'prev_link', 'episodeModel', 'episodeAvgRating',
             'episodeRatingsCount', 'userRating'
         ));
+    }
+
+    private function syncReleaseState(): void
+    {
+        // Page requests persist due episodes and completed seasons without a background worker.
+        AnimeEpisode::releaseDue();
+        AnimeSeason::syncFinishedStatuses();
     }
 
     private function getPreviousEpisode(AnimeEpisode $episodeModel): ?AnimeEpisode
@@ -126,8 +141,11 @@ class AnimeController extends Controller
             ->orderBy('episode_number', 'desc')
             ->first();
 
-        if ($prev) return $prev; 
-        $prevSeason = AnimeSeason::where('season_number', '<', $episodeModel->season->season_number)
+        if ($prev) {
+            return $prev;
+        }
+        $prevSeason = AnimeSeason::notAnnounced()
+            ->where('season_number', '<', $episodeModel->season->season_number)
             ->orderBy('season_number', 'desc')
             ->first();
 
@@ -135,11 +153,15 @@ class AnimeController extends Controller
             $prev = AnimeEpisode::where('season_id', $prevSeason->id)
                 ->orderBy('episode_number', 'desc')
                 ->first();
-            
-            if ($prev) return $prev;
+
+            if ($prev) {
+                return $prev;
+            }
         }
+
         return null;
     }
+
     private function getNextEpisode(AnimeEpisode $episodeModel): ?AnimeEpisode
     {
         $next = AnimeEpisode::where('season_id', $episodeModel->season_id)
@@ -147,8 +169,11 @@ class AnimeController extends Controller
             ->orderBy('episode_number', 'asc')
             ->first();
 
-        if ($next) return $next; 
-        $nextSeason = AnimeSeason::where('season_number', '>', $episodeModel->season->season_number)
+        if ($next) {
+            return $next;
+        }
+        $nextSeason = AnimeSeason::notAnnounced()
+            ->where('season_number', '>', $episodeModel->season->season_number)
             ->orderBy('season_number', 'asc')
             ->first();
 
@@ -156,10 +181,12 @@ class AnimeController extends Controller
             $next = AnimeEpisode::where('season_id', $nextSeason->id)
                 ->orderBy('episode_number', 'asc')
                 ->first();
-            
-            if ($next) return $next;
+
+            if ($next) {
+                return $next;
+            }
         }
+
         return null;
     }
-
 }

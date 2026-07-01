@@ -1,15 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\RanobeYear;
-use App\Models\RanobeVolume;
-use App\Models\RanobeChapter;
-use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Type\Decimal;
-use Illuminate\Support\Str;
-use App\Helpers\MarkdownRanobeHelper;
+
 use App\Helpers\FilesCollectionHelper;
-use Illuminate\Support\Facades\Storage;
+use App\Helpers\MarkdownRanobeHelper;
+use App\Models\RanobeChapter;
+use App\Models\RanobeVolume;
+use App\Models\RanobeYear;
 
 class RanobeController extends Controller
 {
@@ -20,16 +17,19 @@ class RanobeController extends Controller
             ->withSum('volumes as total_pages', 'pages_quantity')
             ->get();
 
-        return view('pages.ranobe.index',compact('years'));
+        return view('pages.ranobe.index', compact('years'));
     }
 
     public function showYear(int $year)
     {
+        RanobeVolume::syncFinishedStatuses();
+
         $yearModel = RanobeYear::where('year_number', $year)->firstOrFail();
         $userId = auth()->id();
 
         $volumes = $yearModel->volumes()
             ->orderBy('general_number', 'desc')
+            ->withCount('chapters')
             ->addSelect(['volume_avg_rating' => function ($query) {
                 $query->selectRaw('COALESCE(AVG(rating), 0)')
                     ->from('ratings')
@@ -50,11 +50,14 @@ class RanobeController extends Controller
                     ->whereColumn('rateable_id', 'ranobe_volumes.id');
             }])
             ->get();
+
         return view('pages.ranobe.year', compact('year', 'volumes'));
     }
 
     public function showVolume(int $year, float $volume)
     {
+        RanobeVolume::syncFinishedStatuses();
+
         $userId = auth()->id();
 
         $volumeModel = RanobeVolume::query()
@@ -96,13 +99,14 @@ class RanobeController extends Controller
         return view('pages.ranobe.volume', compact('year', 'volumeModel', 'chapters', 'volume_number_rounded', 'color_images', 'bw_images', 'path'));
     }
 
-
     public function showChapter(int $year, float $volume, float $chapter)
     {
+        RanobeVolume::syncFinishedStatuses();
+
         $chapterModel = RanobeChapter::query()
             ->where('chapter_number', $chapter)
-            ->whereHas('year', fn($q) => $q->where('year_number', $year))
-            ->whereHas('volume', fn($q) => $q->where('volume_number', $volume))
+            ->whereHas('year', fn ($q) => $q->where('year_number', $year))
+            ->whereHas('volume', fn ($q) => $q->where('volume_number', $volume))
             ->with('volume')
             ->firstOrFail();
 
@@ -110,17 +114,18 @@ class RanobeController extends Controller
         $prev_link = $prev_chapter ? route('ranobe.chapter', [
             'year' => $prev_chapter->year->year_number,
             'volume' => floatval($prev_chapter->volume->volume_number),
-            'chapter' => floatval($prev_chapter->chapter_number)
+            'chapter' => floatval($prev_chapter->chapter_number),
         ]) : null;
         $next_chapter = $this->getNextChapter($chapterModel);
         $next_link = $next_chapter ? route('ranobe.chapter', [
             'year' => $next_chapter->year->year_number,
             'volume' => floatval($next_chapter->volume->volume_number),
-            'chapter' => floatval($next_chapter->chapter_number)
+            'chapter' => floatval($next_chapter->chapter_number),
         ]) : null;
         $content = $chapterModel->chapter_content;
         $htmlContent = MarkdownRanobeHelper::parse($content, $year, $volume);
         $volume_number_rounded = floatval($volume);
+
         return view('pages.ranobe.chapter', compact(
             'htmlContent', 'chapterModel', 'volume_number_rounded', 'year', 'chapter',
             'prev_link', 'next_link',
@@ -128,82 +133,90 @@ class RanobeController extends Controller
     }
 
     private function getPreviousChapter(RanobeChapter $chapterModel): ?RanobeChapter
-        {
-            $prev = RanobeChapter::where('ranobe_volume_id', $chapterModel->ranobe_volume_id)
-                ->where('chapter_number', '<', $chapterModel->chapter_number)
+    {
+        $prev = RanobeChapter::where('ranobe_volume_id', $chapterModel->ranobe_volume_id)
+            ->where('chapter_number', '<', $chapterModel->chapter_number)
+            ->orderBy('chapter_number', 'desc')
+            ->first();
+
+        if ($prev) {
+            return $prev;
+        }
+        $prevVolume = RanobeVolume::where('ranobe_year_id', $chapterModel->ranobe_year_id)
+            ->where('general_number', '<', $chapterModel->volume->general_number)
+            ->orderBy('general_number', 'desc')
+            ->first();
+
+        if ($prevVolume) {
+            $prev = RanobeChapter::where('ranobe_volume_id', $prevVolume->id)
                 ->orderBy('chapter_number', 'desc')
                 ->first();
 
-            if ($prev) return $prev; 
-            $prevVolume = RanobeVolume::where('ranobe_year_id', $chapterModel->ranobe_year_id)
-                ->where('general_number', '<', $chapterModel->volume->general_number)
+            if ($prev) {
+                return $prev;
+            }
+        }
+
+        $prevYear = RanobeYear::where('year_number', '<', $chapterModel->year->year_number)
+            ->orderBy('year_number', 'desc')
+            ->first();
+
+        if ($prevYear) {
+            $lastVolumeOfPrevYear = RanobeVolume::where('ranobe_year_id', $prevYear->id)
                 ->orderBy('general_number', 'desc')
                 ->first();
 
-            if ($prevVolume) {
-                $prev = RanobeChapter::where('ranobe_volume_id', $prevVolume->id)
+            if ($lastVolumeOfPrevYear) {
+                return RanobeChapter::where('ranobe_volume_id', $lastVolumeOfPrevYear->id)
                     ->orderBy('chapter_number', 'desc')
                     ->first();
-                
-                if ($prev) return $prev;
             }
-
-            $prevYear = RanobeYear::where('year_number', '<', $chapterModel->year->year_number)
-                ->orderBy('year_number', 'desc')
-                ->first();
-
-            if ($prevYear) {
-                $lastVolumeOfPrevYear = RanobeVolume::where('ranobe_year_id', $prevYear->id)
-                    ->orderBy('general_number', 'desc')
-                    ->first();
-
-                if ($lastVolumeOfPrevYear) {
-                    return RanobeChapter::where('ranobe_volume_id', $lastVolumeOfPrevYear->id)
-                        ->orderBy('chapter_number', 'desc')
-                        ->first();
-                }
-            }
-
-            return null;
         }
 
+        return null;
+    }
+
     private function getNextChapter(RanobeChapter $chapterModel): ?RanobeChapter
-        {
-            $next = RanobeChapter::where('ranobe_volume_id', $chapterModel->ranobe_volume_id)
-                ->where('chapter_number', '>', $chapterModel->chapter_number)
+    {
+        $next = RanobeChapter::where('ranobe_volume_id', $chapterModel->ranobe_volume_id)
+            ->where('chapter_number', '>', $chapterModel->chapter_number)
+            ->orderBy('chapter_number', 'asc')
+            ->first();
+
+        if ($next) {
+            return $next;
+        }
+        $nextVolume = RanobeVolume::where('ranobe_year_id', $chapterModel->ranobe_year_id)
+            ->where('general_number', '>', $chapterModel->volume->general_number)
+            ->orderBy('general_number', 'asc')
+            ->first();
+
+        if ($nextVolume) {
+            $next = RanobeChapter::where('ranobe_volume_id', $nextVolume->id)
                 ->orderBy('chapter_number', 'asc')
                 ->first();
 
-            if ($next) return $next; 
-            $nextVolume = RanobeVolume::where('ranobe_year_id', $chapterModel->ranobe_year_id)
-                ->where('general_number', '>', $chapterModel->volume->general_number)
+            if ($next) {
+                return $next;
+            }
+        }
+
+        $nextYear = RanobeYear::where('year_number', '>', $chapterModel->year->year_number)
+            ->orderBy('year_number', 'asc')
+            ->first();
+
+        if ($nextYear) {
+            $firstVolumeOfNextYear = RanobeVolume::where('ranobe_year_id', $nextYear->id)
                 ->orderBy('general_number', 'asc')
                 ->first();
 
-            if ($nextVolume) {
-                $next = RanobeChapter::where('ranobe_volume_id', $nextVolume->id)
+            if ($firstVolumeOfNextYear) {
+                return RanobeChapter::where('ranobe_volume_id', $firstVolumeOfNextYear->id)
                     ->orderBy('chapter_number', 'asc')
                     ->first();
-                
-                if ($next) return $next;
             }
-
-            $nextYear = RanobeYear::where('year_number', '>', $chapterModel->year->year_number)
-                ->orderBy('year_number', 'asc')
-                ->first();
-
-            if ($nextYear) {
-                $firstVolumeOfNextYear = RanobeVolume::where('ranobe_year_id', $nextYear->id)
-                    ->orderBy('general_number', 'asc')
-                    ->first();
-
-                if ($firstVolumeOfNextYear) {
-                    return RanobeChapter::where('ranobe_volume_id', $firstVolumeOfNextYear->id)
-                        ->orderBy('chapter_number', 'asc')
-                        ->first();
-                }
-            }
-
-            return null;
         }
+
+        return null;
+    }
 }

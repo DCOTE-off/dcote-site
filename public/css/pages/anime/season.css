@@ -75,6 +75,10 @@
     gap: var(--fs-gap10);
 }
 
+.cont2.without-release-schedule {
+    gap: var(--fs-gap20);
+}
+
 
 .cont2 .grid-area {
     display: flex;
@@ -578,6 +582,10 @@
 
     .cont2 .info-schedule {
         text-align: center;
+    }
+
+    .cont2 .grid-area {
+        gap: clamp(1px, 8.01vw, 100px);
     }
 
     .cont2 .episode-cont {

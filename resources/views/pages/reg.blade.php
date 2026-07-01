@@ -99,9 +99,11 @@
             <div class="check" style="text-align: center;">
                 <p>Регистрируясь, вы принимаете <a href="{{ route('rules') }}">правила сайта</a> и <a href="{{ route('privacy_policy') }}">политику конфиденциальности</a></p>
             </div>
-            <div class="cf-turnstile" style="height: 69px;"
-                data-sitekey="{{ config('services.cloudflare.site_key') }}"
-                data-callback="onCaptchaSuccess">
+            <div class="turnstile-slot">
+                <div class="cf-turnstile"
+                    data-sitekey="{{ config('services.cloudflare.site_key') }}"
+                    data-callback="onCaptchaSuccess">
+                </div>
             </div>
             <div class="input-group">
                 <button type="submit" class="submit-btn" disabled>ЗАРЕГИСТРИРОВАТЬСЯ</button>
