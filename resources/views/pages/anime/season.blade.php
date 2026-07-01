@@ -52,7 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="cont2 scale-in">
+    <div class="cont2 scale-in{{ $showReleaseSchedule ? '' : ' without-release-schedule' }}">
         <div class="episodes-head">
             <button type="button" class="sort-toggle episode-control no-glow" aria-label="Сортировать по возрастанию/убыванию">
                 <svg class="sort-descending sort-icon" aria-hidden="true" style="display: none;">
@@ -74,7 +74,9 @@
                 </svg>
             </button>
         </div>
-        <p class="info-schedule">Каждая новая серия выходит в <b>среду</b> в <b>15:30 по МСК</b>! Русские субтитры появляются на сайте спустя <b>полчаса-час</b>.</p>
+        @if ($showReleaseSchedule)
+            <p class="info-schedule">Каждая новая серия выходит в <b>среду</b> в <b>15:30 по МСК</b>! Русские субтитры появляются на сайте спустя <b>полчаса-час</b>.</p>
+        @endif
         <div class="grid-area"
              id="episodes-list"
              data-collapsible-episodes

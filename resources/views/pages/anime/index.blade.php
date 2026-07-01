@@ -8,6 +8,7 @@
 @push('scripts')
     <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
+    <script src="{{ asset('js/pages/selection-cards.js') }}"></script>
 @endpush
 @section('title', 'Смотреть аниме «Класс превосходства» | Все сезоны | DCOTE')
 @section('description', 'Список всех сезонов и серий аниме «Добро пожаловать в класс превосходства». Выбирайте сезон и приступайте к просмотру в высоком качестве на DCOTE.')
@@ -19,20 +20,31 @@
 </div>
     @foreach ($seasons_list as $index => $season)
         @php
-            $total = (int)$season->number_of_episodes;
-            $released = (int)$season->released_episodes_count;
+            $seasonNumber = (int) $season->season_number;
+            $total = (int) $season->number_of_episodes;
+            $released = (int) $season->released_episodes_count;
             $percent = ($total > 0) ? min(100, round(($released / $total) * 100, 2)) : 0;
+            $isAnnounced = $season->isAnnounced();
+            $mobileCover = "/images/anime/anime-banner-season-{$seasonNumber}-mobile.webp";
+            $desktopCover = $season->img_src ?: "/images/anime/anime-banner-season-{$seasonNumber}.webp";
+            $seasonUrl = route('anime.season', ['season' => $seasonNumber]);
+            $firstEpisodeUrl = route('anime.episode', ['season' => $seasonNumber, 'episode' => 1]);
         @endphp
-        <div class="cont scale-in" data-season="{{ (int)$season->season_number }}">
+        <div class="cont selection-card anime-season-card scale-in" data-season="{{ $seasonNumber }}">
             <div class="image-wrapper">
                 <picture>
-                    <source media="(max-width: 768px)" srcset="/images/anime/anime-banner-season-{{ $season->id }}-mobile.webp" type="image/webp">
-                    <img src="/images/anime/anime-banner-season-{{ $season->id }}.webp" @if($index < 2) fetchpriority="high" @else loading="lazy" @endif decoding="async" alt="Обложка сезона">
+                    <source media="(max-width: 768px)" srcset="{{ $mobileCover }}" type="image/webp">
+                    <img
+                        src="{{ $desktopCover }}"
+                        @if($index < 2) fetchpriority="high" @else loading="lazy" @endif
+                        decoding="async"
+                        alt="Обложка сезона"
+                    >
                 </picture>
             </div>
             <div class="desc slide-in-left">
                 <div class="head">
-                    <h1>{{ $season->id }} СЕЗОН</h1>
+                    <h1>{{ $seasonNumber }} СЕЗОН</h1>
                     @include('partials.rating', [
                         'rateableType' => 'anime_episode',
                         'rateableId' => 0,
@@ -89,14 +101,22 @@
                     <p><b>Выпущено:</b> {{ $released }} из {{ $season->number_of_episodes }} серий</p>
                     <div class="progress-bar" style="--progress-width: {{ $percent }}%"></div>
                 </div>
-                <a class="link-like-button" href='{{ route('anime.season',['season'=> (int)$season->season_number]) }}'>СТРАНИЦА СЕЗОНА</a>
+                @if ($isAnnounced)
+                    <button type="button" class="link-like-button" disabled>СТРАНИЦА СЕЗОНА</button>
+                @else
+                    <a class="link-like-button" href="{{ $seasonUrl }}">СТРАНИЦА СЕЗОНА</a>
+                @endif
                 <div class="button-line">
                     <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
                         <svg class="dropdown-icon">
                         <use href="#dropdown"></use>
                         </svg>
                     </button>
-                    <a href="{{route('anime.episode', ['season'=>(int)$season->season_number,'episode'=>1]) }}" class="link-like-button no-glow">НАЧАТЬ СМОТРЕТЬ</a>
+                    @if ($isAnnounced)
+                        <button type="button" class="link-like-button no-glow" disabled>НАЧАТЬ СМОТРЕТЬ</button>
+                    @else
+                        <a href="{{ $firstEpisodeUrl }}" class="link-like-button no-glow">НАЧАТЬ СМОТРЕТЬ</a>
+                    @endif
                 </div>
                 <div class="button-line mobile">
                     <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
@@ -106,7 +126,11 @@
                     </button>
                 </div>
                 <div class="button-line mobile">
-                        <a href="{{route('anime.episode', ['season'=>(int)$season->season_number,'episode'=>1]) }}" class="link-like-button no-glow">НАЧАТЬ СМОТРЕТЬ</a>
+                    @if ($isAnnounced)
+                        <button type="button" class="link-like-button no-glow" disabled>НАЧАТЬ СМОТРЕТЬ</button>
+                    @else
+                        <a href="{{ $firstEpisodeUrl }}" class="link-like-button no-glow">НАЧАТЬ СМОТРЕТЬ</a>
+                    @endif
                 </div>
             </div>
         </div>

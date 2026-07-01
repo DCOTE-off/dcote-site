@@ -225,7 +225,7 @@ button.no-glow:disabled,
         --fs-nav-links: clamp(1px, 4.272vw, 100px);
         --fs-border2px: clamp(0.01px, 0.534vw, 10px);
         --fs-nav: clamp(1px, 3.738vw, 14px);
-        --fs-text:clamp(13.5px, 4.267vw, 36px)''
+        --fs-text: clamp(13.5px, 4.267vw, 36px);
     }
 }
 

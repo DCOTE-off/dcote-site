@@ -8,6 +8,7 @@
 @push('scripts')
     <script src="{{ asset('js/components/rating.js') }}"></script>
     <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
+    <script src="{{ asset('js/pages/selection-cards.js') }}"></script>
 @endpush
 @section('title', "Читать «Класс превосходства» | {$year} год | DCOTE")
 @section('description', "Список всех томов {$year} года новеллы «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с высоким качеством перевода на DCOTE.")
@@ -23,10 +24,10 @@
         @php
             $volume_number_rounded = floatval($volume->volume_number);
             $total = (int)$volume->all_chapters;
-            $released = (int)$volume->chapters()->count() ?? 0;
+            $released = (int)$volume->chapters_count;
             $percent = ($total > 0) ? min(100, round(($released / $total) * 100, 2)) : 0;
         @endphp
-        <div class="cont scale-in" data-volume="{{ (int)$volume_number_rounded }}">
+        <div class="cont selection-card ranobe-volume-card scale-in" data-volume="{{ (int)$volume_number_rounded }}">
             <div class="image-wrapper">
                 <picture>
                     <source media="(max-width: 768px)" 

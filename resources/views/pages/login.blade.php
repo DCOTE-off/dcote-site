@@ -8,7 +8,7 @@
 @push('scripts')
     <script src="{{ asset('js/pages/reg-login.js') }}"></script>
 @endpush
-@section('title', 'DCOTE | Вход')
+@section('title', 'DCOTE | Авторизация')
 @section('content')
 <svg style="display: none;">
     <symbol id="info-circle" viewBox="0 0 24 24">
@@ -24,9 +24,9 @@
 <div class="navigation-links">
     <a href="{{ route('home') }}"><span>ГЛАВНАЯ</span></a>
     <p>/</p>
-    <a class="current-page" href="{{ route('login') }}"><span>ВХОД</span></a>
+    <a class="current-page" href="{{ route('login') }}"><span>АВТОРИЗАЦИЯ</span></a>
 </div>
-<div class="auth-container">
+<div class="auth-container auth-container-login">
     <div class="auth-image scale-in">
         <picture>
             <source media="(max-width: 768px)" srcset="/images/auth/auth_4-mobile.webp" type="image/webp">
@@ -36,7 +36,7 @@
     <div class="auth-form scale-in slide-in-left">
         <form method="post" id="registration-form" novalidate>
             @csrf
-            <h1>ВХОД</h1>
+            <h1>АВТОРИЗАЦИЯ</h1>
             <div class="input-group">
                 <label for="tag">
                     <h3>Имя пользователя</h3>
@@ -68,12 +68,14 @@
                 <span class="error-bubble" id="password-error"></span>
                 <p>Забыл(а) пароль? <a href="">Восстановить</a></p>
             </div>
-            <div class="cf-turnstile" style="height: 69px;"
-                data-sitekey="{{ config('services.cloudflare.site_key') }}"
-                data-callback="onCaptchaSuccess">
+            <div class="turnstile-slot">
+                <div class="cf-turnstile"
+                    data-sitekey="{{ config('services.cloudflare.site_key') }}"
+                    data-callback="onCaptchaSuccess">
+                </div>
             </div>
             <div class="input-group">
-                <button type="submit" class="submit-btn" disabled>ВХОД</button>
+                <button type="submit" class="submit-btn" disabled>АВТОРИЗОВАТЬСЯ</button>
                 <p>Нет аккаунта? <a href="{{ route('register') }}"> Зарегистрируйся</a></p>
             </div>
         </form>

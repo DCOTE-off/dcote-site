@@ -27,6 +27,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('registration-form');
     if (!form) return;
 
+    const turnstileSlot = form.querySelector('.turnstile-slot');
+    if (turnstileSlot) {
+        const MOBILE_BREAKPOINT = 768;
+        const DESKTOP_REFERENCE_WIDTH = 1540;
+        const MOBILE_SCALE_BOOST = 1.2;
+
+        const syncTurnstileSize = () => {
+            // Turnstile is fixed at 300x65, so its wrapper follows the form's responsive scale.
+            const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+            const referenceWidth = isMobile ? MOBILE_BREAKPOINT : DESKTOP_REFERENCE_WIDTH;
+            const mobileScale = isMobile ? MOBILE_SCALE_BOOST : 1;
+            const scale = Math.min(window.innerWidth / referenceWidth, 1) * mobileScale;
+            turnstileSlot.style.setProperty('--turnstile-scale', scale);
+        };
+
+        window.addEventListener('resize', syncTurnstileSize);
+        syncTurnstileSize();
+    }
+
     document.querySelectorAll('.error-bubble').forEach(bubble => {
         if (bubble.textContent.trim() !== '') {
             const input = bubble.closest('.input-group').querySelector('input');
