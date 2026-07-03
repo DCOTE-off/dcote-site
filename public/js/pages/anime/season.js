@@ -223,6 +223,49 @@ document.addEventListener('DOMContentLoaded', () => {
         return Array.from(container.children).filter(item => item.classList.contains('episode-cont'));
     }
 
+    function isUpcomingEpisode(item) {
+        return item.dataset.isUpcoming === 'true';
+    }
+
+    function getEpisodeNumber(item) {
+        return Number(item.dataset.episodeNumber);
+    }
+
+    function getEpisodeRating(item) {
+        const rating = item.querySelector('.rating-widget');
+        const visibleValue = rating?.querySelector('.rating-value')?.textContent;
+        const value = Number.parseFloat(visibleValue ?? rating?.dataset.avgRating ?? 0);
+
+        return Number.isNaN(value) ? 0 : value;
+    }
+
+    function getOrderedEpisodeItems(items, criterion, direction) {
+        const upcomingItems = items
+            .filter(isUpcomingEpisode)
+            .sort((a, b) => getEpisodeNumber(a) - getEpisodeNumber(b));
+        const releasedItems = items.filter(item => !isUpcomingEpisode(item));
+        const directionMultiplier = direction === 'descending' ? -1 : 1;
+
+        // Upcoming episodes stay chronological and pinned above the sortable released group.
+        releasedItems.sort((a, b) => {
+            const primaryA = criterion === 'rating'
+                ? getEpisodeRating(a)
+                : getEpisodeNumber(a);
+            const primaryB = criterion === 'rating'
+                ? getEpisodeRating(b)
+                : getEpisodeNumber(b);
+            const primaryDifference = (primaryA - primaryB) * directionMultiplier;
+
+            if (primaryDifference !== 0) {
+                return primaryDifference;
+            }
+
+            return (getEpisodeNumber(a) - getEpisodeNumber(b)) * directionMultiplier;
+        });
+
+        return [...upcomingItems, ...releasedItems];
+    }
+
     function updateGroupSeparator(container) {
         const visibleItems = getEpisodeItems(container)
             .filter(item => !item.classList.contains('is-collapsed-hidden'));
@@ -230,8 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
         getEpisodeItems(container).forEach(item => item.classList.remove('has-group-separator'));
 
         for (let index = 1; index < visibleItems.length; index++) {
-            const previousIsUpcoming = visibleItems[index - 1].dataset.isUpcoming === 'true';
-            const currentIsUpcoming = visibleItems[index].dataset.isUpcoming === 'true';
+            const previousIsUpcoming = isUpcomingEpisode(visibleItems[index - 1]);
+            const currentIsUpcoming = isUpcomingEpisode(visibleItems[index]);
 
             if (previousIsUpcoming !== currentIsUpcoming) {
                 visibleItems[index].classList.add('has-group-separator');
@@ -249,16 +292,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const items = getEpisodeItems(container);
-        const upcomingItems = items
-            .filter(item => item.dataset.isUpcoming === 'true')
-            .sort((a, b) => Number(a.dataset.episodeNumber) - Number(b.dataset.episodeNumber));
-        const releasedItems = items
-            .filter(item => item.dataset.isUpcoming !== 'true')
-            .sort((a, b) => Number(a.dataset.episodeNumber) - Number(b.dataset.episodeNumber));
+        const upcomingItems = items.filter(isUpcomingEpisode);
         const releasedLimit = upcomingItems.length ? 3 : 4;
 
-        [...upcomingItems, ...releasedItems.slice().reverse()].forEach(item => container.append(item));
+        getOrderedEpisodeItems(items, 'episode', 'descending')
+            .forEach(item => container.append(item));
         container.dataset.sortDirection = 'descending';
+        container.dataset.sortCriterion = 'episode';
 
         const sortButton = section.querySelector('.sort-toggle');
         if (sortButton) {
@@ -266,18 +306,19 @@ document.addEventListener('DOMContentLoaded', () => {
             sortButton.setAttribute('aria-pressed', 'true');
         }
 
-        function getVisibleWhenCollapsed(edge) {
-            const visibleReleased = edge === 'earliest'
-                ? releasedItems.slice(0, releasedLimit)
-                : releasedItems.slice(-releasedLimit);
+        function getVisibleWhenCollapsed(orderedItems) {
+            const orderedUpcoming = orderedItems
+                .filter(isUpcomingEpisode);
+            const orderedReleased = orderedItems
+                .filter(item => !isUpcomingEpisode(item));
 
             return new Set([
-                ...visibleReleased,
-                ...upcomingItems.slice(0, 1),
+                ...orderedReleased.slice(0, releasedLimit),
+                ...orderedUpcoming.slice(0, 1),
             ]);
         }
 
-        let visibleWhenCollapsed = getVisibleWhenCollapsed('latest');
+        let visibleWhenCollapsed = getVisibleWhenCollapsed(getEpisodeItems(container));
         let isToggling = false;
 
         if (visibleWhenCollapsed.size >= items.length) {
@@ -378,8 +419,8 @@ document.addEventListener('DOMContentLoaded', () => {
             setExpanded(toggle.getAttribute('aria-expanded') !== 'true');
         });
 
-        container.addEventListener('episodes:sort-edge', event => {
-            visibleWhenCollapsed = getVisibleWhenCollapsed(event.detail.edge);
+        container.addEventListener('episodes:order-change', event => {
+            visibleWhenCollapsed = getVisibleWhenCollapsed(event.detail.orderedItems);
 
             if (toggle.getAttribute('aria-expanded') !== 'true') {
                 setItemsVisibility(false);
@@ -406,83 +447,111 @@ document.addEventListener('DOMContentLoaded', () => {
         sortDesc.style.display = isDescending ? 'block' : 'none';
     }
 
-    function sortGridWithAnimation(container, button) {
-        const items = Array.from(container.children);
+    function animateSortedItem(item, firstRect, animateStableItems) {
+        const lastRect = item.getBoundingClientRect();
+        const offsetX = firstRect.left - lastRect.left;
+        const offsetY = firstRect.top - lastRect.top;
+        const positionChanged = Math.abs(offsetX) >= 0.5 || Math.abs(offsetY) >= 0.5;
 
-        if (items.length < 2 || sortingContainers.has(container)) {
-            return;
+        if (!positionChanged && !animateStableItems) {
+            return Promise.resolve();
         }
 
-        const isDescending = container.dataset.sortDirection === 'descending'
-            || container.style.flexDirection === 'column-reverse';
-        const nextDirection = isDescending ? 'ascending' : 'descending';
+        if (!positionChanged) {
+            item.style.willChange = 'transform, opacity';
+
+            return item.animate([
+                {
+                    opacity: 0.72,
+                    transform: 'translate3d(0, var(--fs-gap10), 0)',
+                },
+                {
+                    opacity: 1,
+                    transform: 'translate3d(0, 0, 0)',
+                },
+            ], {
+                duration: 360,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            }).finished.finally(() => {
+                item.style.willChange = '';
+            });
+        }
+
+        item.style.willChange = 'transform';
+
+        return item.animate([
+            { transform: `translate3d(${offsetX}px, ${offsetY}px, 0)` },
+            { transform: 'translate3d(0, 0, 0)' },
+        ], {
+            duration: 520,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        }).finished.finally(() => {
+            item.style.willChange = '';
+        });
+    }
+
+    function sortGridWithAnimation(
+        container,
+        sortButton,
+        nextDirection,
+        nextCriterion = 'episode',
+        animateStableItems = false
+    ) {
+        const items = Array.from(container.children);
+
+        if (sortingContainers.has(container)) {
+            return false;
+        }
+
         const isEpisodeList = container.hasAttribute('data-collapsible-episodes');
+        const orderedItems = isEpisodeList
+            ? getOrderedEpisodeItems(items, nextCriterion, nextDirection)
+            : [...items].reverse();
 
         if (isEpisodeList) {
-            container.dispatchEvent(new CustomEvent('episodes:sort-edge', {
-                detail: {
-                    edge: nextDirection === 'descending' ? 'latest' : 'earliest',
-                },
+            container.dispatchEvent(new CustomEvent('episodes:order-change', {
+                detail: { orderedItems },
             }));
         }
 
-        const visibleItems = items.filter(item => !item.classList.contains('is-collapsed-hidden'));
+        const visibleItems = orderedItems
+            .filter(item => !item.classList.contains('is-collapsed-hidden'));
         const shouldAnimate = !reducedMotion.matches
             && visibleItems.length > 0
             && typeof visibleItems[0].animate === 'function';
         const firstRects = shouldAnimate
             ? new Map(visibleItems.map((item) => [item, item.getBoundingClientRect()]))
             : null;
-        const orderedItems = isEpisodeList
-            ? [
-                ...items.filter(item => item.dataset.isUpcoming === 'true'),
-                ...items.filter(item => item.dataset.isUpcoming !== 'true').reverse(),
-            ]
-            : [...items].reverse();
 
         container.style.flexDirection = 'column';
         orderedItems.forEach((item) => container.append(item));
         container.dataset.sortDirection = nextDirection;
-        updateSortIcons(button, !isDescending);
-        button.setAttribute('aria-pressed', String(!isDescending));
+        if (isEpisodeList) {
+            container.dataset.sortCriterion = nextCriterion;
+        }
+        updateSortIcons(sortButton, nextDirection === 'descending');
+        sortButton.setAttribute('aria-pressed', String(nextDirection === 'descending'));
         if (isEpisodeList) {
             updateGroupSeparator(container);
         }
 
         if (!shouldAnimate) {
-            return;
+            return true;
         }
 
         sortingContainers.add(container);
         container.classList.add('is-sorting');
 
-        const animations = visibleItems.map((item) => {
-            const firstRect = firstRects.get(item);
-            const lastRect = item.getBoundingClientRect();
-            const offsetX = firstRect.left - lastRect.left;
-            const offsetY = firstRect.top - lastRect.top;
-
-            if (Math.abs(offsetX) < 0.5 && Math.abs(offsetY) < 0.5) {
-                return Promise.resolve();
-            }
-
-            item.style.willChange = 'transform';
-
-            return item.animate([
-                { transform: `translate3d(${offsetX}px, ${offsetY}px, 0)` },
-                { transform: 'translate3d(0, 0, 0)' },
-            ], {
-                duration: 520,
-                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            }).finished.finally(() => {
-                item.style.willChange = '';
-            });
-        });
+        const animations = visibleItems.map(item => (
+            animateSortedItem(item, firstRects.get(item), animateStableItems)
+        ));
 
         Promise.all(animations.map((animation) => animation.catch(() => {}))).then(() => {
             sortingContainers.delete(container);
             container.classList.remove('is-sorting');
         });
+
+        return true;
     }
 
     document.querySelectorAll('.sort-toggle').forEach((button) => {
@@ -493,8 +562,127 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            sortGridWithAnimation(container, button);
+            const isDescending = container.dataset.sortDirection === 'descending'
+                || container.style.flexDirection === 'column-reverse';
+            const nextDirection = isDescending ? 'ascending' : 'descending';
+            const criterion = container.dataset.sortCriterion || 'episode';
+
+            sortGridWithAnimation(container, button, nextDirection, criterion);
         });
+    });
+
+    // Dropdown mechanics are shared; each page supplies only its selection side effects.
+    function setupListFilter(filter, onSelect) {
+        const toggle = filter.querySelector('.filter-toggle');
+        const menu = filter.querySelector('.list-filter-menu');
+        const options = Array.from(filter.querySelectorAll('.list-filter-option'));
+
+        if (!toggle || !menu || options.length === 0) {
+            return;
+        }
+
+        function setOpen(open, focusSelected = false) {
+            filter.classList.toggle('is-open', open);
+            toggle.setAttribute('aria-expanded', String(open));
+
+            if (open && focusSelected) {
+                const selectedOption = options.find(
+                    option => option.getAttribute('aria-selected') === 'true'
+                );
+                (selectedOption || options[0]).focus();
+            }
+        }
+
+        toggle.addEventListener('click', () => {
+            setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+        });
+
+        toggle.addEventListener('keydown', event => {
+            if (event.key === 'ArrowDown') {
+                event.preventDefault();
+                setOpen(true, true);
+            }
+        });
+
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                if (onSelect?.(option, options) === false) {
+                    return;
+                }
+
+                setOpen(false);
+                toggle.focus();
+            });
+        });
+
+        menu.addEventListener('keydown', event => {
+            const currentIndex = options.indexOf(document.activeElement);
+            let nextIndex = null;
+
+            if (event.key === 'ArrowDown') {
+                nextIndex = currentIndex < 0 ? 0 : (currentIndex + 1) % options.length;
+            } else if (event.key === 'ArrowUp') {
+                nextIndex = currentIndex < 0
+                    ? options.length - 1
+                    : (currentIndex - 1 + options.length) % options.length;
+            } else if (event.key === 'Home') {
+                nextIndex = 0;
+            } else if (event.key === 'End') {
+                nextIndex = options.length - 1;
+            }
+
+            if (nextIndex !== null) {
+                event.preventDefault();
+                options[nextIndex].focus();
+            }
+        });
+
+        document.addEventListener('click', event => {
+            if (!filter.contains(event.target)) {
+                setOpen(false);
+            }
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+                setOpen(false);
+                toggle.focus();
+            }
+        });
+    }
+
+    function setupEpisodeFilter(filter) {
+        const section = filter.closest('.cont2');
+        const container = section?.querySelector('[data-collapsible-episodes]');
+        const sortButton = section?.querySelector('.sort-toggle');
+
+        if (!container || !sortButton) {
+            return;
+        }
+
+        setupListFilter(filter, (option, options) => {
+            const criterion = option.dataset.sortCriterion;
+            const currentCriterion = container.dataset.sortCriterion || 'episode';
+            const direction = container.dataset.sortDirection || 'descending';
+
+            if (criterion !== currentCriterion
+                && !sortGridWithAnimation(container, sortButton, direction, criterion, true)) {
+                return false;
+            }
+
+            options.forEach(item => {
+                const selected = item === option;
+                item.classList.toggle('is-selected', selected);
+                item.setAttribute('aria-selected', String(selected));
+            });
+
+            return true;
+        });
+    }
+
+    document.querySelectorAll('[data-list-filter="episodes"]').forEach(setupEpisodeFilter);
+    document.querySelectorAll('[data-list-filter="chapters"]').forEach(filter => {
+        setupListFilter(filter);
     });
 
     document.querySelectorAll('[data-open-in-new-tab]').forEach(icon => {

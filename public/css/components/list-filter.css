@@ -1,0 +1,145 @@
+.list-filter {
+    --list-filter-option-icon-height: clamp(1px, 1.625vw, 25px);
+    position: relative;
+    z-index: 40;
+}
+
+.list-filter .filter-toggle .dropdown-icon {
+    flex-shrink: 0;
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.list-filter .filter-toggle > p,
+.list-filter-option > p {
+    font: inherit;
+    margin: 0;
+    position: relative;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.list-filter.is-open .filter-toggle .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.list-filter-menu {
+    align-items: stretch;
+    background-color: #1D162E;
+    border: var(--fs-border2px) solid #921545;
+    border-radius: var(--fs-border-radius);
+    display: flex;
+    flex-direction: column;
+    min-width: 100%;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: calc(100% + var(--fs-gap10));
+    transform: translateY(calc(-1 * var(--fs-gap10))) scale(0.96);
+    transform-origin: top right;
+    transition:
+        opacity 200ms ease,
+        transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+        visibility 0s linear 260ms;
+    visibility: hidden;
+    width: max-content;
+}
+
+.list-filter.is-open .list-filter-menu {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    transition-delay: 0s;
+    visibility: visible;
+}
+
+.list-filter-option {
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    gap: var(--fs-gap10);
+    justify-content: center;
+    overflow: hidden;
+    padding: var(--fs-gap10);
+    position: relative;
+    scale: 1;
+    width: 100%;
+}
+
+.list-filter-option::before {
+    background-color: #921545;
+    content: "";
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    transition: opacity 220ms ease;
+}
+
+.list-filter-option:hover {
+    background-color: transparent;
+    box-shadow: none;
+    scale: 1;
+}
+
+.list-filter-option:hover::before {
+    opacity: 0.5;
+}
+
+.list-filter-option.is-selected::before,
+.list-filter-option.is-selected:hover::before {
+    opacity: 1;
+}
+
+.list-filter-option:focus-visible {
+    outline: var(--fs-border2px) solid white;
+    outline-offset: calc(-1 * var(--fs-border2px));
+}
+
+.list-filter-option-icon {
+    color: white;
+    flex: 0 0 auto;
+    height: var(--list-filter-option-icon-height);
+    position: relative;
+    z-index: 1;
+}
+
+.list-filter-option-icon--episodes {
+    width: clamp(1px, 1.3vw, 20px);
+}
+
+.list-filter-option-icon--rating {
+    width: clamp(1px, 1.43vw, 22px);
+}
+
+.list-filter-option-icon--chapters {
+    width: clamp(1px, 1.495vw, 23px);
+}
+
+@media (max-width: 768px) {
+    .list-filter {
+        --list-filter-option-icon-height: clamp(1px, 6.667vw, 100px);
+    }
+
+    .list-filter-option-icon--episodes {
+        width: clamp(1px, 5.333vw, 100px);
+    }
+
+    .list-filter-option-icon--rating {
+        width: clamp(1px, 5.867vw, 100px);
+    }
+
+    .list-filter-option-icon--chapters {
+        width: clamp(1px, 6.133vw, 100px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .list-filter .filter-toggle .dropdown-icon,
+    .list-filter-menu,
+    .list-filter-option::before {
+        transition: none;
+    }
+}

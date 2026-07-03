@@ -2,24 +2,28 @@ let captchaToken = null;
 
 function onCaptchaSuccess(token) {
     captchaToken = token;
-    const btn = document.querySelector('.submit-btn');
-    btn.disabled = false;
-    btn.classList.remove('disabled');
+    const submitButton = document.querySelector('.submit-btn');
+
+    if (!submitButton) {
+        return;
+    }
+
+    submitButton.disabled = false;
+    submitButton.classList.remove('disabled');
 }
 
+document.querySelectorAll('.password-toggle').forEach(toggle => {
+    toggle.addEventListener('click', () => {
+        const input = toggle.closest('.input-with-icon')?.querySelector('input');
 
-document.querySelectorAll('.password-toggle').forEach(button => {
-    button.addEventListener('click', function() {
-        const input = this.closest('.input-with-icon').querySelector('input');
-        const eyeOn = this.querySelector('.eye-icon');
-        const eyeOff = this.querySelector('.eye-off-icon');
+        if (!input) {
+            return;
+        }
 
-        const isPassword = input.type === 'password';
-        input.type = isPassword ? 'text' : 'password';
-        
-        eyeOn.style.display = isPassword ? 'none' : 'flex';
-        eyeOff.style.display = isPassword ? 'flex' : 'none';
-        this.setAttribute('aria-label', isPassword ? 'Скрыть пароль' : 'Показать пароль');
+        const showPassword = input.type === 'password';
+        input.type = showPassword ? 'text' : 'password';
+        toggle.setAttribute('aria-pressed', String(showPassword));
+        toggle.setAttribute('aria-label', showPassword ? 'Скрыть пароль' : 'Показать пароль');
     });
 });
 

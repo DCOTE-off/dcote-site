@@ -2,6 +2,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/pages/anime/season.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/list-filter.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
 
 @endpush
@@ -64,15 +65,46 @@
                 <span>СОРТИРОВКА</span>
             </button>
             <h1>СПИСОК СЕРИЙ</h1>
-            <button type="button" class="filter-toggle episode-control dropdown-btn no-glow" disabled>
-                <svg class="filter-icon" aria-hidden="true">
-                    <use href="#filter-filled"></use>
-                </svg>
-                <span>ФИЛЬТР</span>
-                <svg class="dropdown-icon" aria-hidden="true">
-                    <use href="#dropdown"></use>
-                </svg>
-            </button>
+            <div class="list-filter" data-list-filter="episodes">
+                <button type="button"
+                        class="filter-toggle episode-control dropdown-btn no-glow"
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        aria-controls="episode-filter-menu">
+                    <svg class="filter-icon" aria-hidden="true">
+                        <use href="#filter-filled"></use>
+                    </svg>
+                    <p>ФИЛЬТР</p>
+                    <svg class="dropdown-icon" aria-hidden="true">
+                        <use href="#dropdown"></use>
+                    </svg>
+                </button>
+                <div class="list-filter-menu"
+                     id="episode-filter-menu"
+                     role="listbox"
+                     aria-label="Критерий сортировки серий">
+                    <button type="button"
+                            class="list-filter-option is-selected"
+                            role="option"
+                            aria-selected="true"
+                            data-sort-criterion="episode">
+                        <svg class="list-filter-option-icon list-filter-option-icon--episodes" aria-hidden="true">
+                            <use href="#side-menu-anime"></use>
+                        </svg>
+                        <p>По сериям</p>
+                    </button>
+                    <button type="button"
+                            class="list-filter-option"
+                            role="option"
+                            aria-selected="false"
+                            data-sort-criterion="rating">
+                        <svg class="list-filter-option-icon list-filter-option-icon--rating" aria-hidden="true">
+                            <use href="#star"></use>
+                        </svg>
+                        <p>По оценкам</p>
+                    </button>
+                </div>
+            </div>
         </div>
         @if ($showReleaseSchedule)
             <p class="info-schedule">Каждая новая серия выходит в <b>среду</b> в <b>15:30 по МСК</b>! Русские субтитры появляются на сайте спустя <b>полчаса-час</b>.</p>

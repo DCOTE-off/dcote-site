@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{{ asset('css/components/image-carousel-modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/pages/ranobe/volume.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/list-filter.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
 @endpush
 @push('scripts')
@@ -79,15 +80,36 @@
                     <span>СОРТИРОВКА</span>
                 </button>
                 <h1>ОГЛАВЛЕНИЕ</h1>
-                <button type="button" class="filter-toggle chapter-control dropdown-btn no-glow" disabled>
-                    <svg class="filter-icon" aria-hidden="true">
-                        <use href="#filter-filled"></use>
-                    </svg>
-                    <span>ФИЛЬТР</span>
-                    <svg class="dropdown-icon" aria-hidden="true">
-                        <use href="#dropdown"></use>
-                    </svg>
-                </button>
+                <div class="list-filter" data-list-filter="chapters">
+                    <button type="button"
+                            class="filter-toggle chapter-control dropdown-btn no-glow"
+                            aria-label="Фильтр глав"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-controls="chapter-filter-menu">
+                        <svg class="filter-icon" aria-hidden="true">
+                            <use href="#filter-filled"></use>
+                        </svg>
+                        <p>ФИЛЬТР</p>
+                        <svg class="dropdown-icon" aria-hidden="true">
+                            <use href="#dropdown"></use>
+                        </svg>
+                    </button>
+                    <div class="list-filter-menu"
+                         id="chapter-filter-menu"
+                         role="listbox"
+                         aria-label="Критерий сортировки глав">
+                        <button type="button"
+                                class="list-filter-option is-selected"
+                                role="option"
+                                aria-selected="true">
+                            <svg class="list-filter-option-icon list-filter-option-icon--chapters" aria-hidden="true">
+                                <use href="#side-menu-ranobe"></use>
+                            </svg>
+                            <p>По главам</p>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div style="width: max-content;align-self:center">
             @include('partials.rating', [
