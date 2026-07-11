@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\GuardsNaturalKeyUniqueness;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,6 +10,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AnimeSeason extends Model
 {
+    use GuardsNaturalKeyUniqueness;
+
     public const STATUS_RELEASED = 'Вышел';
 
     public const STATUS_ONGOING = 'Онгоинг';
@@ -36,6 +39,11 @@ class AnimeSeason extends Model
 
     protected static function booted(): void
     {
+        static::saving(fn (AnimeSeason $season) => $season->ensureUniqueNaturalKey(
+            ['season_number'],
+            'season_number',
+            'Сезон с таким номером уже существует.',
+        ));
         static::deleting(fn (AnimeSeason $season) => $season->popularItems()->delete());
     }
 

@@ -39,7 +39,8 @@
     text-align: center;
 }
 
-.volume-cont .desc p {
+.volume-cont .desc p,
+.volume-cont .desc .safe-description {
     text-align: left;
 }
 

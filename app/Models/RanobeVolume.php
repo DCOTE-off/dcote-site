@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\GuardsNaturalKeyUniqueness;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class RanobeVolume extends Model
 {
     use HasFactory;
+    use GuardsNaturalKeyUniqueness;
 
     public const STATUS_RELEASED = 'Вышел';
 
@@ -42,6 +44,11 @@ class RanobeVolume extends Model
 
     protected static function booted(): void
     {
+        static::saving(fn (RanobeVolume $volume) => $volume->ensureUniqueNaturalKey(
+            ['ranobe_year_id', 'volume_number'],
+            'volume_number',
+            'Том с таким номером уже существует в выбранном году.',
+        ));
         static::deleting(fn (RanobeVolume $volume) => $volume->popularItems()->delete());
     }
 

@@ -51,15 +51,16 @@
         </div>
     @endif
     @php
-        $metricsRoute = request()->route();
+        $metricsBaseUrl = rtrim(config('services.metrics.base_url'), '/');
     @endphp
     <script>
         window.DCOTE_SITE_METRICS = {
-        metricsBaseUrl: "https://video.dcote.net/metrics-api",
-        userId: @json(auth()->check()),
-        page: @json(request()->route()?->getName() ?? request()->route()?->uri() ?? request()->path()),
+            contractVersion: 1,
+            metricsBaseUrl: @json($metricsBaseUrl),
+            userId: @json(auth()->check()),
+            page: @json(request()->route()?->getName() ?? request()->route()?->uri() ?? request()->path()),
         };
     </script>
-    <script defer src="https://video.dcote.net/metrics-api/site-presence-tracker.js"></script>
+    <script defer src="{{ asset('js/site-presence-tracker.js') }}"></script>
 </body>
 </html>

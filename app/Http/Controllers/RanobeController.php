@@ -7,9 +7,15 @@ use App\Helpers\MarkdownRanobeHelper;
 use App\Models\RanobeChapter;
 use App\Models\RanobeVolume;
 use App\Models\RanobeYear;
+use App\Services\PublicationStateSynchronizer;
 
 class RanobeController extends Controller
 {
+    public function __construct(
+        private readonly PublicationStateSynchronizer $publicationState,
+    ) {
+    }
+
     public function index()
     {
         $years = RanobeYear::orderBy('year_number', 'asc')
@@ -22,7 +28,7 @@ class RanobeController extends Controller
 
     public function showYear(int $year)
     {
-        RanobeVolume::syncFinishedStatuses();
+        $this->publicationState->sync();
 
         $yearModel = RanobeYear::where('year_number', $year)->firstOrFail();
         $userId = auth()->id();
@@ -56,7 +62,7 @@ class RanobeController extends Controller
 
     public function showVolume(int $year, float $volume)
     {
-        RanobeVolume::syncFinishedStatuses();
+        $this->publicationState->sync();
 
         $userId = auth()->id();
 
@@ -83,13 +89,15 @@ class RanobeController extends Controller
             }])
             ->where('volume_number', $volume)
             ->with(['chapters' => function ($query) {
-                $query->select('id', 'ranobe_volume_id', 'title', 'chapter_number');
+                $query
+                    ->select('id', 'ranobe_volume_id', 'title', 'chapter_number')
+                    ->orderBy('chapter_number', 'asc');
             }])
             ->whereHas('year', function ($query) use ($year) {
                 $query->where('year_number', $year);
             })
             ->firstOrFail();
-        $chapters = $volumeModel->chapters()->orderBy('chapter_number', 'asc')->get();
+        $chapters = $volumeModel->chapters;
         $volume_number_rounded = floatval($volumeModel->volume_number);
         $path = "ranobe/year-$year/volume-$volume_number_rounded/images/";
 
@@ -101,7 +109,7 @@ class RanobeController extends Controller
 
     public function showChapter(int $year, float $volume, float $chapter)
     {
-        RanobeVolume::syncFinishedStatuses();
+        $this->publicationState->sync();
 
         $chapterModel = RanobeChapter::query()
             ->where('chapter_number', $chapter)

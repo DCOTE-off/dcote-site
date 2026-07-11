@@ -29,7 +29,9 @@
         </div>
         <div class="desc slide-in-left">
             <h1>{{ $season }} СЕЗОН АНИМЕ-АДАПТАЦИИ</h1>
-            <p>{!! $about_season->season_description ?? 'Описание сезона' !!}</p>
+            <div class="safe-description">
+                {{ \App\Helpers\SafeDescriptionHelper::render($about_season->season_description, 'Описание сезона') }}
+            </div>
             <div class="low-buttons ">
                 <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon">

@@ -44,7 +44,12 @@
                     {{ $year }} ГОДА ОБУЧЕНИЯ
                 @endif
             </h1>
-            <p>{!! $volumeModel->volume_description ?? 'Описание {{$volume_number_rounded }} тома {{ $year }} года обучения'!!}</p>
+            <div class="safe-description">
+                {{ \App\Helpers\SafeDescriptionHelper::render(
+                    $volumeModel->volume_description,
+                    "Описание {$volume_number_rounded} тома {$year} года обучения",
+                ) }}
+            </div>
             <div class="bottom-buttons">
                 <button class="dropdown-btn no-glow" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon">

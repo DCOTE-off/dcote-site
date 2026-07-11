@@ -39,7 +39,8 @@
     text-align: center;
 }
 
-.cont .desc p {
+.cont .desc p,
+.cont .desc .safe-description {
     text-align: left;
 }
 

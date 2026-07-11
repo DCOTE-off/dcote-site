@@ -36,4 +36,9 @@ return [
         'site_key' => env('TURNSTILE_SITE_KEY'),
     ],
 
+    'metrics' => [
+        // Optional override only: the existing production URL remains the default.
+        'base_url' => env('METRICS_BASE_URL', 'https://video.dcote.net/metrics-api'),
+    ],
+
 ];

@@ -3,6 +3,7 @@
     <link rel="stylesheet" href="{{ asset('css/pages/anime/episode.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
     <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/components/player-status.css') }}">
 @endpush
 @push('scripts')
     <script src="{{ asset('js/components/rating.js') }}"></script>
@@ -34,6 +35,7 @@
     @if (!$completed)
         <h1 style="text-align: center;">СЕРИИ ПОКА НЕТ</h1>
     @else
+        <div class="episode-player-shell">
             <iframe
                 src="{{ $episodeUrl }}"
                 allow="autoplay; encrypted-media; picture-in-picture"
@@ -42,6 +44,14 @@
                 loading="lazy"
                 id="episode-iframe-player">
             </iframe>
+            <div class="episode-player-status" id="episode-player-status" role="status" hidden>
+                <h2>ПЛЕЕР ВРЕМЕННО НЕДОСТУПЕН</h2>
+                <p>Проверьте соединение и попробуйте загрузить его ещё раз.</p>
+                <button class="link-like-button" type="button" id="episode-player-retry">
+                    ПОВТОРИТЬ
+                </button>
+            </div>
+        </div>
     @endif
     <div class="episode-controls">
         <a class="link-like-button episode-nav-button prev-episode-btn {{ !$prev_link ? 'disabled_a' : '' }}"  href="{{ $prev_link }}">

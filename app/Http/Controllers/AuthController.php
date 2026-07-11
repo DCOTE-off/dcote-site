@@ -12,15 +12,12 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function register() {
-        url()->previous() ? session(['url.intended' => url()->previous()]) : null;
+        $this->rememberSafeIntendedUrl(url()->previous());
         return view('pages.reg');
     }
 
     public function login() {
-        $previousUrl = url()->previous();
-        if ($previousUrl && !str_contains($previousUrl, '/auth/')) {
-            session(['url.intended' => $previousUrl]);
-        }
+        $this->rememberSafeIntendedUrl(url()->previous());
 
         return view('pages.login');
     }
@@ -57,6 +54,34 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->intended(route('home'))->with('success', 'Вы успешно вышли из аккаунта.');
+        return redirect()->route('home')->with('success', 'Вы успешно вышли из аккаунта.');
+    }
+
+    private function rememberSafeIntendedUrl(?string $url): void
+    {
+        if (!$url) {
+            return;
+        }
+
+        $target = parse_url($url);
+        $application = parse_url(url('/'));
+
+        if (
+            !$target
+            || !isset($target['scheme'], $target['host'])
+            || strcasecmp($target['scheme'], $application['scheme'] ?? '') !== 0
+            || strcasecmp($target['host'], $application['host'] ?? '') !== 0
+            || ($target['port'] ?? null) !== ($application['port'] ?? null)
+            || str_starts_with($target['path'] ?? '/', '/auth/')
+        ) {
+            return;
+        }
+
+        $intended = $target['path'] ?? '/';
+        if (isset($target['query'])) {
+            $intended .= '?'.$target['query'];
+        }
+
+        session(['url.intended' => $intended]);
     }
 }

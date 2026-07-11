@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\GuardsNaturalKeyUniqueness;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class RanobeYear extends Model
 {
     use HasFactory;
+    use GuardsNaturalKeyUniqueness;
 
     public $timestamps = false;
 
@@ -23,6 +25,15 @@ class RanobeYear extends Model
         'year_number' => 'integer',
         'words_quantity' => 'integer',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(fn (RanobeYear $year) => $year->ensureUniqueNaturalKey(
+            ['year_number'],
+            'year_number',
+            'Год с таким номером уже существует.',
+        ));
+    }
 
     public function volumes()
     {

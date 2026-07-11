@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
 use App\Models\Rating;
+use App\Services\PublicationStateSynchronizer;
 
 class AnimeController extends Controller
 {
+    public function __construct(
+        private readonly PublicationStateSynchronizer $publicationState,
+    ) {
+    }
+
     public function index()
     {
         $this->syncReleaseState();
@@ -96,7 +102,7 @@ class AnimeController extends Controller
                 ->where('rateable_id', $episodeModel->id)
                 ->value('rating') ?? 0
             : 0;
-        $player_url = 'https://video.dcote.net/metrics-api/videoplayer';
+        $player_url = rtrim(config('services.metrics.base_url'), '/').'/videoplayer';
         $episodeNumBeaty = str_pad((string) $episode, 2, '0', STR_PAD_LEFT);
         $videoBaseUrl = "https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}";
         $episodeUrl = $player_url.'?'.http_build_query([
@@ -129,9 +135,8 @@ class AnimeController extends Controller
 
     private function syncReleaseState(): void
     {
-        // Page requests persist due episodes and completed seasons without a background worker.
-        AnimeEpisode::releaseDue();
-        AnimeSeason::syncFinishedStatuses();
+        // Preserve the request-driven fallback without running global UPDATEs on every page view.
+        $this->publicationState->sync();
     }
 
     private function getPreviousEpisode(AnimeEpisode $episodeModel): ?AnimeEpisode

@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
 use App\Models\ClassesTop;
 use App\Models\Popular;
 use App\Models\RanobeVolume;
 use App\Models\UpdateFeed;
+use App\Services\PublicationStateSynchronizer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class MainController extends Controller
 {
+    public function __construct(
+        private readonly PublicationStateSynchronizer $publicationState,
+    ) {
+    }
+
     public function index()
     {
-        AnimeEpisode::releaseDue();
-        AnimeSeason::syncFinishedStatuses();
-        RanobeVolume::syncFinishedStatuses();
+        $this->publicationState->sync();
 
         $classes_list_default = ClassesTop::where('spoilers', 0)
             ->orderBy('class_points', 'desc')
@@ -51,7 +55,16 @@ class MainController extends Controller
             ->where('is_active', true)
             ->orderBy('sort_order')
             ->orderBy('id')
-            ->with('target')
+            ->with(['target' => function (MorphTo $target) {
+                $target
+                    ->morphWith([
+                        RanobeVolume::class => ['year'],
+                    ])
+                    ->morphWithCount([
+                        AnimeSeason::class => ['releasedEpisodes'],
+                        RanobeVolume::class => ['chapters'],
+                    ]);
+            }])
             ->get()
             ->pluck('target')
             ->reject(fn ($target) => $target instanceof AnimeSeason && $target->isAnnounced())
@@ -91,8 +104,6 @@ class MainController extends Controller
 
     private function makeAnimePopularCard(AnimeSeason $season): array
     {
-        $season->loadCount('releasedEpisodes');
-
         $released = (int) $season->released_episodes_count;
         $total = (int) $season->number_of_episodes;
         $mobileImage = "/images/anime/anime-banner-season-{$season->season_number}-mobile.webp";
@@ -122,8 +133,6 @@ class MainController extends Controller
 
     private function makeRanobePopularCard(RanobeVolume $volume): array
     {
-        $volume->loadMissing('year')->loadCount('chapters');
-
         $released = (int) $volume->chapters_count;
         $total = (int) $volume->all_chapters;
         $year = (int) $volume->year?->year_number;

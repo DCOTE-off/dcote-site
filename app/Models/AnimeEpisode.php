@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\GuardsNaturalKeyUniqueness;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Carbon;
@@ -9,6 +10,8 @@ use Illuminate\Support\CarbonInterface;
 
 class AnimeEpisode extends Model
 {
+    use GuardsNaturalKeyUniqueness;
+
     protected $table = 'anime_episodes';
 
     public $timestamps = false;
@@ -28,6 +31,15 @@ class AnimeEpisode extends Model
         'completed' => 'boolean',
         'appear_in' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::saving(fn (AnimeEpisode $episode) => $episode->ensureUniqueNaturalKey(
+            ['season_id', 'episode_number'],
+            'episode_number',
+            'Серия с таким номером уже существует в выбранном сезоне.',
+        ));
+    }
 
     /**
      * Ставит галочку «Вышел» всем сериям, дата выхода которых уже наступила.
