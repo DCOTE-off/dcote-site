@@ -8,13 +8,30 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
-    height: clamp(50px, 5.53vw, 85px);
-    padding: clamp(4px, 1.1vw, 17px) calc(clamp(0.1px,0.325vw,5px) + clamp(15px, 3.9vw, 60px));
+    padding-inline: calc(clamp(0.1px,0.325vw,5px) + clamp(15px, 3.9vw, 60px));
+    padding-top: var(--fs-gap20);
+    padding-bottom: clamp(0px,2.08vw,32px);
     gap: clamp(4px, 1.1vw, 17px);
     z-index: 1500;
     text-decoration: none;
+    position: relative;
 }
+
+.navbar::after{
+    content: "";
+    position: absolute;
+    width: clamp(1px,53.95vw,830px);
+    height: clamp(0.5px,0.13vw,2px);
+    border-radius: 999px;
+    background-color: rgba(170, 160, 184, 1);
+    top:auto;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+
 
 .navbar .left {
     display: flex;
@@ -69,7 +86,8 @@
 .navbar .center a {
     color: white;
     text-decoration: none;
-    font-family: 'Vag-Medium', sans-serif;
+    font-family: 'Vag Rounded Next', sans-serif;
+    font-weight: 500;
     font-size: var(--fs-nav);
     white-space: nowrap;
     transition: all 0.3s ease;
@@ -398,3 +416,4 @@
         padding-inline: var(--fs-gap10);
     }
 }
+

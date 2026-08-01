@@ -4,19 +4,18 @@
 
 **Фан-сайт ранобэ «Добро пожаловать в класс превосходства» (You-Zitsu / Classroom of the Elite)**
 
-[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
+[![Laravel](https://img.shields.io/badge/Laravel-10-FF2D20?logo=laravel&logoColor=white)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white)](https://php.net)
 [![MySQL](https://img.shields.io/badge/MySQL-8-4479A1?logo=mysql&logoColor=white)](https://mysql.com)
 [![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://docker.com)
 [![Filament](https://img.shields.io/badge/Filament-3-FFA500)](https://filamentphp.com)
-[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vitejs.dev)
 [![Sanctum](https://img.shields.io/badge/Sanctum-FF2D20?logo=laravel&logoColor=white)](https://laravel.com/docs/sanctum)
 
 </div>
 
 ## О проекте
 
-[dcote.net](https://dcote.net/) — фан-сайт по серии ранобэ и аниме **«Добро пожаловать в класс превосходства» (You-Zitsu / Classroom of the Elite)**. Реализован на **Laravel 12** с рейтингами, Vite-сборкой, Filament Admin и двумя Docker-сценариями.
+[dcote.net](https://dcote.net/) — фан-сайт по серии ранобэ и аниме **«Добро пожаловать в класс превосходства» (You-Zitsu / Classroom of the Elite)**. Реализован на **Laravel 10** с рейтингами, Filament Admin и двумя Docker-сценариями.
 Были сделаны:
 - Библиотека переводов ранобэ с разбивкой по годам, томам и главам
 - Страницы сезонов и серий аниме со встроенными плеерами
@@ -27,8 +26,8 @@
 
 ## Стек
 
-- **Backend:** Laravel 12, PHP 8.4, MySQL 8
-- **Frontend:** Blade, Vite 6, vanilla JS
+- **Backend:** Laravel 10, PHP 8.4, MySQL 8
+- **Frontend:** Blade, vanilla JS и статические CSS/JS-ресурсы
 - **Admin:** Filament 3
 - **Auth:** Laravel Sanctum
 - **Storage:** Cloudflare R2 (S3-совместимое объектное хранилище)
@@ -41,7 +40,7 @@
 
 ## Docker Dev
 
-Dev-сборка использует текущий Sail-like PHP 8.4 контейнер, монтирует проект внутрь контейнера и запускает Laravel через `php artisan serve`.
+Dev-сборка использует облегчённый Sail-like PHP 8.4 контейнер с Composer и MySQL client, монтирует проект внутрь контейнера и запускает Laravel через `php artisan serve`.
 Для запуска использовать WSL.
 
 Перед первым запуском (копируем переменные окружения):
@@ -53,13 +52,19 @@ cp .env.example .env
 Первичная установка зависимостей (Composer):
 
 ```bash
-docker run --rm -u "$(id -u):$(id -g)" -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php84-composer:latest composer install --ignore-platform-reqs
+docker compose -f docker-compose.dev.yml run --rm --no-deps app composer install
 ```
 
 Запуск:
 
 ```bash
 docker compose -f docker-compose.dev.yml up -d --build
+```
+
+Создание app key
+
+```bash
+docker compose -f docker-compose.dev.yml exec app php artisan key:generate
 ```
 
 Миграции:
@@ -130,7 +135,7 @@ Production-сборка использует схему:
 Nginx Proxy Manager -> nginx -> php-fpm -> Laravel
 ```
 
-`nginx` отдаёт статику из `public` и прокидывает PHP-запросы в `php-fpm`. `app` содержит собранное Laravel-приложение, Composer-зависимости и Vite build.
+`nginx` отдаёт статику из `public` и прокидывает PHP-запросы в `php-fpm`. `app` содержит Laravel-приложение и Composer-зависимости.
 
 Создайте `.env.production` на сервере:
 
@@ -222,3 +227,4 @@ docker compose -f docker-compose.prod.yml down
 ```bash
 docker compose -f docker-compose.prod.yml logs -f nginx app
 ```
+

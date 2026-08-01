@@ -2,14 +2,14 @@
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../fonts/OpenSans-Regular.woff2') format('woff2');
+    src: url('../../fonts/OpenSans/OpenSans-Regular.woff2') format('woff2');
     font-weight: 400;
     font-display: swap;
 }
 
 @font-face {
     font-family: 'Open Sans';
-    src: url('../../fonts/OpenSans-Bold.woff2') format('woff2');
+    src: url('../../fonts/OpenSans/OpenSans-Bold.woff2') format('woff2');
     font-weight: 700;
     font-display: swap;
 }

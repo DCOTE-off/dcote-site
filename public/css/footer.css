@@ -8,15 +8,30 @@
     margin-top: 0px;
     left: 0;
     width: 100%;
-    background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
     align-items: center;
     display: flex;
     text-decoration: none;
-    height: clamp(50px, 5.53vw, 85px);
-    padding: clamp(4px, 1.1vw, 17px) clamp(15px, 3.9vw, 60px);
+    padding-inline: calc(clamp(0.1px,0.325vw,5px) + clamp(15px, 3.9vw, 60px));
+    padding-bottom: var(--fs-gap20);
+    padding-top: clamp(0px,2.08vw,32px);
     gap: clamp(4px, 1.1vw, 17px);
     justify-content: space-between;
+    position: relative;
 }
+
+.footer-nav::before{
+    content: "";
+    position: absolute;
+    width: clamp(1px,53.95vw,830px);
+    height: clamp(0.5px,0.13vw,2px);
+    border-radius: 999px;
+    background-color: rgba(170, 160, 184, 1);
+    bottom:auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 
 
 .footer-left {
@@ -29,7 +44,7 @@
 .footer-center p {
     font-size: var(--fs-footer);
     color: white;
-    font-family: 'Vag-Regular';
+    font-family: 'Vag Rounded Next';
     text-align: center;
     justify-self: center;
     flex: 1;
@@ -52,7 +67,8 @@
 
 .footer-links a {
     color: white;
-    font-family: 'Vag-Extralight';
+    font-family: 'Vag Rounded Next';
+    font-weight: 200;
     font-size: var(--fs-footer);
     text-decoration: none;
     white-space: nowrap;
@@ -199,3 +215,4 @@
         background: #0B172B;
     }
 }
+

@@ -22,3 +22,4 @@ yarn-error.log
 /public/sitemap.xml
 .stdignore
 opencode.json
+dump.sql

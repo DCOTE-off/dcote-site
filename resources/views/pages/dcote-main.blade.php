@@ -3,12 +3,13 @@
     <link rel="stylesheet" href="{{ asset('css/pages/dcote-main.css') }}">
 @endpush
 @push('scripts')
+    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
     <script src="{{ asset('js/pages/dcote_main.js') }}"></script>
+    <script src="{{ asset('js/components/grid-images-carousel.js') }}"></script>
 @endpush
 @section('title', 'DCOTE | Вики, новости и контент по «Классу Превосходства»')
 @section('content')
     <div class="hero">
-        <img class="hero-image" src="/images/index/hero-блок.webp" fetchpriority="high" decoding="async" alt="Арису лежит в кроватке" />
         <div class="hero-content">
             <div class="title">
                 <h1>Фан-сообщество <span style="color: rgb(224, 11, 82);">D</span>COTE</h1>
@@ -20,26 +21,32 @@
                 и превосходные арт-генерации от ИИ. Подробные досье и описания персонажей.
                 Всё это и не только вы найдёте на страницах данного веб-сообщества!</p>
             <div class="hero-buttons">
-                <a class="link-like-button">ЧИТАТЬ НОВОСТИ</a>
-                <a href="{{ route('about-project') }}" class="link-like-button project-btn">О ПРОЕКТЕ</a>
-                <a href="https://t.me/DCOTEFILES" target="_blank" class="link-like-button tg-btn" rel="noopener noreferrer">ТЕЛЕГРАМ-КАНАЛ</a>
+                <a class="link-pill">ЧИТАТЬ НОВОСТИ</a>
+                <a href="{{ route('about-project') }}" class="btn-pill" style="background-color:rgba(100, 68, 172, 1)">О ПРОЕКТЕ</a>
+                <a href="https://t.me/DCOTEFILES" target="_blank" class="btn-pill" style="background-color:rgba(48, 88, 200, 1)" rel="noopener noreferrer">ТЕЛЕГРАМ-КАНАЛ</a>
             </div>
         </div>
+        <img class="hero-image" src="/images/index/ayano-sakayanagi.webp" fetchpriority="high" decoding="async" alt="Арису и Аяно" />
     </div>
     <div class="hero mobile">
-        <img class="hero-image" src="/images/index/hero-mobile.webp" fetchpriority="high" decoding="async" alt="Арису лежит в кроватке" />
+        <img class="hero-image" src="/images/index/ayano-sakayanagi-mobile.webp" fetchpriority="high" decoding="async" alt="Арису и Аяно" />
         <div class="hero-content">
             <div class="title-and-smth">
                 <div class="title">
                     <h1>Фан-сообщество <span style="color: rgb(224, 11, 82);">D</span>COTE</h1>
                 </div>
-                <p>Горячие новости, чтение ранобэ и/или манги и просмотр аниме. Сборник иллюстраций
-                    и подробные досье всех персонажей.
-                    Всё это и не только, вы найдёте на данном веб-сайте!</p>
+                <div>
+                    <p class="hero-text clamped" aria-expanded="false">Горячие новости из медиа-пространства произведения, чтение оригинальной новеллы,
+                        бесплатный просмотр аниме-адаптации и чтение глав манги. Полноценный сборник
+                        иллюстраций от художника Томосе Сюнсаку, арты от художников-фанатов
+                        и превосходные арт-генерации от ИИ. Подробные досье и описания персонажей.
+                        Всё это и не только вы найдёте на страницах данного веб-сообщества!</p>
+                        <button id="readMoreBtn">Читать далее</button>
+                </div>
             </div>
             <div class="hero-buttons">
-                <a href="{{ route('about-project') }}" class="link-like-button project-btn" rel="noopener noreferrer">О ПРОЕКТЕ</a>
-                <a href="https://t.me/DCOTEFILES" target="_blank" class="link-like-button tg-btn" rel="noopener noreferrer">ТЕЛЕГРАМ-КАНАЛ</a>
+                <a class="link-pill">ЧИТАТЬ НОВОСТИ</a>
+                <a href="{{ route('about-project') }}" class="link-pill" rel="noopener noreferrer" style="background-color: rgba(100, 68, 172, 1)">О ПРОЕКТЕ</a>
             </div>
         </div>
     </div>
@@ -135,13 +142,13 @@
                                     <p><b>{{ $card['progress_label'] }}: {{ $card['progress_current'] }}</b> из {{ $card['progress_total'] }} {{ $card['progress_unit'] }}</p>
                                     <div class="progress-bar" style="--progress-width: {{ $card['progress_percent'] }}%"></div>
                                 </div>
-                                <a href="{{ $card['url'] }}" class="link-like-button" rel="noopener noreferrer">{{ $card['button_label'] }}</a>
+                                <a href="{{ $card['url'] }}" class="link-pill" rel="noopener noreferrer">{{ $card['button_label'] }}</a>
                                 <a href="{{ $card['url'] }}" class="link-like-button mobile" rel="noopener noreferrer">ПОДРОБНЕЕ</a>
                             </div>
                         </div>
                     @empty
                         <div class="popular-empty">
-                            <p>В админ-панели пока не выбраны материалы для блока «Популярное».</p>
+                            <p>Пока пусто</p>
                         </div>
                     @endforelse
                 </div>
@@ -154,7 +161,7 @@
         </div>
         <div class="updates scale-in">
             <div class="updates-title">
-                <h1>ЛЕНТА ОБНОВЛЕНИЙ</h1>
+                <h1>ОБНОВЛЕНИЯ</h1>
             </div>
             <div class="updates-news-viewport">
                 <div class="updates-news">
@@ -179,7 +186,7 @@
                 </div>
             </div>
             <div class="updates-link-wrapper">
-                <a class="link-like-button disabled_a" rel="noopener noreferrer">ВСЕ ОБНОВЛЕНИЯ</a>
+                <a class="link-pill disabled_a" rel="noopener noreferrer">ВСЕ ОБНОВЛЕНИЯ</a>
             </div>
         </div>
     </div>
@@ -189,7 +196,7 @@
                 <h1>РЕЙТИНГ КЛАССОВ</h1>
             </div>
             <div class="spoilers-btn-cont">
-                <button class="spoilers-btn no-glow button-without-styles" type="button" aria-pressed="false">
+                <button class="spoilers-btn btn-pill-outline" style="border-color:rgba(68, 44, 97, 1); background-color:rgba(36, 24, 50, 1)" type="button" aria-pressed="false">
                     <span>БЕЗ СПОЙЛЕРОВ</span>
                     <span>СО СПОЙЛЕРАМИ</span>
                 </button>
@@ -226,7 +233,7 @@
                     </div>
                 @endforeach
             </div>
-            <div class="full-stat"><button disabled>ПОЛНАЯ СТАТИСТИКА</button></div>
+            <div class="full-stat"><button disabled class="btn-pill">ПОЛНАЯ СТАТИСТИКА</button></div>
         </div>
         <div class="top-users scale-in">
             <div class="title">
@@ -374,7 +381,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="full-stat"><button disabled>ВСЕ ПОЛЬЗОВАТЕЛИ</button></div>
+            <div class="full-stat"><button disabled class="btn-pill">ВСЕ ПОЛЬЗОВАТЕЛИ</button></div>
         </div>
     </div>
     <div class="some-info">
@@ -387,7 +394,7 @@
             </div>
             <div class="text">
                 <div class="title-and-smth">
-                    <h1>ОПИСАНИЕ ПРОИЗВЕДЕНИЯ</h1>
+                    <h1>ОПИСАНИЕ НОВЕЛЛЫ</h1>
                     <p>
                         Добро пожаловать в класс превосходства — это напряжённая школьная драма
                         с элементами психологического триллера, действие которой разворачивается
@@ -402,7 +409,7 @@
                         сложную игру интриг, стратегий и скрытых конфликтов между учениками школы.
                     </p>
                 </div>
-                <div style="display: flex;width: 100%;justify-content: center;"><a class="link-like-button disabled_a" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a></div>
+                <div style="display: flex;width: 100%;justify-content: center;"><a class="btn-pill disabled_a" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a></div>
             </div>
         </div>
         <div class="description">
@@ -414,7 +421,7 @@
             </div>
             <div class="text">
                 <div class="title-and-smth">
-                    <h1>СТОЛИЧНАЯ СТАРШАЯ ШКОЛА ПРОДВИНУТОГО ВОСПИТАНИЯ</h1>
+                    <h1>ОСНОВНОЙ СЕТТИНГ</h1>
                     <p>
                         Токийское государственное учебное учреждение, созданное японским правительством
                         для воспитания молодых выпускников, которые в будущем будут поддерживать различные
@@ -423,17 +430,17 @@
                         занятости и возможным поступлением в престижный колледж или университет. Сам кампус располагается на отдельном,
                         искусственно сконструированном острове, площадь которого составляет около шестиста тысяч квадратных метров.
                         <br><br>
-                        Примечательно, что председателем совета директоров данного учебного заведения является Сакаянаги Наримори — отец Сакаянаги Арису.
+                        Примечательно, что председателем совета директоров данного учебного заведения является Сакаянаги Нарумори — отец Сакаянаги Арису.
                     </p>
                 </div>
-                <div style="display: flex;width: 100%;justify-content: center;"><a class="link-like-button" href="{{ route('about-school') }}" rel="noopener noreferrer">ПОДРОБНАЯ ИНФОРМАЦИЯ</a></div>
+                <div style="display: flex;width: 100%;justify-content: center; margin-top:auto"><a class="btn-pill" href="{{ route('about-school') }}" rel="noopener noreferrer">ПОДРОБНАЯ ИНФОРМАЦИЯ</a></div>
             </div>
         </div>
     </div>
     <div class="content-line3">
         <div class="about-island slide-in-right">
             <div class="title" style="text-align: center;">
-                <h1>ЭКЗАМЕНАЦИОННЫЙ ШКОЛЬНЫЙ НЕОБИТАЕМЫЙ ОСТРОВ</h1>
+                <h1>ВТОРИЧНЫЙ СЕТТИНГ</h1>
             </div>
             <div class="text">
                 <p>Необитаемый остров, что юридически принадлежит школе и периодически используется руководством для проведения
@@ -510,3 +517,4 @@
         </div>
     </div>
     @endsection
+

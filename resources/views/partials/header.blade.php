@@ -22,11 +22,11 @@
                     </svg>
                 </a>
                 @auth
-                    <button class="login-btn account-dropdown-btn">
+                    <button class="login-btn account-dropdown-btn btn-pill">
                         АККАУНТ
                     </button>
                 @else
-                    <a href="{{ route('login') }}" class="link-like-button login-btn">ВОЙТИ</a>
+                    <a href="{{ route('login') }}" class="btn-pill login-btn">ВОЙТИ</a>
                 @endauth
             </div>
         </div>
