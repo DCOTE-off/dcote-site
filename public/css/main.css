@@ -259,8 +259,8 @@ body::before {
     z-index: -1;
     background-image: url('../images/background.webp');
     background-position: center;
-    background-repeat: repeat;
-    background-size: contain;
+    background-repeat: no-repeat;
+    background-size: cover;
     will-change: transform;
     background-color: rgb(7, 18, 32);
 }
