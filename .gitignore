@@ -3,6 +3,9 @@
 /public/hot
 /public/storage
 /storage/*.key
+/storage/logs
+/storage/ranobe/
+/bootstrap/cache
 /vendor
 .env
 .env.backup

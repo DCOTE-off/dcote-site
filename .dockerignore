@@ -16,3 +16,4 @@ bootstrap/cache/*.php
 npm-debug.log
 yarn-error.log
 database.sql
+dump.sql
