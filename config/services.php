@@ -35,10 +35,15 @@ return [
         'secret' => env('TURNSTILE_SECRET_KEY'),
         'site_key' => env('TURNSTILE_SITE_KEY'),
     ],
-
-    'metrics' => [
-        // Optional override only: the existing production URL remains the default.
-        'base_url' => env('METRICS_BASE_URL', 'https://video.dcote.net/metrics-api'),
+    'dcote' => [
+        'video_base_url' => rtrim(
+            (string) env('DCOTE_VIDEO_BASE_URL', 'https://video.dcote.net'),
+            '/',
+        ),
+        'metrics_base_url' => rtrim(
+            (string) env('DCOTE_METRICS_BASE_URL', 'https://metrics-api.dcote.net'),
+            '/',
+        ),
     ],
 
 ];

@@ -140,6 +140,8 @@ APP_ENV=production
 APP_KEY=
 APP_DEBUG=false
 APP_URL=https://your-domain.example
+DCOTE_VIDEO_BASE_URL=https://video.dcote.net
+DCOTE_METRICS_BASE_URL=https://metrics-api.dcote.net
 
 LOG_CHANNEL=stack
 LOG_LEVEL=warning

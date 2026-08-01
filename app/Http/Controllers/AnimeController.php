@@ -11,8 +11,7 @@ class AnimeController extends Controller
 {
     public function __construct(
         private readonly PublicationStateSynchronizer $publicationState,
-    ) {
-    }
+    ) {}
 
     public function index()
     {
@@ -102,14 +101,15 @@ class AnimeController extends Controller
                 ->where('rateable_id', $episodeModel->id)
                 ->value('rating') ?? 0
             : 0;
-        $player_url = rtrim(config('services.metrics.base_url'), '/').'/videoplayer';
+        $videoBaseUrl = (string) config('services.dcote.video_base_url');
+        $player_url = "{$videoBaseUrl}/videoplayer";
         $episodeNumBeaty = str_pad((string) $episode, 2, '0', STR_PAD_LEFT);
-        $videoBaseUrl = "https://video.dcote.net/season-0{$season}/episode-{$episodeNumBeaty}";
+        $episodeBaseUrl = "{$videoBaseUrl}/season-0{$season}/episode-{$episodeNumBeaty}";
         $episodeUrl = $player_url.'?'.http_build_query([
-            'src' => "{$videoBaseUrl}/master.m3u8",
+            'src' => "{$episodeBaseUrl}/master.m3u8",
             'poster' => asset("images/anime/episodes-banner-season{$season}.webp"),
             'skip_start' => $episodeModel->opening_start ?? '-1',
-            'ass' => "{$videoBaseUrl}/subtitles/ru.ass",
+            'ass' => "{$episodeBaseUrl}/subtitles/ru.ass",
             'ass_lang' => 'ru',
         ], '', '&', PHP_QUERY_RFC3986);
         $completed = $episodeModel->completed;
