@@ -13,9 +13,7 @@
     <link rel="preload" href="{{ asset('fonts/Nunito/Nunito-Medium.woff2') }}" as="font" type="font/woff2" crossorigin>
     <title>@yield('title', 'DCOTE')</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.png') }}">
-    <link rel="stylesheet" href="{{ asset('css/header.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+    @vite('resources/js/app.js')
     @stack('styles')
     @stack('scripts-early')
     <meta name="description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, новости, аниме, ранобэ, манга и не только!')">
@@ -34,7 +32,6 @@
         @yield('content')
     </main>
     @include('partials.footer')
-    <script src="{{ asset('js/main.js') }}"></script>
     @stack('scripts')
     @if(session('success'))
         <div id="toast-success" class="toast-container">

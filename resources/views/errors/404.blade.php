@@ -1,6 +1,6 @@
 @extends('layouts.app') 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/page-404.css') }}">
+    @vite('resources/css/pages/page-404.css')
 @endpush
 @section('content')
     <div class="wrapper">

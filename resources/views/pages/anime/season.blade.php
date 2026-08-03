@@ -1,14 +1,10 @@
 @extends('layouts.app') 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/anime/season.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/list-filter.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
+    @vite(['resources/css/pages/anime/season.css', 'resources/css/components/dropdown.css', 'resources/css/components/list-filter.css', 'resources/css/components/rating.css'])
 
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/components/rating.js') }}"></script>
-    <script src="{{ asset('js/pages/anime/season.js') }}"></script>
+    @vite(['resources/js/components/rating.js', 'resources/js/pages/anime/season.js'])
 @endpush
 @section('title', "Аниме «Класс превосходства» {$season} сезон | Список серий | DCOTE")
 @section('description', "Смотреть {$season} сезон «Добро пожаловать в класс превосходства» онлайн. Описание сезона, список серий и даты выхода на сайте DCOTE.")

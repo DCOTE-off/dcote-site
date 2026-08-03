@@ -1,0 +1,385 @@
+@font-face {
+    font-family: 'Vag Rounded Next';
+    src: url('/fonts/VAG-Rounded/VAG-Rounded-Next-Heavy.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag Rounded Next';
+    src: url('/fonts/VAG-Rounded/VAG-Rounded-Next-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag Rounded Next';
+    src: url('/fonts/VAG-Rounded/VAG-Rounded-Next-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag Rounded Next';
+    src: url('/fonts/VAG-Rounded/VAG-Rounded-Next-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag Rounded Next';
+    src: url('/fonts/VAG-Rounded/VAG-Rounded-Next-Thin.woff2') format('woff2');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Vag Rounded Next';
+    src: url('/fonts/VAG-Rounded/VAG-Rounded-Next-ExtraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-Black.woff2') format('woff2');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-ExtraBold.woff2') format('woff2');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-SemiBold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-Medium.woff2') format('woff2');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/fonts/Nunito/Nunito-ExtraLight.woff2') format('woff2');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+
+label {
+    cursor: pointer;
+}
+
+:root {
+    --fs-title1: clamp(5px, 2.75vw, 42px);
+    --fs-title2: clamp(5px, 2.35vw, 36px);
+    --fs-title3: clamp(5px, 1.8vw, 28px);
+    --fs-text: clamp(5px, 1.15vw, 18px);
+    --fs-nav: clamp(5px, 0.91vw, 14px);
+    --fs-login: clamp(5px, 1.30vw, 20px);
+    --fs-footer: clamp(5px, 0.78vw, 12px);
+    --fs-nav-links: clamp(5px, 1.17vw, 18px);
+    --fs-border-radius: clamp(1px, 0.65vw, 10px);
+    --fs-padding: clamp(5px, 1.3vw, 20px);
+    --fs-gap20: clamp(5px, 1.3vw, 20px);
+    --fs-gap10: clamp(1px, 0.65vw, 10px);
+    --border2px: clamp(0.01px, 0.13vw, 2px);
+    --main-red: rgba(146, 21, 69, 1);
+    --btn-pill-radius:clamp(1px,0.78vw,12px);
+    --radius-24px:clamp(5px,1.56vw,24px);
+    --radius-20px:clamp(5px, 1.3vw, 20px);
+    --nav-height: auto;
+    --header-height:auto;
+    color-scheme: dark;
+}
+
+
+
+h1 {
+    font-size: var(--fs-title1);
+    font-family: 'Vag Rounded Next';
+    line-height: 1.15em;
+    color: white;
+    margin: 0px;
+    font-weight: 900;
+}
+
+h2 {
+    font-size: var(--fs-title2);
+    font-family: 'Vag Rounded Next';
+    line-height: 1.2em;
+    color: white;
+    margin: 0px;
+    font-weight: 700;
+}
+
+h3 {
+    font-size: var(--fs-title3);
+    font-family: 'Vag Rounded Next';
+    line-height: 1.25em;
+    color: white;
+    margin: 0px;
+    font-weight: 500;
+}
+
+p {
+    font-size: var(--fs-text);
+    font-family: 'Nunito';
+    line-height: 1.5em;
+    color: rgba(198, 187, 214, 1);
+    margin: 0px;
+    font-weight: 400;
+}
+
+
+button {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: none;
+    background: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    cursor: pointer;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+
+@media (max-width: 768px) {
+    p {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+
+    h1 {
+        font-size: clamp(21px, 6.667vw, 56px);
+    }
+
+    h2 {
+        font-size: clamp(19px, 5.867vw, 250px);
+    }
+
+    h3 {
+        font-size: clamp(16px, 5.067vw, 39px);
+    }
+
+    :root {
+        --fs-border-radius: clamp(8px, 2.67vw, 22px);
+        --fs-padding: clamp(8px, 2.67vw, 22px);
+        --fs-gap20: clamp(1px, 5.34vw, 100px);
+        --fs-gap10: clamp(1px, 2.67vw, 100px);
+        --fs-footer: clamp(1px, 2.136vw, 100px);
+        --fs-nav-links: clamp(1px, 4.272vw, 100px);
+        --border2px: clamp(0.01px, 0.534vw, 10px);
+        --fs-nav: clamp(1px, 3.738vw, 14px);
+        --fs-text: clamp(13.5px, 4.267vw, 36px);
+        --btn-pill-radius:clamp(1px,3.204vw,100px);
+        --radius-24px:clamp(1px, 6.408vw,100px);
+        --radius-20px:clamp(1px, 5.34vw, 100px);
+    }
+}
+
+body,
+html {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: rgb(7, 18, 32);
+    font-size: var(--fs-text);
+    font-family: 'Vag Rounded Next';
+    line-height: 1.4em;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url('/images/background.webp');
+    background-position: center;
+    background-repeat: repeat;
+    background-size: contain;
+    background-color: rgb(14, 10, 21);
+}
+
+
+main {
+    max-width: 1540px;
+    margin: 0 auto;
+    padding: clamp(10px, 1.95vw, 30px);
+    flex: 1;
+    gap: clamp(10px, 1.95vw, 30px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+@media (max-width:768px) {
+    main {
+        gap: clamp(1px, 2.67vw, 100px);
+        padding: clamp(1px, 2.67vw, 100px);
+    }
+}
+
+.toast-container{
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--fs-padding);
+    gap: var(--fs-gap10);
+    position: fixed;
+    min-width: clamp(1px,26vw,400px);
+    min-height: clamp(1px,9.62vw,148px);
+    bottom: 10%;
+    left:50%;
+    transform: translateX(-50%);
+    backdrop-filter: blur(10px);
+    border-radius: var(--fs-border-radius);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    text-align: center;
+    will-change: transform, opacity;
+}
+
+
+#toast-success{
+    background: #2B5D3D;
+    border: var(--border2px) solid #56CC64;
+    box-shadow: 0px 0px var(--fs-gap20) rgba(86, 204, 100, 0.5);
+}
+
+
+#toast-error{
+    background: #4D1132;
+    border: var(--border2px) solid #921545;
+    box-shadow: 0px 0px var(--fs-gap20) #921545;
+}
+
+
+.toast-container.is-open {
+    animation: slideUpToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-container.not-open {
+    animation: slideDownToast 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-container.is-open,
+.toast-container.not-open {
+    display: flex;
+}
+
+@keyframes slideUpToast {
+    0% {
+        opacity: 0;
+        transform: translateY(20%) translateX(-50%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+        visibility: visible;
+        pointer-events: auto;
+    }
+}
+
+@keyframes slideDownToast {
+    0% {
+        opacity: 1;
+        transform: translateY(0) translateX(-50%);
+        visibility: visible;
+        pointer-events: auto;
+    }
+
+    99% {
+        visibility: visible;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(20%) translateX(-50%);
+        visibility: hidden;
+        pointer-events: none;
+    }
+}
+
+
+@media (max-width:768px) {
+    .toast-container{
+        min-width: 80%;
+        min-height: unset;
+        bottom: calc(var(--fs-gap20) + 18.05vw);
+    }
+
+}

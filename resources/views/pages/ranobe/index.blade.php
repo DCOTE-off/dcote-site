@@ -1,11 +1,9 @@
 @extends('layouts.app') 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/ranobe/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown-menu.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
+    @vite(['resources/css/pages/ranobe/index.css', 'resources/css/components/dropdown-menu.css', 'resources/css/components/dropdown.css'])
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
+    @vite('resources/js/components/dropdown-menu.js')
 @endpush
 @section('title', 'Читать ранобэ «Класс превосходства» | Все года | DCOTE')
 @section('description', 'Список всех годов ранобэ «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с хорошим переводом на DCOTE.')

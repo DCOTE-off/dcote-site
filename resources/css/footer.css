@@ -1,0 +1,215 @@
+.footer-nav {
+    --footer-side-width: clamp(90px, 15vw, 230px);
+    --footer-logo-height: clamp(20px, 3.32vw, 51px);
+    --footer-icon-size: clamp(20px, 3.32vw, 51px);
+    --footer-icon-gap: calc((var(--footer-side-width) - (var(--footer-icon-size) * 3)) / 2);
+    margin-top: 0px;
+    left: 0;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    text-decoration: none;
+    padding-inline: calc(clamp(0.1px,0.325vw,5px) + clamp(15px, 3.9vw, 60px));
+    padding-bottom: var(--fs-gap20);
+    padding-top: clamp(0px,2.08vw,32px);
+    gap: clamp(4px, 1.1vw, 17px);
+    justify-content: space-between;
+    position: relative;
+}
+
+.footer-nav::before{
+    content: "";
+    position: absolute;
+    width: clamp(1px,53.95vw,830px);
+    height: clamp(0.5px,0.13vw,2px);
+    border-radius: 999px;
+    background-color: rgba(170, 160, 184, 1);
+    bottom:auto;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+
+.footer-left {
+    display: flex;
+    gap: var(--footer-icon-gap);
+    flex: 0 0 var(--footer-side-width);
+    align-items: center;
+}
+
+.footer-center p {
+    font-size: var(--fs-footer);
+    color: white;
+    font-family: 'Vag Rounded Next';
+    text-align: center;
+    justify-self: center;
+    flex: 1;
+}
+
+.footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1px, 0.28vw, 4.25px);
+    flex: 1;
+    min-width: 0;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: clamp(10px, 1.95vw, 30px);
+}
+
+.footer-links a {
+    color: white;
+    font-family: 'Vag Rounded Next';
+    font-weight: 200;
+    font-size: var(--fs-footer);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #DF0E53;
+}
+
+
+.social-nets-logos {
+    width: var(--footer-icon-size);
+    height: var(--footer-icon-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.footer-left .logo-link {
+    display: flex;
+}
+
+
+.footer-right {
+    display: flex;
+    flex: 0 0 var(--footer-side-width);
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+.footer-right a {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.footer-right .main-logo {
+    display: block;
+    width: var(--footer-side-width);
+    height: var(--footer-logo-height);
+}
+
+
+
+@media (max-width: 768px) {
+    .navbar {
+        display: none;
+    }
+
+    .footer-center {
+        display: none;
+    }
+
+    .footer-nav {
+        height: auto;
+    }
+
+    .footer-left {
+        flex: 1;
+        gap: var(--fs-gap20);
+    }
+
+    .social-nets-logos {
+        height: clamp(1px, 9.345vw, 200px);
+        width: auto;
+    }
+
+    .footer-right {
+        flex: 1;
+    }
+
+    .footer-right .main-logo {
+        width: clamp(1px, 36.045vw, 400px);
+        height: clamp(1px, 9.345vw, 200px);
+    }
+
+}
+
+
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: clamp(1px, 2.67vw, 100px);
+    align-self: center;
+    width: calc(100% - 2 * clamp(1px, 2.67vw, 100px)); 
+    margin: 0;
+    background: linear-gradient(90deg, rgb(78, 28, 57) 0%, rgb(78, 28, 57) 7%, rgb(28, 22, 46) 50%, rgb(78, 28, 57) 93%, rgb(78, 28, 57) 100%);
+    align-items: center;
+    z-index: 1400;
+    padding: clamp(1px, 3.738vw, 30px) clamp(1px, 5.34vw, 100px);
+    justify-content: space-between;
+    display: none;
+    border-radius: var(--fs-border-radius);
+    box-shadow: 0px 21px 23px 0px rgba(0, 0, 0, 0.4);
+    anchor-name: --mobile-nav-anchor;
+}
+
+.mobile-bottom-nav a,
+.mobile-bottom-nav button {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+}
+
+.mobile-bottom-nav h2 {
+    font-size: clamp(1px, 2.136vw, 20px);
+}
+
+.mobile-bottom-nav .nav-icon {
+    color: white;
+    height: clamp(1px, 8.01vw, 100px);
+    width: clamp(1px, 8.01vw, 100px);
+
+}
+
+.mobile-bottom-nav .center-nav-icon {
+    color: white;
+    height: clamp(1px, 9.879vw, 100px);
+    width: auto;
+    aspect-ratio: 690.26 / 410.81;
+}
+
+#dcote-logo-small {
+    color: white;
+}
+
+#dcote-logo-small .accent {
+    fill: #df0e53;
+}
+
+
+@media (max-width: 768px) {
+    .mobile-bottom-nav {
+        display: flex;
+    }
+
+    .footer-nav {
+        padding-bottom: calc(var(--fs-gap20) + 18.05vw);
+        padding-top: var(--fs-gap20);
+        background: #0B172B;
+    }
+}

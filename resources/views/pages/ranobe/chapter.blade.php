@@ -33,14 +33,10 @@
 </script>
 @endpush
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/ranobe/chapter.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown-select.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages/reading-settings.css') }}">
+    @vite(['resources/css/pages/ranobe/chapter.css', 'resources/css/components/dropdown-select.css', 'resources/css/pages/reading-settings.css'])
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/components/rating.js') }}"></script>
-    <script src="{{ asset('js/components/dropdown-select.js') }}"></script>
-    <script src="{{ asset('js/pages/reading-settings.js') }}"></script>
+    @vite(['resources/js/components/rating.js', 'resources/js/components/dropdown-select.js', 'resources/js/pages/reading-settings.js'])
 @endpush
 @section('title', "Читать «Класс превосходства» | {$year} год {$volume_number_rounded} том {$chapter} глава | DCOTE")
 @section('description', "Читать {$chapterModel->title} {$volume_number_rounded} тома новеллы «Добро пожаловать в класс превосходства». Читайте с высоким качеством перевода на DCOTE.")

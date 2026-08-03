@@ -1,17 +1,10 @@
 @extends('layouts.app') 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
+    @vite(['resources/css/components/dropdown.css', 'resources/css/components/image-carousel-modal.css', 'resources/css/pages/ranobe/volume.css', 'resources/css/components/list-filter.css', 'resources/css/components/rating.css'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="{{ asset('css/components/image-carousel-modal.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages/ranobe/volume.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/list-filter.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/components/rating.js') }}"></script>
-    <script src="{{ asset('js/pages/anime/season.js') }}"></script>
-    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
-    <script src="{{ asset('js/components/image-carousel-modal.js') }}"></script>
+    @vite(['resources/js/components/rating.js', 'resources/js/pages/anime/season.js', 'resources/js/components/image-carousel-modal.js'])
 @endpush
 @section('title', "Читать ранобэ «Класс превосходства» {$year} год {$volume_number_rounded} том | DCOTE")
 @section('description', "Читать {$year} год {$volume_number_rounded} год ранобэ «Добро пожаловать в класс превосходства» онлайн. Описание тома, список глав и даты выхода на сайте DCOTE.")

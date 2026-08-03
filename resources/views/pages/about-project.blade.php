@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/about-project.css') }}">
+    @vite('resources/css/pages/about-project.css')
 @endpush
 
 @push('scripts')
-    <script src="{{ asset('js/pages/about-project.js') }}"></script>
+    @vite('resources/js/pages/about-project.js')
 @endpush
 
 @section('title', 'О проекте DCOTE | Наша команда')

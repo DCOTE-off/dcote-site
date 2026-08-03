@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/rules.css') }}">
+    @vite('resources/css/pages/rules.css')
 @endpush
 @section('title', 'DCOTE | Политика конфиденциальности')
 @section('description', 'Политика конфиденциальности сайта DCOTE')

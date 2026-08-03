@@ -1,0 +1,167 @@
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: var(--fixed-height, 100lvh);
+    z-index: -1;
+    background-image:unset !important;
+    background-color: var(--body-bg-color, rgb(7, 18, 32)) !important;
+    will-change: transform;
+}
+
+body {
+    background-color: var(--body-bg-color, rgb(7, 18, 32)) !important;
+}
+
+main {
+    max-width: unset !important;
+}
+
+
+:root{
+    --primary-text-color:#e9e9e9;
+    --font-size-baze:18px;
+    --block-padding:5px;
+    --text-intend:0.875em;
+    --text-line-height:1.6;
+    --cont-width:73%;
+}
+
+main {
+    max-width: unset !important;
+    flex: 1;
+    gap: clamp(10px, 1.95vw, 30px);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.chapter-container{
+    font-size: var(--font-size-baze);
+}
+
+.main-title{
+    font-size: 1.4em;
+    padding: 0 20px;
+    margin-bottom: 16px;
+    line-height: 1.3;
+    color:var(--primary-text-color);
+    text-align: center;
+    font-family: var(--font-family);
+}
+
+
+.chapter-content{
+    width: var(--cont-width, 73%);
+    justify-self: center;
+}
+
+.chapter-content h3{
+    padding-top: 18px;
+    padding-bottom: 10px;
+    font-size: 1.475em;
+    line-height: 1.3;
+    font-family: var(--font-family);
+    color:var(--primary-text-color);
+}
+
+.chapter-content p{
+    font-size: 1em;
+    padding-block:var(--block-padding);
+    text-indent: var(--text-intend);
+    color:var(--primary-text-color);
+    line-height:var(--text-line-height);
+    font-family: var(--font-family);
+}
+
+.chapter-content strong{
+    font-weight:bold;
+    font-family: var(--font-family),'Vag Rounded Next';
+}
+
+.chapter-content .custom-hr{
+    text-align: center;
+}
+
+
+
+.chapter-content img{
+    max-width: 100%;
+    border-radius: var(--fs-border-radius);
+    margin-left: calc((-1)*var(--text-intend));
+    max-height: 95vh;
+    justify-self: center;
+    display: flex;
+}
+
+
+.chapters-controls {
+    display: flex;
+    gap: var(--fs-gap20);
+    width: 100%;
+    justify-content: center;
+}
+
+.chapters-controls.mobile {
+    display: none;
+}
+
+
+.disabled_a{
+    pointer-events: none;
+}
+
+@media (max-width:768px) {
+    :root{
+    --font-size-baze:16px;
+    --cont-width:95%;
+    }
+    .chapter-container{
+        width: var(--cont-width, 95%);
+    }
+
+    .chapter-content img{
+        margin-left: unset;
+    }
+
+    .chapters-controls {
+        display: none;
+    }
+
+    .chapters-controls.mobile {
+        display: flex;
+        justify-content: space-between;
+        background: rgb(78, 28, 57);
+        backdrop-filter: blur(10px);
+        border-radius: var(--fs-border-radius);
+        width: 84%;
+        align-self: center;
+        justify-self: center;
+        margin-block: var(--fs-gap20);
+    }
+
+    .chapters-controls.mobile .chapter-control-item{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-inline: var(--fs-gap20);
+        padding-block: var(--fs-gap10);
+    }
+
+    .chapters-controls.mobile .arrow{
+        width: clamp(1px,3.2vw,100px);
+    }
+
+    .chapters-controls.mobile .nav-icon{
+        display: block;
+        width: auto;
+        height: clamp(1px,4vw,100px);
+    }
+
+    .chapters-controls.mobile button {
+        padding: clamp(1px, 1.335vw, 100px);
+    }
+}

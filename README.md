@@ -21,18 +21,18 @@
 - Страницы сезонов и серий аниме со встроенными плеерами
 - Систему пользовательских рейтингов (1–10) с API upsert
 - Галереи иллюстраций с автопоиском файлов
-- Cookie-авторизация через Laravel Sanctum
+- Сессионная авторизация (Laravel web guard); Sanctum подключает сессию к API-маршрутам `/api/*` (рейтинги)
 - Filament-админка для управления контентом
 
 ## Стек
 
 - **Backend:** Laravel 10, PHP 8.4, MySQL 8
-- **Frontend:** Blade, vanilla JS и статические CSS/JS-ресурсы
+- **Frontend:** Blade, vanilla JS, Vite 8; Vue 3 и Inertia 2 подготовлены для поэтапного внедрения
 - **Admin:** Filament 3
-- **Auth:** Laravel Sanctum
+- **Auth:** Laravel web guard (сессии) + Sanctum для аутентификации API через сессию
 - **Storage:** Cloudflare R2 (S3-совместимое объектное хранилище)
 - **Infra:** Docker, docker-compose (dev + prod), Nginx, Nginx Proxy Manager
-- **Прочее:** Cloudflare Turnstile, Floating UI
+- **Прочее:** Cloudflare Turnstile, Embla Carousel, Floating UI
 
 ---
 
@@ -59,6 +59,23 @@ docker compose -f docker-compose.dev.yml run --rm --no-deps app composer install
 
 ```bash
 docker compose -f docker-compose.dev.yml up -d --build
+```
+
+Установка и запуск frontend-зависимостей:
+
+```bash
+npm install
+npm run dev
+```
+
+`npm run dev` нужно держать запущенным в отдельном терминале. Vite отслеживает изменения в `resources/css` и `resources/js` и автоматически обновляет страницу через HMR. Сайт открывается по адресу `http://localhost:8080`; порт `5173` используется только Vite.
+
+Исходники публичного frontend-кода находятся в `resources/css` и `resources/js`. Новые CSS/JS-файлы не следует добавлять в `public/css` или `public/js`; `public/images`, `public/fonts` и `public/svgs` остаются для статических ресурсов. Ресурсы Filament не относятся к публичной Vite-сборке.
+
+Проверка production-сборки:
+
+```bash
+npm run build
 ```
 
 Создание app key
@@ -112,7 +129,7 @@ wsl --install -d Ubuntu-24.04
 
 
 
-По умолчанию сайт доступен на `http://localhost:8080`. Порт можно изменить через `.env`:
+Порт Laravel можно изменить через `.env`:
 
 ```env
 APP_PORT=8081
@@ -176,6 +193,8 @@ docker compose -f docker-compose.prod.yml run --rm app php artisan key:generate 
 Запуск production:
 
 ```bash
+npm ci
+npm run build
 docker compose -f docker-compose.prod.yml up -d --build
 ```
 
@@ -227,4 +246,3 @@ docker compose -f docker-compose.prod.yml down
 ```bash
 docker compose -f docker-compose.prod.yml logs -f nginx app
 ```
-

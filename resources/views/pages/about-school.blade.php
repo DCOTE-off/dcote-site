@@ -1,12 +1,10 @@
 @extends('layouts.app') 
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />   
-    <link rel="stylesheet" href="{{ asset('css/components/image-carousel-modal.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/pages/about-school.css') }}">
+    @vite(['resources/css/components/image-carousel-modal.css', 'resources/css/pages/about-school.css'])
 @endpush
 @push('scripts')
-    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
-    <script src="{{ asset('js/components/image-carousel-modal.js') }}"></script>
+    @vite('resources/js/components/image-carousel-modal.js')
 @endpush
 @section('title', 'О школе | DCOTE')
 @section('description', 'Познакомьтесь со школой Кодо Икусей произведения «Добро пожаловать в класс превосходства». Правила для учеников, школьная униформа, магазины, общежития и места для досуга. Узнайте об этом на сайте DCOTE')

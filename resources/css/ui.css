@@ -1,0 +1,88 @@
+.btn-pill,
+.link-pill {
+    color: white;
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+    line-height: 1.15em;
+    text-decoration: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    font-size: var(--fs-nav-links);
+    padding-block: clamp(1px, 0.78vw, 12px);
+    padding-inline: clamp(1px, 1.17vw, 18px);
+    border-radius: var(--btn-pill-radius);
+    cursor: pointer;
+    background-color: #921545;
+    overflow: hidden;
+}
+
+.btn-pill-outline,
+.link-pill-outline {
+    color: white;
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+    line-height: 1.15em;
+    text-decoration: none;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: max-content;
+    font-size: var(--fs-nav-links);
+    padding-block: clamp(1px, 0.715vw, 11px);
+    padding-inline: clamp(1px, 1.17vw, 18px);
+    border-radius: var(--btn-pill-radius);
+    cursor: pointer;
+    overflow: hidden;
+    border: var(--border2px) solid;
+}
+
+.title-and-smth {
+    gap: var(--fs-gap10);
+    display: flex;
+    flex-direction: column;
+}
+
+.button-without-styles {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.button-without-styles:hover {
+    background-color: #1D162E !important;
+    scale: 1;
+}
+
+.button-without-styles:active {
+    box-shadow: inset 0 0 0 var(--border2px) #921545 !important;
+}
+
+.button-without-styles-all {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.button-without-styles-all:hover {
+    background-color: unset !important;
+    box-shadow: unset;
+    scale: 1;
+}
+
+.button-without-styles-all:active {
+    box-shadow: unset;
+}
+
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .btn-pill,
+    .link-pill {
+        padding-block: clamp(1px, 3.204vw, 100px);
+        padding-inline: clamp(1px, 4.806vw, 100px);
+    }
+}

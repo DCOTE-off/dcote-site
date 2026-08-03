@@ -1,0 +1,779 @@
+.cont {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+}
+
+.cont .image-wrapper {
+    width: 32%;
+    object-fit: cover;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.cont .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 0.71;
+    display: block;
+}
+
+.cont .desc {
+    width: 68%;
+    background: linear-gradient(270deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
+    padding: var(--fs-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fs-gap20);
+}
+
+.cont .desc h1 {
+    text-align: center;
+}
+
+.cont .desc p,
+.cont .desc .safe-description {
+    text-align: left;
+}
+
+.cont .desc .low-buttons {
+    display: flex;
+    gap: var(--fs-gap20);
+    align-items: center;
+    margin-top: auto;
+}
+
+.cont .desc .low-buttons .double{
+    display: flex;
+    gap: var(--fs-gap20);
+}
+
+.cont .desc .low-buttons.mobile {
+    display: none;
+}
+
+
+
+
+
+.cont2 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-radius: var(--fs-border-radius);
+    background: linear-gradient(0deg, #0b172b, #df0e5441);
+    backdrop-filter: blur(10px);
+    padding: var(--fs-padding);
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.cont2.without-release-schedule {
+    gap: var(--fs-gap20);
+}
+
+
+.cont2 .grid-area {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+}
+
+.cont2 .grid-area.is-sorting > * {
+    pointer-events: none;
+}
+
+.cont2 .grid-area.is-list-toggling {
+    overflow: hidden;
+}
+
+.cont2 .grid-area.is-list-toggling > * {
+    pointer-events: none;
+}
+
+
+
+.cont2 .episode-cont {
+    --episode-cover-width: clamp(1px, 19.48vw, 300px);
+    align-items: center;
+    border-radius: var(--fs-border-radius);
+    display: flex;
+    gap: var(--fs-gap20);
+    isolation: isolate;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.cont2 .episode-cont::before {
+    background: linear-gradient(
+        90deg,
+        rgba(146, 21, 69, 0.5) 0%,
+        rgba(146, 21, 69, 0.34) 42%,
+        rgba(146, 21, 69, 0) 82%
+    );
+    border-radius: 0 var(--fs-border-radius) var(--fs-border-radius) 0;
+    content: "";
+    bottom: 0;
+    left: calc(var(--episode-cover-width) - var(--fs-gap20));
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+        opacity 420ms ease,
+        transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 0;
+}
+
+.cont2 .episode-cont > * {
+    position: relative;
+    z-index: 1;
+}
+
+.cont2 .episode-cont:has(.rating-popup-menu.is-open) {
+    z-index: 20;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .cont2 .episode-cont:hover::before {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+
+    .cont2 .episode-cont:has(.open-in-new-tab-icon:hover)::before,
+    .cont2 .episode-cont:has(.episode-bookmark-toggle:hover)::before,
+    .cont2 .episode-cont:has(.episode-watch-state:hover)::before,
+    .cont2 .episode-cont:has(.rating-widget:hover)::before,
+    .cont2 .episode-cont:has(.trailer-link-desktop:hover)::before,
+    .cont2 .episode-cont:has(.trailer-link-mobile:hover)::before {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+}
+
+.cont2 .episode-cont.has-group-separator {
+    margin-top: clamp(1px, 3.247vw, 50px);
+}
+
+.cont2 .episode-cont.is-collapsed-hidden {
+    display: none;
+}
+
+.cont2 .episode-list-toggle {
+    align-items: center;
+    background: transparent !important;
+    border: 0;
+    box-shadow: none !important;
+    color: white;
+    cursor: pointer;
+    justify-content: center;
+    padding: 0;
+    scale: 1;
+}
+
+.cont2 .episode-list-toggle:hover,
+.cont2 .episode-list-toggle:active,
+.cont2 .episode-list-toggle:focus-visible {
+    background: transparent !important;
+    box-shadow: none !important;
+    scale: 1;
+}
+
+.cont2 .episode-list-toggle[hidden] {
+    display: none;
+}
+
+.cont2 .episode-list-toggle.is-expanded .dropdown-icon {
+    transform: rotate(-180deg);
+}
+
+.cont2 .episode-cont .card-link {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--fs-gap20);
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: var(--fs-border-radius);
+}
+
+.cont2 .episode-cont.has-appear-in .card-link {
+    flex: 0 1 auto;
+    width: auto;
+}
+
+
+.cont2 .episode-cont .card-link:hover {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.cont2 .episode-cont .image-wrapper {
+    aspect-ratio: 5 / 3;
+    border-radius: var(--fs-border-radius);
+    flex: 0 0 var(--episode-cover-width);
+    overflow: hidden;
+    position: relative;
+    width: var(--episode-cover-width);
+    z-index: 5;
+}
+
+.cont2 .episode-cont .episode-watch-state {
+    align-items: center;
+    background-color: rgba(153, 153, 153, 0.3);
+    border-radius: var(--fs-border-radius);
+    cursor: pointer;
+    display: flex;
+    height: clamp(1px, 2.273vw, 35px);
+    justify-content: center;
+    left: var(--fs-gap10);
+    pointer-events: auto;
+    position: absolute;
+    top: var(--fs-gap10);
+    transition:
+        background-color 240ms ease,
+        transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: clamp(1px, 2.273vw, 35px);
+    z-index: 3;
+}
+
+.cont2 .episode-cont .episode-watch-state:hover {
+    transform: scale(1.06);
+}
+
+.cont2 .episode-cont .episode-watch-state.is-disabled {
+    cursor: default;
+}
+
+.cont2 .episode-cont .episode-watch-state.is-disabled:hover {
+    transform: none;
+}
+
+.cont2 .episode-cont .episode-watch-state:focus-visible {
+    outline: var(--fs-border2px) solid white;
+    outline-offset: var(--fs-border2px);
+}
+
+.cont2 .episode-cont[data-watch-state="watched"] .episode-watch-state {
+    background-color: rgba(102, 128, 255, 0.5);
+}
+
+.cont2 .episode-cont .episode-watch-state img {
+    height: clamp(1px, 0.714vw, 11px);
+    opacity: 0.5;
+    transition:
+        opacity 240ms ease,
+        transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: clamp(1px, 0.974vw, 15px);
+}
+
+.cont2 .episode-cont[data-watch-state="watched"] .episode-watch-state img {
+    opacity: 1;
+}
+
+.cont2 .episode-cont .episode-bookmark-toggle {
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    transition: color 240ms ease;
+}
+
+.cont2 .episode-cont .episode-bookmark-toggle:focus-visible {
+    outline: var(--fs-border2px) solid white;
+    outline-offset: var(--fs-border2px);
+}
+
+.cont2 .episode-cont .episode-bookmark-icon {
+    background-color: currentColor;
+    display: block;
+    height: clamp(1px, 1.623vw, 25px);
+    mask: url("/svgs/bookmark.svg") center / contain no-repeat;
+    -webkit-mask: url("/svgs/bookmark.svg") center / contain no-repeat;
+    transition:
+        color 240ms ease,
+        transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: clamp(1px, 1.104vw, 17px);
+}
+
+.cont2 .episode-cont .episode-bookmark-toggle:hover .episode-bookmark-icon {
+    transform: scale(1.08);
+}
+
+.cont2 .episode-cont[data-bookmark-state="bookmarked"] .episode-bookmark-toggle {
+    color: #FFB147;
+}
+
+.cont2 .episode-cont .episode-bookmark-toggle--desktop {
+    width: max-content;
+}
+
+.cont2 .episode-cont .episode-bookmark-toggle.is-disabled {
+    color: rgba(255, 255, 255, 0.5);
+    cursor: default;
+}
+
+.cont2 .episode-cont .episode-bookmark-toggle.is-disabled:hover .episode-bookmark-icon {
+    transform: none;
+}
+
+.cont2 .episode-cont .episode-bookmark-toggle--mobile {
+    display: none;
+}
+
+.cont2 .episode-cont .episode-meta-actions {
+    align-items: center;
+    display: flex;
+    gap: var(--fs-gap20);
+    margin-top: var(--fs-gap10);
+}
+
+.cont2 .episode-cont .episode-comments {
+    align-items: center;
+    color: white;
+    display: flex;
+    gap: var(--fs-gap10);
+}
+
+.cont2 .episode-cont .episode-comments.is-disabled {
+    opacity: 0.5;
+}
+
+.cont2 .episode-cont .episode-comments img {
+    height: clamp(1px, 1.623vw, 25px);
+    width: clamp(1px, 1.688vw, 26px);
+}
+
+.cont2 .episode-cont .episode-comments-count {
+    display: inline-block;
+    flex: 0 0 auto;
+    font-family: 'Vag Rounded Next';
+    font-size: clamp(1px, 1.169vw, 18px);
+    font-weight: 700;
+    text-align: left;
+    width: auto;
+}
+
+.cont2 .episode-cont .episode-comments--mobile {
+    display: none;
+}
+
+.cont2 .episode-cont .appear-in {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: none;
+    text-align: center;
+    text-decoration: none;
+}
+
+.cont2 .episode-cont .appear-in h3,
+.cont2 .episode-cont .appear-in p {
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.cont2 .episode-cont .appear-in-mobile {
+    display: none;
+}
+
+.cont2 .episode-cont .appear-in-desktop {
+    align-self: stretch;
+    flex: 1 1 0;
+    min-width: 0;
+    pointer-events: auto;
+    width: auto;
+}
+
+.cont2 .episode-cont .card-title{
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+}
+
+.cont2 .episode-cont .episode-number {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--fs-gap10);
+}
+
+.cont2 .episode-cont .open-in-new-tab-icon {
+    cursor: pointer;
+    display: block;
+    flex: 0 0 auto;
+    height: clamp(1px, 0.974vw, 15px);
+    width: clamp(1px, 0.974vw, 15px);
+}
+
+.cont2 .episode-cont .card-title.mobile {
+    display: none;
+}
+
+.cont2 .episode-cont .image-wrapper .episode-cover-image {
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    width: 100%;
+}
+
+.cont2 .episode-cont .stars-and-comms {
+    align-items: center;
+    display: flex;
+    gap: calc(var(--fs-gap20) + var(--fs-gap10));
+    justify-content: flex-end;
+    justify-self: end;
+    width: max-content;
+}
+
+.cont2 .episode-cont .second-btn {
+    display: flex;
+    align-items: center;
+}
+
+.cont2 .episode-cont .message-btn {
+    border: 0px;
+    padding: clamp(1px, 0.325vw, 5px);
+}
+
+.cont2 .episode-cont .message-btn:hover {
+    background: none;
+}
+
+.cont2 .episode-cont .message-btn .message-icon {
+    height: clamp(1px, 2.275vw, 35px);
+    width: clamp(1px, 2.275vw, 35px);
+}
+
+.cont2 .episodes-head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.cont2 .info-schedule{
+    margin-bottom: var(--fs-gap10);
+    opacity: 0.5;
+}
+
+.cont2 .episodes-head h1 {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+}
+
+.cont2 .episode-control {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.cont2 .sort-toggle {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.cont2 .list-filter {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.cont2 .sort-icon {
+    width: clamp(1px, 1.755vw, 27px);
+    height: clamp(1px, 1.625vw, 25px);
+    flex-shrink: 0;
+}
+
+.cont2 .filter-icon {
+    width: clamp(1px, 1.56vw, 24px);
+    height: clamp(1px, 1.625vw, 25px);
+    flex-shrink: 0;
+}
+
+
+.trailer-link-desktop{
+    display: block !important;
+}
+
+.trailer-link-mobile{
+    display: none !important;
+}
+
+
+
+@media (max-width:768px) {
+    .cont {
+        flex-direction: column;
+    }
+
+    .trailer-link-desktop{
+        display: none !important;
+    }
+    .trailer-link-mobile{
+        display: block !important;
+    }
+
+    .cont .image-wrapper {
+        width: 100%;
+    }
+
+    .cont .desc {
+        width: 100%;
+        background: linear-gradient(180deg, rgba(223, 14, 83, 0.3) 0%, #0B172B 100%);
+    }
+
+    .cont .desc .low-buttons.mobile {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cont .desc .low-buttons {
+        display: none;
+    }
+
+    .cont2 .episodes-head {
+        grid-template-columns: max-content max-content;
+        column-gap: var(--fs-gap20);
+        justify-content: center;
+    }
+
+    .cont2 .episodes-head h1 {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .cont2 .sort-toggle {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .cont2 .list-filter {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .cont2 .filter-icon {
+        display: none;
+    }
+
+    .cont2 .sort-icon {
+        width: clamp(1px, 6.133vw, 100px);
+        height: clamp(1px, 5.867vw, 100px);
+    }
+
+    .cont2 .info-schedule {
+        text-align: center;
+    }
+
+    .cont2 .grid-area {
+        gap: clamp(1px, 8.01vw, 100px);
+    }
+
+    .cont2 .episode-cont {
+        display: flex;
+        flex-direction: column;
+        gap: var(--fs-gap10);
+        padding: 0;
+    }
+
+    .cont2 .episode-cont.has-group-separator {
+        margin-top: clamp(1px, 13.333vw, 100px);
+    }
+
+    .cont2 .episode-cont .card-title {
+        display: none;
+    }
+
+    .cont2 .episode-cont .card-link {
+        width: 100%;
+        flex-direction: column;
+        gap: var(--fs-gap10);
+    }
+
+    .cont2 .episode-cont.has-appear-in .card-link {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .cont2 .episode-cont .image-wrapper {
+        flex: none;
+        width: 100%;
+    }
+
+    .cont2 .episode-cont .episode-watch-state {
+        height: clamp(1px, 10.667vw, 100px);
+        width: clamp(1px, 10.667vw, 100px);
+    }
+
+    .cont2 .episode-cont .episode-watch-state img {
+        height: clamp(1px, 3.733vw, 100px);
+        width: clamp(1px, 5.333vw, 100px);
+    }
+
+    .cont2 .episode-cont .episode-bookmark-toggle--desktop {
+        display: none;
+    }
+
+    .cont2 .episode-cont .episode-meta-actions {
+        display: none;
+    }
+
+    .cont2 .episode-cont .episode-bookmark-toggle--mobile {
+        background-color: rgba(153, 153, 153, 0.3);
+        border-radius: var(--fs-border-radius);
+        color: white;
+        display: flex;
+        height: clamp(1px, 10.667vw, 100px);
+        position: absolute;
+        right: var(--fs-gap10);
+        top: var(--fs-gap10);
+        transition:
+            background-color 240ms ease,
+            transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+        width: clamp(1px, 10.667vw, 100px);
+        z-index: 3;
+    }
+
+    .cont2 .episode-cont .episode-bookmark-toggle--mobile .episode-bookmark-icon {
+        height: clamp(1px, 5.333vw, 100px);
+        width: clamp(1px, 3.733vw, 100px);
+    }
+
+    .cont2 .episode-cont .episode-bookmark-toggle--mobile.is-disabled {
+        background-color: rgba(153, 153, 153, 0.3);
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .cont2 .episode-cont[data-bookmark-state="bookmarked"] .episode-bookmark-toggle--mobile {
+        background-color: rgba(255, 177, 71, 0.3);
+        color: #FFB147;
+    }
+
+    .cont2 .episode-cont .image-wrapper.has-appear-in::after {
+        background: rgba(11, 23, 43, 0.95);
+        content: "";
+        inset: 0;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .cont2 .episode-cont .appear-in-mobile {
+        display: flex;
+        inset: 0;
+        padding: var(--fs-gap20);
+        position: absolute;
+        z-index: 2;
+    }
+
+    .cont2 .episode-cont .appear-in-desktop {
+        display: none;
+    }
+
+    .cont2 .episode-cont .card-title.mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .cont2 .episode-cont .card-title.mobile p {
+        width: 100%;
+    }
+
+    .cont2 .episode-cont .open-in-new-tab-icon {
+        height: clamp(1px, 4vw, 100px);
+        width: clamp(1px, 4vw, 100px);
+    }
+
+    .cont2 .episode-cont .card-link:hover {
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .cont2 .episode-cont .image-wrapper:hover .episode-cover-image {
+        scale: 0.95;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .cont2 .episode-cont .image-wrapper:has(.episode-watch-state:hover) .episode-cover-image,
+    .cont2 .episode-cont .image-wrapper:has(.episode-bookmark-toggle:hover) .episode-cover-image,
+    .cont2 .episode-cont .image-wrapper.is-watch-state-interacting .episode-cover-image,
+    .cont2 .episode-cont .image-wrapper.is-bookmark-interacting .episode-cover-image {
+        scale: 1;
+    }
+
+    .cont2 .episode-cont .card-link .image-wrapper .episode-cover-image {
+        border-radius: var(--fs-border-radius);
+        transition: 0.3s;
+    }
+
+    .cont2 .episode-cont .stars-and-comms {
+        display: grid;
+        width: 100%;
+        align-items: center;
+        gap: var(--fs-gap20);
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    }
+
+    .cont2 .episode-cont .episode-comments--mobile {
+        display: flex;
+        justify-self: start;
+        width: max-content;
+    }
+
+    .cont2 .episode-cont .episode-comments--mobile img {
+        height: clamp(1px, 6.4vw, 100px);
+        width: clamp(1px, 6.667vw, 100px);
+    }
+
+    .cont2 .episode-cont .episode-comments-count {
+        font-size: clamp(1px, 4.267vw, 100px);
+        width: auto;
+    }
+
+    .cont2 .episode-cont .trailer-link-mobile {
+        justify-self: center;
+    }
+
+    .cont2 .episode-cont .stars-and-comms .first-btn {
+        display: flex;
+        justify-content: end;
+        justify-self: end;
+        width: auto;
+    }
+
+    .cont2 .episode-cont .stars-and-comms .second-btn {
+        display: flex;
+        width: auto;
+    }
+
+    .cont2 .episode-cont .message-btn .message-icon {
+        width: clamp(1px, 8vw, 100px);
+        height: clamp(1px, 8vw, 100px);
+    }
+
+    .rating-popup-menu.is-open{
+        right: -3.2vw !important;
+        top:calc(var(--fs-gap20) + 100%)
+    }
+}

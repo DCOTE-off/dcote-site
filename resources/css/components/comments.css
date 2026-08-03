@@ -1,0 +1,92 @@
+body{
+    padding: 30px;
+}
+
+.comments{
+    display: flex;
+    flex-direction: column;
+    gap:clamp(1px,3.25vw,50px);
+}
+
+.input-section{
+    height:172px;
+    background-color: rgba(29, 22, 46, 1);
+    border-radius: var(--fs-border-radius);
+}
+
+.comments-header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.comm-container{
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(29, 22, 46, 1);
+    border-radius: var(--fs-border-radius);
+    padding: var(--fs-padding);
+}
+
+.comm-container .about-comm{
+    display: flex;
+    justify-content: space-between;
+}
+
+.user-info{
+    display: flex;
+    gap:var(--fs-gap10);
+}
+
+.user-avatar{
+    width: clamp(1px,4.55vw,70px);
+    height: clamp(1px,4.55vw,70px);
+    border-radius: var(--fs-border-radius); 
+}
+
+.username, .role, .rating-number{
+    font-family: "Vag Rounded Next";
+    font-weight: 700;
+}
+
+.comm-rating{
+    display: flex;
+    align-items: center;
+    margin-bottom: auto;
+    gap: calc(var(--fs-gap10) / 2);
+}
+
+.change-rating{
+    padding-block:clamp(1px,5.525vw,8.5px);
+    padding-inline:calc(var(--fs-gap10) / 2);
+}
+
+.comm-container .comm-content{
+    margin-top: var(--fs-gap10);
+    margin-bottom: var(--fs-gap20);
+}
+
+.comm-container .comm-actions{
+    display: flex;
+    justify-content: space-between;
+}
+
+.comm-actions .actions{
+    display: flex;
+    gap: var(--fs-gap10);
+}
+
+.comm-date{
+    font-family: 'Vag Rounded Next';
+    font-weight: 200;
+}
+
+.people-comments{
+    display: flex;
+    flex-direction: column;
+    gap:clamp(1px,3.25vw,50px);
+}
+
+.comm-container.with-answers .comm-content,
+.comm-container.with-answers .comm-actions{
+    margin-left: calc(clamp(1px,4.55vw,70px) + var(--fs-gap10));
+}

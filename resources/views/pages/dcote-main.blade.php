@@ -1,11 +1,9 @@
 @extends('layouts.app') 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/dcote-main.css') }}">
+    @vite('resources/css/pages/dcote-main.css')
 @endpush
 @push('scripts')
-    <script src="https://unpkg.com/embla-carousel/embla-carousel.umd.js"></script>
-    <script src="{{ asset('js/pages/dcote_main.js') }}"></script>
-    <script src="{{ asset('js/components/grid-images-carousel.js') }}"></script>
+    @vite(['resources/js/pages/dcote-main.js', 'resources/js/components/grid-images-carousel.js'])
 @endpush
 @section('title', 'DCOTE | Вики, новости и контент по «Классу Превосходства»')
 @section('content')
@@ -517,4 +515,3 @@
         </div>
     </div>
     @endsection
-

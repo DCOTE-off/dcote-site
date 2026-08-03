@@ -1,14 +1,9 @@
 @extends('layouts.app') 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/pages/anime/index.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/dropdown-menu.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/components/rating.css') }}">
+    @vite(['resources/css/pages/anime/index.css', 'resources/css/components/dropdown.css', 'resources/css/components/dropdown-menu.css', 'resources/css/components/rating.css'])
 @endpush
 @push('scripts')
-    <script src="{{ asset('js/components/rating.js') }}"></script>
-    <script src="{{ asset('js/components/dropdown-menu.js') }}"></script>
-    <script src="{{ asset('js/pages/selection-cards.js') }}"></script>
+    @vite(['resources/js/components/rating.js', 'resources/js/components/dropdown-menu.js', 'resources/js/pages/selection-cards.js'])
 @endpush
 @section('title', 'Смотреть аниме «Класс превосходства» | Все сезоны | DCOTE')
 @section('description', 'Список всех сезонов и серий аниме «Добро пожаловать в класс превосходства». Выбирайте сезон и приступайте к просмотру в высоком качестве на DCOTE.')
