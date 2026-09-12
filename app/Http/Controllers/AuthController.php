@@ -7,19 +7,37 @@ use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Illuminate\Validation\ValidationException;
 
 
 class AuthController extends Controller
 {
     public function register() {
         $this->rememberSafeIntendedUrl(url()->previous());
-        return view('pages.reg');
+        return Inertia::render('Register',[
+            'siteKey' => config('services.cloudflare.site_key'),
+            'meta' => \App\Helpers\SeoMeta::make(
+                'Регистрация',
+                null,
+                null,
+                ['robots' => 'noindex, nofollow'],
+            ),
+        ]);
     }
 
     public function login() {
         $this->rememberSafeIntendedUrl(url()->previous());
 
-        return view('pages.login');
+        return Inertia::render('Login',[
+            'siteKey' => config('services.cloudflare.site_key'),
+            'meta' => \App\Helpers\SeoMeta::make(
+                'Авторизация',
+                null,
+                null,
+                ['robots' => 'noindex, nofollow'],
+            ),
+        ]);
     }
 
     public function store(RegisterRequest $request) {
@@ -31,7 +49,7 @@ class AuthController extends Controller
             
             Auth::login($user);
             
-            return redirect()->intended(route('home'))->with('success', 'Аккаунт успешно создан! Добро пожаловать');
+            return $this->authenticatedRedirect('Аккаунт успешно создан! Добро пожаловать');
     }
 
     public function authenticate(LoginRequest $request)
@@ -44,9 +62,12 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
-            return redirect()->intended(route('home'))->with('success', 'С возвращением!');
+            return $this->authenticatedRedirect('С возвращением!');
         }
-        return back()->with('error', 'Неверное имя или пароль.')->withInput();
+        throw ValidationException::withMessages([
+            'tag' => 'Неверное имя или пароль',
+            'password' => 'Неверное имя или пароль'
+        ]);
     }
 
     public function logout(Request $request)
@@ -54,7 +75,23 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('home')->with('success', 'Вы успешно вышли из аккаунта.');
+        return redirect()->route('home')->with('success', 'Вы успешно вышли из аккаунта');
+    }
+
+    private function authenticatedRedirect(string $message)
+    {
+        $intended = session('url.intended');
+        $path = $intended ? (parse_url($intended, PHP_URL_PATH) ?: '/') : null;
+
+        // Filament (/admin) — не Inertia-страница: обычный redirect втянул бы её в SPA.
+        if ($path !== null && str_starts_with($path, '/admin')) {
+            session()->forget('url.intended');
+            session()->flash('success', $message);
+
+            return Inertia::location($intended);
+        }
+
+        return redirect()->intended(route('home'))->with('success', $message);
     }
 
     private function rememberSafeIntendedUrl(?string $url): void

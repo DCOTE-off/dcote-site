@@ -1,4 +1,4 @@
-body::before {
+html.reader-page body::before {
     content: "";
     position: fixed;
     top: 0;
@@ -11,16 +11,16 @@ body::before {
     will-change: transform;
 }
 
-body {
+html.reader-page body {
     background-color: var(--body-bg-color, rgb(7, 18, 32)) !important;
 }
 
-main {
+html.reader-page main {
     max-width: unset !important;
 }
 
 
-:root{
+html.reader-page {
     --primary-text-color:#e9e9e9;
     --font-size-baze:18px;
     --block-padding:5px;
@@ -29,7 +29,7 @@ main {
     --cont-width:73%;
 }
 
-main {
+html.reader-page main {
     max-width: unset !important;
     flex: 1;
     gap: clamp(10px, 1.95vw, 30px);
@@ -57,6 +57,10 @@ main {
 .chapter-content{
     width: var(--cont-width, 73%);
     justify-self: center;
+}
+
+.chapter-content.hide-images img{
+    display: none;
 }
 
 .chapter-content h3{
@@ -115,7 +119,7 @@ main {
 }
 
 @media (max-width:768px) {
-    :root{
+    html.reader-page{
     --font-size-baze:16px;
     --cont-width:95%;
     }
@@ -134,7 +138,7 @@ main {
     .chapters-controls.mobile {
         display: flex;
         justify-content: space-between;
-        background: rgb(78, 28, 57);
+        background: rgba(36, 24, 50, 1);;
         backdrop-filter: blur(10px);
         border-radius: var(--fs-border-radius);
         width: 84%;

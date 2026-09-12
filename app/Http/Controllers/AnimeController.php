@@ -6,6 +6,8 @@ use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
 use App\Models\Rating;
 use App\Services\PublicationStateSynchronizer;
+use App\Helpers\DescriptionTextHelper;
+use Inertia\Inertia;
 
 class AnimeController extends Controller
 {
@@ -39,9 +41,32 @@ class AnimeController extends Controller
                             ->whereColumn('season_id', 'anime_seasons.id');
                     });
             }])
-            ->get();
+            ->get()
+            ->map(fn (AnimeSeason $season) => [
+                'season_number' => (int) $season->season_number,
+                'number_of_episodes' => (int) $season->number_of_episodes,
+                'released_episodes_count' => (int) $season->released_episodes_count,
+                'season_avg_rating' => round((float) ($season->season_avg_rating ?? 0), 1),
+                'season_ratings_count' => (int) ($season->season_ratings_count ?? 0),
+                'color' => $season->color,
+                'status' => $season->status,
+                'season_time' => $season->season_time,
+                'release_time' => $season->release_time,
+                'studio' => $season->studio,
+                'adapt_volumes' => $season->adapt_volumes,
+                'adapt_volumes_brackets' => $season->adapt_volumes_brackets,
+                'img_src' => $season->img_src,
+                'is_announced' => $season->isAnnounced(),
+            ])
+            ->values();
 
-        return view('pages.anime.index', compact('seasons_list'));
+        return Inertia::render('Anime/Seasons', [
+            'seasons_list' => $seasons_list,
+            'meta' => \App\Helpers\SeoMeta::make(
+                'Смотреть аниме «Класс превосходства» | Все сезоны',
+                'Список всех сезонов и серий аниме «Добро пожаловать в класс превосходства». Выбирайте сезон и приступайте к просмотру в высоком качестве на DCOTE.',
+            ),
+        ]);
     }
 
     public function showSeason(int $season)
@@ -72,7 +97,40 @@ class AnimeController extends Controller
                 ->keyBy('rateable_id');
         }
 
-        return view('pages.anime.season', compact('season', 'about_season', 'episodes', 'userRatings', 'showReleaseSchedule'));
+        $episodes = $episodes->map(function ($episode) use ($userRatings) {
+            $isUpcoming = !$episode->completed;
+            $hasReleaseDate = $isUpcoming && $episode->appear_in?->isFuture();
+
+            return [
+                'id' => $episode->id,
+                'episode_number' => (int) $episode->episode_number,
+                'episode_name' => $episode->episode_name,
+                'is_upcoming' => $isUpcoming,
+                'appear_at' => $hasReleaseDate ? $episode->appear_in->toIso8601String() : null,
+                'avg_rating' => $isUpcoming ? 0 : round((float) ($episode->avg_rating ?? 0), 1),
+                'ratings_count' => $isUpcoming ? 0 : (int) ($episode->ratings_count ?? 0),
+                'user_rating' => $isUpcoming ? 0 : (int) ($userRatings->get($episode->id)?->rating ?? 0),
+                'trailer_link' => $episode->trailer_link,
+            ];
+        })->values();
+
+        return Inertia::render('Anime/Season', [
+            'season' => $season,
+            'meta' => \App\Helpers\SeoMeta::make(
+                "Аниме «Класс превосходства» {$season} сезон | Список серий",
+                "Смотреть {$season} сезон «Добро пожаловать в класс превосходства» онлайн. Описание сезона, список серий и даты выхода на сайте DCOTE.",
+                "images/anime/anime-banner-season-{$season}.webp",
+            ),
+            'about_season' => [
+                'season_description' => DescriptionTextHelper::normalize(
+                    $seasonModel->season_description,
+                ),
+                'trailer_link' => $seasonModel->trailer_link,
+            ],
+            'showReleaseSchedule' => $showReleaseSchedule,
+            'server_now' => now()->toIso8601String(),
+            'episodes' => $episodes,
+        ]);
     }
 
     public function showEpisode(int $season, int $episode)
@@ -126,11 +184,24 @@ class AnimeController extends Controller
             'episode' => ($next_episode->episode_number),
         ]) : null;
 
-        return view('pages.anime.episode', compact(
-            'season', 'episode', 'episodeUrl', 'total_episodes', 'completed',
-            'next_link', 'prev_link', 'episodeModel', 'episodeAvgRating',
-            'episodeRatingsCount', 'userRating'
-        ));
+        return Inertia::render('Anime/Episode', [
+            'season' => $season,
+            'episode' => $episode,
+            'episodeId' => $episodeModel->id,
+            'episodeUrl' => $episodeUrl,
+            'totalEpisodes' => $total_episodes,
+            'completed' => $completed,
+            'prevLink' => $prev_link,
+            'nextLink' => $next_link,
+            'episodeAvgRating' => $episodeAvgRating,
+            'episodeRatingsCount' => $episodeRatingsCount,
+            'episodeUserRating' => $userRating,
+            'meta' => \App\Helpers\SeoMeta::make(
+                "«Класс превосходства» {$season} сезон {$episode} серия | Смотреть онлайн",
+                "Смотреть онлайн {$episode} серию {$season} сезона аниме «Добро пожаловать в класс превосходства». Видео в хорошем качестве и обсуждение серии на DCOTE.",
+                "images/anime/episodes-banner-season{$season}.webp",
+            ),
+        ]);
     }
 
     private function syncReleaseState(): void

@@ -1,5 +1,14 @@
+.episode-rating {
+    margin-inline: auto;
+    width: max-content;
+}
+
+.episode-empty {
+    text-align: center;
+}
+
 #episode-iframe-player {
-    align-self: center;
+    margin-inline: auto;
     aspect-ratio: 16 / 9;
     border: 0;
     border-radius: var(--fs-border-radius);

@@ -1,350 +1,278 @@
-.auth-container{
-    display: flex;
-    border-radius: var(--fs-border-radius);
-    overflow: hidden;
+/* ===== Блок: форма авторизации/регистрации ===== */
+.auth {
     align-self: center;
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    display: flex;
     height: 100%;
-}
-
-.auth-image{
-    width: 43%;
     overflow: hidden;
+}
+
+.auth__image {
     aspect-ratio: 0.87;
+    overflow: hidden;
+    width: 43%;
     z-index: 100;
 }
 
-.auth-image img{
-    object-fit: cover;
-    width: 100%;
+.auth__image img {
+    border-bottom-left-radius: var(--radius-24px);
+    border-top-left-radius: var(--radius-24px);
     height: 100%;
-    z-index: 100;
+    object-fit: cover;
     object-position: top;
-    border-top-left-radius: var(--fs-border-radius);
-    border-bottom-left-radius: var(--fs-border-radius);
+    width: 100%;
+    z-index: 100;
 }
 
-.auth-form{
-    width: 57%;
+.auth__panel {
+    align-items: center;
+    background: rgba(23, 17, 31, 1);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
-    align-items: center;
-    background: linear-gradient(90deg, rgba(146, 21, 69, 0.4) 0%, #0B172B 100%);
-    backdrop-filter: blur(10px);
     padding: var(--fs-padding);
+    width: 57%;
     z-index: 10;
 }
 
-
-
-
-
-.auth-form h1{
+.auth__title {
     text-align: center;
 }
 
-.auth-form form{
+.auth__form {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 100%;
     gap: var(--fs-gap20);
+    width: 100%;
 }
 
-.turnstile-slot {
-    --turnstile-scale: 1;
-    width: calc(300px * var(--turnstile-scale));
-    height: calc(65px * var(--turnstile-scale));
+.auth__field-tip {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    width: 100%;
+}
+
+.auth__field {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    position: relative;
+    width: 100%;
+}
+
+.auth__input {
+    background: transparent;
+    background-color: rgba(36, 24, 50, 1);
+    border: var(--border2px) solid rgba(68, 44, 97, 1);
+    border-radius: calc(var(--radius-24px) / 2);
+    caret-color: white;
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-text);
+    line-height: 1.4em;
+    margin: 0;
+    outline: none;
+    padding-block: clamp(1px, 0.4875vw, 7.5px);
+    padding-inline: var(--fs-gap10);
+    width: 65%;
+}
+
+.auth__input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.auth__password-title {
+    align-items: center;
+    display: flex;
+    gap: clamp(1px, 0.65vw, 10px);
+    justify-content: center;
+    width: 100%;
+}
+
+.auth__password {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 65%;
+}
+
+.auth__password .auth__input {
+    padding-right: clamp(1px, 2.6vw, 40px);
+    width: 100%;
+}
+
+.auth__password-toggle {
+    border: 0;
+    height: clamp(1px, 1.3vw, 20px);
+    left: 100%;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(-150%, -50%);
+    width: clamp(1px, 1.3vw, 20px);
+}
+
+.auth__password-icon {
+    height: 100%;
+    inset: 0;
+    object-fit: contain;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    transition:
+        opacity 220ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: 100%;
+    will-change: transform;
+}
+
+.auth__password-toggle:hover .auth__password-icon {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.auth__password-icon:focus-visible {
+    border-radius: 99% !important;
+    outline: var(--border2px) solid rgba(255, 255, 255, 0.8) !important;
+    outline-offset: var(--border2px) !important;
+}
+
+.auth__error {
+    background-color: #1D162E;
+    border: var(--border2px) solid rgba(68, 44, 97, 1);
+    border-radius: var(--fs-border-radius);
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-nav);
+    left: 17.5%;
+    max-width: 100%;
+    padding-block: clamp(1px, 0.4875vw, 7.5px);
+    padding-inline: var(--fs-gap10);
+    pointer-events: none;
+    position: absolute;
+    top: 115%;
+    width: max-content;
+    z-index: 100;
+}
+
+.auth__error::before {
+    background-color: #1D162E;
+    border-left: var(--border2px) solid rgba(68, 44, 97, 1);
+    border-top: var(--border2px) solid rgba(68, 44, 97, 1);
+    content: "";
+    height: clamp(1px, 0.78vw, 12px);
+    left: var(--fs-gap20);
+    position: absolute;
+    top: calc(var(--border2px) * -0.5);
+    transform: translate(0, -50%) rotate(45deg);
+    width: clamp(1px, 0.78vw, 12px);
+    z-index: 2;
+}
+
+.auth__tip {
+    color: rgba(198, 187, 214, 1);
+    display: flex;
+    font-family: 'Vag Rounded Next', sans-serif;
+    gap: var(--fs-gap10);
+}
+
+.auth__tip a {
+    color: var(--purple-hover);
+    font-family: 'Vag Rounded Next';
+    text-decoration: none;
+}
+
+.auth__check {
+    text-align: center;
+}
+
+.auth__captcha {
     flex: none;
-}
-
-.turnstile-slot .cf-turnstile {
-    width: 300px;
     height: 65px;
-    transform: scale(var(--turnstile-scale));
-    transform-origin: top left;
+    width: 300px;
 }
 
-.auth-form button{
+.auth__submit {
     font-family: 'Vag Rounded Next', sans-serif;
     font-size: var(--fs-nav-links);
 }
 
-.auth-form input{
-    background: transparent;
-    border:  var(--fs-border2px) solid #921545;
-    background-color: #1D162E;
-    border-radius: var(--fs-border-radius);
-    padding-inline: var(--fs-gap10);
-    padding-block: clamp(1px,0.4875vw,7.5px);
-    outline: none;
-    color: inherit;
-    font-size: var(--fs-text);
-    font-family: 'Vag-Regular';
-    line-height: 1.4em;
-    color: white;
-    margin: 0;
-    width: 65%;
-}
-
-input::placeholder{
-    color:rgba(255, 255, 255, 0.5)
-}
-
-
+/* ===== Глобальные стили полей ввода (автозаполнение, каретка) ===== */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 1000px #2b1f40 inset !important;
     -webkit-text-fill-color: #ffffff !important;
+    font-family: 'Vag Rounded Next';
     font-size: var(--fs-text);
-    font-family: 'Vag-Regular';
     line-height: 1.4em;
-    margin: 0px;
-    transition: background-color 5000s ease-in-out 0s;
+    margin: 0;
+    transition: background-color 9999s ease-in-out 0s;
 }
 
-input {
-    caret-color: white;
-    color: white;
-}
-
-.auth-form a{
-    text-decoration: none;
-    color: rgb(229, 11, 85);
-    font-family: 'Vag-Medium';
-}
-
-.input-group{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: var(--fs-gap10);
-    position: relative;
-}
-
-
-
-
-.password-title {
-    display: flex;
-    gap: clamp(1px, 0.65vw, 10px);
-    align-items: center;
-    width: 100%;
-    justify-content: center;
-}
-
-
-.input-error{
-    box-shadow: 0px 0px 10px 5px rgba(229, 11, 85, 0.5);
-}
-
-.input-with-icon{
-    width: 65%;
-    display: flex;
-    justify-content: center;
-    position: relative;
-}
-
-.auth-form .input-with-icon input{
-    width: 100%;
-    padding-right: clamp(1px, 2.6vw, 40px);
-}
-
-.input-with-icon .password-toggle {
-    position: absolute;
-    left: 100%;
-    top: 50%;
-    transform: translate(-150%, -50%);
-    width: clamp(1px, 1.3vw, 20px);
-    height: clamp(1px, 1.3vw, 20px);
-    border: 0;
-    padding: 0;
-}
-
-.password-toggle-icon {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    pointer-events: none;
-    transition:
-        opacity 220ms ease,
-        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.password-toggle .eye-icon {
-    opacity: 0.5;
-    transform: scale(1) rotate(0deg);
-}
-
-.password-toggle .eye-off-icon {
-    opacity: 0;
-    transform: scale(0.65) rotate(-10deg);
-}
-
-.password-toggle[aria-pressed="true"] .eye-icon {
-    opacity: 0;
-    transform: scale(0.65) rotate(10deg);
-}
-
-.password-toggle[aria-pressed="true"] .eye-off-icon {
-    opacity: 0.5;
-    transform: scale(1) rotate(0deg);
-}
-
-.input-with-icon .password-toggle:hover {
-    background: none;
-}
-
-@media (hover: hover) and (pointer: fine) {
-    .password-toggle:not([aria-pressed="true"]):hover .eye-icon,
-    .password-toggle[aria-pressed="true"]:hover .eye-off-icon {
-        opacity: 0.8;
-        transform: scale(1.12) rotate(0deg);
-    }
-}
-
-.password-toggle:focus-visible {
-    outline: var(--fs-border2px) solid rgba(255, 255, 255, 0.8);
-    outline-offset: var(--fs-border2px);
-    border-radius: 50%;
-}
-
-.error-bubble{
-    display: none;
-    position: absolute;
-    top: 115%;
-    left: 17.5%;
-    z-index: 100;
-    background-color: #1D162E;
-    width: max-content;
-    max-width: 100%;
-    padding-inline: var(--fs-gap10);
-    padding-block: clamp(1px,0.4875vw,7.5px);
-    border: var(--fs-border2px) solid #921545;
-    border-radius:var(--fs-border-radius);
-    font-size: var(--fs-nav);
-    font-family: 'Vag-Regular';
-}
-
-.error-bubble::before {
-    content: "";
-    position: absolute;
-    top: calc(var(--fs-border2px) * -0.5); 
-    left: var(--fs-gap20);
-    width: clamp(1px,0.78vw,12px);
-    height: clamp(1px,0.78vw,12px);
-    background-color: #1D162E;
-    border-left: var(--fs-border2px) solid #921545;
-    border-top: var(--fs-border2px) solid #921545;
-    transform: translate(0, -50%) rotate(45deg);
-    z-index: 2; 
-}
-
-
-h3{
-    font-family: 'Vag-Medium';
-}
-
-
-@media (max-width:768px) {
-    .auth-container{
+/* ===== Мобила ===== */
+@media (max-width: 768px) {
+    .auth {
         flex-direction: column;
     }
 
-    .auth-image{
-        width: 100%;
-        overflow: hidden;
+    .auth__image {
         aspect-ratio: 1.45;
+        overflow: hidden;
+        width: 100%;
         z-index: 100;
     }
 
-    .auth-form{
+    .auth__panel {
         width: 100%;
-        background: linear-gradient(180deg, rgba(146, 21, 69, 0.4) 0%, #0B172B 100%);
     }
 
-    .auth-form input{
+    .auth__input {
         font-size: clamp(13.5px, 4.267vw, 36px);
-        width: 100%;
-        padding-block: clamp(1px,2.403vw,20px);
-    }
-
-    .input-with-icon{
+        padding-block: clamp(1px, 2.403vw, 20px);
         width: 100%;
     }
 
-    .input-with-icon .password-toggle {
-        width: clamp(1px, 4.539vw, 30px);
-        height: clamp(1px, 4.539vw, 30px);
+    .auth__password {
+        width: 100%;
     }
 
-    .auth-form .input-with-icon input{
-        width: 100%;
+    .auth__password .auth__input {
         padding-right: calc(4.539vw + (var(--fs-gap10) * 2));
+        width: 100%;
     }
 
-    .error-bubble{
-    left: 0%;
-    padding-block: clamp(1px,2vw,20px);
+    .auth__password-toggle {
+        height: clamp(1px, 4.539vw, 30px);
+        width: clamp(1px, 4.539vw, 30px);
     }
 
-    .error-bubble::before {
-        width: clamp(1px,3.2vw,100px);
-        height: clamp(1px,3.2vw,100px);
+    .auth__error {
+        left: 0;
+        padding-block: clamp(1px, 2vw, 20px);
+    }
+
+    .auth__error::before {
+        height: clamp(1px, 3.2vw, 100px);
+        width: clamp(1px, 3.2vw, 100px);
     }
 
     input:-webkit-autofill,
-    input:-webkit-autofill:hover, 
-    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
     input:-webkit-autofill:active {
         font-size: clamp(13.5px, 4.267vw, 36px);
     }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .password-toggle-icon {
+    .auth__password-icon {
         transition: none;
-    }
-}
-
-@media (min-width: 769px) {
-    .auth-container-login {
-        width: auto;
-        max-width: 100%;
-        /* Match registration's 57% info column while keeping the 820x940 cover uncropped. */
-        --login-info-width: min(54.78vw, 843.6px);
-        --login-image-width: calc(26.42vw + 76.46px);
-    }
-
-    .auth-container-login .auth-image {
-        width: var(--login-image-width);
-        flex: 0 0 var(--login-image-width);
-        aspect-ratio: 820 / 940;
-        position: relative;
-    }
-
-    .auth-container-login .auth-image picture {
-        position: absolute;
-        inset: 0;
-    }
-
-    .auth-container-login .auth-image img {
-        object-fit: contain;
-    }
-
-    .auth-container-login .auth-form {
-        width: var(--login-info-width);
-        flex: 0 0 var(--login-info-width);
-    }
-}
-
-@media (min-width: 985px) {
-    .auth-container-login {
-        /* Above this width the form wraps less, so the cover follows the second linear segment. */
-        --login-image-width: min(calc(27.71vw + 63.75px), 495.94px);
     }
 }

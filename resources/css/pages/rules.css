@@ -1,30 +1,36 @@
-.cont-1 {
-    background: linear-gradient(360deg, #0b172b, #df0e5441);
-    border-radius: var(--fs-border-radius);
-    padding: var(--fs-padding);
-    gap: clamp(1px, 1.95vw, 30px);
+/* ===== Блок: правовая страница (правила / политика конфиденциальности) ===== */
+.legal {
+    backdrop-filter: blur(10px);
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
     display: flex;
     flex-direction: column;
-    backdrop-filter: blur(10px);
-
+    gap: clamp(1px, 1.95vw, 30px);
+    padding: var(--fs-padding);
 }
 
-.cont-1 strong{
-    font-family: 'Vag Rounded Next';
-    font-weight: 700 !important;
-}
-
-.cont-1 h1 {
+.legal__title {
     text-align: center;
 }
 
-.cont-1 a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    text-decoration: underline;
+.legal h2,
+.legal h3 {
+    color: rgba(244, 239, 250, 1);
 }
 
-.cont-1 a:hover {
-    color: #DF0E53;
+.legal p {
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+}
+
+.legal a {
+    color: rgba(198, 187, 214, 1);
+    text-decoration: none;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.legal a:hover {
+    color: var(--purple-hover);
 }

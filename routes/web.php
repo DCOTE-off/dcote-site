@@ -8,6 +8,7 @@ use App\Http\Controllers\RanobeController;
 use App\Models\Role;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 Route::get('/', [MainController::class, 'index'])->name('home');
 
@@ -53,18 +54,39 @@ Route::get('/about-project', function () {
         ->get(['id', 'name'])
         ->keyBy('name');
 
-    return view('pages.about-project', [
-        'editors' => $departmentUsers->get('Редактор')?->users ?? collect(),
-        'moderators' => $departmentUsers->get('Модератор')?->users ?? collect(),
+    $members = fn ($users) => collect($users)
+        ->map(fn ($user) => [
+            'nickname' => $user->nickname,
+            'avatar_url' => $user->avatar_url,
+        ])
+        ->values();
+
+    return Inertia::render('AboutProject', [
+        'editors' => $members($departmentUsers->get('Редактор')?->users),
+        'moderators' => $members($departmentUsers->get('Модератор')?->users),
+        'meta' => \App\Helpers\SeoMeta::make(
+            'О проекте | Наша команда',
+            'Познакомьтесь с командой DCOTE: разработчиками, дизайнерами и редакторами, которые создают проект о «Добро пожаловать в класс превосходства».',
+        ),
     ]);
 })->name('about-project');
 
 Route::get('/about-school', function () {
-    return view('pages.about-school');
+    return Inertia::render('AboutSchool', [
+        'meta' => \App\Helpers\SeoMeta::make(
+            'О школе Кодо Икусэй',
+            'Познакомьтесь со школой Кодо Икусэй произведения «Добро пожаловать в класс превосходства». Правила для учеников, школьная униформа, магазины, общежития и места для досуга. Узнайте об этом на сайте DCOTE',
+        ),
+    ]);
 })->name('about-school');
 
 Route::get('/rules', function () {
-    return view('pages.rules');
+    return Inertia::render('Rules', [
+        'meta' => \App\Helpers\SeoMeta::make(
+            'Правила сайта',
+            'Ознакомьтесь с правилами сайта DCOTE.',
+        ),
+    ]);
 })->name('rules');
 
 
@@ -102,7 +124,12 @@ Route::get('/news', function () {
 
 
 Route::get('/privacy_policy', function () {
-    return view('pages.privacy-policy');
+    return Inertia::render('PrivacyPolicy', [
+        'meta' => \App\Helpers\SeoMeta::make(
+            'Политика конфиденциальности',
+            'Политика конфиденциальности сайта DCOTE.',
+        ),
+    ]);
 })->name('privacy_policy');
 
 Route::get('/components', function () {
@@ -121,3 +148,26 @@ Route::get('/favorite', function () {
 Route::get('/account', function () {
     return view('pages.account');
 })->name('account');
+
+Route::get('/comments', function () {
+    return Inertia::render('Comments', [
+        'meta' => \App\Helpers\SeoMeta::make(
+            'Комментарии',
+            null,
+            null,
+            ['robots' => 'noindex, nofollow'],
+        ),
+    ]);
+})->name('comments');
+
+Route::fallback(function () {
+    return Inertia::render('Errors/Error', [
+        'status' => 404,
+        'meta' => \App\Helpers\SeoMeta::make(
+            'Ошибка 404',
+            null,
+            null,
+            ['robots' => 'noindex, nofollow'],
+        ),
+    ])->toResponse(request())->setStatusCode(404);
+});
