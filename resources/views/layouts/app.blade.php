@@ -17,13 +17,20 @@
     @stack('styles')
     @stack('scripts-early')
     <meta name="description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, новости, аниме, ранобэ, манга и не только!')">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+    <meta property="og:site_name" content="DCOTE">
     <meta property="og:title" content="@yield('title', 'DCOTE')">
-    <meta property="og:description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, аниме, ранобэ, манга и не только!')">
-    <meta property="og:image" content="https://dcote.net/images/og-main-preview.webp">
+    <meta property="og:description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, новости, аниме, ранобэ, манга и не только!')">
+    <meta property="og:image" content="{{ asset('images/og-main-preview.webp') }}">
     <meta property="og:image:width" content="1200"/>
     <meta property="og:image:height" content="630"/>
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'DCOTE')">
+    <meta name="twitter:description" content="@yield('description', 'DCOTE - сайт, который совмещает в себе все аспекты произведения «Добро пожаловать в класс превосходства». Википедия, новости, аниме, ранобэ, манга и не только!')">
+    <meta name="twitter:image" content="{{ asset('images/og-main-preview.webp') }}">
 </head>
 <body>
     @include('partials.svg_icons')
@@ -43,12 +50,6 @@
         <div id="toast-error" class="toast-container">
             <h1>ОШИБКА!</h1>
             <p>{{ session('error') }}</p>
-        </div>
-    @endif
-    @if($errors->has('cf-turnstile-response'))
-        <div id="toast-error" class="toast-container">
-            <h1>ОШИБКА!</h1>
-            <p>{{ $errors->first('cf-turnstile-response')}}</p>
         </div>
     @endif
     @php
