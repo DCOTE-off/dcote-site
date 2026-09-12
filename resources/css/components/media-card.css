@@ -1,0 +1,228 @@
+/* ===== Медиа-карточка (общая для anime-index и ranobe-year) ===== */
+.media-card {
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    display: flex;
+    flex-direction: row;
+    margin-inline: auto;
+    width: 90%;
+}
+
+.media-card__cover {
+    border-bottom-left-radius: inherit;
+    border-top-left-radius: inherit;
+    object-fit: cover;
+    overflow: hidden;
+    width: 45%;
+    z-index: 5;
+}
+
+.media-card__cover picture {
+    display: block;
+    width: 100%;
+}
+
+.media-card__cover img {
+    aspect-ratio: 0.71;
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    will-change: transform;
+}
+
+.media-card__desc {
+    align-items: center;
+    border-bottom-right-radius: var(--fs-border-radius);
+    border-top-right-radius: var(--fs-border-radius);
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    padding: var(--fs-padding);
+    width: 55%;
+}
+
+.media-card__head {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1px, 0.65vw, 10px);
+}
+
+.media-card__progress {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    width: 100%;
+}
+
+.media-card__progress-bar {
+    align-self: center;
+    background-color: rgba(36, 24, 50, 1);
+    border-radius: var(--fs-border-radius);
+    display: flex;
+    height: clamp(1px, 1.3vw, 20px);
+    justify-content: center;
+    position: relative;
+    width: 67%;
+}
+
+.media-card__progress-bar::after {
+    background-color: rgba(68, 44, 97, 1);
+    border-radius: var(--fs-border-radius);
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: var(--progress-width, 0%);
+}
+
+.media-card__buttons {
+    display: flex;
+    gap: clamp(15px, 1.3vw, 20px);
+}
+
+.media-card__buttons--mobile {
+    display: none;
+}
+
+/* ===== Сворачиваемая панель информации ===== */
+.info-panel {
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    width: 72%;
+}
+
+.info-panel .collapse__trigger {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    padding: 0;
+    width: 100%;
+}
+
+.info-panel__title {
+    align-items: center;
+    background: rgba(51, 38, 66, 1);
+    display: flex;
+    font-weight: 700;
+    justify-content: center;
+    padding: calc(var(--radius-24px) / 2);
+    width: 100%;
+}
+
+.info-panel__grid {
+    background-clip: padding-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+    overflow: hidden;
+    transform: translateZ(0);
+    width: 100%;
+}
+
+.info-panel__label,
+.info-panel__value {
+    align-items: center;
+    background-color: rgba(36, 24, 50, 1);
+    border-bottom: var(--border2px) solid rgba(51, 38, 66, 1);
+    display: flex;
+    font-size: var(--fs-text);
+    justify-content: center;
+    line-height: 1.2;
+    margin: 0;
+    min-height: 0;
+    min-width: 0;
+    padding: var(--fs-padding);
+    text-align: center;
+}
+
+.info-panel__label:nth-last-child(-n+2),
+.info-panel__value:nth-last-child(-n+2) {
+    border-bottom: none;
+}
+
+.info-panel__label {
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+}
+
+/* ===== Утилиты цвета для значений (значения совпадают с домашней страницей) ===== */
+.yellow {
+    color: #ffb147;
+}
+
+.purple {
+    color: #9A66FF;
+}
+
+.green {
+    color: #64c396;
+}
+
+/* Рейтинг в шапке карточки: попап раскрывается по центру */
+.rating-popup-menu.is-open {
+    right: 50% !important;
+    top: calc(var(--fs-gap20) + 100%);
+    transform: translateX(50%);
+}
+
+/* ===== Мобила ===== */
+@media (max-width: 768px) {
+    .media-card {
+        border-radius: var(--radius-20px);
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .media-card__cover,
+    .media-card__desc {
+        height: 100%;
+        width: 100%;
+    }
+
+    .media-card__cover {
+        border-bottom-left-radius: unset;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+    }
+
+    .media-card__desc {
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+        border-top-right-radius: unset;
+    }
+
+    .info-panel {
+        width: 100%;
+    }
+
+    .media-card__buttons {
+        display: none;
+    }
+
+    .media-card__buttons--mobile {
+        display: flex;
+    }
+
+    .media-card__progress-bar {
+        height: clamp(1px, 4vw, 100px);
+        width: 100%;
+    }
+
+    .media-card__head {
+        gap: var(--fs-gap10);
+    }
+
+    .info-panel__label,
+    .info-panel__value {
+        padding-block: var(--fs-gap20);
+    }
+}

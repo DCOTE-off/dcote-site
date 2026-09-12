@@ -49,7 +49,7 @@
 
 .rating-popup-menu{
     background: #1D162E;
-    box-shadow: inset 0 0 0 var(--fs-border2px) #921545;
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
     border-radius: var(--fs-border-radius);
     display: none;
     flex-direction: column;
@@ -209,7 +209,7 @@
     inset: 0;
     backdrop-filter: blur(2.5px);
     background: rgba(29, 22, 46, 0.7);
-    box-shadow: inset 0 0 0 var(--fs-border2px) #921545;
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
     border-radius: var(--fs-border-radius);
     display: flex;
     align-items: center;

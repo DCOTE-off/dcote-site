@@ -1,0 +1,105 @@
+/* ===== Блок: хлебные крошки ===== */
+.breadcrumbs {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.breadcrumbs__list {
+    background-color: rgba(36, 24, 50, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: calc(var(--radius-24px) / 2);
+    display: flex;
+    list-style: none;
+    margin: 0;
+    max-width: 100%;
+    padding: var(--fs-gap10) var(--fs-padding);
+    white-space: nowrap;
+}
+
+.breadcrumbs__scroll-wrapper {
+    --sb-size: clamp(1px, 0.39vw, 6px);
+    --sb-thumb-color: #442c61;
+    --sb-track-color: rgba(51, 38, 66, 1);
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.breadcrumbs__scroll-wrapper.is-scrollable {
+    padding-bottom: var(--fs-gap10);
+}
+
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar {
+    height: var(--sb-size);
+}
+
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 999px;
+}
+
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 999px;
+}
+
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    cursor: grab;
+}
+
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
+}
+
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar-button {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar-button:single-button:vertical:decrement,
+.breadcrumbs__scroll-wrapper::-webkit-scrollbar-button:single-button:vertical:increment {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+
+@-moz-document url-prefix() {
+    .breadcrumbs__scroll-wrapper {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+        scrollbar-width: thin;
+    }
+}
+
+.breadcrumbs__item a,
+.breadcrumbs__item span {
+    color: rgba(244, 239, 250, 1);
+    font-size: var(--fs-nav-links);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.breadcrumbs__item a {
+    transition: color 0.3s ease;
+}
+
+.breadcrumbs__item a:hover {
+    color: rgb(229, 11, 85);
+}
+
+.breadcrumbs__item:not(:last-child)::after {
+    color: rgba(198, 187, 214, 1);
+    content: "—";
+    font-size: var(--fs-nav-links);
+    font-weight: 700;
+    margin: 0 var(--fs-gap10);
+    pointer-events: none;
+}
+
+@media (max-width: 768px) {
+    .breadcrumbs__scroll-wrapper {
+        --sb-size: clamp(1px, 1.602vw, 20px);
+    }
+}

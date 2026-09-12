@@ -1,0 +1,67 @@
+.clamped-text {
+    position: relative;
+}
+
+/* Дефолтная типографика компонента. :where() даёт нулевую специфичность,
+   поэтому страница может переопределить её своим классом-обёрткой
+   (например .season-card__description { font-size: ... }). */
+:where(.clamped-text) {
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Nunito';
+    font-size: var(--fs-text);
+    font-weight: 400;
+    line-height: 1.5em;
+}
+
+@media (max-width: 768px) {
+    :where(.clamped-text) {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+}
+
+/* Внутренний <p> не навязывает свои стили, а наследует от корня компонента
+   (важно: иначе глобальное правило `p` из base.css перебивает обёртку). */
+.clamped-text__body {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+    overflow: hidden;
+}
+
+.clamped-text__body.is-expanded {
+    overflow: visible;
+}
+
+.clamped-text__content,
+.clamped-text__ellipsis,
+.clamped-text__button {
+    display: inline;
+}
+
+.clamped-text__content {
+    white-space: pre-line;
+}
+
+.clamped-text:not([data-ready]) .clamped-text__ellipsis,
+.clamped-text:not([data-ready]) .clamped-text__button {
+    display: none;
+}
+
+/* Обычный пробел вместо margin: на переносе строки он схлопывается
+   и не оставляет отступ перед кнопкой. */
+.clamped-text__button::before {
+    content: " ";
+}
+
+.clamped-text__sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    border: 0;
+    white-space: nowrap;
+}

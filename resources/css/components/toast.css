@@ -1,0 +1,66 @@
+/* ===== Блок: тост ===== */
+.toast-stack {
+    align-items: center;
+    bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    left: 50%;
+    pointer-events: none;
+    position: fixed;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.toast {
+    align-items: center;
+    backdrop-filter: blur(10px);
+    border-radius: var(--fs-border-radius);
+    display: flex;
+    flex-direction: column;
+    min-height: clamp(1px, 9.62vw, 148px);
+    min-width: clamp(1px, 26vw, 400px);
+    opacity: 1;
+    padding: var(--fs-padding);
+    pointer-events: none;
+    position: static;
+    text-align: center;
+    visibility: visible;
+    will-change: transform, opacity;
+}
+
+.toast--success {
+    background: #2B5D3D;
+    border: var(--border2px) solid #56CC64;
+    box-shadow: 0 0 var(--fs-gap20) rgba(86, 204, 100, 0.5);
+    color: white;
+}
+
+.toast--error {
+    background: #4D1132;
+    border: var(--border2px) solid #921545;
+    box-shadow: 0 0 var(--fs-gap20) #921545;
+    color: white;
+}
+
+.toast-stack .toast.toast-enter-from,
+.toast-stack .toast.toast-leave-to {
+    opacity: 0;
+    transform: translateY(20%);
+}
+
+.toast-enter-active,
+.toast-leave-active {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .toast-stack {
+        bottom: calc(var(--fs-gap20) + 21.66vw);
+    }
+
+    .toast {
+        min-height: unset;
+        min-width: 80%;
+    }
+}
