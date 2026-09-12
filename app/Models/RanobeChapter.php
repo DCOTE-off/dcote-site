@@ -15,6 +15,7 @@ class RanobeChapter extends Model
     protected $fillable = [
         'ranobe_volume_id',
         'title',
+        'title_label',
         'chapter_number',
         'chapter_content',
         'ranobe_year_id',
