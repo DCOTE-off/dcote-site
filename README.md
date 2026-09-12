@@ -90,6 +90,22 @@ docker compose -f docker-compose.dev.yml exec app php artisan key:generate
 docker compose -f docker-compose.dev.yml exec app php artisan migrate
 ```
 
+Тестовые аккаунты:
+В дев-окружении (`APP_ENV=local`) при старте приложения автоматически создаются 4 тестовых аккаунта для удобного входа и проверки ролей. Вручную их можно создать через seed:
+
+```bash
+docker compose -f docker-compose.dev.yml exec app php artisan db:seed --class=TestAccountsSeeder
+```
+
+| Логин | Пароль    | Роль     | access-admin |
+|-------|-----------|----------|--------------|
+| dev01 | 12345678 | Пользователь | нет |
+| dev02 | 12345678 | Модератор | нет |
+| dev03 | 12345678 | Редактор | да |
+| dev04 | 12345678 | Разработчик | да |
+
+Создание идемпотентно: при повторном запуске уже существующие аккаунты не дублируются. В продакшен-окружении (`APP_ENV=production`) аккаунты не создаются.
+
 Данные с дампа бд:
 
 ```bash
