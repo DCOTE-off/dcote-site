@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
-use App\Models\Popular;
 use App\Models\RanobeChapter;
 use App\Models\RanobeVolume;
 use App\Models\User;
@@ -41,10 +40,10 @@ class AppServiceProvider extends ServiceProvider
         }
         
         Relation::enforceMorphMap([
-            Popular::TYPE_ANIME => AnimeSeason::class,
-            Popular::TYPE_RANOBE => RanobeVolume::class,
+            'anime_season' => AnimeSeason::class,
             'anime_episode' => AnimeEpisode::class,
             'ranobe_volume' => RanobeVolume::class,
+            'ranobe_chapter' => RanobeChapter::class,
         ]);
     }
 }

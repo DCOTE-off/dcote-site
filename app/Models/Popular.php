@@ -7,9 +7,9 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Popular extends Model
 {
-    public const TYPE_ANIME = 'anime';
+    public const TYPE_ANIME = 'anime_season';
 
-    public const TYPE_RANOBE = 'ranobe';
+    public const TYPE_RANOBE = 'ranobe_volume';
 
     protected $fillable = [
         'target_type',
