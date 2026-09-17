@@ -72,6 +72,11 @@ class RanobeVolume extends Model
         return $this->morphMany(Rating::class, 'rateable');
     }
 
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
     public static function syncFinishedStatuses(): int
     {
         return static::query()
