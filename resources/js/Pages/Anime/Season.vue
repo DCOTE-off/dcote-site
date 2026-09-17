@@ -9,6 +9,7 @@ import '../../../css/components/dropdown.css';
 import Breadcrumbs from '../../Components/Breadcrumbs.vue';
 import EpisodeCard from '../../Components/EpisodeCard.vue';
 import ClampedText from '../../Components/ClampedText.vue';
+import Comments from '../../Pages/Comments.vue';
 
 const props = defineProps({
     season: {
@@ -30,6 +31,10 @@ const props = defineProps({
     episodes: {
         type: Array,
         default: () => [],
+    },
+    season_id: {
+        type:Number,
+        required: true,
     },
 });
 
@@ -471,4 +476,9 @@ function selectCriterion(criterion) {
             </svg>
         </button>
     </div>
+    <Comments
+        :comment-label="`К ${season} СЕЗОНУ АНИМЕ`"
+        commentable-type="anime_season"
+        :commentable-id="season_id"
+     />
 </template>
