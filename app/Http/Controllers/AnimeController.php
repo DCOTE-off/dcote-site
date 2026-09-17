@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
+use App\Models\Comment;
 use App\Models\Rating;
 use App\Services\PublicationStateSynchronizer;
 use App\Helpers\DescriptionTextHelper;
@@ -97,7 +98,15 @@ class AnimeController extends Controller
                 ->keyBy('rateable_id');
         }
 
-        $episodes = $episodes->map(function ($episode) use ($userRatings) {
+        $commentCounts = Comment::query()
+            ->withTrashed()
+            ->where('commentable_type', 'anime_episode')
+            ->whereIn('commentable_id', $episodes->pluck('id'))
+            ->selectRaw('commentable_id, COUNT(*) as total')
+            ->groupBy('commentable_id')
+            ->pluck('total', 'commentable_id');
+
+        $episodes = $episodes->map(function ($episode) use ($userRatings, $commentCounts) {
             $isUpcoming = !$episode->completed;
             $hasReleaseDate = $isUpcoming && $episode->appear_in?->isFuture();
 
@@ -110,6 +119,7 @@ class AnimeController extends Controller
                 'avg_rating' => $isUpcoming ? 0 : round((float) ($episode->avg_rating ?? 0), 1),
                 'ratings_count' => $isUpcoming ? 0 : (int) ($episode->ratings_count ?? 0),
                 'user_rating' => $isUpcoming ? 0 : (int) ($userRatings->get($episode->id)?->rating ?? 0),
+                'comments_count' => (int) ($commentCounts[$episode->id] ?? 0),
                 'trailer_link' => $episode->trailer_link,
             ];
         })->values();
@@ -130,6 +140,7 @@ class AnimeController extends Controller
             'showReleaseSchedule' => $showReleaseSchedule,
             'server_now' => now()->toIso8601String(),
             'episodes' => $episodes,
+            'season_id' => $seasonModel->id,
         ]);
     }
 

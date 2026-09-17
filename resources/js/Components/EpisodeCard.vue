@@ -241,10 +241,10 @@ onBeforeUnmount(() => {
                     <span
                         class="episode__comments episode__comments--desktop"
                         :class="{ 'is-disabled': episode.is_upcoming }"
-                        aria-label="Комментариев: 0"
-                        title="Комментариев: 0">
+                        :aria-label="`Комментариев: ${episode.comments_count}`"
+                        :title="`Комментариев: ${episode.comments_count}`">
                         <img :src="'/svgs/message1.svg'" alt="" aria-hidden="true">
-                        <span class="episode__comments-count">0</span>
+                        <span class="episode__comments-count">{{ episode.comments_count }}</span>
                     </span>
                 </div>
             </div>
@@ -257,10 +257,10 @@ onBeforeUnmount(() => {
             <span
                 class="episode__comments episode__comments--mobile"
                 :class="{ 'is-disabled': episode.is_upcoming }"
-                aria-label="Комментариев: 0"
-                title="Комментариев: 0">
+                :aria-label="`Комментариев: ${episode.comments_count}`"
+                :title="`Комментариев: ${episode.comments_count}`">
                 <img :src="'/svgs/message1.svg'" alt="" aria-hidden="true">
-                <span class="episode__comments-count">0</span>
+                <span class="episode__comments-count">{{ episode.comments_count }}</span>
             </span>
             <a :href="episode.trailer_link" class="link-pill-outline episode__trailer--mobile" style="border-color: rgba(98, 59, 146, 1);">ТРЕЙЛЕР</a>
             <div class="episode__rating">
