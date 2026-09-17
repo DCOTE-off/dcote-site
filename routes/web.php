@@ -91,38 +91,6 @@ Route::get('/rules', function () {
 
 
 
-Route::prefix('manga')->group(function () {
-    Route::get('/', function () {
-        return view('pages.manga.index');
-    })->name('manga.index');
-    Route::get('/{id}', function () {
-        return view('pages.manga.show');
-    })->name('manga.show');
-});
-
-Route::prefix('illustrations')->group(function () {
-    Route::get('/', function () {
-        return view('pages.illustrations.index');
-    })->name('illustrations.index');
-    Route::get('/{id}', function () {
-        return view('pages.illustrations.show');
-    })->name('illustrations.show');
-});
-
-Route::prefix('characters')->group(function () {
-    Route::get('/', function () {
-        return view('pages.characters.index');
-    })->name('characters.index');
-    Route::get('/{id}', function () {
-        return view('pages.characters.show');
-    })->name('characters.show');
-});
-
-Route::get('/news', function () {
-    return view('pages.news.index');
-})->name('news.index');
-
-
 Route::get('/privacy_policy', function () {
     return Inertia::render('PrivacyPolicy', [
         'meta' => \App\Helpers\SeoMeta::make(
@@ -132,33 +100,56 @@ Route::get('/privacy_policy', function () {
     ]);
 })->name('privacy_policy');
 
-Route::get('/components', function () {
-    return view('pages.components');
-})->name('pr');
-
-Route::get('/settings', function () {
-    return view('errors.404');
-})->name('settings');
-
-
-Route::get('/favorite', function () {
-    return view('pages.favorite');
-})->name('favorite');
-
+// Разделы ещё не готовы, но на них ведут ссылки из меню аккаунта и футера.
+// До реализации отдаём заглушку, чтобы не было 500.
 Route::get('/account', function () {
-    return view('pages.account');
-})->name('account');
-
-Route::get('/comments', function () {
-    return Inertia::render('Comments', [
+    return Inertia::render('ComingSoon', [
+        'title' => 'ПРОФИЛЬ',
         'meta' => \App\Helpers\SeoMeta::make(
-            'Комментарии',
+            'Профиль',
             null,
             null,
             ['robots' => 'noindex, nofollow'],
         ),
     ]);
-})->name('comments');
+})->name('account');
+
+Route::get('/favorite', function () {
+    return Inertia::render('ComingSoon', [
+        'title' => 'ИЗБРАННОЕ',
+        'meta' => \App\Helpers\SeoMeta::make(
+            'Избранное',
+            null,
+            null,
+            ['robots' => 'noindex, nofollow'],
+        ),
+    ]);
+})->name('favorite');
+
+Route::get('/notifications', function () {
+    return Inertia::render('ComingSoon', [
+        'title' => 'ОПОВЕЩЕНИЯ',
+        'meta' => \App\Helpers\SeoMeta::make(
+            'Оповещения',
+            null,
+            null,
+            ['robots' => 'noindex, nofollow'],
+        ),
+    ]);
+})->name('notifications');
+
+Route::get('/settings', function () {
+    return Inertia::render('ComingSoon', [
+        'title' => 'НАСТРОЙКИ',
+        'meta' => \App\Helpers\SeoMeta::make(
+            'Настройки',
+            null,
+            null,
+            ['robots' => 'noindex, nofollow'],
+        ),
+    ]);
+})->name('settings');
+
 
 Route::fallback(function () {
     return Inertia::render('Errors/Error', [

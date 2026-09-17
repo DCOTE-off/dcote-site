@@ -37,7 +37,7 @@ const user = computed(() => page.props.auth?.user);
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#user" /></svg>
             <span class="mobile-nav__label">Аккаунт</span>
         </button>
-        <a :href="route('favorite')" class="mobile-nav__item">
+        <a :href="route('notifications')" class="mobile-nav__item">
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#mail" /></svg>
             <span class="mobile-nav__label">Оповещения</span>
         </a>
