@@ -96,9 +96,9 @@
         padding-inline: 0%;
     }
 
-    .rating-popup-menu.is-open{
-        right: 50% !important;
+    .episode-rating .rating-popup-menu.is-open {
+        right: 50%;
+        top: calc(var(--fs-gap10) + 50%);
         transform: translateX(50%);
-        top:calc(var(--fs-gap20) + 100%)
     }
 }

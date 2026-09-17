@@ -165,8 +165,8 @@
 
 
 .chapters .rating-popup-menu.is-open {
-    right: 50% !important;
-    top: calc(var(--fs-gap20) + 100%);
+    right: 50%;
+    top: calc(var(--fs-gap10) + 50%);
     transform: translateX(50%);
 }
 

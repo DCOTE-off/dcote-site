@@ -161,9 +161,9 @@
     .episodes .episode .rating-widget .rating-popup-menu.is-open {
         display: flex;
         position: absolute;
-        right: calc(100% + var(--fs-gap20)) !important;
-        top: auto !important;
-        transform: none !important;
+        right: calc(100% + var(--fs-gap20));
+        top: auto;
+        transform: none;
     }
 }
 
@@ -776,8 +776,8 @@
 
 
 
-    .rating-popup-menu.is-open{
-        right: -3.2vw !important;
-        top:calc(var(--fs-gap20) + 100%)
+    .episodes .episode .rating-popup-menu.is-open {
+        right: -3.9vw;
+        top: calc(var(--fs-gap20) + 100%);
     }
 }

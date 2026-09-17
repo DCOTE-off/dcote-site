@@ -168,8 +168,8 @@
 }
 
 /* Рейтинг в шапке карточки: попап раскрывается по центру */
-.rating-popup-menu.is-open {
-    right: 50% !important;
+.media-card .rating-popup-menu.is-open {
+    right: 50%;
     top: calc(var(--fs-gap20) + 100%);
     transform: translateX(50%);
 }
