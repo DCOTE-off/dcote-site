@@ -167,10 +167,6 @@ html.nav-hidden .mobile-nav {
     z-index: 10;
 }
 
-.side-menu{
-    bottom: calc(var(--fs-gap10) + 21.66vw + 9.345vw + var(--fs-gap10)) !important;
-}
-
 html.reader-page .mobile-nav {
     transition: transform 0.35s ease, opacity 0.35s ease;
 }
@@ -280,16 +276,20 @@ html.reader-page .mobile-nav {
 
 
 @media (max-width: 768px) {
-    .site-footer {
-        padding-bottom: calc(var(--fs-gap10) + 21.66vw + 9.345vw + var(--fs-gap10)) !important;
+    /* На странице чтения снизу добавляется ещё одно меню (.read-nav.mobile),
+       поэтому фиксированные плашки нужно поднять над ним. Только для читалки. */
+    html.reader-page {
+        --reader-bottom-offset: calc(var(--fs-gap10) + 21.66vw + 9.345vw + var(--fs-gap10));
     }
 
-    .account-menu{
-        bottom: calc(var(--fs-gap10) + 21.66vw + 9.345vw + var(--fs-gap10)) !important;
+    html.reader-page .site-footer {
+        padding-bottom: var(--reader-bottom-offset);
     }
 
-    .toast-container{
-        bottom: calc(var(--fs-gap10) + 21.66vw + 9.345vw + var(--fs-gap10)) !important;
+    html.reader-page .account-menu,
+    html.reader-page .side-menu,
+    html.reader-page .toast-stack {
+        bottom: var(--reader-bottom-offset);
     }
 
     .settings-btn{
