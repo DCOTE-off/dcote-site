@@ -33,7 +33,7 @@ const user = computed(() => page.props.auth?.user);
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#user" /></svg>
             <span class="mobile-nav__label">Войти</span>
         </Link>
-        <button v-else class="mobile-nav__item account-menu__trigger button-without-styles-all" type="button" @click="emit('toggle-menu', 'account')">
+        <button v-else class="mobile-nav__item account-menu__trigger" type="button" @click="emit('toggle-menu', 'account')">
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#user" /></svg>
             <span class="mobile-nav__label">Аккаунт</span>
         </button>
@@ -48,7 +48,7 @@ const user = computed(() => page.props.auth?.user);
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#file-star" /></svg>
             <span class="mobile-nav__label">Избранное</span>
         </a>
-        <button class="mobile-nav__item button-without-styles-all" type="button" @click="emit('toggle-menu', 'side')">
+        <button class="mobile-nav__item" type="button" @click="emit('toggle-menu', 'side')">
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#stack-2" /></svg>
             <span class="mobile-nav__label">Меню</span>
         </button>
