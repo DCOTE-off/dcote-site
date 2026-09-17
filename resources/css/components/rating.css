@@ -1,9 +1,8 @@
-
-.rating-widget{
+.rating-widget {
+    align-items: center;
     display: flex;
     flex-direction: column;
-    gap:var(--fs-gap10);
-    align-items: center;
+    gap: var(--fs-gap10);
     justify-content: center;
     position: relative;
 }
@@ -13,23 +12,21 @@
     pointer-events: none;
 }
 
-.star-and-avg{
-    display: flex;
-    gap:var(--fs-gap10);
+.star-and-avg {
     align-items: center;
+    display: flex;
+    gap: var(--fs-gap10);
 }
 
-.toggle-rating-menu-btn{
-    padding: 0px;
-
+.toggle-rating-menu-btn {
+    padding: 0;
 }
 
-.star-rating-icon{
-    width: clamp(1px,2.275vw,35px);
-    height: clamp(1px,2.275vw,35px);
+.star-rating-icon {
     color: white;
-    transition: color 0.3s;
-    transition: transform 0.3s;
+    height: clamp(1px, 2.275vw, 35px);
+    transition: color 0.3s, transform 0.3s;
+    width: clamp(1px, 2.275vw, 35px);
 }
 
 .toggle-rating-menu-btn.is-rating-updated .star-rating-icon {
@@ -46,59 +43,66 @@
     }
 }
 
-
-.rating-popup-menu{
+.rating-popup-menu {
     background: #1D162E;
     border: var(--border2px) solid rgba(51, 38, 66, 1);
     border-radius: var(--fs-border-radius);
     display: none;
     flex-direction: column;
+    gap: var(--fs-gap10);
     padding: var(--fs-padding);
-    gap:var(--fs-gap10);
     z-index: 300;
 }
 
-.stars-row{
+.stars-row {
     display: flex;
-    gap:var(--fs-gap20);
+    gap: var(--fs-gap20);
 }
 
-.star-value-button{
-    padding: 0px;
+.star-value-button {
+    padding: 0;
 }
 
-.star-value-icon{
+.star-value-icon {
     color: white;
     transition: color 0.3s;
 }
 
-
-.star-value-icon.filled{
-    color:#921545;
+.star-value-icon.filled {
+    color: #921545;
 }
 
 .toggle-rating-menu-btn.active .star-rating-icon,
 .toggle-rating-menu-btn.has-rating .star-rating-icon,
-.star-value-button.picked .star-value-icon,
-.star-value-icon:hover{
-    color:#DF0E53;
+.star-value-button.picked .star-value-icon {
+    color: #DF0E53;
 }
 
-
-
-.toggle-rating-menu-btn:hover .star-rating-icon{
-    transform: scale(0.9);
+.star-rating-icon.visual {
+    color: #ffb147;
 }
 
-.star-rating-icon.visual{
-    color:#ffb147;
+/* Ховеры только для устройств с настоящим курсором: на тач-экранах
+   состояние :hover «залипает» после тапа. */
+@media (hover: hover) and (pointer: fine) {
+    .star-value-icon:hover {
+        color: #DF0E53;
+    }
+
+    .toggle-rating-menu-btn:hover .star-rating-icon {
+        transform: scale(0.9);
+    }
+
+    .popup-overlay a:hover p {
+        color: #DF0E53;
+    }
 }
 
-.rating-popup-info{
-    display: flex;
+.rating-popup-info {
     align-items: center;
+    display: flex;
+    gap: var(--fs-gap20);
     justify-content: center;
-    gap:var(--fs-gap20)
 }
 
 .your-choosen-rating {
@@ -107,7 +111,7 @@
     text-align: center;
 }
 
-.rating-value{
+.rating-value {
     display: inline-block;
     flex: 0 0 clamp(1px, 3.377vw, 52px);
     font-family: 'Vag Rounded Next';
@@ -197,58 +201,52 @@
     }
 }
 
-.rating-popup-menu.is-open{
+.rating-popup-menu.is-open {
     display: flex;
     position: absolute;
     right: calc(100% + var(--fs-gap20));
 }
 
-
-.popup-overlay{
-    position: absolute;
-    inset: 0;
+.popup-overlay {
+    align-items: center;
     backdrop-filter: blur(2.5px);
     background: rgba(29, 22, 46, 0.7);
-    border: var(--border2px) solid rgba(51, 38, 66, 1);
     border-radius: var(--fs-border-radius);
     display: flex;
-    align-items: center;
+    inset: 0;
     justify-content: center;
     padding: var(--fs-padding);
+    position: absolute;
     text-align: center;
 }
 
-.popup-overlay a{
+.popup-overlay a {
     text-decoration: none;
+}
+
+.popup-overlay a p {
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
     transition: color 0.3s;
 }
 
-.popup-overlay a p:hover{
-    color:#DF0E53;
-}
-.popup-overlay a p{
-    font-family: 'Vag Rounded Next';
-    font-weight: 700;
-}
-
-
-@media (max-width:768px){
+@media (max-width: 768px) {
     .rating-value {
         flex-basis: clamp(1px, 9.333vw, 100px);
         width: clamp(1px, 9.333vw, 100px);
     }
 
-    .star-rating-icon{
-        width: 6.675vw;
+    .star-rating-icon {
         height: 6.675vw;
+        width: 6.675vw;
     }
 
-    .rating-popup-menu{
-        gap:var(--fs-gap10);
+    .rating-popup-menu {
+        gap: var(--fs-gap10);
         padding: var(--fs-gap10);
     }
 
-    .stars-row{
-        gap:var(--fs-gap10);
+    .stars-row {
+        gap: var(--fs-gap10);
     }
 }

@@ -322,6 +322,7 @@
 
 .episodes .episode .episode__bookmark-icon {
     background-color: currentColor;
+    backface-visibility: hidden;
     display: block;
     height: clamp(1px, 1.623vw, 25px);
     mask: url("/svgs/bookmark.svg") center / contain no-repeat;
@@ -330,6 +331,7 @@
         color 240ms ease,
         transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
     width: clamp(1px, 1.104vw, 17px);
+    will-change: transform;
 }
 
 .episodes .episode .episode__bookmark:hover .episode__bookmark-icon {

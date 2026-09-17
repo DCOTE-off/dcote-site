@@ -45,6 +45,7 @@
         visibility 0s linear 260ms;
     visibility: hidden;
     width: max-content;
+    will-change: transform;
 }
 
 .list-filter.is-open .list-filter-menu {
