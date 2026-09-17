@@ -4,6 +4,7 @@ import '../css/app.css';
 import { createInertiaApp, router } from '@inertiajs/vue3';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
+import { ratingStore } from './stores/rating';
 
 // Заголовок серверно рендерится в app.blade.php; при SPA-переходах обновляем вручную.
 router.on('navigate', (event) => {
@@ -12,6 +13,9 @@ router.on('navigate', (event) => {
     if (title) {
         document.title = title;
     }
+
+    // Попап рейтинга живёт в модульном сторе и иначе переживёт переход.
+    ratingStore.openId = null;
 });
 
 createInertiaApp({

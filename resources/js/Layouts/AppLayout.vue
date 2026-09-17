@@ -1,6 +1,6 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { usePage } from '@inertiajs/vue3';
+import { router, usePage } from '@inertiajs/vue3';
 import SiteFooter from '../Components/SiteFooter.vue';
 import SiteHeader from '../Components/SiteHeader.vue';
 import ToastContainer from '../Components/ToastContainer.vue';
@@ -23,8 +23,21 @@ function onClickOutside(event) {
     openMenu.value = null;
 }
 
-onMounted(() => document.addEventListener('click', onClickOutside));
-onBeforeUnmount(() => document.removeEventListener('click', onClickOutside));
+// Меню живут в персистентном лейауте, поэтому после SPA-перехода их нужно
+// закрывать вручную — иначе открытая менюшка «переезжает» на новую страницу.
+let stopNavigationListener = null;
+
+onMounted(() => {
+    document.addEventListener('click', onClickOutside);
+    stopNavigationListener = router.on('navigate', () => {
+        openMenu.value = null;
+    });
+});
+
+onBeforeUnmount(() => {
+    document.removeEventListener('click', onClickOutside);
+    stopNavigationListener?.();
+});
 
 watch(
     () => [page.props.flash?.success, page.props.flash?.error],
