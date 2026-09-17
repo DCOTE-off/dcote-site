@@ -1,0 +1,291 @@
+/* ===== Блок: карточка тома (дизайн как у .season-card) ===== */
+.volume-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    overflow: hidden;
+}
+
+.volume-card__cover {
+    width: 35%;
+    object-fit: cover;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.volume-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 0.71;
+    display: block;
+}
+
+.volume-card__desc {
+    width: 65%;
+    padding: var(--fs-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fs-gap20);
+}
+
+.volume-card__title {
+    text-align: center;
+}
+
+.volume-card__desc p {
+    text-align: left;
+}
+
+.volume-card__description {
+    align-self: stretch;
+    width: 100%;
+    font-family: 'Vag Rounded Next';
+}
+
+.volume-card__read-more {
+    color: rgba(198, 187, 214, 1);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.volume-card__actions {
+    display: flex;
+    gap: var(--fs-gap20);
+    align-items: center;
+    margin-top: auto;
+}
+
+.volume-card__actions-group {
+    display: flex;
+    gap: var(--fs-gap20);
+}
+
+.volume-card__actions--mobile {
+    display: none;
+}
+
+/* ===== Блок: оглавление ===== */
+.chapters {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-width: 0;
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    padding: var(--fs-padding);
+    align-items: center;
+    gap: var(--fs-gap20);
+    flex: 1;
+    min-height: clamp(1px, 58.175vw, 855.5px);
+}
+
+.chapters__head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.chapters__title {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+}
+
+.chapters__control {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.chapters__sort {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.chapters__filter {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.chapters__sort-icon {
+    width: clamp(1px, 1.755vw, 27px);
+    height: clamp(1px, 1.625vw, 25px);
+    flex-shrink: 0;
+}
+
+.chapters__filter-icon {
+    width: clamp(1px, 1.56vw, 24px);
+    height: clamp(1px, 1.625vw, 25px);
+    flex-shrink: 0;
+}
+
+.chapters__rating {
+    align-self: center;
+    width: max-content;
+}
+
+.chapters__list {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+}
+
+.chapters__list.is-sorting > * {
+    pointer-events: none;
+}
+
+.chapters__list .link-pill-outline {
+    width: 100% !important;
+    padding-block: 0.4875vw !important;
+}
+
+.chapters__list .chapters__chapter-title{
+    min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: left;
+    font-weight: 400;
+    font-family: 'Vag Rounded Next';
+}
+
+
+
+.chapters .rating-popup-menu.is-open {
+    right: 50%;
+    top: calc(var(--fs-gap10) + 50%);
+    transform: translateX(50%);
+}
+
+/* ===== Обёртка: оглавление + галерея ===== */
+.volume-info {
+    display: flex;
+    gap: clamp(10px, 1.95vw, 30px);
+    align-items: stretch;
+}
+
+/* ===== Блок: галерея иллюстраций ===== */
+.volume-gallery {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fs-gap20);
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    height: auto;
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    padding: var(--fs-padding);
+    overflow: hidden;
+}
+
+.volume-gallery__carousels {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    width: 100%;
+    min-height: 0;
+}
+
+.volume-gallery__carousel {
+    display: grid;
+    flex: 1 1 0;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--fs-gap10);
+    text-align: center;
+    width: 100%;
+    min-height: 0;
+}
+
+.carousel-container,
+.embla,
+.embla__container,
+.embla__slide {
+    min-height: 0;
+}
+
+@media (max-width: 768px) {
+    .volume-card {
+        flex-direction: column;
+    }
+
+    .volume-card__cover {
+        width: 100%;
+    }
+
+    .volume-card__desc {
+        width: 100%;
+    }
+
+    .volume-card__actions--mobile {
+        display: flex;
+        flex-direction: column;
+        gap:var(--fs-gap20);
+        align-items: center;
+    }
+
+    .volume-card__actions {
+        display: none;
+    }
+
+    .volume-info {
+        flex-direction: column;
+        gap: var(--fs-gap20);
+        justify-content: unset;
+    }
+
+    .volume-gallery {
+        min-height: 650px;
+    }
+
+    .chapters__head {
+        grid-template-columns: max-content max-content;
+        column-gap: var(--fs-gap20);
+        justify-content: center;
+    }
+
+    .chapters__title {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .chapters__sort {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .chapters__filter {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .chapters__filter-icon {
+        display: none;
+    }
+
+    .chapters__sort-icon {
+        width: clamp(1px, 6.133vw, 100px);
+        height: clamp(1px, 5.867vw, 100px);
+    }
+
+    .chapters__list .link-pill-outline {
+        padding-block: 2vw !important;
+    }
+}

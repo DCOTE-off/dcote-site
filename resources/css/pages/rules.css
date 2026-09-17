@@ -1,0 +1,36 @@
+/* ===== Блок: правовая страница (правила / политика конфиденциальности) ===== */
+.legal {
+    backdrop-filter: blur(10px);
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1px, 1.95vw, 30px);
+    padding: var(--fs-padding);
+}
+
+.legal__title {
+    text-align: center;
+}
+
+.legal h2,
+.legal h3 {
+    color: rgba(244, 239, 250, 1);
+}
+
+.legal p {
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+}
+
+.legal a {
+    color: rgba(198, 187, 214, 1);
+    text-decoration: none;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.legal a:hover {
+    color: var(--purple-hover);
+}

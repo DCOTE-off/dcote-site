@@ -50,10 +50,16 @@ class RanobeChapterResource extends Resource
                             ->pluck('volume_number', 'id')
                             ->map(fn ($num) => floatval($num));
                     }),
+                Forms\Components\TextInput::make('title_label')
+                    ->label('Метка (жирная)')
+                    ->maxLength(255)
+                    ->default('')
+                    ->dehydrateStateUsing(fn (?string $state): string => $state ?? ''),
                 Forms\Components\TextInput::make('title')
                     ->label('Название главы')
-                    ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->default('')
+                    ->dehydrateStateUsing(fn (?string $state): string => $state ?? ''),
                 Forms\Components\TextInput::make('chapter_number')
                     ->label('Номер главы')
                     ->required()
@@ -93,6 +99,9 @@ class RanobeChapterResource extends Resource
                     ->numeric()
                     ->label('Том')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('title_label')
+                    ->label('Метка')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('title')
                     ->label('Название')
                     ->searchable(),

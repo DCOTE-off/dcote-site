@@ -1,0 +1,223 @@
+/* ===== Подвал сайта ===== */
+.site-footer {
+    --footer-side-width: clamp(90px, 15vw, 230px);
+    --footer-logo-height: clamp(20px, 3.32vw, 51px);
+    --footer-icon-size: clamp(20px, 3.32vw, 51px);
+    --footer-icon-gap: calc((var(--footer-side-width) - (var(--footer-icon-size) * 3)) / 2);
+    align-items: center;
+    display: flex;
+    gap: clamp(4px, 1.1vw, 17px);
+    justify-content: space-between;
+    left: 0;
+    margin-top: 0;
+    padding-bottom: var(--fs-gap20);
+    padding-inline: calc(clamp(0.1px, 0.325vw, 5px) + clamp(15px, 3.9vw, 60px));
+    padding-top: clamp(0px, 2.08vw, 32px);
+    position: relative;
+    text-decoration: none;
+    width: 100%;
+}
+
+.site-footer::before {
+    background-color: rgba(170, 160, 184, 1);
+    border-radius: 999px;
+    bottom: auto;
+    content: "";
+    height: clamp(0.5px, 0.13vw, 2px);
+    left: 50%;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    width: clamp(1px, 53.95vw, 830px);
+}
+
+.site-footer__left {
+    align-items: center;
+    display: flex;
+    flex: 0 0 var(--footer-side-width);
+    gap: var(--footer-icon-gap);
+}
+
+.site-footer__social-link {
+    display: flex;
+}
+
+.site-footer__social-icon {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    height: var(--footer-icon-size);
+    justify-content: center;
+    width: var(--footer-icon-size);
+}
+
+.site-footer__center {
+    align-items: center;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: clamp(1px, 0.28vw, 4.25px);
+    min-width: 0;
+}
+
+.site-footer__copyright {
+    color: white;
+    flex: 1;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-footer);
+    justify-self: center;
+    text-align: center;
+}
+
+.site-footer__links {
+    display: flex;
+    gap: clamp(10px, 1.95vw, 30px);
+    justify-content: center;
+}
+
+.site-footer__link {
+    color: white;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-footer);
+    font-weight: 200;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.site-footer__link:hover {
+    color: var(--purple-hover);
+}
+
+.site-footer__right {
+    align-items: center;
+    display: flex;
+    flex: 0 0 var(--footer-side-width);
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.site-footer__right a {
+    align-items: center;
+    display: flex;
+    height: 100%;
+}
+
+.site-footer__right .main-logo {
+    display: block;
+    height: var(--footer-logo-height);
+    width: var(--footer-side-width);
+}
+
+/* ===== Мобильная нижняя навигация ===== */
+.mobile-nav {
+    align-items: center;
+    align-self: center;
+    background: rgba(36, 24, 50, 1);
+    border-top-left-radius: clamp(1px, 4.272vw, 100px);
+    border-top-right-radius: clamp(1px, 4.272vw, 100px);
+    bottom: 0;
+    box-shadow: 0 0 0 var(--border2px) rgba(68, 44, 97, 1);
+    display: none;
+    justify-content: space-between;
+    margin: 0;
+    padding: clamp(1px, 4.806vw, 100px) clamp(1px, 6.275vw, 100px);
+    position: fixed;
+    width: 100%;
+    z-index: 1400;
+}
+
+.mobile-nav__item {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--fs-gap10) / 2);
+    min-width: clamp(1px, 12.282vw, 200px);
+    padding: 0;
+    text-decoration: none;
+}
+
+.mobile-nav__label {
+    color: rgba(198, 187, 214, 1);
+    font-size: clamp(1px, 2.136vw, 20px);
+    line-height: 1;
+}
+
+.mobile-nav__icon {
+    color: rgba(244, 239, 250, 1);
+    height: clamp(1px, 8.01vw, 100px);
+    width: clamp(1px, 8.01vw, 100px);
+}
+
+.mobile-nav__logo {
+    aspect-ratio: 690.26 / 410.81;
+    color: white;
+    height: clamp(1px, 9.879vw, 100px);
+    width: auto;
+}
+
+#dcote-logo-small {
+    color: white;
+}
+
+#dcote-logo-small .accent {
+    fill: #df0e53;
+}
+
+/* ===== Мобила ===== */
+@media (max-width: 768px) {
+    .mobile-nav {
+        display: flex;
+    }
+
+    .site-footer {
+        flex-direction: column-reverse;
+        gap: var(--fs-gap20);
+        padding-bottom: calc(var(--fs-gap10) + 21.12vw);
+        padding-top: calc(var(--fs-gap20) + var(--fs-gap20) + clamp(0.5px, 0.534vw, 100px));
+    }
+
+    .site-footer::before {
+        height: clamp(0.5px, 0.534vw, 100px);
+        width: calc(var(--fs-gap10) * 30);
+    }
+
+    .site-footer__right {
+        flex: 0;
+    }
+
+    .site-footer__right .main-logo {
+        height: 13.884vw;
+        width: 62.211vw;
+    }
+
+    .site-footer__center {
+        flex-direction: column-reverse;
+        gap: var(--fs-gap20);
+    }
+
+    .site-footer__links {
+        gap: var(--fs-gap20);
+    }
+
+    .site-footer__link {
+        font-size: clamp(1px, 3.204vw, 100px);
+        font-weight: 400;
+    }
+
+    .site-footer__copyright {
+        color: rgba(198, 187, 214, 1);
+        font-size: clamp(1px, 3.204vw, 100px);
+        font-weight: 500;
+    }
+
+    .site-footer__left {
+        flex: 0;
+        gap: 10.278vw;
+    }
+
+    .site-footer__social-icon {
+        height: 13.884vw;
+        width: 13.884vw;
+    }
+}

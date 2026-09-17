@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Helpers\FilesCollectionHelper;
 use App\Helpers\MarkdownRanobeHelper;
+use App\Helpers\DescriptionTextHelper;
 use App\Models\RanobeChapter;
 use App\Models\RanobeVolume;
 use App\Models\RanobeYear;
 use App\Services\PublicationStateSynchronizer;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class RanobeController extends Controller
 {
@@ -18,12 +21,18 @@ class RanobeController extends Controller
 
     public function index()
     {
-        $years = RanobeYear::orderBy('year_number', 'asc')
+        $years_list = RanobeYear::orderBy('year_number', 'asc')
             ->withCount(['volumes', 'chapters'])
             ->withSum('volumes as total_pages', 'pages_quantity')
             ->get();
 
-        return view('pages.ranobe.index', compact('years'));
+        return Inertia::render('Ranobe/Years', [
+            'years_list' => $years_list,
+            'meta' => \App\Helpers\SeoMeta::make(
+                'Читать ранобэ «Класс превосходства» | Все года',
+                'Список всех годов ранобэ «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с хорошим переводом на DCOTE.',
+            ),
+        ]);
     }
 
     public function showYear(int $year)
@@ -55,9 +64,34 @@ class RanobeController extends Controller
                     ->where('user_id', $userId)
                     ->whereColumn('rateable_id', 'ranobe_volumes.id');
             }])
-            ->get();
+            ->get()
+            ->map(fn (RanobeVolume $volume) => [
+                'id' => $volume->id,
+                'volume_number' => floatval($volume->volume_number),
+                'all_chapters' => (int) $volume->all_chapters,
+                'chapters_count' => (int) $volume->chapters_count,
+                'volume_avg_rating' => round((float) ($volume->volume_avg_rating ?? 0), 1),
+                'volume_ratings_count' => (int) ($volume->volume_ratings_count ?? 0),
+                'volume_user_rating' => (int) ($volume->volume_user_rating ?? 0),
+                'color' => $volume->color,
+                'status' => $volume->status,
+                'general_number' => $volume->general_number,
+                'release_date_book' => russian_date($volume->release_date_book),
+                'release_date_digital' => russian_date($volume->release_date_digital),
+                'isbn' => $volume->isbn,
+                'cover_image' => Storage::url($volume->cover_image),
+                'cover_image_mobile' => Storage::url($volume->cover_image_mobile),
+            ])
+            ->values();
 
-        return view('pages.ranobe.year', compact('year', 'volumes'));
+        return Inertia::render('Ranobe/Year', [
+            'year' => $year,
+            'volumes' => $volumes,
+            'meta' => \App\Helpers\SeoMeta::make(
+                "Читать «Класс превосходства» | {$year} год",
+                "Список всех томов {$year} года новеллы «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с высоким качеством перевода на DCOTE.",
+            ),
+        ]);
     }
 
     public function showVolume(int $year, float $volume)
@@ -90,7 +124,7 @@ class RanobeController extends Controller
             ->where('volume_number', $volume)
             ->with(['chapters' => function ($query) {
                 $query
-                    ->select('id', 'ranobe_volume_id', 'title', 'chapter_number')
+                    ->select('id', 'ranobe_volume_id', 'title', 'title_label', 'chapter_number')
                     ->orderBy('chapter_number', 'asc');
             }])
             ->whereHas('year', function ($query) use ($year) {
@@ -104,7 +138,35 @@ class RanobeController extends Controller
         $color_images = FilesCollectionHelper::findFiles($path, '-color', 'public');
         $bw_images = FilesCollectionHelper::findFiles($path, '-bw', 'public');
 
-        return view('pages.ranobe.volume', compact('year', 'volumeModel', 'chapters', 'volume_number_rounded', 'color_images', 'bw_images', 'path'));
+        return Inertia::render('Ranobe/Volume', [
+            'year' => $year,
+            'volume_number_rounded' => $volume_number_rounded,
+            'meta' => \App\Helpers\SeoMeta::make(
+                "Читать ранобэ «Класс превосходства» {$year} год {$volume_number_rounded} том",
+                "Читать {$year} год {$volume_number_rounded} том ранобэ «Добро пожаловать в класс превосходства» онлайн. Описание тома, список глав и даты выхода на сайте DCOTE.",
+                Storage::url($volumeModel->cover_image),
+            ),
+            'volume' => [
+                'id' => $volumeModel->id,
+                'description' => DescriptionTextHelper::normalize(
+                    $volumeModel->volume_description,
+                ),
+                'cover_image' => Storage::url($volumeModel->cover_image),
+                'cover_image_mobile' => Storage::url($volumeModel->cover_image_mobile),
+                'promo_link' => $volumeModel->promo_link,
+                'volume_avg_rating' => round((float) ($volumeModel->volume_avg_rating ?? 0), 1),
+                'volume_ratings_count' => (int) ($volumeModel->volume_ratings_count ?? 0),
+                'volume_user_rating' => (int) ($volumeModel->volume_user_rating ?? 0),
+            ],
+            'chapters' => $chapters->map(fn (RanobeChapter $chapter) => [
+                'id' => $chapter->id,
+                'title' => $chapter->title,
+                'title_label' => $chapter->title_label,
+                'chapter_number' => floatval($chapter->chapter_number),
+            ])->values(),
+            'color_images' => $color_images->values(),
+            'bw_images' => $bw_images->values(),
+        ]);
     }
 
     public function showChapter(int $year, float $volume, float $chapter)
@@ -134,10 +196,22 @@ class RanobeController extends Controller
         $htmlContent = MarkdownRanobeHelper::parse($content, $year, $volume);
         $volume_number_rounded = floatval($volume);
 
-        return view('pages.ranobe.chapter', compact(
-            'htmlContent', 'chapterModel', 'volume_number_rounded', 'year', 'chapter',
-            'prev_link', 'next_link',
-        ));
+        return Inertia::render('Ranobe/Chapter', [
+            'year' => $year,
+            'volume' => $volume_number_rounded,
+            'chapter' => floatval($chapter),
+            'titleLabel' => $chapterModel->title_label,
+            'title' => $chapterModel->title,
+            'contentHtml' => $htmlContent,
+            'prevLink' => $prev_link,
+            'nextLink' => $next_link,
+            'chapterId' =>$chapterModel->id,
+            'meta' => \App\Helpers\SeoMeta::make(
+                "Читать «Класс превосходства» | {$year} год {$volume_number_rounded} том {$chapter} глава",
+                trim("Читать {$chapterModel->title_label} {$chapterModel->title} {$volume_number_rounded} тома новеллы «Добро пожаловать в класс превосходства». Читайте с высоким качеством перевода на DCOTE."),
+                Storage::url($chapterModel->volume->cover_image),
+            ),
+        ]);
     }
 
     private function getPreviousChapter(RanobeChapter $chapterModel): ?RanobeChapter

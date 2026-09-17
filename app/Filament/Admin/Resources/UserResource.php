@@ -49,6 +49,17 @@ class UserResource extends Resource
                             ->relationship('role', 'name')
                             ->preload()
                             ->required(),
+
+                        Forms\Components\FileUpload::make('avatar')
+                            ->label('Аватар')
+                            ->image()
+                            ->disk('public')
+                            ->directory('avatars')
+                            ->visibility('public')
+                            ->avatar()
+                            ->maxSize(2048)
+                            ->helperText('Сохраняется в storage/app/public/avatars. Пусто — покажется аватар по умолчанию.')
+                            ->columnSpanFull(),
                     ])
                     ->columns(2),
             ]);
@@ -58,6 +69,10 @@ class UserResource extends Resource
     public static function table(Table $table): Table{
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('avatar_url')
+                    ->label('Аватар')
+                    ->circular(),
+
                 Tables\Columns\TextColumn::make('id')
                     ->sortable(),
 

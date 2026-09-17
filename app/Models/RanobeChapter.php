@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Concerns\GuardsNaturalKeyUniqueness;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Validation\ValidationException;
 
 class RanobeChapter extends Model
@@ -15,6 +16,7 @@ class RanobeChapter extends Model
     protected $fillable = [
         'ranobe_volume_id',
         'title',
+        'title_label',
         'chapter_number',
         'chapter_content',
         'ranobe_year_id',
@@ -52,5 +54,10 @@ class RanobeChapter extends Model
     public function year()
     {
         return $this->belongsTo(RanobeYear::class, 'ranobe_year_id');
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }

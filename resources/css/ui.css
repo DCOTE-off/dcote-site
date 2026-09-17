@@ -1,0 +1,77 @@
+/* ===== Кнопки-таблетки (общие утилиты, используются на всех страницах) ===== */
+.btn-pill,
+.link-pill {
+    align-items: center;
+    background-color: #921545;
+    border-radius: var(--btn-pill-radius);
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-nav-links);
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1.15em;
+    overflow: hidden;
+    padding-block: clamp(1px, 0.78vw, 12px);
+    padding-inline: clamp(1px, 1.17vw, 18px);
+    text-align: center;
+    text-decoration: none;
+    width: max-content;
+}
+
+.btn-pill-outline,
+.link-pill-outline {
+    align-items: center;
+    border: var(--border2px) solid;
+    border-radius: var(--btn-pill-radius);
+    color: white;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-nav-links);
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1.15em;
+    overflow: hidden;
+    padding-block: clamp(1px, 0.78vw, 12px);
+    padding-inline: clamp(1px, 1.17vw, 18px);
+    text-align: center;
+    text-decoration: none;
+    width: max-content;
+    background-color: rgba(29, 22, 46, 1);
+}
+
+.btn-pill:disabled,
+.link-pill.disabled {
+    background-color: grey !important;
+    cursor: not-allowed;
+}
+
+.btn-pill-outline:disabled,
+.link-pill-outline.disabled {
+    border-color: grey !important;
+    cursor: not-allowed;
+}
+
+/* ===== Утилита: вертикальный стак с отступом ===== */
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+}
+
+/* ===== Утилита: скрытие ===== */
+.hidden {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .btn-pill,
+    .link-pill,
+    .btn-pill-outline,
+    .link-pill-outline {
+        padding-block: clamp(1px, 3.204vw, 100px);
+        padding-inline: clamp(1px, 4.806vw, 100px);
+    }
+}

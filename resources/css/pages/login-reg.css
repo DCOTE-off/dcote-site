@@ -1,0 +1,284 @@
+/* ===== Блок: форма авторизации/регистрации ===== */
+.auth {
+    align-self: center;
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+.auth__image {
+    aspect-ratio: 0.87;
+    overflow: hidden;
+    width: 43%;
+    z-index: 100;
+}
+
+.auth__image img {
+    border-bottom-left-radius: var(--radius-24px);
+    border-top-left-radius: var(--radius-24px);
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    width: 100%;
+    z-index: 100;
+}
+
+.auth__panel {
+    align-items: center;
+    background: rgba(23, 17, 31, 1);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    padding: var(--fs-padding);
+    width: 57%;
+    z-index: 10;
+}
+
+.auth__title {
+    text-align: center;
+}
+
+.auth__form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    width: 100%;
+}
+
+.auth__field-tip {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    width: 100%;
+}
+
+.auth__field {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    position: relative;
+    width: 100%;
+}
+
+.auth__input {
+    background: transparent;
+    background-color: rgba(36, 24, 50, 1);
+    border: var(--border2px) solid rgba(68, 44, 97, 1);
+    border-radius: calc(var(--radius-24px) / 2);
+    caret-color: white;
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-text);
+    line-height: 1.4em;
+    margin: 0;
+    outline: none;
+    padding-block: clamp(1px, 0.4875vw, 7.5px);
+    padding-inline: var(--fs-gap10);
+    width: 65%;
+}
+
+.auth__input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.auth__password-title {
+    align-items: center;
+    display: flex;
+    gap: clamp(1px, 0.65vw, 10px);
+    justify-content: center;
+    width: 100%;
+}
+
+.auth__password {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    width: 65%;
+}
+
+.auth__password .auth__input {
+    padding-right: clamp(1px, 2.6vw, 40px);
+    width: 100%;
+}
+
+.auth__password-toggle {
+    border: 0;
+    height: clamp(1px, 1.3vw, 20px);
+    left: 100%;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translate(-150%, -50%);
+    width: clamp(1px, 1.3vw, 20px);
+}
+
+.auth__password-icon {
+    height: 100%;
+    inset: 0;
+    object-fit: contain;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    transition:
+        opacity 220ms ease,
+        transform 280ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: 100%;
+    will-change: transform;
+}
+
+.auth__password-toggle:hover .auth__password-icon {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.auth__password-icon:focus-visible {
+    border-radius: 99% !important;
+    outline: var(--border2px) solid rgba(255, 255, 255, 0.8) !important;
+    outline-offset: var(--border2px) !important;
+}
+
+.auth__error {
+    background-color: #1D162E;
+    border: var(--border2px) solid rgba(68, 44, 97, 1);
+    border-radius: var(--fs-border-radius);
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-nav);
+    left: 17.5%;
+    max-width: 100%;
+    padding-block: clamp(1px, 0.4875vw, 7.5px);
+    padding-inline: var(--fs-gap10);
+    pointer-events: none;
+    position: absolute;
+    top: 115%;
+    width: max-content;
+    z-index: 100;
+}
+
+.auth__error::before {
+    background-color: #1D162E;
+    border-left: var(--border2px) solid rgba(68, 44, 97, 1);
+    border-top: var(--border2px) solid rgba(68, 44, 97, 1);
+    content: "";
+    height: clamp(1px, 0.78vw, 12px);
+    left: var(--fs-gap20);
+    position: absolute;
+    top: calc(var(--border2px) * -0.5);
+    transform: translate(0, -50%) rotate(45deg);
+    width: clamp(1px, 0.78vw, 12px);
+    z-index: 2;
+}
+
+.auth__tip {
+    color: rgba(198, 187, 214, 1);
+    display: flex;
+    font-family: 'Vag Rounded Next', sans-serif;
+    gap: var(--fs-gap10);
+}
+
+.auth__tip a {
+    color: var(--purple-hover);
+    font-family: 'Vag Rounded Next';
+    text-decoration: none;
+}
+
+.auth__check {
+    text-align: center;
+    font-family: 'Vag Rounded Next';
+}
+
+.auth__check a{
+    color: var(--purple-hover);
+    text-decoration: none;
+}
+
+.auth__captcha {
+    flex: none;
+    height: 65px;
+    width: 300px;
+}
+
+.auth__submit {
+    font-family: 'Vag Rounded Next', sans-serif;
+    font-size: var(--fs-nav-links);
+}
+
+/* ===== Глобальные стили полей ввода (автозаполнение, каретка) ===== */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #2b1f40 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-text);
+    line-height: 1.4em;
+    margin: 0;
+    transition: background-color 9999s ease-in-out 0s;
+}
+
+/* ===== Мобила ===== */
+@media (max-width: 768px) {
+    .auth {
+        flex-direction: column;
+    }
+
+    .auth__image {
+        aspect-ratio: 1.45;
+        overflow: hidden;
+        width: 100%;
+        z-index: 100;
+    }
+
+    .auth__panel {
+        width: 100%;
+    }
+
+    .auth__input {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+        padding-block: clamp(1px, 2.403vw, 20px);
+        width: 100%;
+    }
+
+    .auth__password {
+        width: 100%;
+    }
+
+    .auth__password .auth__input {
+        padding-right: calc(4.539vw + (var(--fs-gap10) * 2));
+        width: 100%;
+    }
+
+    .auth__password-toggle {
+        height: clamp(1px, 4.539vw, 30px);
+        width: clamp(1px, 4.539vw, 30px);
+    }
+
+    .auth__error {
+        left: 0;
+        padding-block: clamp(1px, 2vw, 20px);
+    }
+
+    .auth__error::before {
+        height: clamp(1px, 3.2vw, 100px);
+        width: clamp(1px, 3.2vw, 100px);
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auth__password-icon {
+        transition: none;
+    }
+}

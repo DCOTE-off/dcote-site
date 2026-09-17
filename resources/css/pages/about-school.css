@@ -1,0 +1,160 @@
+.school {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 1.95vw, 30px);
+    width: 100%;
+}
+
+/* ===== Основные секции ===== */
+.school__section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fs-gap10);
+    padding: var(--fs-padding);
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+}
+
+.school__title {
+    text-align: center;
+}
+
+.school__text {
+    width: 100%;
+}
+
+/* ===== Общежитие ===== */
+.school__dormitory {
+    display: flex;
+    overflow: hidden;
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+}
+
+.school__dormitory-desc {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    padding: var(--fs-padding);
+    width: 65%;
+}
+
+.school__dormitory-image {
+    width: 35%;
+}
+
+.school__dormitory-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.school__dormitory-image--mobile {
+    display: none;
+}
+
+/* ===== Классные комнаты и общественные места ===== */
+.school__room {
+    display: flex;
+    gap: var(--fs-gap20);
+    width: 100%;
+}
+
+.school__room--reverse {
+    flex-direction: row-reverse;
+}
+
+.school__room-image {
+    flex: 1 1 40%;
+    width: 40%;
+    aspect-ratio: 18 / 10;
+}
+
+.school__room-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: var(--radius-20px);
+}
+
+.school__room-text {
+    display: flex;
+    flex: 1 1 60%;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+}
+
+.school__room-text h3 {
+    text-align: left;
+}
+
+.school__only-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    text-align: center;
+    width: 100%;
+}
+
+/* ===== Карусели ===== */
+.school__carousel {
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--fs-gap10);
+    justify-self: center;
+    min-height: 0;
+    text-align: center;
+    width: 50%;
+}
+
+.school__carousel .carousel-container,
+.school__carousel .embla,
+.school__carousel .embla__container,
+.school__carousel .embla__slide {
+    height: 100%;
+    min-height: 0;
+}
+
+.school__carousel .carousel-img {
+    border-radius: var(--radius-20px);
+}
+
+@media (max-width: 768px) {
+    .school__carousel {
+        width: 100%;
+    }
+
+    .school__room {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .school__room-image {
+        width: 100%;
+    }
+
+    .school__room-text h3 {
+        text-align: center;
+    }
+
+    .school__dormitory-desc {
+        width: 100%;
+    }
+
+    .school__dormitory-image {
+        display: none;
+        width: 100%;
+    }
+
+    .school__dormitory-image--mobile {
+        display: block;
+        border-radius: var(--radius-20px);
+        overflow: hidden;
+    }
+}

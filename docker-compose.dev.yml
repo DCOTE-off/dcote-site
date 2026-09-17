@@ -15,7 +15,6 @@ services:
     environment:
       WWWUSER: '${WWWUSER:-1000}'
       LARAVEL_SAIL: 1
-      XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
       APP_ENV: local
       APP_DEBUG: 'true'
       DB_CONNECTION: mysql
@@ -60,3 +59,4 @@ volumes:
   mysql-data:
     name: dcote-dev-mysql
     driver: local
+

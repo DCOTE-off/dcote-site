@@ -1,0 +1,791 @@
+.season-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    overflow: hidden;
+}
+
+.season-card__cover {
+    width: 35%;
+    object-fit: cover;
+    overflow: hidden;
+    z-index: 5;
+}
+
+.season-card__cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    aspect-ratio: 0.71;
+    display: block;
+}
+
+.season-card__desc {
+    width: 65%;
+    padding: var(--fs-padding);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--fs-gap20);
+}
+
+
+.season-card__desc h1 {
+    text-align: center;
+}
+
+.season-card__desc p {
+    text-align: left;
+}
+
+.season-card__description {
+    align-self: stretch;
+    width: 100%;
+    font-family: 'Vag Rounded Next';
+}
+
+.season-card__read-more {
+    color: rgba(198, 187, 214, 1);
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.season-card__actions {
+    display: flex;
+    gap: var(--fs-gap20);
+    align-items: center;
+    margin-top: auto;
+}
+
+.season-card__actions-group{
+    display: flex;
+    gap: var(--fs-gap20);
+}
+
+.season-card__actions--mobile {
+    display: none;
+}
+
+
+
+
+
+.episodes {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    padding: var(--fs-padding);
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.episodes--without-schedule {
+    gap: var(--fs-gap20);
+}
+
+
+.episodes .episodes__list {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+}
+
+.episodes .episodes__list.is-sorting > * {
+    pointer-events: none;
+}
+
+.episodes .episodes__list.is-list-toggling {
+    overflow: hidden;
+}
+
+.episodes .episodes__list.is-list-toggling > * {
+    pointer-events: none;
+}
+
+
+
+.episodes .episode {
+    --episode-cover-width: clamp(1px, 19.48vw, 300px);
+    align-items: center;
+    border-radius: var(--fs-border-radius);
+    display: flex;
+    gap: var(--fs-gap20);
+    isolation: isolate;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+
+.episodes .episode::before {
+    background: linear-gradient(
+        90deg,
+        rgba(146, 21, 69, 0.5) 0%,
+        rgba(146, 21, 69, 0.34) 42%,
+        rgba(146, 21, 69, 0) 82%
+    );
+    border-radius: 0 var(--fs-border-radius) var(--fs-border-radius) 0;
+    content: "";
+    bottom: 0;
+    left: calc(var(--episode-cover-width) - var(--fs-gap20));
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition:
+        opacity 420ms ease,
+        transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: 0;
+}
+
+.episodes .episode > * {
+    position: relative;
+    z-index: 1;
+}
+
+.episodes .episode:has(.rating-popup-menu.is-open) {
+    z-index: 20;
+}
+
+@media (min-width: 769px) {
+    .episodes .episode .rating-widget .rating-popup-menu.is-open {
+        display: flex;
+        position: absolute;
+        right: calc(100% + var(--fs-gap20));
+        top: auto;
+        transform: none;
+    }
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .episodes .episode:hover::before {
+        opacity: 1;
+        transform: scaleX(1);
+    }
+
+    .episodes .episode:has(.episode__open-new-tab:hover)::before,
+    .episodes .episode:has(.episode__bookmark:hover)::before,
+    .episodes .episode:has(.episode__watch:hover)::before,
+    .episodes .episode:has(.rating-widget:hover)::before,
+    .episodes .episode:has(.episode__trailer--desktop:hover)::before,
+    .episodes .episode:has(.episode__trailer--mobile:hover)::before {
+        opacity: 0;
+        transform: scaleX(0);
+    }
+}
+
+.episodes .episode.has-group-separator {
+    margin-top: clamp(1px, 3.247vw, 50px);
+}
+
+.episodes .episode.is-collapsed-hidden {
+    display: none;
+}
+
+.episodes .episodes__toggle {
+    align-items: center;
+    background: transparent !important;
+    border: 0;
+    box-shadow: none !important;
+    color: white;
+    cursor: pointer;
+    justify-content: center;
+    padding: 0;
+    scale: 1;
+}
+
+.episodes .episodes__toggle:hover,
+.episodes .episodes__toggle:active,
+.episodes .episodes__toggle:focus-visible {
+    background: transparent !important;
+    box-shadow: none !important;
+    scale: 1;
+}
+
+.episodes .episodes__toggle[hidden] {
+    display: none;
+}
+
+.episodes .episodes__toggle.is-expanded .dropdown-icon {
+    transform: rotate(-180deg);
+}
+
+.episodes .episode .episode__link {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--fs-gap20);
+    text-decoration: none;
+    transition: 0.3s;
+    border-radius: var(--fs-border-radius);
+}
+
+.episodes .episode.has-appear-in .episode__link {
+    flex: 0 1 auto;
+    width: auto;
+}
+
+
+.episodes .episode .episode__link:hover {
+    background-color: transparent;
+    box-shadow: none;
+}
+
+.episodes .episode .episode__cover {
+    aspect-ratio: 5 / 3;
+    border-radius: var(--fs-border-radius);
+    flex: 0 0 var(--episode-cover-width);
+    overflow: hidden;
+    position: relative;
+    width: var(--episode-cover-width);
+    z-index: 5;
+}
+
+.episodes .episode .episode__watch {
+    align-items: center;
+    background-color: rgba(153, 153, 153, 0.3);
+    border-radius: var(--fs-border-radius);
+    cursor: pointer;
+    display: flex;
+    height: clamp(1px, 2.273vw, 35px);
+    justify-content: center;
+    left: var(--fs-gap10);
+    pointer-events: auto;
+    position: absolute;
+    top: var(--fs-gap10);
+    transition:
+        background-color 240ms ease,
+        transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: clamp(1px, 2.273vw, 35px);
+    z-index: 3;
+}
+
+.episodes .episode .episode__watch:hover {
+    transform: scale(1.06);
+}
+
+.episodes .episode .episode__watch.is-disabled {
+    cursor: default;
+}
+
+.episodes .episode .episode__watch.is-disabled:hover {
+    transform: none;
+}
+
+.episodes .episode .episode__watch:focus-visible {
+    outline: var(--border2px) solid white;
+    outline-offset: var(--border2px);
+}
+
+.episodes .episode[data-watch-state="watched"] .episode__watch {
+    background-color: rgba(102, 128, 255, 0.5);
+}
+
+.episodes .episode .episode__watch img {
+    height: clamp(1px, 0.714vw, 11px);
+    opacity: 0.5;
+    transition:
+        opacity 240ms ease,
+        transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: clamp(1px, 0.974vw, 15px);
+}
+
+.episodes .episode[data-watch-state="watched"] .episode__watch img {
+    opacity: 1;
+}
+
+.episodes .episode .episode__bookmark {
+    align-items: center;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    transition: color 240ms ease;
+}
+
+.episodes .episode .episode__bookmark:focus-visible {
+    outline: var(--border2px) solid white;
+    outline-offset: var(--border2px);
+}
+
+.episodes .episode .episode__bookmark-icon {
+    background-color: currentColor;
+    backface-visibility: hidden;
+    display: block;
+    height: clamp(1px, 1.623vw, 25px);
+    mask: url("/svgs/bookmark.svg") center / contain no-repeat;
+    -webkit-mask: url("/svgs/bookmark.svg") center / contain no-repeat;
+    transition:
+        color 240ms ease,
+        transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    width: clamp(1px, 1.104vw, 17px);
+    will-change: transform;
+}
+
+.episodes .episode .episode__bookmark:hover .episode__bookmark-icon {
+    transform: scale(1.08);
+}
+
+.episodes .episode[data-bookmark-state="bookmarked"] .episode__bookmark {
+    color: #FFB147;
+}
+
+.episodes .episode .episode__bookmark--desktop {
+    width: max-content;
+}
+
+.episodes .episode .episode__bookmark.is-disabled {
+    color: rgba(255, 255, 255, 0.5);
+    cursor: default;
+}
+
+.episodes .episode .episode__bookmark.is-disabled:hover .episode__bookmark-icon {
+    transform: none;
+}
+
+.episodes .episode .episode__bookmark--mobile {
+    display: none;
+}
+
+.episodes .episode .episode__meta {
+    align-items: center;
+    display: flex;
+    gap: var(--fs-gap20);
+    margin-top: var(--fs-gap10);
+}
+
+.episodes .episode .episode__comments {
+    align-items: center;
+    color: white;
+    display: flex;
+    gap: var(--fs-gap10);
+}
+
+.episodes .episode .episode__comments.is-disabled {
+    opacity: 0.5;
+}
+
+.episodes .episode .episode__comments img {
+    height: clamp(1px, 1.623vw, 25px);
+    width: clamp(1px, 1.688vw, 26px);
+}
+
+.episodes .episode .episode__comments-count {
+    display: inline-block;
+    flex: 0 0 auto;
+    font-family: 'Vag Rounded Next';
+    font-size: clamp(1px, 1.169vw, 18px);
+    font-weight: 700;
+    text-align: left;
+    width: auto;
+}
+
+.episodes .episode .episode__comments--mobile {
+    display: none;
+}
+
+.episodes .episode .episode__appear {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    pointer-events: none;
+    text-align: center;
+    text-decoration: none;
+}
+
+.episodes .episode .episode__appear h3,
+.episodes .episode .episode__appear p {
+    max-width: 100%;
+    white-space: nowrap;
+}
+
+.episodes .episode .episode__appear--mobile {
+    display: none;
+}
+
+.episodes .episode .episode__appear--desktop {
+    align-self: stretch;
+    flex: 1 1 0;
+    min-width: 0;
+    pointer-events: auto;
+}
+
+.episodes .episode .episode__appear--desktop-wrapper{
+    background-color: rgba(36, 24, 50, 1);
+    border-radius: clamp(1px,1.04vw,16px);
+    padding: var(--fs-padding);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+}
+
+.episodes .episode .episode__title{
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+}
+
+.episodes .episode .episode__number {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--fs-gap10);
+}
+
+.episodes .episode .episode__heading{
+    font-family: 'Vag Rounded Next';
+}
+
+.episodes .episode .episode__open-new-tab {
+    cursor: pointer;
+    display: block;
+    flex: 0 0 auto;
+    height: clamp(1px, 0.974vw, 15px);
+    width: clamp(1px, 0.974vw, 15px);
+}
+
+.episodes .episode .episode__title--mobile {
+    display: none;
+}
+
+.episodes .episode .episode__cover .episode__cover-image {
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    width: 100%;
+}
+
+.episodes .episode .episode__footer {
+    align-items: center;
+    display: flex;
+    gap: calc(var(--fs-gap20) + var(--fs-gap10));
+    justify-content: flex-end;
+    justify-self: end;
+    width: max-content;
+}
+
+
+
+
+
+.episodes .episodes__head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    width: 100%;
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.episodes .episodes__schedule{
+    margin-bottom: var(--fs-gap10);
+    opacity: 0.5;
+}
+
+.episodes .episodes__head h1 {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: center;
+}
+
+.episodes .episodes__control {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-gap10);
+}
+
+.episodes .episodes__sort {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+}
+
+.episodes .episodes__filter {
+    grid-column: 3;
+    grid-row: 1;
+    justify-self: end;
+}
+
+.episodes .episodes__sort-icon {
+    width: clamp(1px, 1.755vw, 27px);
+    height: clamp(1px, 1.625vw, 25px);
+    flex-shrink: 0;
+}
+
+.episodes .episodes__filter-icon {
+    width: clamp(1px, 1.56vw, 24px);
+    height: clamp(1px, 1.625vw, 25px);
+    flex-shrink: 0;
+}
+
+
+.episode__trailer--desktop{
+    display: block !important;
+}
+
+.episode__trailer--mobile{
+    display: none !important;
+}
+
+
+
+@media (max-width:768px) {
+    .season-card {
+        flex-direction: column;
+    }
+
+    .episode__trailer--desktop{
+        display: none !important;
+    }
+    .episode__trailer--mobile{
+        display: block !important;
+    }
+
+    .season-card__cover {
+        width: 100%;
+    }
+
+    .season-card__desc {
+        width: 100%;
+    }
+
+    .season-card__actions--mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--fs-gap20);
+    }
+
+    .season-card__actions {
+        display: none;
+    }
+
+    .episodes .episodes__head {
+        grid-template-columns: max-content max-content;
+        column-gap: var(--fs-gap20);
+        justify-content: center;
+    }
+
+    .episodes .episodes__head h1 {
+        grid-column: 1 / -1;
+        grid-row: 1;
+    }
+
+    .episodes .episodes__sort {
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .episodes .episodes__filter {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    .episodes .episodes__filter-icon {
+        display: none;
+    }
+
+    .episodes .episodes__sort-icon {
+        width: clamp(1px, 6.133vw, 100px);
+        height: clamp(1px, 5.867vw, 100px);
+    }
+
+    .episodes .episodes__schedule {
+        text-align: center;
+    }
+
+    .episodes .episodes__list {
+        gap: clamp(1px, 8.01vw, 100px);
+    }
+
+    .episodes .episode {
+        display: flex;
+        flex-direction: column;
+        gap: var(--fs-gap10);
+        padding: 0;
+    }
+
+    .episodes .episode.has-group-separator {
+        margin-top: clamp(1px, 13.333vw, 100px);
+    }
+
+    .episodes .episode .episode__title {
+        display: none;
+    }
+
+    .episodes .episode .episode__link {
+        width: 100%;
+        flex-direction: column;
+        gap: var(--fs-gap10);
+    }
+
+    .episodes .episode.has-appear-in .episode__link {
+        flex: 1 1 auto;
+        width: 100%;
+    }
+
+    .episodes .episode .episode__cover {
+        flex: none;
+        width: 100%;
+    }
+
+    .episodes .episode .episode__watch {
+        height: clamp(1px, 10.667vw, 100px);
+        width: clamp(1px, 10.667vw, 100px);
+    }
+
+    .episodes .episode .episode__watch img {
+        height: clamp(1px, 3.733vw, 100px);
+        width: clamp(1px, 5.333vw, 100px);
+    }
+
+    .episodes .episode .episode__bookmark--desktop {
+        display: none;
+    }
+
+    .episodes .episode .episode__meta {
+        display: none;
+    }
+
+    .episodes .episode .episode__bookmark--mobile {
+        background-color: rgba(153, 153, 153, 0.3);
+        border-radius: var(--fs-border-radius);
+        color: white;
+        display: flex;
+        height: clamp(1px, 10.667vw, 100px);
+        position: absolute;
+        right: var(--fs-gap10);
+        top: var(--fs-gap10);
+        transition:
+            background-color 240ms ease,
+            transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+        width: clamp(1px, 10.667vw, 100px);
+        z-index: 3;
+    }
+
+    .episodes .episode .episode__bookmark--mobile .episode__bookmark-icon {
+        height: clamp(1px, 5.333vw, 100px);
+        width: clamp(1px, 3.733vw, 100px);
+    }
+
+    .episodes .episode .episode__bookmark--mobile.is-disabled {
+        background-color: rgba(153, 153, 153, 0.3);
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .episodes .episode[data-bookmark-state="bookmarked"] .episode__bookmark--mobile {
+        background-color: rgba(255, 177, 71, 0.3);
+        color: #FFB147;
+    }
+
+    .episodes .episode .episode__cover.has-appear-in::after {
+        background: rgba(36, 24, 50, 0.95);
+        content: "";
+        inset: 0;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .episodes .episode .episode__appear--mobile {
+        display: flex;
+        inset: 0;
+        padding: var(--fs-gap20);
+        position: absolute;
+        z-index: 2;
+    }
+
+    .episodes .episode .episode__appear--desktop {
+        display: none;
+    }
+
+    .episodes .episode .episode__title--mobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+    }
+
+    .episodes .episode .episode__title--mobile p {
+        width: 100%;
+    }
+
+    .episodes .episode .episode__open-new-tab {
+        height: clamp(1px, 4vw, 100px);
+        width: clamp(1px, 4vw, 100px);
+    }
+
+    .episodes .episode .episode__link:hover {
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .episodes .episode .episode__cover:hover .episode__cover-image {
+        scale: 0.95;
+        box-shadow: none;
+        background-color: transparent;
+    }
+
+    .episodes .episode .episode__cover:has(.episode__watch:hover) .episode__cover-image,
+    .episodes .episode .episode__cover:has(.episode__bookmark:hover) .episode__cover-image,
+    .episodes .episode .episode__cover.is-watch-state-interacting .episode__cover-image,
+    .episodes .episode .episode__cover.is-bookmark-interacting .episode__cover-image {
+        scale: 1;
+    }
+
+    .episodes .episode .episode__link .episode__cover .episode__cover-image {
+        border-radius: var(--fs-border-radius);
+        transition: 0.3s;
+    }
+
+    .episodes .episode .episode__footer {
+        display: grid;
+        width: 100%;
+        align-items: center;
+        gap: var(--fs-gap20);
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    }
+
+    .episodes .episode .episode__comments--mobile {
+        display: flex;
+        justify-self: start;
+        width: max-content;
+    }
+
+    .episodes .episode .episode__comments--mobile img {
+        height: clamp(1px, 6.4vw, 100px);
+        width: clamp(1px, 6.667vw, 100px);
+    }
+
+    .episodes .episode .episode__comments-count {
+        font-size: clamp(1px, 4.267vw, 100px);
+        width: auto;
+    }
+
+    .episodes .episode .episode__trailer--mobile {
+        justify-self: center;
+    }
+
+    .episodes .episode .episode__footer .episode__rating {
+        display: flex;
+        justify-content: end;
+        justify-self: end;
+        width: auto;
+    }
+
+
+
+    .episodes .episode .rating-popup-menu.is-open {
+        right: -3.9vw;
+        top: calc(var(--fs-gap20) + 100%);
+    }
+}

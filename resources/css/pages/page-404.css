@@ -1,0 +1,65 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto auto;
+}
+
+.text-404 {
+    font-size: clamp(5px, 26.065vw, 401px);
+    line-height: 0.75;
+    margin: 0;
+    z-index: 0;
+}
+
+.ptichka {
+    width: auto;
+    height: clamp(1px, 30.615vw, 417px);
+    display: block;
+    z-index: 1;
+    margin-top: calc(-0.5 * clamp(5px, 26.065vw, 401px));
+}
+
+.desc-404 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    align-items: center;
+}
+
+.desc-404 {
+    z-index: 2;
+    text-align: center;
+    margin-top: calc(-0.2 * clamp(1px, 30.615vw, 417px));
+}
+
+.desc-404 h2 {
+    font-size: clamp(1px, 2.86vw, 44px);
+}
+
+.desc-404 h3 {
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+}
+
+@media(max-width:768px){
+    .desc-404 h2 {
+        font-size: clamp(19px, 5.867vw, 250px);
+    }
+    .text-404 {
+        font-size: clamp(1px, 45vw, 1000px);
+    }
+
+    .ptichka {
+        width: auto ;
+        height: clamp(1px, 60vw, 1000px);
+            margin-top: calc(-0.5 * clamp(1px, 45vw, 1000px));
+    }
+
+    .desc-404 {
+        z-index: 2;
+        text-align: center;
+        margin-top: calc(-0.2 * clamp(1px, 60vw, 1000px));
+        gap:var(--fs-gap10);
+    }
+}

@@ -64,4 +64,9 @@ class AnimeEpisode extends Model
     {
         return $this->morphMany(Rating::class, 'rateable');
     }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

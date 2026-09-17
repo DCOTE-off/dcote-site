@@ -1,0 +1,138 @@
+/* ===== Сетка годов ===== */
+.year-grid {
+    display: flex;
+    gap: clamp(1px, 1.95vw, 30px);
+}
+
+/* ===== Карточка года ===== */
+.year-card {
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    overflow-anchor: none;
+    width: 100%;
+}
+
+.year-card__cover {
+    aspect-ratio: 7 / 10;
+    display: block;
+    object-fit: cover;
+    width: 100%;
+}
+
+.year-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    padding: var(--fs-padding);
+    text-align: center;
+}
+
+.year-card__link {
+    align-self: center;
+}
+
+.year-card__status {
+    align-content: center;
+    align-self: center;
+    display: flex;
+    gap: var(--fs-gap10);
+    justify-content: center;
+}
+
+.year-card__status-text {
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+}
+
+.year-card__status-text--completed {
+    color: #56CC64;
+}
+
+.year-card__status-text--ongoing {
+    color: #FFB147;
+}
+
+.year-card__status-icon {
+    height: clamp(1px, 1.625vw, 25px);
+    width: clamp(1px, 1.625vw, 25px);
+}
+
+/* ===== Сворачиваемая информация ===== */
+.info-block {
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--fs-border-radius);
+    overflow: hidden;
+    width: 100%;
+}
+
+.info-block .collapse__trigger {
+    align-items: center;
+    background: rgba(51, 38, 66, 1);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    font-weight: 700;
+    justify-content: center;
+    padding: calc(var(--radius-24px) / 2);
+    width: 100%;
+}
+
+.info-block__grid {
+    background-clip: padding-box;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 0;
+    overflow: hidden;
+    transform: translateZ(0);
+    width: 100%;
+}
+
+.info-block__label,
+.info-block__value {
+    align-items: center;
+    background-color: rgba(36, 24, 50, 1);
+    border-bottom: var(--border2px) solid rgba(51, 38, 66, 1);
+    display: flex;
+    font-size: var(--fs-text);
+    justify-content: center;
+    line-height: 1.2;
+    margin: 0;
+    min-height: 0;
+    min-width: 0;
+    padding: var(--fs-padding);
+    text-align: center;
+}
+
+.info-block__label:nth-last-child(-n+2),
+.info-block__value:nth-last-child(-n+2) {
+    border-bottom: none;
+}
+
+.info-block__label {
+    color: rgba(198, 187, 214, 1);
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+}
+
+/* ===== Мобила ===== */
+@media (max-width: 768px) {
+    .year-grid {
+        flex-direction: column-reverse;
+        gap: var(--fs-gap20);
+    }
+
+    .year-card__status-icon {
+        height: clamp(1px, 5.874vw, 100px);
+        width: clamp(1px, 5.874vw, 100px);
+    }
+
+    .info-block__label,
+    .info-block__value {
+        padding-block: var(--fs-gap20);
+    }
+}

@@ -11,6 +11,7 @@ use App\Services\PublicationStateSynchronizer;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Inertia\Inertia;
 
 class MainController extends Controller
 {
@@ -81,14 +82,17 @@ class MainController extends Controller
             ->limit(15)
             ->get();
 
-        return view('pages.dcote-main', compact(
-            'classes_list_default',
-            'max_points_default',
-            'classes_list_spoilers',
-            'max_points_spoilers',
-            'popularCards',
-            'feed'
-        ));
+        return Inertia::render('Home', [
+            'meta' => \App\Helpers\SeoMeta::make(
+                'Вики, новости и контент по «Классу Превосходства»',
+            ),
+            'classes_list_default' => $classes_list_default,
+            'max_points_default' => $max_points_default,
+            'classes_list_spoilers' => $classes_list_spoilers,
+            'max_points_spoilers' => $max_points_spoilers,
+            'popularCards' => $popularCards,
+            'feed' => $feed,
+        ]);
     }
 
     private function makePopularCards(Collection $targets): Collection

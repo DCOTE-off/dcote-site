@@ -1,0 +1,598 @@
+/* ===== Заголовок страницы ===== */
+.main-title {
+    text-align: center;
+}
+
+/* ===== Блок: команда ===== */
+.team {
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 1.95vw, 30px);
+    padding: var(--fs-padding);
+}
+
+.team__member {
+    --portrait-overlap: min(6.82vw, 105px);
+    align-items: center;
+    align-self: center;
+    display: flex;
+    isolation: isolate;
+    max-width: 1245px;
+    width: min(80.84vw, 1245px);
+}
+
+.team__member--mregor4ik {
+    --portrait-width: min(29.22vw, 450px);
+    --portrait-height: min(38.7vw, 596px);
+}
+
+.team__member--andrey {
+    --portrait-width: min(29.22vw, 450px);
+    --portrait-height: min(37.76vw, 581.5px);
+}
+
+.team__member--temzz {
+    --portrait-width: min(32.44vw, 499.5px);
+    --portrait-height: min(37.73vw, 581px);
+}
+
+.team__member--einstein {
+    --portrait-width: min(29.22vw, 450px);
+    --portrait-height: min(37.76vw, 581.5px);
+}
+
+.team__member--reverse {
+    flex-direction: row-reverse;
+}
+
+.team__portrait {
+    flex: 0 0 var(--portrait-width);
+    height: var(--portrait-height);
+    margin-right: calc(-1 * var(--portrait-overlap));
+    position: relative;
+    z-index: 2;
+}
+
+.team__member--reverse .team__portrait {
+    margin-left: calc(-1 * var(--portrait-overlap));
+    margin-right: 0;
+}
+
+.team__portrait img {
+    height: 100%;
+    object-fit: contain;
+    width: 100%;
+}
+
+.team__card {
+    align-items: center;
+    background: rgba(36, 24, 50, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: 0 var(--radius-20px) var(--radius-20px) 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: clamp(20px, 2.6vw, 40px);
+    min-width: 0;
+    overflow: hidden;
+    padding: var(--fs-padding);
+    padding-left: calc(var(--portrait-overlap) + var(--fs-padding));
+    position: relative;
+    z-index: 1;
+}
+
+.team__member--reverse .team__card {
+    border-radius: var(--radius-20px) 0 0 var(--radius-20px);
+    padding-left: var(--fs-padding);
+    padding-right: calc(var(--portrait-overlap) + var(--fs-padding));
+}
+
+.team__heading,
+.team__activity {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    width: 100%;
+}
+
+.team__name {
+    font-size: var(--fs-title1);
+    font-weight: 800;
+    line-height: 1.15em;
+    text-align: center;
+}
+
+.team__roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--fs-gap10);
+    justify-content: center;
+}
+
+.team__role {
+    background: #921545;
+    border-radius: var(--fs-border-radius);
+    color: white;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-text);
+    font-weight: 700;
+    line-height: 1.4em;
+    padding: calc(var(--fs-gap10) / 2) var(--fs-gap10);
+    text-align: center;
+}
+
+.team__role--devops {
+    background: #a34e35;
+}
+
+.team__role--designer {
+    background: #6236b8;
+}
+
+.team__role--manager {
+    background: #be3bad;
+}
+
+.team__role--vibecoder {
+    background: #b7245a;
+}
+
+.team__role--sponsor {
+    background: #c88c3b;
+}
+
+.team__role--smm {
+    background: #2d4fbf;
+}
+
+.team__role--content {
+    background: #278bb7;
+}
+
+.team__activity-title {
+    font-size: var(--fs-title3);
+    font-weight: 500;
+}
+
+.team__activity-list {
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.team__activity-item {
+    font-family: 'Vag Rounded Next';
+}
+
+.team__activity-item::before {
+    content: '— ';
+}
+
+.team__quote {
+    align-self: stretch;
+    text-align: right;
+}
+
+.team__quote-title {
+    display: inline;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-text);
+    font-weight: 400;
+}
+
+.team__quote-text {
+    display: inline;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-text);
+}
+
+/* ===== Блок: отделы ===== */
+.departments {
+    align-items: start;
+    display: grid;
+    gap: clamp(20px, 1.95vw, 30px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.department-card {
+    background: rgba(36, 24, 50, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-20px);
+    overflow: hidden;
+    padding: var(--fs-padding);
+}
+
+.department-card .collapse__trigger {
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    gap: var(--fs-gap20);
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.department-card .collapse__trigger:focus-visible {
+    outline: var(--border2px) solid white;
+    outline-offset: var(--fs-gap10);
+}
+
+.department-card__title {
+    font-size: var(--fs-title1);
+    font-weight: 700;
+    line-height: 1.15em;
+    text-align: center;
+}
+
+.department-card__desc {
+    font-family: 'Vag Rounded Next';
+    margin-top: var(--fs-gap10);
+    text-align: center;
+}
+
+.department-card__members {
+    --sb-size: clamp(1px, 0.39vw, 6px);
+    --sb-thumb-color: #442c61;
+    --sb-track-color: rgba(51, 38, 66, 1);
+    display: flex;
+    gap: var(--fs-gap20);
+    justify-content: center;
+    margin-top: var(--fs-gap20);
+    overflow-x: auto;
+}
+
+.department-card__members.is-scrollable {
+    justify-content: flex-start;
+    padding-bottom: var(--fs-gap10);
+}
+
+.department-card__members::-webkit-scrollbar {
+    height: var(--sb-size);
+    z-index: 100;
+}
+
+.department-card__members::-webkit-scrollbar-track {
+    background: var(--sb-track-color);
+    border-radius: 999px;
+}
+
+.department-card__members::-webkit-scrollbar-thumb {
+    background: var(--sb-thumb-color);
+    border-radius: 999px;
+}
+
+.department-card__members::-webkit-scrollbar-thumb:hover {
+    cursor: grab;
+}
+
+.department-card__members::-webkit-scrollbar-thumb:active {
+    cursor: grabbing;
+}
+
+.department-card__members::-webkit-scrollbar-button,
+.department-card__members::-webkit-scrollbar-button:single-button:vertical:decrement,
+.department-card__members::-webkit-scrollbar-button:single-button:vertical:increment {
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+}
+
+@-moz-document url-prefix() {
+    .department-card__members {
+        scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+        scrollbar-width: thin;
+    }
+}
+
+.department-card__member {
+    align-items: center;
+    display: flex;
+    flex: 0 0 clamp(100px, 9.74vw, 150px);
+    flex-direction: column;
+    gap: var(--fs-gap10);
+    min-width: 0;
+}
+
+.department-card__member img {
+    aspect-ratio: 1;
+    border-radius: calc(var(--radius-20px) / 2);
+    object-fit: cover;
+    width: 100%;
+}
+
+.department-card__member p {
+    font-family: 'Vag Rounded Next';
+    font-weight: 700;
+    margin: 0;
+    overflow-wrap: anywhere;
+}
+
+.department-card__empty {
+    margin-inline: auto;
+    width: max-content;
+}
+
+/* ===== Утилита: стрелка сворачивания (общая для department-card и gratitude-card) ===== */
+.card-arrow {
+    align-items: center;
+    aspect-ratio: 14 / 8.01;
+    display: inline-flex;
+    flex: 0 0 auto;
+    justify-content: center;
+    line-height: 0;
+    width: clamp(14px, 1.625vw, 25px);
+}
+
+.card-arrow img {
+    display: block;
+    height: 100%;
+    transform: rotate(0deg);
+    transform-origin: center;
+    transition: transform 0.3s ease;
+    width: 100%;
+}
+
+.collapse__trigger:not(.is-open) .card-arrow img {
+    transform: rotate(180deg);
+}
+
+/* ===== Блок: благодарности ===== */
+.gratitude {
+    width: 100%;
+}
+
+.gratitude-card {
+    background: rgba(23, 17, 31, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    margin-inline: auto;
+    overflow: hidden;
+    padding: var(--fs-padding);
+    width: 75%;
+}
+
+.gratitude-card .collapse__trigger {
+    align-items: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    gap: clamp(10px, 1.95vw, 30px);
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    width: 100%;
+}
+
+.gratitude-card .collapse__trigger:focus-visible {
+    outline: var(--border2px) solid white;
+    outline-offset: var(--fs-gap10);
+}
+
+.gratitude-card__title {
+    text-align: center;
+}
+
+.gratitude-card__content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    padding-top: var(--fs-gap10);
+}
+
+.gratitude-card__copy {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    text-align: center;
+    width: 100%;
+}
+
+.gratitude-card__feature {
+    background: rgba(36, 24, 50, 1);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
+    border-radius: var(--radius-24px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-gap20);
+    padding: var(--fs-padding);
+}
+
+.gratitude-card__feature-title {
+    font-size: var(--fs-title3);
+    font-weight: 400;
+    line-height: 1.25em;
+    max-width: min(84.5vw, 1300px);
+    text-align: center;
+}
+
+.gratitude-card__profiles {
+    display: flex;
+    gap: min(12.99vw, 200px);
+    justify-content: center;
+}
+
+.gratitude-card__profile {
+    align-items: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    text-align: center;
+    text-decoration: none;
+}
+
+.gratitude-card__profile img {
+    aspect-ratio: 1;
+    border-radius: var(--fs-border-radius);
+    margin-bottom: var(--fs-gap10);
+    object-fit: cover;
+    width: min(12.34vw, 190px);
+}
+
+.gratitude-card__profile-name {
+    color: white;
+    font-family: 'Vag Rounded Next';
+    font-size: var(--fs-title3);
+    font-weight: 700;
+    line-height: 1.25em;
+}
+
+.gratitude-card__profile-tag {
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Vag-Regular';
+    font-size: var(--fs-text);
+    line-height: 1.4em;
+}
+
+.gratitude-card__footer {
+    text-align: center;
+}
+
+/* ===== Мобила ===== */
+@media (max-width: 768px) {
+    .team {
+        gap: var(--fs-gap20);
+    }
+
+    .team__member,
+    .team__member--reverse {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .team__portrait,
+    .team__member--reverse .team__portrait {
+        align-self: center;
+        flex: none;
+        height: auto;
+        margin: 0;
+        width: 80%;
+    }
+
+    .team__portrait img {
+        display: block;
+        height: auto;
+    }
+
+    .team__card,
+    .team__member--reverse .team__card {
+        border-radius: calc(var(--radius-24px) / 2);
+        gap: var(--fs-gap20);
+        margin: -45% 0 0;
+        padding: calc(45% + var(--fs-padding)) var(--fs-padding) var(--fs-padding);
+        width: 100%;
+    }
+
+    .team__name {
+        font-size: clamp(21px, 6.667vw, 56px);
+    }
+
+    .team__activity-title {
+        font-size: clamp(19px, 5.867vw, 49px);
+    }
+
+    .team__role,
+    .team__activity-item,
+    .team__quote-text,
+    .department-card__desc {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+
+    .team__quote {
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: var(--fs-gap10);
+        text-align: center;
+    }
+
+    .team__quote-title {
+        display: block;
+        font-size: clamp(16px, 5.067vw, 42px);
+    }
+
+    .team__quote-text {
+        display: block;
+    }
+
+    .departments {
+        grid-template-columns: 1fr;
+    }
+
+    .department-card {
+        border-radius: calc(var(--radius-24px) / 2);
+    }
+
+    .department-card__members {
+        --sb-size: clamp(1px, 1.602vw, 20px);
+    }
+
+    .department-card__member {
+        flex-basis: clamp(90px, 32vw, 270px);
+    }
+
+    .gratitude-card {
+        width: 100%;
+    }
+
+    .gratitude-card .collapse__trigger {
+        gap: var(--fs-gap20);
+    }
+
+    .gratitude-card__content,
+    .gratitude-card__copy {
+        gap: var(--fs-gap20);
+    }
+
+    .gratitude-card__copy p,
+    .gratitude-card__footer {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+    }
+
+    .gratitude-card__feature-title {
+        font-size: clamp(16px, 5.067vw, 42px);
+        margin-top: var(--fs-gap20);
+        max-width: 100%;
+    }
+
+    .gratitude-card__profiles {
+        gap: var(--fs-gap20);
+        justify-content: space-around;
+        width: 100%;
+    }
+
+    .gratitude-card__profile {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+
+    .gratitude-card__profile img {
+        width: min(32vw, 190px);
+    }
+
+    .gratitude-card__profile-name {
+        font-size: clamp(16px, 5.067vw, 42px);
+        overflow-wrap: anywhere;
+    }
+
+    .gratitude-card__profile-tag {
+        font-size: clamp(13.5px, 4.267vw, 36px);
+        overflow-wrap: anywhere;
+    }
+
+    .card-arrow {
+        width: clamp(14px, 4.48vw, 38px);
+    }
+}
