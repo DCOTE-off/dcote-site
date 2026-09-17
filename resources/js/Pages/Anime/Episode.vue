@@ -159,7 +159,7 @@ onBeforeUnmount(clearLoadTimer);
             </svg>
             <span>ПРЕДЫДУЩАЯ СЕРИЯ</span>
         </component>
-        <Link class="link-pill no-glow all-episodes-btn" :href="route('anime.season', { season })">
+        <Link class="link-pill all-episodes-btn" :href="route('anime.season', { season })">
             <span>ВСЕ СЕРИИ</span>
             <svg class="episode-arrow-icon episode-arrow-icon-down" aria-hidden="true">
                 <use href="#arrow-down" />

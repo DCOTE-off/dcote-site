@@ -220,13 +220,13 @@ const { isScrollable: moderatorsScrollable } = useScrollable(moderatorMembersRef
                     <h2 class="gratitude-card__feature-title">Отдельного упоминания заслуживает испаноязычный энтузиаст, который занимается сканом иллюстраций в превосходском качестве.</h2>
 
                     <div class="gratitude-card__profiles" aria-label="Профили благодарности">
-                        <a class="gratitude-card__profile no-glow" href="https://x.com/pix_targo" target="_blank" rel="noopener noreferrer">
+                        <a class="gratitude-card__profile" href="https://x.com/pix_targo" target="_blank" rel="noopener noreferrer">
                             <img loading="lazy" decoding="async" :src="'/images/about-project/gratitude-pixtargo.jpg'" alt="Аватар PixTargo">
                             <span class="gratitude-card__profile-name">PixTargo</span>
                             <span class="gratitude-card__profile-tag">@pix_targo</span>
                         </a>
 
-                        <a class="gratitude-card__profile no-glow" href="https://x.com/love_art_2D" target="_blank" rel="noopener noreferrer">
+                        <a class="gratitude-card__profile" href="https://x.com/love_art_2D" target="_blank" rel="noopener noreferrer">
                             <img loading="lazy" decoding="async" :src="'/images/about-project/gratitude-art-appreciator.jpg'" alt="Аватар Art appreciator">
                             <span class="gratitude-card__profile-name">Art appreciator</span>
                             <span class="gratitude-card__profile-tag">@love_art_2D</span>

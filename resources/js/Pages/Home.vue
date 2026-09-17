@@ -607,7 +607,7 @@ onBeforeUnmount(() => {
                 </div>
             </div>
             <div class="updates__view-all">
-                <a class="link-pill disabled_a" rel="noopener noreferrer">ВСЕ ОБНОВЛЕНИЯ</a>
+                <a class="link-pill disabled" rel="noopener noreferrer">ВСЕ ОБНОВЛЕНИЯ</a>
             </div>
         </div>
     </div>
@@ -731,7 +731,7 @@ onBeforeUnmount(() => {
                         сложную игру интриг, стратегий и скрытых конфликтов между учениками школы.
                     </p>
                 </div>
-                <div class="description__action"><a class="btn-pill disabled_a" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a></div>
+                <div class="description__action"><a class="link-pill disabled" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a></div>
             </div>
         </div>
         <div class="description">

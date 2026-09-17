@@ -91,13 +91,13 @@ function volumePercent(volume) {
             </div>
             <Link class="link-pill" :href="route('ranobe.volume', { year: year, volume: volume.volume_number })">СТРАНИЦА ТОМА</Link>
             <div class="media-card__buttons">
-                <button class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
                 <Link class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" :href="route('ranobe.chapter', { year: year, volume: volume.volume_number, chapter: 1 })">НАЧАТЬ ЧИТАТЬ</Link>
             </div>
             <div class="media-card__buttons--mobile">
-                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
             </div>

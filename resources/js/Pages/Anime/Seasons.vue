@@ -102,14 +102,14 @@ function avgRating(season) {
             <button v-if="season.is_announced" type="button" class="btn-pill" disabled>СТРАНИЦА СЕЗОНА</button>
             <Link v-else class="link-pill" :href="route('anime.season', { season: season.season_number })">СТРАНИЦА СЕЗОНА</Link>
             <div class="media-card__buttons">
-                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
                 <button v-if="season.is_announced" type="button" class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled>НАЧАТЬ СМОТРЕТЬ</button>
                 <Link v-else class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" :href="route('anime.episode', { season: season.season_number, episode: 1 })">НАЧАТЬ СМОТРЕТЬ</Link>
             </div>
             <div class="media-card__buttons--mobile">
-                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
             </div>

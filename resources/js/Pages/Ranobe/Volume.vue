@@ -99,7 +99,7 @@ const sortedChapters = computed(() => {
                 </template>
             </ClampedText>
             <div class="volume-card__actions">
-                <button class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
                 <Link class="link-pill" :href="route('ranobe.chapter', { year, volume: volume_number_rounded, chapter: 1 })">НАЧАТЬ ЧИТАТЬ</Link>
@@ -108,7 +108,7 @@ const sortedChapters = computed(() => {
             <div class="volume-card__actions--mobile">
                 <Link class="link-pill" :href="route('ranobe.chapter', { year, volume: volume_number_rounded, chapter: 1 })">НАЧАТЬ ЧИТАТЬ</Link>
                 <div class="volume-card__actions-group">
-                    <button class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                    <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                         <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                     </button>
                     <a :href="volume.promo_link" class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);">ПРОМО</a>

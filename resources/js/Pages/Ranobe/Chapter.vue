@@ -200,13 +200,13 @@ watch(() => page.url, syncPageState);
         </article>
         <ReaderSettings :settings="settings" :open="settingsOpen" />
         <div class="read-nav desktop">
-            <button type="button" class="read-item button-without-styles-all">
+            <button type="button" class="read-item">
                 <svg class="nav-icon" viewBox="0 0 11 15"><use href="#mark" /></svg>
             </button>
             <Link class="read-item" :href="route('ranobe.volume', { year, volume })">
                 <svg class="nav-icon" viewBox="0 0 17 15"><use href="#list-details" /></svg>
             </Link>
-            <button type="button" class="read-item button-without-styles-all settingsReadBtn" @click="toggleSettingsPanel">
+            <button type="button" class="read-item settingsReadBtn" @click="toggleSettingsPanel">
                 <svg class="nav-icon" viewBox="0 0 25 25"><use href="#settings" /></svg>
             </button>
         </div>
@@ -222,10 +222,10 @@ watch(() => page.url, syncPageState);
                 <Link class="read-item" :href="route('ranobe.volume', { year, volume })">
                     <svg class="nav-icon" viewBox="0 0 17 15"><use href="#list-details" /></svg>
                 </Link>
-                <button type="button" class="read-item button-without-styles-all">
+                <button type="button" class="read-item">
                     <svg class="nav-icon" viewBox="0 0 11 15"><use href="#mark" /></svg>
                 </button>
-                <button type="button" class="read-item button-without-styles-all settingsReadBtn" @click="toggleSettingsPanel">
+                <button type="button" class="read-item settingsReadBtn" @click="toggleSettingsPanel">
                     <svg class="nav-icon" viewBox="0 0 25 25"><use href="#settings" /></svg>
                 </button>
             </div>

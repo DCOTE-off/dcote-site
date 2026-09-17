@@ -111,7 +111,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick));
             <div class="dropdown-select-wrapper">
                 <button
                     type="button"
-                    class="dropdown-select-btn btn-pill-outline no-glow"
+                    class="dropdown-select-btn btn-pill-outline"
                     style="border-color: rgba(98, 59, 146, 1);"
                     :class="{ 'is-open': openDropdown === 'font' }"
                     :aria-expanded="openDropdown === 'font'"
@@ -124,7 +124,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick));
                         v-for="font in fontOptions"
                         :key="font"
                         type="button"
-                        class="dropdown-list-value button-without-styles-all"
+                        class="dropdown-list-value"
                         :class="{ selected: settings.fontFamily === font }"
                         @click="selectOption('fontFamily', font)">
                         {{ font }}
@@ -135,7 +135,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick));
             <div class="dropdown-select-wrapper">
                 <button
                     type="button"
-                    class="dropdown-select-btn btn-pill-outline no-glow"
+                    class="dropdown-select-btn btn-pill-outline"
                     style="border-color: rgba(98, 59, 146, 1);"
                     :class="{ 'is-open': openDropdown === 'theme' }"
                     :aria-expanded="openDropdown === 'theme'"
@@ -149,7 +149,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocumentClick));
                         :key="theme.label"
                         :id="theme.id"
                         type="button"
-                        class="dropdown-list-value button-without-styles-all"
+                        class="dropdown-list-value"
                         :class="{ selected: settings.theme === theme.label }"
                         @click="selectOption('theme', theme.label)">
                         {{ theme.label }}

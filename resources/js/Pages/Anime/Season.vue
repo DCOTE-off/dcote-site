@@ -361,7 +361,7 @@ function selectCriterion(criterion) {
                 </template>
             </ClampedText>
             <div class="season-card__actions">
-                <button class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
                 <Link class="link-pill" :href="route('anime.episode', { season, episode: 1 })">НАЧАТЬ СМОТРЕТЬ</Link>
@@ -370,7 +370,7 @@ function selectCriterion(criterion) {
             <div class="season-card__actions--mobile">
                 <Link class="link-pill" :href="route('anime.episode', { season, episode: 1 })">НАЧАТЬ СМОТРЕТЬ</Link>
                 <div class="season-card__actions-group">
-                    <button class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" disabled aria-expanded="false">ДОБАВИТЬ В
+                    <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
                         <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                     </button>
                     <a v-if="about_season.trailer_link" :href="about_season.trailer_link" class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);">ТРЕЙЛЕР</a>
@@ -465,7 +465,7 @@ function selectCriterion(criterion) {
         <button
             v-if="canCollapse"
             type="button"
-            class="episodes__toggle dropdown-btn button-without-styles-all"
+            class="episodes__toggle dropdown-btn"
             aria-controls="episodes-list"
             :class="{ 'is-expanded': expanded }"
             :aria-expanded="expanded"

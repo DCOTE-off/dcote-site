@@ -161,7 +161,7 @@ function onStarClick(value) {
             <button
                 v-else
                 type="button"
-                class="button-without-styles-all toggle-rating-menu-btn"
+                class="toggle-rating-menu-btn"
                 :class="{ active: isOpen, 'has-rating': isRated, 'is-rating-updated': updated }"
                 aria-label="Поставить оценку"
                 @click.stop="togglePopup"
@@ -188,7 +188,7 @@ function onStarClick(value) {
                         v-for="n in STARS"
                         :key="n"
                         type="button"
-                        class="button-without-styles-all star-value-button"
+                        class="star-value-button"
                         :class="{ picked: n === (hover || userRating) }"
                         @mouseenter="hover = n"
                         @click="onStarClick(n)">
