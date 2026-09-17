@@ -10,6 +10,7 @@ import RatingWidget from '../../Components/RatingWidget.vue';
 import ImageCarousel from '../../Components/ImageCarousel.vue';
 import ClampedText from '../../Components/ClampedText.vue';
 import { useIsMobile } from '../../Composables/useMediaQuery.js';
+import Comments from '../../Pages/Comments.vue';
 
 const props = defineProps({
     year: {
@@ -196,4 +197,9 @@ const sortedChapters = computed(() => {
             </div>
         </div>
     </div>
+    <Comments
+        :comment-label="`К ${volume_number_rounded } ТОМУ`"
+        commentable-type="ranobe_volume"
+        :commentable-id="volume.id"
+     />
 </template>

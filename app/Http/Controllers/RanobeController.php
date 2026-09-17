@@ -205,6 +205,7 @@ class RanobeController extends Controller
             'contentHtml' => $htmlContent,
             'prevLink' => $prev_link,
             'nextLink' => $next_link,
+            'chapterId' =>$chapterModel->id,
             'meta' => \App\Helpers\SeoMeta::make(
                 "Читать «Класс превосходства» | {$year} год {$volume_number_rounded} том {$chapter} глава",
                 trim("Читать {$chapterModel->title_label} {$chapterModel->title} {$volume_number_rounded} тома новеллы «Добро пожаловать в класс превосходства». Читайте с высоким качеством перевода на DCOTE."),

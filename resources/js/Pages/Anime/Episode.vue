@@ -6,6 +6,7 @@ import Breadcrumbs from '../../Components/Breadcrumbs.vue';
 import RatingWidget from '../../Components/RatingWidget.vue';
 import '../../../css/pages/anime/episode.css';
 import '../../../css/components/player-status.css';
+import Comments from '../../Pages/Comments.vue';
 
 const props = defineProps({
     season: {
@@ -204,4 +205,9 @@ onBeforeUnmount(clearLoadTimer);
             </svg>
         </component>
     </div>
+    <Comments
+        :comment-label="`К ${episode} СЕРИИ АНИМЕ`"
+        commentable-type="anime_episode"
+        :commentable-id="episodeId"
+     />
 </template>

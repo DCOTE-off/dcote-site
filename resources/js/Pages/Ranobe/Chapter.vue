@@ -7,6 +7,7 @@ import ReaderSettings from '../../Components/ReaderSettings.vue';
 import { useReadingSettings } from '../../Composables/useReadingSettings.js';
 import '../../../css/pages/ranobe/chapter.css';
 import '../../../css/pages/reading-settings.css';
+import Comments from '../../Pages/Comments.vue';
 
 const props = defineProps({
     year: {
@@ -40,6 +41,10 @@ const props = defineProps({
     nextLink: {
         type: String,
         default: null,
+    },
+    chapterId: {
+        type: Number,
+        required: true,
     },
 });
 
@@ -270,4 +275,9 @@ watch(() => page.url, syncPageState);
             <svg v-if="nextLink" class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right" /></svg>
         </component>
     </div>
+    <Comments
+        :comment-label="`К ${chapter } ГЛАВЕ`"
+        commentable-type="ranobe_chapter"
+        :commentable-id="chapterId"
+     />
 </template>
