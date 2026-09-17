@@ -186,7 +186,7 @@ h1 {
     font-family: 'Vag Rounded Next';
     font-size: var(--fs-title1);
     font-weight: 900;
-    line-height: 1.15em;
+    line-height: 115%;
 }
 
 h2 {
@@ -194,7 +194,7 @@ h2 {
     font-family: 'Vag Rounded Next';
     font-size: var(--fs-title2);
     font-weight: 700;
-    line-height: 1.2em;
+    line-height: 120%;
 }
 
 h3 {
@@ -202,7 +202,7 @@ h3 {
     font-family: 'Vag Rounded Next';
     font-size: var(--fs-title3);
     font-weight: 500;
-    line-height: 1.25em;
+    line-height: 125%;
 }
 
 p {
@@ -210,7 +210,7 @@ p {
     font-family: 'Nunito';
     font-size: var(--fs-text);
     font-weight: 400;
-    line-height: 1.5em;
+    line-height: 140%;
 }
 
 /* ===== Каркас страницы ===== */

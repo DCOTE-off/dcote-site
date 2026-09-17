@@ -421,7 +421,13 @@
     flex: 1 1 0;
     min-width: 0;
     pointer-events: auto;
-    width: auto;
+}
+
+.episodes .episode .episode__appear--desktop-wrapper{
+    background-color: rgba(36, 24, 50, 1);
+    border-radius: clamp(1px,1.04vw,16px);
+    padding: var(--fs-padding);
+    border: var(--border2px) solid rgba(51, 38, 66, 1);
 }
 
 .episodes .episode .episode__title{

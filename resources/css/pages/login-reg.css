@@ -189,6 +189,12 @@
 
 .auth__check {
     text-align: center;
+    font-family: 'Vag Rounded Next';
+}
+
+.auth__check a{
+    color: var(--purple-hover);
+    text-decoration: none;
 }
 
 .auth__captcha {

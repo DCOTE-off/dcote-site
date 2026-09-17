@@ -61,6 +61,6 @@
 
     .toast {
         min-height: unset;
-        min-width: 80%;
+        min-width: 80vw;
     }
 }

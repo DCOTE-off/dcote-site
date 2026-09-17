@@ -250,8 +250,10 @@ onBeforeUnmount(() => {
             </div>
         </a>
         <a v-if="episode.is_upcoming" class="episode__appear episode__appear--desktop" :href="episodeUrl">
-            <p>До выхода серии:</p>
-            <h3>{{ countdownText }}</h3>
+            <div class="episode__appear--desktop-wrapper">
+                <p>До выхода серии:</p>
+                <h3>{{ countdownText }}</h3>
+            </div>
         </a>
         <div class="episode__footer">
             <span
