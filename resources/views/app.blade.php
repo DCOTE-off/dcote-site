@@ -41,7 +41,9 @@
         $metaImage = $meta['image'] ?? \App\Helpers\SeoMeta::imageUrl(null);
         $metaType = $meta['type'] ?? 'website';
         $metaRobots = $meta['robots'] ?? 'index, follow';
-        $metaUrl = url()->current();
+        // Канонический хост берём из APP_URL, а не из запроса: иначе www/http
+        // канонизируют сами себя и превращаются в дубли.
+        $metaUrl = rtrim((string) config('app.url'), '/').'/'.ltrim(request()->path(), '/');
     @endphp
     <title>{{ $metaTitle }}</title>
     <meta name="description" content="{{ $metaDescription }}">
