@@ -40,6 +40,29 @@ services:
       mysql:
         condition: service_healthy
 
+  scheduler:
+    build:
+      context: .
+      dockerfile: ./docker/prod/Dockerfile
+      target: app
+    image: dcote/app-prod
+    restart: unless-stopped
+    command: ["php", "artisan", "schedule:work"]
+    env_file:
+      - .env
+    environment:
+      APP_ENV: production
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+    volumes:
+      - storage-data:/var/www/html/storage
+    networks:
+      - app
+    depends_on:
+      mysql:
+        condition: service_healthy
+
   mysql:
     image: mysql:8.0
     restart: unless-stopped
