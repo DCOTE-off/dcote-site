@@ -80,7 +80,9 @@ function animateRatingIcon() {
 
 function animateRatingValue(previous, next, increasing) {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        avgRating.value = next;
+        // Без анимации сразу показываем новое значение. Number() обязателен:
+        // сюда приходит строка ("7.5"), а в шаблоне вызывается avgRating.toFixed().
+        avgRating.value = Number(next);
         return;
     }
 
