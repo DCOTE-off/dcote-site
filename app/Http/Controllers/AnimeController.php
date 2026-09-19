@@ -2,24 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DescriptionTextHelper;
+use App\Helpers\SeoMeta;
 use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
 use App\Models\Comment;
 use App\Models\Rating;
-use App\Services\PublicationStateSynchronizer;
-use App\Helpers\DescriptionTextHelper;
 use Inertia\Inertia;
 
 class AnimeController extends Controller
 {
-    public function __construct(
-        private readonly PublicationStateSynchronizer $publicationState,
-    ) {}
-
     public function index()
     {
-        $this->syncReleaseState();
-
         $seasons_list = AnimeSeason::orderBy('season_number', 'desc')
             ->withCount('releasedEpisodes')
             ->addSelect(['season_avg_rating' => function ($query) {
@@ -63,7 +57,7 @@ class AnimeController extends Controller
 
         return Inertia::render('Anime/Seasons', [
             'seasons_list' => $seasons_list,
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 'Смотреть аниме «Класс превосходства» | Все сезоны',
                 'Список всех сезонов и серий аниме «Добро пожаловать в класс превосходства». Выбирайте сезон и приступайте к просмотру в высоком качестве на DCOTE.',
             ),
@@ -72,8 +66,6 @@ class AnimeController extends Controller
 
     public function showSeason(int $season)
     {
-        $this->syncReleaseState();
-
         $seasonModel = AnimeSeason::where('season_number', $season)->firstOrFail();
         abort_if($seasonModel->isAnnounced(), 404);
 
@@ -107,7 +99,7 @@ class AnimeController extends Controller
             ->pluck('total', 'commentable_id');
 
         $episodes = $episodes->map(function ($episode) use ($userRatings, $commentCounts) {
-            $isUpcoming = !$episode->completed;
+            $isUpcoming = ! $episode->completed;
             $hasReleaseDate = $isUpcoming && $episode->appear_in?->isFuture();
 
             return [
@@ -126,7 +118,7 @@ class AnimeController extends Controller
 
         return Inertia::render('Anime/Season', [
             'season' => $season,
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 "Аниме «Класс превосходства» {$season} сезон | Список серий",
                 "Смотреть {$season} сезон «Добро пожаловать в класс превосходства» онлайн. Описание сезона, список серий и даты выхода на сайте DCOTE.",
                 "images/anime/anime-banner-season-{$season}.webp",
@@ -146,8 +138,6 @@ class AnimeController extends Controller
 
     public function showEpisode(int $season, int $episode)
     {
-        $this->syncReleaseState();
-
         $seasonModel = AnimeSeason::where('season_number', $season)
             ->withCount('episodes')
             ->firstOrFail();
@@ -207,18 +197,12 @@ class AnimeController extends Controller
             'episodeAvgRating' => $episodeAvgRating,
             'episodeRatingsCount' => $episodeRatingsCount,
             'episodeUserRating' => $userRating,
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 "«Класс превосходства» {$season} сезон {$episode} серия | Смотреть онлайн",
                 "Смотреть онлайн {$episode} серию {$season} сезона аниме «Добро пожаловать в класс превосходства». Видео в хорошем качестве и обсуждение серии на DCOTE.",
                 "images/anime/episodes-banner-season{$season}.webp",
             ),
         ]);
-    }
-
-    private function syncReleaseState(): void
-    {
-        // Preserve the request-driven fallback without running global UPDATEs on every page view.
-        $this->publicationState->sync();
     }
 
     private function getPreviousEpisode(AnimeEpisode $episodeModel): ?AnimeEpisode

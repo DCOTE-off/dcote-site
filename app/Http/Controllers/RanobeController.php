@@ -2,23 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\DescriptionTextHelper;
 use App\Helpers\FilesCollectionHelper;
 use App\Helpers\MarkdownRanobeHelper;
-use App\Helpers\DescriptionTextHelper;
+use App\Helpers\SeoMeta;
 use App\Models\RanobeChapter;
 use App\Models\RanobeVolume;
 use App\Models\RanobeYear;
-use App\Services\PublicationStateSynchronizer;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class RanobeController extends Controller
 {
-    public function __construct(
-        private readonly PublicationStateSynchronizer $publicationState,
-    ) {
-    }
-
     public function index()
     {
         $years_list = RanobeYear::orderBy('year_number', 'asc')
@@ -28,7 +23,7 @@ class RanobeController extends Controller
 
         return Inertia::render('Ranobe/Years', [
             'years_list' => $years_list,
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 'Читать ранобэ «Класс превосходства» | Все года',
                 'Список всех годов ранобэ «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с хорошим переводом на DCOTE.',
             ),
@@ -37,8 +32,6 @@ class RanobeController extends Controller
 
     public function showYear(int $year)
     {
-        $this->publicationState->sync();
-
         $yearModel = RanobeYear::where('year_number', $year)->firstOrFail();
         $userId = auth()->id();
 
@@ -87,7 +80,7 @@ class RanobeController extends Controller
         return Inertia::render('Ranobe/Year', [
             'year' => $year,
             'volumes' => $volumes,
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 "Читать «Класс превосходства» | {$year} год",
                 "Список всех томов {$year} года новеллы «Добро пожаловать в класс превосходства». Выбирайте год и приступайте к чтению с высоким качеством перевода на DCOTE.",
             ),
@@ -96,8 +89,6 @@ class RanobeController extends Controller
 
     public function showVolume(int $year, float $volume)
     {
-        $this->publicationState->sync();
-
         $userId = auth()->id();
 
         $volumeModel = RanobeVolume::query()
@@ -141,7 +132,7 @@ class RanobeController extends Controller
         return Inertia::render('Ranobe/Volume', [
             'year' => $year,
             'volume_number_rounded' => $volume_number_rounded,
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 "Читать ранобэ «Класс превосходства» {$year} год {$volume_number_rounded} том",
                 "Читать {$year} год {$volume_number_rounded} том ранобэ «Добро пожаловать в класс превосходства» онлайн. Описание тома, список глав и даты выхода на сайте DCOTE.",
                 Storage::url($volumeModel->cover_image),
@@ -171,8 +162,6 @@ class RanobeController extends Controller
 
     public function showChapter(int $year, float $volume, float $chapter)
     {
-        $this->publicationState->sync();
-
         $chapterModel = RanobeChapter::query()
             ->where('chapter_number', $chapter)
             ->whereHas('year', fn ($q) => $q->where('year_number', $year))
@@ -205,8 +194,8 @@ class RanobeController extends Controller
             'contentHtml' => $htmlContent,
             'prevLink' => $prev_link,
             'nextLink' => $next_link,
-            'chapterId' =>$chapterModel->id,
-            'meta' => \App\Helpers\SeoMeta::make(
+            'chapterId' => $chapterModel->id,
+            'meta' => SeoMeta::make(
                 "Читать «Класс превосходства» | {$year} год {$volume_number_rounded} том {$chapter} глава",
                 trim("Читать {$chapterModel->title_label} {$chapterModel->title} {$volume_number_rounded} тома новеллы «Добро пожаловать в класс превосходства». Читайте с высоким качеством перевода на DCOTE."),
                 Storage::url($chapterModel->volume->cover_image),

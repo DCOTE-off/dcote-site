@@ -7,23 +7,22 @@ use App\Models\AnimeSeason;
 use App\Models\RanobeChapter;
 use App\Models\RanobeVolume;
 use App\Models\RanobeYear;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class PublicationStatusTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function test_anime_index_marks_ongoing_season_as_released_when_release_progress_is_full(): void
     {
-        $baseSeasonNumber = (int) AnimeSeason::query()->max('season_number') + 100;
         $finishedSeason = AnimeSeason::create([
-            'season_number' => $baseSeasonNumber,
+            'season_number' => 1,
             'status' => AnimeSeason::STATUS_ONGOING,
             'number_of_episodes' => 2,
         ]);
         $ongoingSeason = AnimeSeason::create([
-            'season_number' => $baseSeasonNumber + 1,
+            'season_number' => 2,
             'status' => AnimeSeason::STATUS_ONGOING,
             'number_of_episodes' => 2,
         ]);
@@ -33,21 +32,27 @@ class PublicationStatusTest extends TestCase
         $this->createEpisode($ongoingSeason, 1, true);
         $this->createEpisode($ongoingSeason, 2, false);
 
+        // Синхронизация теперь по расписанию, а не при заходе на страницу.
+        $this->artisan('publication:sync')->assertSuccessful();
+
         $response = $this->get(route('anime.index'));
 
         $response->assertOk();
 
-        $seasons = $response->viewData('seasons_list');
+        $seasons = collect($response->viewData('page')['props']['seasons_list']);
 
         $this->assertSame(AnimeSeason::STATUS_RELEASED, $finishedSeason->fresh()->status);
-        $this->assertSame(AnimeSeason::STATUS_RELEASED, $seasons->firstWhere('id', $finishedSeason->id)->status);
+        $this->assertSame(
+            AnimeSeason::STATUS_RELEASED,
+            $seasons->firstWhere('season_number', $finishedSeason->season_number)['status'],
+        );
         $this->assertSame(AnimeSeason::STATUS_ONGOING, $ongoingSeason->fresh()->status);
     }
 
     public function test_announced_anime_season_routes_are_not_available(): void
     {
         $season = AnimeSeason::create([
-            'season_number' => (int) AnimeSeason::query()->max('season_number') + 100,
+            'season_number' => 1,
             'status' => AnimeSeason::STATUS_ANNOUNCED,
             'number_of_episodes' => 12,
         ]);
@@ -61,7 +66,7 @@ class PublicationStatusTest extends TestCase
     public function test_ranobe_year_marks_ongoing_volume_as_released_when_translation_progress_is_full(): void
     {
         $year = RanobeYear::create([
-            'year_number' => (int) RanobeYear::query()->max('year_number') + 100,
+            'year_number' => 1,
             'year_readable' => 'Test year',
             'words_quantity' => 0,
             'hours_of_reading' => '0',
@@ -74,14 +79,20 @@ class PublicationStatusTest extends TestCase
         $this->createChapter($year, $finishedVolume, 2);
         $this->createChapter($year, $ongoingVolume, 1);
 
+        // Синхронизация теперь по расписанию, а не при заходе на страницу.
+        $this->artisan('publication:sync')->assertSuccessful();
+
         $response = $this->get(route('ranobe.year', ['year' => $year->year_number]));
 
         $response->assertOk();
 
-        $volumes = $response->viewData('volumes');
+        $volumes = collect($response->viewData('page')['props']['volumes']);
 
         $this->assertSame(RanobeVolume::STATUS_RELEASED, $finishedVolume->fresh()->status);
-        $this->assertSame(RanobeVolume::STATUS_RELEASED, $volumes->firstWhere('id', $finishedVolume->id)->status);
+        $this->assertSame(
+            RanobeVolume::STATUS_RELEASED,
+            $volumes->firstWhere('id', $finishedVolume->id)['status'],
+        );
         $this->assertSame(RanobeVolume::STATUS_ONGOING, $ongoingVolume->fresh()->status);
     }
 

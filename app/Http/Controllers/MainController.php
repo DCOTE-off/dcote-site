@@ -2,28 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SeoMeta;
 use App\Models\AnimeSeason;
 use App\Models\ClassesTop;
 use App\Models\Popular;
 use App\Models\RanobeVolume;
 use App\Models\UpdateFeed;
-use App\Services\PublicationStateSynchronizer;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Inertia\Inertia;
 
 class MainController extends Controller
 {
-    public function __construct(
-        private readonly PublicationStateSynchronizer $publicationState,
-    ) {
-    }
-
     public function index()
     {
-        $this->publicationState->sync();
-
         $classes_list_default = ClassesTop::where('spoilers', 0)
             ->orderBy('class_points', 'desc')
             ->get();
@@ -83,7 +76,7 @@ class MainController extends Controller
             ->get();
 
         return Inertia::render('Home', [
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 'Вики, новости и контент по «Классу Превосходства»',
             ),
             'classes_list_default' => $classes_list_default,
