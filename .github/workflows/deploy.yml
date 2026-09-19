@@ -5,7 +5,11 @@ on:
         branches: [ production ] 
 
 jobs:
+    tests:
+        uses: ./.github/workflows/tests.yml
+
     deploy:
+        needs: tests
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
@@ -18,6 +22,7 @@ jobs:
                   username: ${{ secrets.USERNAME }}
                   key: ${{ secrets.SSH_KEY }}
                   port: 22
+                  script_stop: true
                   script: |
                      cd /var/www/dcote.net
                      git pull origin production
@@ -28,6 +33,5 @@ jobs:
                      
                      docker compose -f docker-compose.prod.yml exec -T app php artisan migrate --force
                      docker compose -f docker-compose.prod.yml exec -T app php artisan config:cache
-                     docker compose -f docker-compose.prod.yml exec -T app php artisan route:cache
                      docker compose -f docker-compose.prod.yml exec -T app php artisan view:cache
                      docker compose -f docker-compose.prod.yml exec -T app php artisan sitemap:generate
