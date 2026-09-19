@@ -30,13 +30,13 @@ Route::prefix('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-Route::prefix('anime')->group(function () {
+Route::prefix('anime')->middleware('canonical-numeric:season,episode')->group(function () {
     Route::get('/', [AnimeController::class, 'index'])->name('anime.index');
     Route::get('/{season}', [AnimeController::class, 'showSeason'])->where('season', '[0-9]+')->name('anime.season');
     Route::get('/{season}/{episode}', [AnimeController::class, 'showEpisode'])->where('season', '[0-9]+')->where('episode', '[0-9]+')->name('anime.episode');
 });
 
-Route::prefix('ranobe')->group(function () {
+Route::prefix('ranobe')->middleware('canonical-numeric:year,volume,chapter')->group(function () {
     Route::get('/', [RanobeController::class, 'index'])->name('ranobe.index');
     Route::get('/{year}', [RanobeController::class, 'showYear'])->where('year', '[0-9]+')->name('ranobe.year');
     Route::get('/{year}/{volume}', [RanobeController::class, 'showVolume'])->where('year', '[0-9]+')->where('volume', '[0-9]+(\.[0-9]+)?')->name('ranobe.volume');
