@@ -98,7 +98,9 @@ class GenerateSitemap extends Command
             }
         });
 
-        $sitemap->writeToFile(public_path('sitemap.xml'));
+        // Пишем в storage (общий volume), а не в public: public принадлежит root
+        // и не переживает пересборку контейнера. Роут /sitemap.xml отдаёт файл.
+        $sitemap->writeToFile(storage_path('app/sitemap.xml'));
 
         $this->info('Карта сайта sitemap.xml успешно обновлена для Аниме и Ранобэ!');
     }

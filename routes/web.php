@@ -14,10 +14,14 @@ Route::get('/', [MainController::class, 'index'])->name('home');
 
 
 Route::get('/sitemap.xml', function () {
-    return response()
-        ->file(public_path('sitemap.xml'), [
-            'Content-Type' => 'application/xml'
-        ]);
+    $path = storage_path('app/sitemap.xml');
+
+    abort_unless(is_file($path), 404);
+
+    return response()->file($path, [
+        'Content-Type' => 'application/xml',
+        'Cache-Control' => 'public, max-age=3600',
+    ]);
 });
 
 

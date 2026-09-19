@@ -19,7 +19,7 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/public/sitemap.xml
+/storage/app/sitemap.xml
 .stdignore
 opencode.json
 dump.sql
