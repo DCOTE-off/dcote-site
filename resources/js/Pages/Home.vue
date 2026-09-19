@@ -165,6 +165,12 @@ function destroyGridCarousel() {
 }
 
 function onGridImageClick(index, event) {
+    // Карусель есть только на мобиле. На десктопе это обычные ссылки —
+    // не мешаем переходу.
+    if (!gridCarousel) {
+        return;
+    }
+
     if (gridCarouselSettling) {
         event.preventDefault();
         return;
@@ -175,10 +181,6 @@ function onGridImageClick(index, event) {
     }
 
     event.preventDefault();
-
-    if (!gridCarousel) {
-        return;
-    }
 
     const root = gridImagesRef.value;
     const rootCenter = root.getBoundingClientRect().left + root.offsetWidth / 2;
