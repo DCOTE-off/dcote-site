@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements FilamentUser,HasName
+class User extends Authenticatable implements FilamentUser, HasName
 {
     use HasFactory, Notifiable;
 
@@ -35,7 +35,6 @@ class User extends Authenticatable implements FilamentUser,HasName
         'password' => 'hashed',
     ];
 
-
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
@@ -48,7 +47,7 @@ class User extends Authenticatable implements FilamentUser,HasName
 
     public function getAvatarUrlAttribute(): string
     {
-        if (!$this->avatar) {
+        if (! $this->avatar) {
             return asset('images/user-avatar.webp');
         }
 
@@ -56,16 +55,15 @@ class User extends Authenticatable implements FilamentUser,HasName
             return $this->avatar;
         }
 
-        return asset('storage/' . ltrim($this->avatar, '/'));
+        return asset('storage/'.ltrim($this->avatar, '/'));
     }
-
 
     public function canAccessPanel(Panel $panel): bool
     {
 
         $hasAccess = in_array($this->role_id, [3, 4]);
 
-        if (!$hasAccess) {
+        if (! $hasAccess) {
             throw new HttpResponseException(
                 redirect()
                     ->route('home')
@@ -78,6 +76,6 @@ class User extends Authenticatable implements FilamentUser,HasName
 
     public function getFilamentName(): string
     {
-        return  $this->username;
+        return $this->username;
     }
 }

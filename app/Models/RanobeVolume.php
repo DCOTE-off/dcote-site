@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class RanobeVolume extends Model
 {
-    use HasFactory;
     use GuardsNaturalKeyUniqueness;
+    use HasFactory;
 
     public const STATUS_RELEASED = 'Вышел';
 

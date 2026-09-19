@@ -10,8 +10,8 @@ use Illuminate\Validation\ValidationException;
 
 class RanobeChapter extends Model
 {
-    use HasFactory;
     use GuardsNaturalKeyUniqueness;
+    use HasFactory;
 
     protected $fillable = [
         'ranobe_volume_id',
@@ -30,7 +30,7 @@ class RanobeChapter extends Model
     {
         static::saving(function (RanobeChapter $chapter): void {
             $volume = RanobeVolume::query()->find($chapter->ranobe_volume_id);
-            if (!$volume) {
+            if (! $volume) {
                 throw ValidationException::withMessages([
                     'ranobe_volume_id' => ['Выбранный том не существует.'],
                 ]);

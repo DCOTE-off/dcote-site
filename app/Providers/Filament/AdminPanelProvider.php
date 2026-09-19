@@ -28,7 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->colors([
                 'primary' => Color::Amber,
                 'ongoing' => '#9A66FF',
-                'anons'   => '#ffb147',
+                'anons' => '#ffb147',
                 'released' => '#64c396',
             ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')

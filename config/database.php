@@ -61,7 +61,7 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                 PDO::ATTR_EMULATE_PREPARES => false,
                 PDO::MYSQL_ATTR_SSL_CAPATH => env('MYSQL_ATTR_SSL_CAPATH'),
-                PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '" . env('DB_TIMEZONE', '+00:00') . "'",
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '".env('DB_TIMEZONE', '+00:00')."'",
             ]) : [],
         ],
 

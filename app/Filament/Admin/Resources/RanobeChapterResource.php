@@ -3,23 +3,18 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\RanobeChapterResource\Pages;
-use App\Filament\Admin\Resources\RanobeChapterResource\RelationManagers;
 use App\Models\RanobeChapter;
 use App\Models\RanobeVolume;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Form;
+use Filament\Forms\Set;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Tables\Table;
+use Filament\Tables\Table; // Рекомендую вместо Textarea
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\MarkdownEditor; // Рекомендую вместо Textarea
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Set;
-use Illuminate\Support\Facades\Storage;
-
 
 class RanobeChapterResource extends Resource
 {
@@ -35,7 +30,7 @@ class RanobeChapterResource extends Resource
                     ->label('Год')
                     ->relationship('year', 'year_number')
                     ->required()
-                    ->live() 
+                    ->live()
                     ->afterStateUpdated(fn (callable $set) => $set('ranobe_volume_id', null)),
                 Forms\Components\Select::make('ranobe_volume_id')
                     ->label('Том')
@@ -46,6 +41,7 @@ class RanobeChapterResource extends Resource
                         if (! $yearId) {
                             return [];
                         }
+
                         return RanobeVolume::where('ranobe_year_id', $yearId)
                             ->pluck('volume_number', 'id')
                             ->map(fn ($num) => floatval($num));
@@ -72,7 +68,9 @@ class RanobeChapterResource extends Resource
                     ->dehydrated(false)
                     ->live()
                     ->afterStateUpdated(function ($state, Set $set) {
-                        if (!$state) return;
+                        if (! $state) {
+                            return;
+                        }
                         $content = $state->get();
                         $set('chapter_content', $content);
                     }),
@@ -84,7 +82,7 @@ class RanobeChapterResource extends Resource
                         'blockquote', 'bold', 'bulletList', 'codeBlock',
                         'heading', 'italic', 'link', 'orderedList', 'redo', 'undo',
                     ]),
-                ]);
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -124,7 +122,7 @@ class RanobeChapterResource extends Resource
                             ->map(fn ($num) => floatval($num))
                             ->unique()
                             ->sort()
-                            ->mapWithKeys(fn ($num) => [(string)$num => (string)$num]) 
+                            ->mapWithKeys(fn ($num) => [(string) $num => (string) $num])
                             ->toArray();
                     })
                     ->query(function (Builder $query, array $data) {
@@ -136,7 +134,7 @@ class RanobeChapterResource extends Resource
                         });
                     })
                     ->searchable()
-                    ->preload()
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

@@ -3,16 +3,13 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\AnimeEpisodeResource\Pages;
-use App\Filament\Admin\Resources\AnimeEpisodeResource\RelationManagers;
 use App\Models\AnimeEpisode;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Filament\Tables\Filters\SelectFilter;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Tables\Table;
 
 class AnimeEpisodeResource extends Resource
 {
@@ -81,10 +78,10 @@ class AnimeEpisodeResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('season_id')
-                ->label('Фильтр по сезону')
-                ->relationship('season', 'season_number')
-                ->searchable()
-                ->preload(),
+                    ->label('Фильтр по сезону')
+                    ->relationship('season', 'season_number')
+                    ->searchable()
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

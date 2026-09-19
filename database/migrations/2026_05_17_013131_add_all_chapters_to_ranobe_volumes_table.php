@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ranobe_volumes', function (Blueprint $table) {
-            $table->integer('all_chapters')->nullable()->after('isbn'); 
+            $table->integer('all_chapters')->nullable()->after('isbn');
         });
     }
 

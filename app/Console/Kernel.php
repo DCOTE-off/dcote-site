@@ -15,13 +15,13 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('sitemap:generate')
-                ->dailyAt('03:00')
-                ->timezone('Europe/Moscow')
-                ->sendOutputTo(storage_path('logs/sitemap.log'));
+            ->dailyAt('03:00')
+            ->timezone('Europe/Moscow')
+            ->sendOutputTo(storage_path('logs/sitemap.log'));
 
         $schedule->command('publication:sync')
-                ->everyMinute()
-                ->withoutOverlapping();
+            ->everyMinute()
+            ->withoutOverlapping();
     }
 
     /**

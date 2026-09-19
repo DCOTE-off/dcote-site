@@ -3,15 +3,12 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\UserResource\Pages;
-use App\Filament\Admin\Resources\UserResource\RelationManagers;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UserResource extends Resource
 {
@@ -22,51 +19,51 @@ class UserResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-                Forms\Components\Section::make() 
-                    ->schema([
-                        Forms\Components\TextInput::make('username')
-                            ->label('Тег (Username)')
-                            ->required()
-                            ->unique(ignoreRecord: true)
-                            ->regex('/^[a-z0-9_]{5,32}$/') 
-                            ->validationMessages([
-                                'regex' => 'От 5 до 32 символов: только маленькая латиница, цифры и "_"',
-                            ]),
+            Forms\Components\Section::make()
+                ->schema([
+                    Forms\Components\TextInput::make('username')
+                        ->label('Тег (Username)')
+                        ->required()
+                        ->unique(ignoreRecord: true)
+                        ->regex('/^[a-z0-9_]{5,32}$/')
+                        ->validationMessages([
+                            'regex' => 'От 5 до 32 символов: только маленькая латиница, цифры и "_"',
+                        ]),
 
-                        Forms\Components\TextInput::make('nickname')
-                            ->label('Никнейм')
-                            ->required()
-                            ->maxLength(64)
-                            ->minLength(1),
+                    Forms\Components\TextInput::make('nickname')
+                        ->label('Никнейм')
+                        ->required()
+                        ->maxLength(64)
+                        ->minLength(1),
 
-                        Forms\Components\TextInput::make('email')
-                            ->label('Email')
-                            ->email()
-                            ->maxLength(255),
+                    Forms\Components\TextInput::make('email')
+                        ->label('Email')
+                        ->email()
+                        ->maxLength(255),
 
-                        Forms\Components\Select::make('role_id')
-                            ->label('Роль пользователя')
-                            ->relationship('role', 'name')
-                            ->preload()
-                            ->required(),
+                    Forms\Components\Select::make('role_id')
+                        ->label('Роль пользователя')
+                        ->relationship('role', 'name')
+                        ->preload()
+                        ->required(),
 
-                        Forms\Components\FileUpload::make('avatar')
-                            ->label('Аватар')
-                            ->image()
-                            ->disk('public')
-                            ->directory('avatars')
-                            ->visibility('public')
-                            ->avatar()
-                            ->maxSize(2048)
-                            ->helperText('Сохраняется в storage/app/public/avatars. Пусто — покажется аватар по умолчанию.')
-                            ->columnSpanFull(),
-                    ])
-                    ->columns(2),
-            ]);
+                    Forms\Components\FileUpload::make('avatar')
+                        ->label('Аватар')
+                        ->image()
+                        ->disk('public')
+                        ->directory('avatars')
+                        ->visibility('public')
+                        ->avatar()
+                        ->maxSize(2048)
+                        ->helperText('Сохраняется в storage/app/public/avatars. Пусто — покажется аватар по умолчанию.')
+                        ->columnSpanFull(),
+                ])
+                ->columns(2),
+        ]);
     }
 
-
-    public static function table(Table $table): Table{
+    public static function table(Table $table): Table
+    {
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('avatar_url')

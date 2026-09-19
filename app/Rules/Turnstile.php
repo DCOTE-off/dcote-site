@@ -7,12 +7,11 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 
-
-class Turnstile implements ValidationRule{
-
+class Turnstile implements ValidationRule
+{
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (!config('services.cloudflare.enabled')) {
+        if (! config('services.cloudflare.enabled')) {
             return;
         }
 
@@ -27,10 +26,11 @@ class Turnstile implements ValidationRule{
                 ]);
         } catch (ConnectionException) {
             $fail('Сервис проверки временно недоступен. Пожалуйста, попробуйте ещё раз.');
+
             return;
         }
 
-        if (!$response->successful() || !$response->json('success')) {
+        if (! $response->successful() || ! $response->json('success')) {
             $fail('Пожалуйста, подтвердите что вы не робот');
         }
     }

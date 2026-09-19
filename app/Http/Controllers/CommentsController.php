@@ -100,7 +100,7 @@ class CommentsController extends Controller
         }
 
         $parent = null;
-        if (!empty($data['parent_id'])) {
+        if (! empty($data['parent_id'])) {
             $parent = Comment::query()
                 ->whereKey($data['parent_id'])
                 ->where('commentable_type', $data['commentable_type'])
@@ -333,7 +333,7 @@ class CommentsController extends Controller
      */
     private function currentUserVotes(Collection $ids): Collection
     {
-        if ($ids->isEmpty() || !auth()->check()) {
+        if ($ids->isEmpty() || ! auth()->check()) {
             return collect();
         }
 
@@ -373,8 +373,8 @@ class CommentsController extends Controller
                 'is_team' => in_array($user->role_id, self::TEAM_ROLE_IDS, true),
             ] : null,
             'can' => [
-                'edit' => $isOwn && !$isDeleted,
-                'delete' => ($isOwn || $this->canModerate()) && !$isDeleted,
+                'edit' => $isOwn && ! $isDeleted,
+                'delete' => ($isOwn || $this->canModerate()) && ! $isDeleted,
             ],
             'replies_count' => (int) ($comment->replies_count ?? $comment->replies->count()),
             'replies' => $comment->relationLoaded('replies')
@@ -422,7 +422,7 @@ class CommentsController extends Controller
             ]);
         }
 
-        if (!$modelClass::query()->whereKey($id)->exists()) {
+        if (! $modelClass::query()->whereKey($id)->exists()) {
             throw ValidationException::withMessages([
                 'commentable_id' => ['Материал не существует.'],
             ]);

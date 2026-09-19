@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RanobeYear extends Model
 {
-    use HasFactory;
     use GuardsNaturalKeyUniqueness;
+    use HasFactory;
 
     public $timestamps = false;
 

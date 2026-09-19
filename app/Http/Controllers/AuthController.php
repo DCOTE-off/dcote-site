@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\SeoMeta;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 use Illuminate\Validation\ValidationException;
-
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
-    public function register() {
+    public function register()
+    {
         $this->rememberSafeIntendedUrl(url()->previous());
-        return Inertia::render('Register',[
+
+        return Inertia::render('Register', [
             'siteKey' => config('services.cloudflare.site_key'),
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 'Регистрация',
                 null,
                 null,
@@ -26,12 +28,13 @@ class AuthController extends Controller
         ]);
     }
 
-    public function login() {
+    public function login()
+    {
         $this->rememberSafeIntendedUrl(url()->previous());
 
-        return Inertia::render('Login',[
+        return Inertia::render('Login', [
             'siteKey' => config('services.cloudflare.site_key'),
-            'meta' => \App\Helpers\SeoMeta::make(
+            'meta' => SeoMeta::make(
                 'Авторизация',
                 null,
                 null,
@@ -40,16 +43,17 @@ class AuthController extends Controller
         ]);
     }
 
-    public function store(RegisterRequest $request) {
-            $user = User::create([
-                'username' => $request->tag,
-                'nickname' => $request->nickname,
-                'password' => $request->password,
-            ]);
-            
-            Auth::login($user);
-            
-            return $this->authenticatedRedirect('Аккаунт успешно создан! Добро пожаловать');
+    public function store(RegisterRequest $request)
+    {
+        $user = User::create([
+            'username' => $request->tag,
+            'nickname' => $request->nickname,
+            'password' => $request->password,
+        ]);
+
+        Auth::login($user);
+
+        return $this->authenticatedRedirect('Аккаунт успешно создан! Добро пожаловать');
     }
 
     public function authenticate(LoginRequest $request)
@@ -58,7 +62,7 @@ class AuthController extends Controller
             'username' => $request->tag,
             'password' => $request->password,
         ];
-        
+
         if (Auth::attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
@@ -66,7 +70,7 @@ class AuthController extends Controller
         }
         throw ValidationException::withMessages([
             'tag' => 'Неверное имя или пароль',
-            'password' => 'Неверное имя или пароль'
+            'password' => 'Неверное имя или пароль',
         ]);
     }
 
@@ -75,6 +79,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
         return redirect()->route('home')->with('success', 'Вы успешно вышли из аккаунта');
     }
 
@@ -96,7 +101,7 @@ class AuthController extends Controller
 
     private function rememberSafeIntendedUrl(?string $url): void
     {
-        if (!$url) {
+        if (! $url) {
             return;
         }
 
@@ -104,8 +109,8 @@ class AuthController extends Controller
         $application = parse_url(url('/'));
 
         if (
-            !$target
-            || !isset($target['scheme'], $target['host'])
+            ! $target
+            || ! isset($target['scheme'], $target['host'])
             || strcasecmp($target['scheme'], $application['scheme'] ?? '') !== 0
             || strcasecmp($target['host'], $application['host'] ?? '') !== 0
             || ($target['port'] ?? null) !== ($application['port'] ?? null)

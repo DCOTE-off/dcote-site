@@ -40,7 +40,6 @@ return new class extends Migration
             $table->boolean('has_anilibria')->default(false)->nullable();
             $table->integer('opening_start')->default(-1)->nullable();
             $table->timestamp('appear_in')->nullable();
-            
 
             $table->foreignId('season_id')->nullable()->constrained('anime_seasons')->onDelete('cascade');
         });
@@ -64,7 +63,6 @@ return new class extends Migration
             $table->dateTime('created_at')->nullable();
         });
     }
-
 
     /**
      * Reverse the migrations.

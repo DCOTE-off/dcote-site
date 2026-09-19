@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AnimeEpisode;
-use App\Models\Rating;
 use App\Models\RanobeVolume;
+use App\Models\Rating;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;

@@ -25,14 +25,14 @@ return new class extends Migration
             $table->timestamps();
         });
 
-            Schema::create('ranobe_chapters', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('ranobe_volume_id')->constrained()->cascadeOnDelete();
-                $table->string('title');
-                $table->integer('chapter_number');
-                $table->mediumText('chapter_content');
-                $table->timestamps();
-            });
+        Schema::create('ranobe_chapters', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('ranobe_volume_id')->constrained()->cascadeOnDelete();
+            $table->string('title');
+            $table->integer('chapter_number');
+            $table->mediumText('chapter_content');
+            $table->timestamps();
+        });
     }
 
     /**

@@ -3,15 +3,12 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ClassesTopResource\Pages;
-use App\Filament\Admin\Resources\ClassesTopResource\RelationManagers;
 use App\Models\ClassesTop;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ClassesTopResource extends Resource
 {
@@ -22,34 +19,35 @@ class ClassesTopResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-                Forms\Components\Section::make()
-                    ->schema([
-                        Forms\Components\TextInput::make('letter')
-                            ->label('Буква класса')
-                            ->disabled()
-                            ->dehydrated(false)
-                            ->helperText('Назначается автоматически по количеству очков.'),
-                        Forms\Components\TextInput::make('leader')
-                            ->label('Лидер')
-                            ->required(),
-                        Forms\Components\TextInput::make('class_points')
-                            ->label('Очки')
-                            ->numeric()
-                            ->required(),
-                        Forms\Components\TextInput::make('leader_img')
-                            ->label('Картинка лида')
-                            ->required(),
-                        Forms\Components\Checkbox::make('spoilers')
-                            ->label('Спойлеры'),
-                        Forms\Components\ColorPicker::make('color')
-                            ->label('Цвет прогресс-бара')
-                            ->required(),
-                    ])
-                    ->columns(1),
-            ]);
+            Forms\Components\Section::make()
+                ->schema([
+                    Forms\Components\TextInput::make('letter')
+                        ->label('Буква класса')
+                        ->disabled()
+                        ->dehydrated(false)
+                        ->helperText('Назначается автоматически по количеству очков.'),
+                    Forms\Components\TextInput::make('leader')
+                        ->label('Лидер')
+                        ->required(),
+                    Forms\Components\TextInput::make('class_points')
+                        ->label('Очки')
+                        ->numeric()
+                        ->required(),
+                    Forms\Components\TextInput::make('leader_img')
+                        ->label('Картинка лида')
+                        ->required(),
+                    Forms\Components\Checkbox::make('spoilers')
+                        ->label('Спойлеры'),
+                    Forms\Components\ColorPicker::make('color')
+                        ->label('Цвет прогресс-бара')
+                        ->required(),
+                ])
+                ->columns(1),
+        ]);
     }
 
-    public static function table(Table $table): Table{
+    public static function table(Table $table): Table
+    {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')

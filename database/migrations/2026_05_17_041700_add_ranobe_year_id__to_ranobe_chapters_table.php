@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('ranobe_chapters', function (Blueprint $table) {
-            $table->integer('ranobe_year_id')->nullable()->after('ranobe_volume_id'); 
+            $table->integer('ranobe_year_id')->nullable()->after('ranobe_volume_id');
         });
     }
 

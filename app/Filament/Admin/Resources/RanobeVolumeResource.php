@@ -3,17 +3,14 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\RanobeVolumeResource\Pages;
-use App\Filament\Admin\Resources\RanobeVolumeResource\RelationManagers;
 use App\Models\RanobeVolume;
 use Filament\Forms;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Filters\SelectFilter;
-use Filament\Forms\Components\FileUpload;
+use Filament\Tables\Table;
 use Illuminate\Support\Str;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 
@@ -69,66 +66,73 @@ class RanobeVolumeResource extends Resource
                     ->required()
                     ->columnSpanFull()
                     ->rows(10),
-                Forms\Components\FileUpload::make('cover_image')
+                FileUpload::make('cover_image')
                     ->label('Обложка тома')
                     ->image()
                     ->imageEditor()
                     ->directory(function ($get) {
                         $yearId = $get('ranobe_year_id');
                         $volNum = $get('volume_number');
-                        if (!$yearId || !$volNum) {
+                        if (! $yearId || ! $volNum) {
                             return 'ranobe/uploads-tmp';
                         }
+
                         return "ranobe/year-{$yearId}/volume-{$volNum}";
                     })
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file, $get) {
                         $yearId = $get('ranobe_year_id');
                         $volNum = $get('volume_number');
                         $extension = $file->getClientOriginalExtension();
-                        if (!$yearId || !$volNum) {
-                            return 'cover-' . Str::random(8) . '.' . $extension;
+                        if (! $yearId || ! $volNum) {
+                            return 'cover-'.Str::random(8).'.'.$extension;
                         }
+
                         return "y{$yearId}v{$volNum}-cover.{$extension}";
                     })
                     ->panelAspectRatio('7:10')
                     ->panelLayout('integrated'),
-                Forms\Components\FileUpload::make('cover_image_mobile')
+                FileUpload::make('cover_image_mobile')
                     ->label('Обложка тома (мобильная версия)')
                     ->image()
                     ->imageEditor()
                     ->directory(function ($get) {
                         $yearId = $get('ranobe_year_id');
                         $volNum = $get('volume_number');
-                        if (!$yearId || !$volNum) {
+                        if (! $yearId || ! $volNum) {
                             return 'ranobe/uploads-tmp';
                         }
+
                         return "ranobe/year-{$yearId}/volume-{$volNum}";
                     })
                     ->getUploadedFileNameForStorageUsing(function (TemporaryUploadedFile $file, $get) {
                         $yearId = $get('ranobe_year_id');
                         $volNum = $get('volume_number');
                         $extension = $file->getClientOriginalExtension();
-                        if (!$yearId || !$volNum) {
-                            return 'cover-' . Str::random(8) . '.' . $extension;
+                        if (! $yearId || ! $volNum) {
+                            return 'cover-'.Str::random(8).'.'.$extension;
                         }
+
                         return "y{$yearId}v{$volNum}-cover-mobile.{$extension}";
                     })
                     ->panelAspectRatio('7:10')
                     ->panelLayout('integrated'),
-                    FileUpload::make('volume_images')
-                        ->label('Иллюстрации тома ')
-                        ->multiple()
-                        ->directory(function ($get) {
-                            if (! $get) return 'ranobe/tmp';
-                            $yearId = $get('ranobe_year_id');
-                            $volNum = $get('volume_number');
-                            return "ranobe/year-{$yearId}/volume-{$volNum}/images";
-                        })
-                        ->preserveFilenames() 
-                        ->hiddenOn('create')
-                        ->reorderable()
-                        ->visibility('public'),
-                    ]);
+                FileUpload::make('volume_images')
+                    ->label('Иллюстрации тома ')
+                    ->multiple()
+                    ->directory(function ($get) {
+                        if (! $get) {
+                            return 'ranobe/tmp';
+                        }
+                        $yearId = $get('ranobe_year_id');
+                        $volNum = $get('volume_number');
+
+                        return "ranobe/year-{$yearId}/volume-{$volNum}/images";
+                    })
+                    ->preserveFilenames()
+                    ->hiddenOn('create')
+                    ->reorderable()
+                    ->visibility('public'),
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -143,9 +147,9 @@ class RanobeVolumeResource extends Resource
                     ->label('Обложка')
                     ->size(70)
                     ->extraImgAttributes([
-                            'style' => 'aspect-ratio: 7/10; object-fit: cover; width: auto;',
-                        ])
-                    ->defaultImageUrl(url('/images/default-cover.webp')) 
+                        'style' => 'aspect-ratio: 7/10; object-fit: cover; width: auto;',
+                    ])
+                    ->defaultImageUrl(url('/images/default-cover.webp'))
                     ->openUrlInNewTab(),
                 Tables\Columns\TextColumn::make('volume_number')
                     ->label('Номер тома')
@@ -183,10 +187,10 @@ class RanobeVolumeResource extends Resource
             ])
             ->filters([
                 SelectFilter::make('ranobe_year_id')
-                ->label('Фильтр по году')
-                ->relationship('year', 'year_number')
-                ->searchable()
-                ->preload(),
+                    ->label('Фильтр по году')
+                    ->relationship('year', 'year_number')
+                    ->searchable()
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

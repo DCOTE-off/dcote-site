@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use App\Helpers\SeoMeta;
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use Psr\Log\LogLevel;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Throwable;
 
@@ -18,7 +20,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of exception types with their corresponding custom log levels.
      *
-     * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
+     * @var array<class-string<Throwable>, LogLevel::*>
      */
     protected $levels = [
         //
@@ -27,7 +29,7 @@ class Handler extends ExceptionHandler
     /**
      * A list of the exception types that are not reported.
      *
-     * @var array<int, class-string<\Throwable>>
+     * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
         //
@@ -68,7 +70,7 @@ class Handler extends ExceptionHandler
                 // Для несуществующих URL web-мидлварь (и HandleInertiaRequests) не
                 // отрабатывает — шарим общие пропсы сами, иначе shell падает.
                 if ($request->hasSession()) {
-                    Inertia::share(app(\App\Http\Middleware\HandleInertiaRequests::class)->share($request));
+                    Inertia::share(app(HandleInertiaRequests::class)->share($request));
                 }
 
                 return Inertia::render('Errors/Error', [

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Helpers;
 
 use Illuminate\Support\Facades\Storage;
@@ -14,28 +15,28 @@ class MarkdownRanobeHelper
 
         $markdown = preg_replace(
             '/!\[\[(.*?)\]\]/i',
-            '![иллюстрация](' . $imagesBaseUrl . '/$1)',
+            '![иллюстрация]('.$imagesBaseUrl.'/$1)',
             $markdown
         );
 
         $markdown = preg_replace(
             '/(!\[.*?\]\()(?!https?:\/\/)(.*?\))/i',
-            "$1" . $imagesBaseUrl . "/$2",
+            '$1'.$imagesBaseUrl.'/$2',
             $markdown
         );
 
-        $markdown = preg_replace_callback('/^\s*((\d+)\.|[\*\-])(\s+)/m', function($matches) {
+        $markdown = preg_replace_callback('/^\s*((\d+)\.|[\*\-])(\s+)/m', function ($matches) {
             $marker = trim($matches[1]);
             $space = $matches[3];
-            
+
             if (str_ends_with($marker, '.')) {
                 $num = rtrim($marker, '.');
-                $escaped = $num . '\.' . $space;
+                $escaped = $num.'\.'.$space;
             } else {
-                $escaped = '\\' . $marker . $space;
+                $escaped = '\\'.$marker.$space;
             }
-            
-            return "\n\n" . $escaped;
+
+            return "\n\n".$escaped;
         }, $markdown);
 
         $html = Str::markdown($markdown);

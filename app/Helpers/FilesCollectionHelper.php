@@ -1,9 +1,9 @@
 <?php
+
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class FilesCollectionHelper
 {

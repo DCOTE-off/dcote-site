@@ -3,15 +3,12 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\UpdateFeedResource\Pages;
-use App\Filament\Admin\Resources\UpdateFeedResource\RelationManagers;
 use App\Models\UpdateFeed;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UpdateFeedResource extends Resource
 {
@@ -22,24 +19,25 @@ class UpdateFeedResource extends Resource
     public static function form(Form $form): Form
     {
         return $form->schema([
-                Forms\Components\Section::make() 
-                    ->schema([
-                        Forms\Components\TextInput::make('description')
-                            ->label('Описание новости')
-                            ->required(),
-                        Forms\Components\TextInput::make('link')
-                            ->label('Ссылка')
-                            ->required(),
-                        Forms\Components\DateTimePicker::make('created_at')
-                            ->label('Дата создания')
-                            ->seconds(false)
-                            ->helperText('Если не указать дату при создании, будет использована текущая.'),
-                    ])
-                    ->columns(1),
-            ]);
+            Forms\Components\Section::make()
+                ->schema([
+                    Forms\Components\TextInput::make('description')
+                        ->label('Описание новости')
+                        ->required(),
+                    Forms\Components\TextInput::make('link')
+                        ->label('Ссылка')
+                        ->required(),
+                    Forms\Components\DateTimePicker::make('created_at')
+                        ->label('Дата создания')
+                        ->seconds(false)
+                        ->helperText('Если не указать дату при создании, будет использована текущая.'),
+                ])
+                ->columns(1),
+        ]);
     }
 
-    public static function table(Table $table): Table{
+    public static function table(Table $table): Table
+    {
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
