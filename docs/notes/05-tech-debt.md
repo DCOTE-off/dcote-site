@@ -80,3 +80,48 @@
 самому трекеру (`location.pathname`); обернуть вывод в `@production` и
 `@if($metricsBaseUrl)`. Правки поля `page` согласовать с репозиторием метрик —
 контракт требует обратной совместимости (`docs/metrics-contract.md`).
+
+---
+
+## Форматирование и линтинг фронтенда
+
+В `package.json` только `dev` и `build` — ни форматтера, ни линтеров. Вёрстку
+и CSS выравнивают руками, стиль в разных файлах разный. Для PHP линтер (`pint`)
+есть в `composer.json`, но тоже не запускается.
+
+Что добавить:
+
+- **Prettier** (+ `.prettierignore`) — автоформат `.vue`/`.js`/`.css`, включая
+  `<template>` и `<style>`. `prettier --write` приводит файлы к единому виду;
+  `prettier --check` — для CI. Первый прогон даст большой дифф — отдельным
+  коммитом, только форматирование, без логики.
+- **`.editorconfig`** — переносы строк, кодировка, отступ; работает в любом
+  редакторе без установки пакетов.
+- **ESLint** + `eslint-plugin-vue` + `eslint-config-prettier` — правила Vue:
+  `v-for` без `:key`, имена компонентов/пропов, неиспользуемые переменные.
+  Это уже не про стиль, а про баги.
+- **Stylelint** (+ `stylelint-config-recommended-vue`) — проверки CSS.
+- Скрипты `format`, `format:check`, `lint` в `package.json`.
+- Format-on-save в редакторе (Vue - Official/Volar + Prettier + ESLint).
+
+В CI — `npm run format:check` и `npm run lint` рядом с `pint`.
+
+Порядок внедрения: Prettier + EditorConfig → ESLint → подключить в CI.
+Техдолг, а не баг: код работает, но читать и править его дороже, чем нужно.
+
+---
+
+## Уязвимые зависимости (`composer audit`)
+
+`composer audit` показывает **46 security advisories в 16 пакетах**. Это
+отдельная от тестов тема — обновление зависимостей и безопасность. Стоит
+разобрать по пакетам и обновить/заменить проблемные.
+
+```bash
+composer audit                 # полный список
+composer audit --format=summary
+```
+
+Приоритет: advisories с `high`/`critical` — раньше остальных. Часть закроется
+при обычном `composer update`, часть — только мажорным обновлением Laravel,
+поэтому делать отдельной задачей, а не попутно.
