@@ -17,7 +17,7 @@ class TurnstileRuleTest extends TestCase
         ]);
 
         $messages = [];
-        (new Turnstile())->validate(
+        (new Turnstile)->validate(
             'cf-turnstile-response',
             'test-response',
             function (string $message) use (&$messages): void {

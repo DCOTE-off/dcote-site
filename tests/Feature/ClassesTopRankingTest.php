@@ -3,12 +3,12 @@
 namespace Tests\Feature;
 
 use App\Models\ClassesTop;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ClassesTopRankingTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function test_it_assigns_class_letters_by_points_within_each_spoiler_group(): void
     {

@@ -16,7 +16,7 @@ class AuthRedirectSafetyTest extends TestCase
 
     public function test_same_origin_referer_is_saved_as_a_relative_url(): void
     {
-        $this->withHeader('referer', 'http://localhost/anime/1?tab=episodes')
+        $this->withHeader('referer', url('/anime/1?tab=episodes'))
             ->get('/auth/login')
             ->assertOk()
             ->assertSessionHas('url.intended', '/anime/1?tab=episodes');

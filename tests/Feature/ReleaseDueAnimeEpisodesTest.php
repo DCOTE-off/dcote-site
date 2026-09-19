@@ -4,13 +4,13 @@ namespace Tests\Feature;
 
 use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Tests\TestCase;
 
 class ReleaseDueAnimeEpisodesTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     protected function tearDown(): void
     {
@@ -22,12 +22,15 @@ class ReleaseDueAnimeEpisodesTest extends TestCase
     public function test_release_due_marks_only_due_episodes_as_completed(): void
     {
         Carbon::setTestNow('2030-01-15 12:00:00');
-        $season = AnimeSeason::query()->firstOrFail();
-        $episodeNumber = (int) AnimeEpisode::query()->max('episode_number') + 100;
 
-        $dueEpisode = $this->createEpisode($season, $episodeNumber, false, now()->subMinute());
-        $futureEpisode = $this->createEpisode($season, $episodeNumber + 1, false, now()->addMinute());
-        $completedEpisode = $this->createEpisode($season, $episodeNumber + 2, true, now()->subMinute());
+        $season = AnimeSeason::create([
+            'season_number' => 1,
+            'number_of_episodes' => 3,
+        ]);
+
+        $dueEpisode = $this->createEpisode($season, 1, false, now()->subMinute());
+        $futureEpisode = $this->createEpisode($season, 2, false, now()->addMinute());
+        $completedEpisode = $this->createEpisode($season, 3, true, now()->subMinute());
 
         $this->assertSame(1, AnimeEpisode::releaseDue());
 

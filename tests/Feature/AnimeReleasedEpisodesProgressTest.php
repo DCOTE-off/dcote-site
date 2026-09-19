@@ -4,12 +4,12 @@ namespace Tests\Feature;
 
 use App\Models\AnimeEpisode;
 use App\Models\AnimeSeason;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AnimeReleasedEpisodesProgressTest extends TestCase
 {
-    use DatabaseTransactions;
+    use RefreshDatabase;
 
     public function test_episode_separates_player_video_and_metrics_origins(): void
     {
@@ -17,7 +17,7 @@ class AnimeReleasedEpisodesProgressTest extends TestCase
         config()->set('services.dcote.metrics_base_url', 'https://metrics.example');
 
         $season = AnimeSeason::create([
-            'season_number' => (int) AnimeSeason::query()->max('season_number') + 100,
+            'season_number' => 1,
             'number_of_episodes' => 1,
         ]);
         $episode = AnimeEpisode::create([
@@ -39,14 +39,14 @@ class AnimeReleasedEpisodesProgressTest extends TestCase
             false,
         );
 
-        $playerUrl = parse_url($response->viewData('episodeUrl'));
+        $episodeUrl = $response->viewData('page')['props']['episodeUrl'];
+        $playerUrl = parse_url($episodeUrl);
         parse_str($playerUrl['query'], $playerQuery);
 
         $this->assertSame('video.example', $playerUrl['host']);
         $this->assertSame('/videoplayer', $playerUrl['path']);
         $this->assertSame(
-            'https://video.example/season-0'.$season->season_number
-                .'/episode-01/master.m3u8',
+            'https://video.example/season-01/episode-01/master.m3u8',
             $playerQuery['src'],
         );
     }
@@ -54,7 +54,7 @@ class AnimeReleasedEpisodesProgressTest extends TestCase
     public function test_anime_index_counts_only_completed_episodes_as_released(): void
     {
         $season = AnimeSeason::create([
-            'season_number' => (int) AnimeSeason::query()->max('season_number') + 100,
+            'season_number' => 1,
             'number_of_episodes' => 2,
         ]);
 
@@ -79,10 +79,10 @@ class AnimeReleasedEpisodesProgressTest extends TestCase
 
         $response->assertOk();
 
-        $seasonFromView = $response->viewData('seasons_list')
-            ->firstWhere('id', $season->id);
+        $seasonFromView = collect($response->viewData('page')['props']['seasons_list'])
+            ->firstWhere('season_number', $season->season_number);
 
         $this->assertNotNull($seasonFromView);
-        $this->assertSame(1, $seasonFromView->released_episodes_count);
+        $this->assertSame(1, $seasonFromView['released_episodes_count']);
     }
 }
