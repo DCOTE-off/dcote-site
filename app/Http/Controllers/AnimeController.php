@@ -185,6 +185,18 @@ class AnimeController extends Controller
             'episode' => ($next_episode->episode_number),
         ]) : null;
 
+        $videoSchema = $episodeModel->appear_in ? [
+            '@context' => 'https://schema.org',
+            '@type' => 'VideoObject',
+            'name' => "«Класс превосходства» — {$season} сезон, {$episode} серия",
+            'description' => $episodeModel->episode_name ?: "Серия {$episode} сезона {$season}.",
+            'thumbnailUrl' => [asset("images/anime/episodes-banner-season{$season}.webp")],
+            'uploadDate' => $episodeModel->appear_in->toIso8601String(),
+            'embedUrl' => $episodeUrl,
+            'url' => route('anime.episode', ['season' => $season, 'episode' => $episode]),
+            'inLanguage' => 'ru-RU',
+        ] : null;
+
         return Inertia::render('Anime/Episode', [
             'season' => $season,
             'episode' => $episode,
@@ -201,6 +213,7 @@ class AnimeController extends Controller
                 "«Класс превосходства» {$season} сезон {$episode} серия | Смотреть онлайн",
                 "Смотреть онлайн {$episode} серию {$season} сезона аниме «Добро пожаловать в класс превосходства». Видео в хорошем качестве и обсуждение серии на DCOTE.",
                 "images/anime/episodes-banner-season{$season}.webp",
+                $videoSchema ? ['schema' => $videoSchema] : [],
             ),
         ]);
     }

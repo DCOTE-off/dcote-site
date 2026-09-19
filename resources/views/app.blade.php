@@ -65,6 +65,34 @@
     <meta name="twitter:title" content="{{ $metaTitle }}">
     <meta name="twitter:description" content="{{ $metaDescription }}">
     <meta name="twitter:image" content="{{ $metaImage }}">
+    @php
+        $siteUrl = rtrim((string) config('app.url'), '/');
+        $siteSchema = [
+            '@context' => 'https://schema.org',
+            '@graph' => [
+                [
+                    '@type' => 'Organization',
+                    'name' => 'DCOTE',
+                    'url' => $siteUrl,
+                    'logo' => asset('images/favicon.png'),
+                    'sameAs' => [
+                        'https://t.me/DCOTE2',
+                        'https://discord.gg/cTTwcYhbR',
+                    ],
+                ],
+                [
+                    '@type' => 'WebSite',
+                    'name' => 'DCOTE',
+                    'url' => $siteUrl,
+                    'inLanguage' => 'ru-RU',
+                ],
+            ],
+        ];
+    @endphp
+    <script type="application/ld+json">{!! json_encode($siteSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @isset($meta['schema'])
+        <script type="application/ld+json">{!! json_encode($meta['schema'], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}</script>
+    @endisset
     @if (request()->routeIs('ranobe.chapter'))
         {{-- Анти-FOUC читалки: применяем настройки чтения до старта Vue. --}}
         <script>

@@ -185,6 +185,27 @@ class RanobeController extends Controller
         $htmlContent = MarkdownRanobeHelper::parse($content, $year, $volume);
         $volume_number_rounded = floatval($volume);
 
+        $articleSchema = array_filter([
+            '@context' => 'https://schema.org',
+            '@type' => 'Article',
+            'headline' => trim("{$chapterModel->title_label} {$chapterModel->title}") ?: "Глава {$chapter}",
+            'inLanguage' => 'ru-RU',
+            'datePublished' => $chapterModel->created_at?->toIso8601String(),
+            'dateModified' => $chapterModel->updated_at?->toIso8601String(),
+            'image' => [Storage::url($chapterModel->volume->cover_image)],
+            'author' => ['@type' => 'Organization', 'name' => 'DCOTE'],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'DCOTE',
+                'logo' => ['@type' => 'ImageObject', 'url' => asset('images/favicon.png')],
+            ],
+            'mainEntityOfPage' => route('ranobe.chapter', [
+                'year' => $year,
+                'volume' => $volume_number_rounded,
+                'chapter' => floatval($chapter),
+            ]),
+        ]);
+
         return Inertia::render('Ranobe/Chapter', [
             'year' => $year,
             'volume' => $volume_number_rounded,
@@ -199,6 +220,7 @@ class RanobeController extends Controller
                 "Читать «Класс превосходства» | {$year} год {$volume_number_rounded} том {$chapter} глава",
                 trim("Читать {$chapterModel->title_label} {$chapterModel->title} {$volume_number_rounded} тома новеллы «Добро пожаловать в класс превосходства». Читайте с высоким качеством перевода на DCOTE."),
                 Storage::url($chapterModel->volume->cover_image),
+                ['schema' => $articleSchema],
             ),
         ]);
     }
