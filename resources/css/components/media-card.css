@@ -73,7 +73,7 @@
 .media-card__progress-bar::after {
     background-color: rgba(68, 44, 97, 1);
     border-radius: var(--fs-border-radius);
-    content: "";
+    content: '';
     height: 100%;
     left: 0;
     position: absolute;
@@ -143,8 +143,8 @@
     text-align: center;
 }
 
-.info-panel__label:nth-last-child(-n+2),
-.info-panel__value:nth-last-child(-n+2) {
+.info-panel__label:nth-last-child(-n + 2),
+.info-panel__value:nth-last-child(-n + 2) {
     border-bottom: none;
 }
 
@@ -160,7 +160,7 @@
 }
 
 .purple {
-    color: #9A66FF;
+    color: #9a66ff;
 }
 
 .green {

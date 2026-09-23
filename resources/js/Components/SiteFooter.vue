@@ -10,15 +10,27 @@ const user = computed(() => page.props.auth?.user);
 <template>
     <footer class="site-footer">
         <div class="site-footer__left">
-            <a href="https://x.com/aandreev06" class="site-footer__social-link"><svg class="site-footer__social-icon" width="50" height="50"><use href="#x-logo" /></svg></a>
-            <a href="https://discord.gg/cTTwcYhbR" class="site-footer__social-link"><svg class="site-footer__social-icon" width="50" height="50"><use href="#ds-logo" /></svg></a>
-            <a href="https://t.me/DCOTEFILES" class="site-footer__social-link"><svg class="site-footer__social-icon" width="50" height="50"><use href="#tg-logo" /></svg></a>
+            <a href="https://x.com/aandreev06" class="site-footer__social-link"
+                ><svg class="site-footer__social-icon" width="50" height="50">
+                    <use href="#x-logo" /></svg
+            ></a>
+            <a href="https://discord.gg/cTTwcYhbR" class="site-footer__social-link"
+                ><svg class="site-footer__social-icon" width="50" height="50">
+                    <use href="#ds-logo" /></svg
+            ></a>
+            <a href="https://t.me/DCOTEFILES" class="site-footer__social-link"
+                ><svg class="site-footer__social-icon" width="50" height="50">
+                    <use href="#tg-logo" /></svg
+            ></a>
         </div>
         <div class="site-footer__center">
-            <p class="site-footer__copyright">Мы не претендуем на авторство и/или какие-либо иные права на какой-либо контент с авторским правом, представленный на сайте.</p>
+            <p class="site-footer__copyright">
+                Мы не претендуем на авторство и/или какие-либо иные права на какой-либо контент с авторским правом,
+                представленный на сайте.
+            </p>
             <div class="site-footer__links">
-            <Link :href="route('privacy_policy')" class="site-footer__link">Политика конфиденциальности</Link>
-            <Link :href="route('rules')" class="site-footer__link">Правила сайта</Link>
+                <Link :href="route('privacy_policy')" class="site-footer__link">Политика конфиденциальности</Link>
+                <Link :href="route('rules')" class="site-footer__link">Правила сайта</Link>
             </div>
         </div>
         <div class="site-footer__right">
@@ -33,7 +45,11 @@ const user = computed(() => page.props.auth?.user);
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#user" /></svg>
             <span class="mobile-nav__label">Войти</span>
         </Link>
-        <button v-else class="mobile-nav__item account-menu__trigger" type="button" @click="emit('toggle-menu', 'account')">
+        <button
+            v-else
+            class="mobile-nav__item account-menu__trigger"
+            type="button"
+            @click="emit('toggle-menu', 'account')">
             <svg class="mobile-nav__icon" viewBox="0 0 24 24"><use href="#user" /></svg>
             <span class="mobile-nav__label">Аккаунт</span>
         </button>

@@ -25,7 +25,9 @@
 .star-rating-icon {
     color: white;
     height: clamp(1px, 2.275vw, 35px);
-    transition: color 0.3s, transform 0.3s;
+    transition:
+        color 0.3s,
+        transform 0.3s;
     width: clamp(1px, 2.275vw, 35px);
 }
 
@@ -44,7 +46,7 @@
 }
 
 .rating-popup-menu {
-    background: #1D162E;
+    background: #1d162e;
     border: var(--border2px) solid rgba(51, 38, 66, 1);
     border-radius: var(--fs-border-radius);
     display: none;
@@ -75,7 +77,7 @@
 .toggle-rating-menu-btn.active .star-rating-icon,
 .toggle-rating-menu-btn.has-rating .star-rating-icon,
 .star-value-button.picked .star-value-icon {
-    color: #DF0E53;
+    color: #df0e53;
 }
 
 .star-rating-icon.visual {
@@ -86,7 +88,7 @@
    состояние :hover «залипает» после тапа. */
 @media (hover: hover) and (pointer: fine) {
     .star-value-icon:hover {
-        color: #DF0E53;
+        color: #df0e53;
     }
 
     .toggle-rating-menu-btn:hover .star-rating-icon {
@@ -94,7 +96,7 @@
     }
 
     .popup-overlay a:hover p {
-        color: #DF0E53;
+        color: #df0e53;
     }
 }
 
@@ -141,11 +143,11 @@
     animation: rating-value-in 360ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-.rating-value.is-changing[data-direction="down"] .rating-value-current {
+.rating-value.is-changing[data-direction='down'] .rating-value-current {
     animation-name: rating-value-out-down;
 }
 
-.rating-value.is-changing[data-direction="down"] .rating-value-next {
+.rating-value.is-changing[data-direction='down'] .rating-value-next {
     animation-name: rating-value-in-down;
 }
 

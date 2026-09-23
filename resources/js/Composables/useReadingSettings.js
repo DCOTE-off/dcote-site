@@ -4,18 +4,18 @@ const STORAGE_KEY = 'dcote-reading-settings';
 
 export const FONT_MAP = {
     'Vag Rounded Next': "'Vag Rounded Next', sans-serif",
-    'Nunito': "'Nunito', sans-serif",
+    Nunito: "'Nunito', sans-serif",
     'Times New Roman': "'Times New Roman', Georgia, serif",
     'Open Sans': "'Open Sans', sans-serif",
 };
 
 export const THEME_MAP = {
-    'Стандартная': { text: 'rgba(244, 239, 250, 1)', bg: 'rgb(14, 10, 21)' },
-    'Legacy': { text: '#e9e9e9', bg: 'rgb(7, 18, 32)' },
-    'Тёмная': { text: '#bfbfbf', bg: '#0a0a0a' },
-    'Серая': { text: '#dbdbdb', bg: '#434751' },
-    'Светлая': { text: '#212529', bg: '#f2f2f3' },
-    'Книжная': { text: '#262425', bg: '#e5cf9d' },
+    Стандартная: { text: 'rgba(244, 239, 250, 1)', bg: 'rgb(14, 10, 21)' },
+    Legacy: { text: '#e9e9e9', bg: 'rgb(7, 18, 32)' },
+    Тёмная: { text: '#bfbfbf', bg: '#0a0a0a' },
+    Серая: { text: '#dbdbdb', bg: '#434751' },
+    Светлая: { text: '#212529', bg: '#f2f2f3' },
+    Книжная: { text: '#262425', bg: '#e5cf9d' },
 };
 
 const CSS_PROPS = [

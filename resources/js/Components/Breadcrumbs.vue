@@ -6,7 +6,6 @@ import { useScrollable } from '../Composables/useScrollable';
 defineProps({
     items: {
         type: Array,
-        default: () => [],
         required: true,
     },
 });
@@ -17,14 +16,12 @@ const { isScrollable } = useScrollable(wrapper);
 <template>
     <nav aria-label="breadcrumbs" class="breadcrumbs">
         <ol class="breadcrumbs__list">
-            <div
-                ref="wrapper"
-                class="breadcrumbs__scroll-wrapper"
-                :class="{ 'is-scrollable': isScrollable }"
-            >
-                <li v-for="(item,index) in items" :key="item.href" class="breadcrumbs__item">
-                    <Link v-if="index !== items.length - 1" :href="item.href">{{ item.text }}</Link>
-                    <span aria-current="page" v-else>{{ item.text }}</span>
+            <div ref="wrapper" class="breadcrumbs__scroll-wrapper" :class="{ 'is-scrollable': isScrollable }">
+                <li v-for="(item, index) in items" :key="item.href" class="breadcrumbs__item">
+                    <Link v-if="index !== items.length - 1" :href="item.href">
+                        {{ item.text }}
+                    </Link>
+                    <span v-else aria-current="page">{{ item.text }}</span>
                 </li>
             </div>
         </ol>

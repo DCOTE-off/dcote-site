@@ -151,7 +151,7 @@
     padding-block: 0.4875vw !important;
 }
 
-.chapters__list .chapters__chapter-title{
+.chapters__list .chapters__chapter-title {
     min-width: 0;
     max-width: 100%;
     overflow: hidden;
@@ -161,8 +161,6 @@
     font-weight: 400;
     font-family: 'Vag Rounded Next';
 }
-
-
 
 .chapters .rating-popup-menu.is-open {
     right: 50%;
@@ -237,7 +235,7 @@
     .volume-card__actions--mobile {
         display: flex;
         flex-direction: column;
-        gap:var(--fs-gap20);
+        gap: var(--fs-gap20);
         align-items: center;
     }
 

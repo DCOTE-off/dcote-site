@@ -1,7 +1,7 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import CommentInput from './CommentInput.vue';
-import { useIsMobile} from '../Composables/useMediaQuery';
+import { useIsMobile } from '../Composables/useMediaQuery';
 
 const props = defineProps({
     comment: {
@@ -130,15 +130,18 @@ function onContentKeydown(event) {
 </script>
 
 <template>
-    <article
-        class="comment"
-        :class="{ 'comment--has-replies': hasReplies, 'comment--reply': depth > 0 }">
+    <article class="comment" :class="{ 'comment--has-replies': hasReplies, 'comment--reply': depth > 0 }">
         <div class="comment__head">
             <div class="comment__user">
-                <img class="comment__avatar" :src="comment.avatar || '/images/user-avatar.webp'" :alt="comment.username">
+                <img
+                    class="comment__avatar"
+                    :src="comment.avatar || '/images/user-avatar.webp'"
+                    :alt="comment.username" />
                 <div class="comment__user-info">
                     <h3 class="comment__username">{{ comment.username }}</h3>
-                    <span class="comment__role" :class="{ 'comment__role--team': comment.isTeam }">{{ comment.role }}</span>
+                    <span class="comment__role" :class="{ 'comment__role--team': comment.isTeam }">{{
+                        comment.role
+                    }}</span>
                 </div>
             </div>
             <div class="comment__rating">
@@ -148,11 +151,16 @@ function onContentKeydown(event) {
                     :class="{ 'comment__rating-btn--active': comment.userVote === 1 }"
                     aria-label="Повысить рейтинг"
                     @click="vote(1)">
-                    <svg class="comment__rating-icon" aria-hidden="true"><use href="#chevron-up" /></svg>
+                    <svg class="comment__rating-icon" aria-hidden="true">
+                        <use href="#chevron-up" />
+                    </svg>
                 </button>
-                <span class="comment__rating-value" :class="{ 'comment__rating-value--positive': comment.rating > 0,
-                    'comment__rating-value--negative': comment.rating < 0
-                  }">
+                <span
+                    class="comment__rating-value"
+                    :class="{
+                        'comment__rating-value--positive': comment.rating > 0,
+                        'comment__rating-value--negative': comment.rating < 0,
+                    }">
                     {{ comment.rating > 0 ? '+' : '' }}{{ comment.rating }}
                 </span>
                 <button
@@ -161,7 +169,9 @@ function onContentKeydown(event) {
                     :class="{ 'comment__rating-btn--active': comment.userVote === -1 }"
                     aria-label="Понизить рейтинг"
                     @click="vote(-1)">
-                    <svg class="comment__rating-icon comment__rating-icon--down" aria-hidden="true"><use href="#chevron-up" /></svg>
+                    <svg class="comment__rating-icon comment__rating-icon--down" aria-hidden="true">
+                        <use href="#chevron-up" />
+                    </svg>
                 </button>
             </div>
         </div>
@@ -170,17 +180,36 @@ function onContentKeydown(event) {
                 v-if="editing"
                 v-model="editDraft"
                 autofocus
+                class="editing-input"
                 @submit="submitEdit"
-                @cancel="cancelEdit"
-                class="editing-input" />
-            <span v-if="replyTo" class="comment__reply-to">Ответ на «{{ replyTo }}»</span><p v-if="!editing" v-html="comment.html || comment.text" @click="onContentClick" @keydown="onContentKeydown"></p>
+                @cancel="cancelEdit" />
+            <span v-if="replyTo" class="comment__reply-to">Ответ на «{{ replyTo }}»</span>
+            <p
+                v-if="!editing"
+                @click="onContentClick"
+                @keydown="onContentKeydown"
+                v-html="comment.html || comment.text"></p>
         </div>
         <div class="comment__actions">
             <div class="comment__actions-group">
-                <button v-if="!editing && !comment.isDeleted" type="button" class="comment__action" @click="emit('reply', comment)">Ответить</button>
+                <button
+                    v-if="!editing && !comment.isDeleted"
+                    type="button"
+                    class="comment__action"
+                    @click="emit('reply', comment)">
+                    Ответить
+                </button>
                 <template v-if="!isMobile">
-                    <button v-if="comment.can?.edit" type="button" class="comment__action" @click="startEdit">Редактировать</button>
-                    <button v-if="comment.can?.delete" type="button" class="comment__action" @click="emit('remove', comment)">Удалить</button>
+                    <button v-if="comment.can?.edit" type="button" class="comment__action" @click="startEdit">
+                        Редактировать
+                    </button>
+                    <button
+                        v-if="comment.can?.delete"
+                        type="button"
+                        class="comment__action"
+                        @click="emit('remove', comment)">
+                        Удалить
+                    </button>
                     <!-- <button v-if="!editing && !comment.isDeleted" type="button" class="comment__action">Пожаловаться</button> -->
                 </template>
                 <div ref="moreActionsEl" class="comment__more-actions">
@@ -192,11 +221,31 @@ function onContentKeydown(event) {
                         aria-haspopup="menu"
                         :aria-expanded="moreActionsOpen"
                         @click="moreActionsOpen = !moreActionsOpen">
-                        <svg class="comment__more-actions-icon" aria-hidden="true"><use href="#ellipsis" /></svg>
+                        <svg class="comment__more-actions-icon" aria-hidden="true">
+                            <use href="#ellipsis" />
+                        </svg>
                     </button>
-                    <div v-if="isMobile && moreActionsOpen" class="comment__more-actions-dd" role="menu" @click="closeMoreActions">
-                        <button v-if="comment.can?.edit" type="button" class="comment__action" role="menuitem" @click="startEdit">Редактировать</button>
-                        <button v-if="comment.can?.delete" type="button" class="comment__action" role="menuitem" @click="emit('remove', comment)">Удалить</button>
+                    <div
+                        v-if="isMobile && moreActionsOpen"
+                        class="comment__more-actions-dd"
+                        role="menu"
+                        @click="closeMoreActions">
+                        <button
+                            v-if="comment.can?.edit"
+                            type="button"
+                            class="comment__action"
+                            role="menuitem"
+                            @click="startEdit">
+                            Редактировать
+                        </button>
+                        <button
+                            v-if="comment.can?.delete"
+                            type="button"
+                            class="comment__action"
+                            role="menuitem"
+                            @click="emit('remove', comment)">
+                            Удалить
+                        </button>
                     </div>
                 </div>
             </div>
@@ -227,8 +276,14 @@ function onContentKeydown(event) {
             class="comment__answers-toggle"
             :aria-expanded="repliesOpen"
             aria-label="Показать/скрыть ответы"
-            @click="repliesOpen = !repliesOpen">{{ repliesOpen ? 'Свернуть' : repliesLabel }}
-            <svg class="comment__answers-icon" :class="{ 'comment__answers-icon--open': repliesOpen }" aria-hidden="true"><use href="#dropdown" /></svg>
+            @click="repliesOpen = !repliesOpen">
+            {{ repliesOpen ? 'Свернуть' : repliesLabel }}
+            <svg
+                class="comment__answers-icon"
+                :class="{ 'comment__answers-icon--open': repliesOpen }"
+                aria-hidden="true">
+                <use href="#dropdown" />
+            </svg>
         </button>
     </article>
 </template>

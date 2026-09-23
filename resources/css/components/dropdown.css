@@ -49,7 +49,6 @@
     transform: rotate(-180deg);
 }
 
-
 @media (max-width: 768px) {
     .dropdown-icon {
         width: clamp(1px, 3.738vw, 30px);

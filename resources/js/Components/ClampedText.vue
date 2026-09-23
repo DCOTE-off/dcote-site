@@ -128,10 +128,7 @@ function applyLayout() {
     setButton(showButton.value);
 
     const tokens = getTokens();
-    const wordCount = tokens.reduce(
-        (total, token) => total + (/\S/.test(token) ? 1 : 0),
-        0,
-    );
+    const wordCount = tokens.reduce((total, token) => total + (/\S/.test(token) ? 1 : 0), 0);
 
     if (!wordCount) {
         isTruncated.value = false;
@@ -231,29 +228,13 @@ defineExpose({ toggle, expanded, isTruncated });
 
 <template>
     <div ref="rootEl" class="clamped-text">
-        <p
-            ref="bodyEl"
-            :id="bodyId"
-            class="clamped-text__body"
-            :class="{ 'is-expanded': expanded }"
-        ><span
-            ref="contentEl"
-            class="clamped-text__content"
-            :aria-hidden="isClamped ? 'true' : undefined"
-        ></span><span
-            ref="ellipsisEl"
-            class="clamped-text__ellipsis"
-            aria-hidden="true"
-        >…</span><span
-            v-if="showButton"
-            ref="buttonEl"
-            class="clamped-text__button"
-        ><slot
-            name="button"
-            :toggle="toggle"
-            :expanded="expanded"
-            :id="bodyId"
-        /></span></p>
+        <p :id="bodyId" ref="bodyEl" class="clamped-text__body" :class="{ 'is-expanded': expanded }">
+            <span ref="contentEl" class="clamped-text__content" :aria-hidden="isClamped ? 'true' : undefined"></span
+            ><span ref="ellipsisEl" class="clamped-text__ellipsis" aria-hidden="true">…</span
+            ><span v-if="showButton" ref="buttonEl" class="clamped-text__button"
+                ><slot :id="bodyId" name="button" :toggle="toggle" :expanded="expanded"
+            /></span>
+        </p>
         <span v-if="isClamped" class="clamped-text__sr">{{ text }}</span>
     </div>
 </template>

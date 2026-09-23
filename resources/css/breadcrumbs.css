@@ -91,7 +91,7 @@
 
 .breadcrumbs__item:not(:last-child)::after {
     color: rgba(198, 187, 214, 1);
-    content: "—";
+    content: '—';
     font-size: var(--fs-nav-links);
     font-weight: 700;
     margin: 0 var(--fs-gap10);

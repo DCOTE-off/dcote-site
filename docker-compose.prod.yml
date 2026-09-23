@@ -1,96 +1,96 @@
 name: dcote-prod
 
 services:
-  nginx:
-    build:
-      context: .
-      dockerfile: ./docker/prod/Dockerfile
-      target: nginx
-    image: dcote/nginx-prod
-    restart: unless-stopped
-    ports:
-      - '${APP_PORT:-8080}:80'
-    volumes:
-      - storage-data:/var/www/html/storage:ro
-    networks:
-      - app
-    depends_on:
-      - app
+    nginx:
+        build:
+            context: .
+            dockerfile: ./docker/prod/Dockerfile
+            target: nginx
+        image: dcote/nginx-prod
+        restart: unless-stopped
+        ports:
+            - '${APP_PORT:-8080}:80'
+        volumes:
+            - storage-data:/var/www/html/storage:ro
+        networks:
+            - app
+        depends_on:
+            - app
 
-  app:
-    build:
-      context: .
-      dockerfile: ./docker/prod/Dockerfile
-      target: app
-    image: dcote/app-prod
-    restart: unless-stopped
-    env_file:
-      - .env
-    environment:
-      APP_ENV: production
-      APP_DEBUG: 'false'
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-    volumes:
-      - storage-data:/var/www/html/storage
-    networks:
-      - app
-    depends_on:
-      mysql:
-        condition: service_healthy
+    app:
+        build:
+            context: .
+            dockerfile: ./docker/prod/Dockerfile
+            target: app
+        image: dcote/app-prod
+        restart: unless-stopped
+        env_file:
+            - .env
+        environment:
+            APP_ENV: production
+            APP_DEBUG: 'false'
+            DB_CONNECTION: mysql
+            DB_HOST: mysql
+            DB_PORT: 3306
+        volumes:
+            - storage-data:/var/www/html/storage
+        networks:
+            - app
+        depends_on:
+            mysql:
+                condition: service_healthy
 
-  scheduler:
-    build:
-      context: .
-      dockerfile: ./docker/prod/Dockerfile
-      target: app
-    image: dcote/app-prod
-    restart: unless-stopped
-    command: ["php", "artisan", "schedule:work"]
-    env_file:
-      - .env
-    environment:
-      APP_ENV: production
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-    volumes:
-      - storage-data:/var/www/html/storage
-    networks:
-      - app
-    depends_on:
-      mysql:
-        condition: service_healthy
+    scheduler:
+        build:
+            context: .
+            dockerfile: ./docker/prod/Dockerfile
+            target: app
+        image: dcote/app-prod
+        restart: unless-stopped
+        command: ['php', 'artisan', 'schedule:work']
+        env_file:
+            - .env
+        environment:
+            APP_ENV: production
+            DB_CONNECTION: mysql
+            DB_HOST: mysql
+            DB_PORT: 3306
+        volumes:
+            - storage-data:/var/www/html/storage
+        networks:
+            - app
+        depends_on:
+            mysql:
+                condition: service_healthy
 
-  mysql:
-    image: mysql:8.0
-    restart: unless-stopped
-    environment:
-      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-      MYSQL_DATABASE: '${DB_DATABASE:?DB_DATABASE is required}'
-      MYSQL_USER: '${DB_USERNAME:?DB_USERNAME is required}'
-      MYSQL_PASSWORD: '${DB_PASSWORD:?DB_PASSWORD is required}'
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - app
-    healthcheck:
-      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p"$${MYSQL_ROOT_PASSWORD}" --silent']
-      interval: 5s
-      timeout: 5s
-      retries: 20
+    mysql:
+        image: mysql:8.0
+        restart: unless-stopped
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+            MYSQL_DATABASE: '${DB_DATABASE:?DB_DATABASE is required}'
+            MYSQL_USER: '${DB_USERNAME:?DB_USERNAME is required}'
+            MYSQL_PASSWORD: '${DB_PASSWORD:?DB_PASSWORD is required}'
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - mysql-data:/var/lib/mysql
+        networks:
+            - app
+        healthcheck:
+            test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p"$${MYSQL_ROOT_PASSWORD}" --silent']
+            interval: 5s
+            timeout: 5s
+            retries: 20
 
 networks:
-  app:
-    name: dcote-prod
-    driver: bridge
+    app:
+        name: dcote-prod
+        driver: bridge
 
 volumes:
-  mysql-data:
-    name: dcote-prod-mysql
-    driver: local
-  storage-data:
-    name: dcote-prod-storage
-    driver: local
+    mysql-data:
+        name: dcote-prod-mysql
+        driver: local
+    storage-data:
+        name: dcote-prod-storage
+        driver: local

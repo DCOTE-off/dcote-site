@@ -155,7 +155,7 @@ button {
     --fs-title3: clamp(5px, 1.8vw, 28px);
     --fs-text: clamp(5px, 1.15vw, 18px);
     --fs-nav: clamp(5px, 0.91vw, 14px);
-    --fs-login: clamp(5px, 1.30vw, 20px);
+    --fs-login: clamp(5px, 1.3vw, 20px);
     --fs-footer: clamp(5px, 0.78vw, 12px);
     --fs-nav-links: clamp(5px, 1.17vw, 18px);
     --fs-border-radius: clamp(1px, 0.65vw, 10px);
@@ -238,7 +238,7 @@ body::before {
     background-position: center;
     background-repeat: repeat;
     background-size: contain;
-    content: "";
+    content: '';
     inset: 0;
     pointer-events: none;
     position: fixed;
@@ -297,7 +297,7 @@ main {
 }
 
 /* Прячем мобильную навигацию при фокусе ввода (чтобы клавиатура её не перекрывала) */
-body:has(input:focus, textarea:focus, [contenteditable="true"]:focus) .mobile-nav {
+body:has(input:focus, textarea:focus, [contenteditable='true']:focus) .mobile-nav {
     opacity: 0;
     pointer-events: none;
     visibility: hidden;

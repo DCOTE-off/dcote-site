@@ -2,8 +2,7 @@
 .hero {
     background-clip: padding-box, border-box;
     background-image:
-        linear-gradient(90deg, #17111F 0%, #442C61 100%),
-        linear-gradient(90deg, #332642 0%, #5D2CB2 100%);
+        linear-gradient(90deg, #17111f 0%, #442c61 100%), linear-gradient(90deg, #332642 0%, #5d2cb2 100%);
     background-origin: border-box;
     border: var(--border2px) solid transparent;
     border-radius: var(--radius-24px);
@@ -15,9 +14,7 @@
 
 .hero--mobile {
     background-clip: padding-box, border-box;
-    background-image:
-        linear-gradient(0deg, #17111F 0%, #442C61 100%),
-        linear-gradient(0deg, #332642 0%, #5D2CB2 100%);
+    background-image: linear-gradient(0deg, #17111f 0%, #442c61 100%), linear-gradient(0deg, #332642 0%, #5d2cb2 100%);
     background-origin: border-box;
     display: block;
 }
@@ -159,8 +156,6 @@
 .grid-image-card__title {
     margin-top: 50%;
 }
-
-
 
 .featured {
     display: grid;
@@ -406,8 +401,8 @@
     font-weight: 500;
 }
 
-.popular__info-label:nth-last-child(-n+2),
-.popular__info-value:nth-last-child(-n+2) {
+.popular__info-label:nth-last-child(-n + 2),
+.popular__info-value:nth-last-child(-n + 2) {
     border-bottom: none;
 }
 
@@ -416,7 +411,7 @@
 }
 
 .popular__info-value.purple {
-    color: #9A66FF;
+    color: #9a66ff;
 }
 
 .popular__info-value.green {
@@ -444,7 +439,7 @@
 .popular__progress-bar::after {
     background-color: rgba(68, 44, 97, 1);
     border-radius: 0 var(--fs-border-radius) var(--fs-border-radius) 0;
-    content: "";
+    content: '';
     inset: 0 auto 0 0;
     position: absolute;
     width: var(--progress-width, 0%);
@@ -479,15 +474,15 @@
     display: block;
     height: clamp(21px, 2.6vw, 40px) !important;
     opacity: 1;
-    transition: color 0.3s, opacity 0.3s;
+    transition:
+        color 0.3s,
+        opacity 0.3s;
     width: clamp(12px, 1.5vw, 23px) !important;
 }
 
 .popular__btn:disabled .popular__slider-icon {
     opacity: 0.5;
 }
-
-
 
 /* ===== Блок: обновления ===== */
 .updates {
@@ -632,11 +627,6 @@
     z-index: 2;
 }
 
-
-
-
-
-
 .ratings {
     display: flex;
     gap: 30px;
@@ -671,9 +661,6 @@
 .top-classes__spoiler-toggle--true::before {
     transform: translateX(50%);
 }
-
-
-
 
 /* ===== Блок: рейтинг классов ===== */
 .top-classes {
@@ -748,7 +735,9 @@
     margin-top: auto;
     overflow: hidden;
     padding: clamp(1px, 0.65vw, 5px);
-    transition: width 650ms cubic-bezier(0.22, 1, 0.36, 1), background-color 350ms ease;
+    transition:
+        width 650ms cubic-bezier(0.22, 1, 0.36, 1),
+        background-color 350ms ease;
     white-space: nowrap;
     width: var(--points-width, auto);
     will-change: width;
@@ -877,14 +866,6 @@
     display: flex;
     justify-content: center;
 }
-
-
-
-
-
-
-
-
 
 /* ===== Блок: описания ===== */
 .descriptions {
@@ -1030,11 +1011,6 @@
     width: 100% !important;
 }
 
-
-
-
-
-
 @media (max-width: 768px) {
     /* ===== Сетка-карусель категорий ===== */
     .grid-images {
@@ -1048,7 +1024,7 @@
     }
 
     .grid-image-card__wrapper {
-        border-radius: calc(var(--radius-24px) * (2/3));
+        border-radius: calc(var(--radius-24px) * (2 / 3));
     }
 
     .grid-images__inner {

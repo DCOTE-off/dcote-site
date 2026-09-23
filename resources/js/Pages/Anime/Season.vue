@@ -33,7 +33,7 @@ const props = defineProps({
         default: () => [],
     },
     season_id: {
-        type:Number,
+        type: Number,
         required: true,
     },
 });
@@ -108,21 +108,17 @@ function isEpisodeVisible(episode) {
     return displayExpanded.value || collapsedVisibleNumbers.value.has(episode.episode_number);
 }
 
-const canCollapse = computed(() => orderedEpisodes.value.some(
-    (episode) => !collapsedVisibleNumbers.value.has(episode.episode_number),
-));
+const canCollapse = computed(() =>
+    orderedEpisodes.value.some((episode) => !collapsedVisibleNumbers.value.has(episode.episode_number)),
+);
 
 function isGroupSeparator(episode) {
     if (episode.is_upcoming) {
         return false;
     }
 
-    const hasUpcoming = orderedEpisodes.value.some(
-        (item) => item.is_upcoming && isEpisodeVisible(item),
-    );
-    const firstReleased = orderedEpisodes.value.find(
-        (item) => !item.is_upcoming && isEpisodeVisible(item),
-    );
+    const hasUpcoming = orderedEpisodes.value.some((item) => item.is_upcoming && isEpisodeVisible(item));
+    const firstReleased = orderedEpisodes.value.find((item) => !item.is_upcoming && isEpisodeVisible(item));
 
     return hasUpcoming && firstReleased?.id === episode.id;
 }
@@ -138,9 +134,10 @@ async function toggleExpanded() {
     }
 
     const nextExpanded = !expanded.value;
-    const shouldAnimate = !prefersReducedMotion.value
-        && typeof listEl.animate === 'function'
-        && typeof listEl.firstElementChild?.animate === 'function';
+    const shouldAnimate =
+        !prefersReducedMotion.value &&
+        typeof listEl.animate === 'function' &&
+        typeof listEl.firstElementChild?.animate === 'function';
 
     expanded.value = nextExpanded;
 
@@ -162,9 +159,7 @@ async function toggleExpanded() {
         endHeight = listEl.getBoundingClientRect().height;
     } else {
         const items = Array.from(listEl.children);
-        const collapsibleItems = items.filter(
-            (el) => !collapsibleNumbers.has(Number(el.dataset.episodeNumber)),
-        );
+        const collapsibleItems = items.filter((el) => !collapsibleNumbers.has(Number(el.dataset.episodeNumber)));
 
         collapsibleItems.forEach((el) => el.classList.add('is-collapsed-hidden'));
         endHeight = listEl.getBoundingClientRect().height;
@@ -172,32 +167,33 @@ async function toggleExpanded() {
     }
 
     const items = Array.from(listEl.children);
-    const collapsibleItems = items.filter(
-        (el) => !collapsibleNumbers.has(Number(el.dataset.episodeNumber)),
-    );
+    const collapsibleItems = items.filter((el) => !collapsibleNumbers.has(Number(el.dataset.episodeNumber)));
 
-    const containerAnimation = listEl.animate(
-        [{ height: `${startHeight}px` }, { height: `${endHeight}px` }],
-        { duration: 520, easing: 'cubic-bezier(0.22, 1, 0.36, 1)', fill: 'both' },
-    );
+    const containerAnimation = listEl.animate([{ height: `${startHeight}px` }, { height: `${endHeight}px` }], {
+        duration: 520,
+        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        fill: 'both',
+    });
 
-    const itemAnimations = collapsibleItems.map((el, index) => el.animate(
-        nextExpanded
-            ? [
-                { opacity: 0, transform: 'translateY(calc(-1 * var(--fs-gap20)))' },
-                { opacity: 1, transform: 'translateY(0)' },
-            ]
-            : [
-                { opacity: 1, transform: 'translateY(0)' },
-                { opacity: 0, transform: 'translateY(calc(-1 * var(--fs-gap20)))' },
-            ],
-        {
-            duration: 360,
-            delay: nextExpanded ? Math.min(index * 25, 150) : 0,
-            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-            fill: 'both',
-        },
-    ));
+    const itemAnimations = collapsibleItems.map((el, index) =>
+        el.animate(
+            nextExpanded
+                ? [
+                      { opacity: 0, transform: 'translateY(calc(-1 * var(--fs-gap20)))' },
+                      { opacity: 1, transform: 'translateY(0)' },
+                  ]
+                : [
+                      { opacity: 1, transform: 'translateY(0)' },
+                      { opacity: 0, transform: 'translateY(calc(-1 * var(--fs-gap20)))' },
+                  ],
+            {
+                duration: 360,
+                delay: nextExpanded ? Math.min(index * 25, 150) : 0,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                fill: 'both',
+            },
+        ),
+    );
 
     await Promise.all([
         containerAnimation.finished.catch(() => {}),
@@ -228,28 +224,32 @@ function animateSortedItem(item, firstRect, animateStableItems) {
     if (!positionChanged) {
         item.style.willChange = 'transform, opacity';
 
-        return item.animate([
-            { opacity: 0.72, transform: 'translate3d(0, var(--fs-gap10), 0)' },
-            { opacity: 1, transform: 'translate3d(0, 0, 0)' },
-        ], {
-            duration: 360,
-            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-        }).finished.finally(() => {
-            item.style.willChange = '';
-        });
+        return item
+            .animate(
+                [
+                    { opacity: 0.72, transform: 'translate3d(0, var(--fs-gap10), 0)' },
+                    { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+                ],
+                {
+                    duration: 360,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                },
+            )
+            .finished.finally(() => {
+                item.style.willChange = '';
+            });
     }
 
     item.style.willChange = 'transform';
 
-    return item.animate([
-        { transform: `translate3d(${offsetX}px, ${offsetY}px, 0)` },
-        { transform: 'translate3d(0, 0, 0)' },
-    ], {
-        duration: 520,
-        easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
-    }).finished.finally(() => {
-        item.style.willChange = '';
-    });
+    return item
+        .animate([{ transform: `translate3d(${offsetX}px, ${offsetY}px, 0)` }, { transform: 'translate3d(0, 0, 0)' }], {
+            duration: 520,
+            easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+        })
+        .finished.finally(() => {
+            item.style.willChange = '';
+        });
 }
 
 let pendingSort = null;
@@ -275,14 +275,10 @@ async function applySort(newDirection, newCriterion, animateStableItems = false)
         });
     }
 
-    const visibleItems = Array.from(listEl.children)
-        .filter((el) => !el.classList.contains('is-collapsed-hidden'));
-    const shouldAnimate = !prefersReducedMotion.value
-        && visibleItems.length > 0
-        && typeof visibleItems[0].animate === 'function';
-    const firstRects = shouldAnimate
-        ? new Map(visibleItems.map((el) => [el, el.getBoundingClientRect()]))
-        : null;
+    const visibleItems = Array.from(listEl.children).filter((el) => !el.classList.contains('is-collapsed-hidden'));
+    const shouldAnimate =
+        !prefersReducedMotion.value && visibleItems.length > 0 && typeof visibleItems[0].animate === 'function';
+    const firstRects = shouldAnimate ? new Map(visibleItems.map((el) => [el, el.getBoundingClientRect()])) : null;
 
     sortDirection.value = newDirection;
     sortCriterion.value = newCriterion;
@@ -295,11 +291,8 @@ async function applySort(newDirection, newCriterion, animateStableItems = false)
     listEl.classList.add('is-sorting');
     await nextTick();
 
-    const newVisibleItems = Array.from(listEl.children)
-        .filter((el) => !el.classList.contains('is-collapsed-hidden'));
-    const animations = newVisibleItems.map((item) => (
-        animateSortedItem(item, firstRects.get(item), animateStableItems)
-    ));
+    const newVisibleItems = Array.from(listEl.children).filter((el) => !el.classList.contains('is-collapsed-hidden'));
+    const animations = newVisibleItems.map((item) => animateSortedItem(item, firstRects.get(item), animateStableItems));
 
     await Promise.all(animations.map((animation) => animation.catch(() => {})));
 
@@ -328,18 +321,21 @@ function selectCriterion(criterion) {
 </script>
 
 <template>
-
-    <Breadcrumbs :items="[
-        { text: 'ГЛАВНАЯ', href: route('home') },
-        { text: 'АНИМЕ', href: route('anime.index') },
-        { text: `${season} СЕЗОН` },
-    ]" />
+    <Breadcrumbs
+        :items="[
+            { text: 'ГЛАВНАЯ', href: route('home') },
+            { text: 'АНИМЕ', href: route('anime.index') },
+            { text: `${season} СЕЗОН` },
+        ]" />
 
     <div class="season-card">
         <div class="season-card__cover">
             <picture>
-                <source media="(max-width: 768px)" :srcset="`/images/anime/anime-banner-season-${season}-mobile.webp`" type="image/webp">
-                <img :src="`/images/anime/anime-banner-season-${season}.webp`" decoding="async" alt="Обложка сезона">
+                <source
+                    media="(max-width: 768px)"
+                    :srcset="`/images/anime/anime-banner-season-${season}-mobile.webp`"
+                    type="image/webp" />
+                <img :src="`/images/anime/anime-banner-season-${season}.webp`" decoding="async" alt="Обложка сезона" />
             </picture>
         </div>
         <div class="season-card__desc">
@@ -361,19 +357,41 @@ function selectCriterion(criterion) {
                 </template>
             </ClampedText>
             <div class="season-card__actions">
-                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button
+                    class="btn-pill-outline"
+                    style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10)"
+                    disabled
+                    aria-expanded="false">
+                    ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
                 <Link class="link-pill" :href="route('anime.episode', { season, episode: 1 })">НАЧАТЬ СМОТРЕТЬ</Link>
-                <a v-if="about_season.trailer_link" :href="about_season.trailer_link" class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);">ТРЕЙЛЕР СЕЗОНА</a>
+                <a
+                    v-if="about_season.trailer_link"
+                    :href="about_season.trailer_link"
+                    class="link-pill-outline"
+                    style="border-color: rgba(98, 59, 146, 1)"
+                    >ТРЕЙЛЕР СЕЗОНА</a
+                >
             </div>
             <div class="season-card__actions--mobile">
                 <Link class="link-pill" :href="route('anime.episode', { season, episode: 1 })">НАЧАТЬ СМОТРЕТЬ</Link>
                 <div class="season-card__actions-group">
-                    <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
+                    <button
+                        class="btn-pill-outline"
+                        style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10)"
+                        disabled
+                        aria-expanded="false">
+                        ДОБАВИТЬ В
                         <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                     </button>
-                    <a v-if="about_season.trailer_link" :href="about_season.trailer_link" class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);">ТРЕЙЛЕР</a>
+                    <a
+                        v-if="about_season.trailer_link"
+                        :href="about_season.trailer_link"
+                        class="link-pill-outline"
+                        style="border-color: rgba(98, 59, 146, 1)"
+                        >ТРЕЙЛЕР</a
+                    >
                 </div>
             </div>
         </div>
@@ -383,14 +401,14 @@ function selectCriterion(criterion) {
         <div class="episodes__head">
             <button
                 type="button"
-                class="episodes__sort episodes__control btn-pill-outline" 
-                style="border-color: rgba(98, 59, 146, 1);"
+                class="episodes__sort episodes__control btn-pill-outline"
+                style="border-color: rgba(98, 59, 146, 1)"
                 aria-label="Сортировать по возрастанию/убыванию"
                 @click="toggleSort">
-                <svg class="episodes__sort-icon" aria-hidden="true" v-show="sortDirection === 'descending'">
+                <svg v-show="sortDirection === 'descending'" class="episodes__sort-icon" aria-hidden="true">
                     <use href="#sort-descending-filled-compact" />
                 </svg>
-                <svg class="episodes__sort-icon" aria-hidden="true" v-show="sortDirection === 'ascending'">
+                <svg v-show="sortDirection === 'ascending'" class="episodes__sort-icon" aria-hidden="true">
                     <use href="#sort-ascending-filled-compact" />
                 </svg>
                 <span>СОРТИРОВКА</span>
@@ -400,7 +418,7 @@ function selectCriterion(criterion) {
                 <button
                     type="button"
                     class="filter-toggle episodes__control btn-pill-outline"
-                    style="border-color: rgba(98, 59, 146, 1);"
+                    style="border-color: rgba(98, 59, 146, 1)"
                     :aria-expanded="filterOpen"
                     aria-haspopup="listbox"
                     aria-controls="episode-filter-menu"
@@ -413,7 +431,11 @@ function selectCriterion(criterion) {
                         <use href="#dropdown" />
                     </svg>
                 </button>
-                <div class="list-filter-menu" id="episode-filter-menu" role="listbox" aria-label="Критерий сортировки серий">
+                <div
+                    id="episode-filter-menu"
+                    class="list-filter-menu"
+                    role="listbox"
+                    aria-label="Критерий сортировки серий">
                     <button
                         type="button"
                         class="list-filter-option"
@@ -443,11 +465,14 @@ function selectCriterion(criterion) {
                 </div>
             </div>
         </div>
-        <p v-if="showReleaseSchedule" class="episodes__schedule">Каждая новая серия выходит в <b>среду</b> в <b>15:30 по МСК</b>! Русские субтитры появляются на сайте спустя <b>полчаса-час</b>.</p>
+        <p v-if="showReleaseSchedule" class="episodes__schedule">
+            Каждая новая серия выходит в <b>среду</b> в <b>15:30 по МСК</b>! Русские субтитры появляются на сайте спустя
+            <b>полчаса-час</b>.
+        </p>
         <div
+            id="episodes-list"
             ref="gridAreaRef"
             class="episodes__list"
-            id="episodes-list"
             :data-season="season"
             :data-server-now="server_now">
             <EpisodeCard
@@ -476,9 +501,5 @@ function selectCriterion(criterion) {
             </svg>
         </button>
     </div>
-    <Comments
-        :comment-label="`К ${season} СЕЗОНУ АНИМЕ`"
-        commentable-type="anime_season"
-        :commentable-id="season_id"
-     />
+    <Comments :comment-label="`К ${season} СЕЗОНУ АНИМЕ`" commentable-type="anime_season" :commentable-id="season_id" />
 </template>

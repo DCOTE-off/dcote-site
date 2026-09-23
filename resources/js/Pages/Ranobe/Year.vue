@@ -33,12 +33,12 @@ function volumePercent(volume) {
 </script>
 
 <template>
-
-    <Breadcrumbs :items="[
-        { text: 'ГЛАВНАЯ', href: route('home') },
-        { text: 'РАНОБЭ', href: route('ranobe.index') },
-        { text: `${year} ГОД` },
-    ]" />
+    <Breadcrumbs
+        :items="[
+            { text: 'ГЛАВНАЯ', href: route('home') },
+            { text: 'РАНОБЭ', href: route('ranobe.index') },
+            { text: `${year} ГОД` },
+        ]" />
 
     <div
         v-for="(volume, index) in volumes"
@@ -47,13 +47,13 @@ function volumePercent(volume) {
         :data-volume="Math.trunc(volume.volume_number)">
         <div class="media-card__cover">
             <picture>
-                <source media="(max-width: 768px)" :srcset="volume.cover_image_mobile" type="image/webp">
+                <source media="(max-width: 768px)" :srcset="volume.cover_image_mobile" type="image/webp" />
                 <img
                     :src="volume.cover_image"
                     :fetchpriority="index < 2 ? 'high' : undefined"
                     :loading="index < 2 ? undefined : 'lazy'"
                     decoding="async"
-                    :alt="`Обложка ${volume.volume_number} тома ${year} года`">
+                    :alt="`Обложка ${volume.volume_number} тома ${year} года`" />
             </picture>
         </div>
         <div class="media-card__desc">
@@ -68,7 +68,10 @@ function volumePercent(volume) {
             </div>
             <Collapse :always-open="!isMobile" class="info-panel">
                 <template #trigger>
-                    <div class="info-panel__title">ОСНОВНАЯ ИНФОРМАЦИЯ <svg v-if="isMobile" class="dropdown-icon"><use href="#dropdown" /></svg></div>
+                    <div class="info-panel__title">
+                        ОСНОВНАЯ ИНФОРМАЦИЯ
+                        <svg v-if="isMobile" class="dropdown-icon"><use href="#dropdown" /></svg>
+                    </div>
                 </template>
                 <dl class="info-panel__grid">
                     <dt class="info-panel__label">Статус издания:</dt>
@@ -87,22 +90,58 @@ function volumePercent(volume) {
             </Collapse>
             <div class="media-card__progress">
                 <p><b>Переведено:</b> {{ volume.chapters_count }} из {{ volume.all_chapters }} глав</p>
-                <div class="media-card__progress-bar" :style="{ '--progress-width': `${volumePercent(volume)}%` }"></div>
+                <div
+                    class="media-card__progress-bar"
+                    :style="{ '--progress-width': `${volumePercent(volume)}%` }"></div>
             </div>
-            <Link class="link-pill" :href="route('ranobe.volume', { year: year, volume: volume.volume_number })">СТРАНИЦА ТОМА</Link>
+            <Link class="link-pill" :href="route('ranobe.volume', { year: year, volume: volume.volume_number })"
+                >СТРАНИЦА ТОМА</Link
+            >
             <div class="media-card__buttons">
-                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button
+                    class="btn-pill-outline"
+                    style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10)"
+                    disabled
+                    aria-expanded="false">
+                    ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
-                <Link class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" :href="route('ranobe.chapter', { year: year, volume: volume.volume_number, chapter: 1 })">НАЧАТЬ ЧИТАТЬ</Link>
+                <Link
+                    class="link-pill-outline"
+                    style="border-color: rgba(98, 59, 146, 1)"
+                    :href="
+                        route('ranobe.chapter', {
+                            year: year,
+                            volume: volume.volume_number,
+                            chapter: 1,
+                        })
+                    "
+                    >НАЧАТЬ ЧИТАТЬ</Link
+                >
             </div>
             <div class="media-card__buttons--mobile">
-                <button class="btn-pill-outline" style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10);" disabled aria-expanded="false">ДОБАВИТЬ В
+                <button
+                    class="btn-pill-outline"
+                    style="border-color: rgba(98, 59, 146, 1); gap: var(--fs-gap10)"
+                    disabled
+                    aria-expanded="false">
+                    ДОБАВИТЬ В
                     <svg class="dropdown-icon"><use href="#dropdown" /></svg>
                 </button>
             </div>
             <div class="media-card__buttons--mobile">
-                <Link class="link-pill-outline" style="border-color: rgba(98, 59, 146, 1);" :href="route('ranobe.chapter', { year: year, volume: volume.volume_number, chapter: 1 })">НАЧАТЬ ЧИТАТЬ</Link>
+                <Link
+                    class="link-pill-outline"
+                    style="border-color: rgba(98, 59, 146, 1)"
+                    :href="
+                        route('ranobe.chapter', {
+                            year: year,
+                            volume: volume.volume_number,
+                            chapter: 1,
+                        })
+                    "
+                    >НАЧАТЬ ЧИТАТЬ</Link
+                >
             </div>
         </div>
     </div>

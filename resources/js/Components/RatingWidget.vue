@@ -115,7 +115,7 @@ async function submitRating(value) {
             method,
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'X-CSRF-TOKEN': csrfToken,
             },
             body: JSON.stringify(body),
@@ -173,10 +173,7 @@ function onStarClick(value) {
                 </svg>
             </button>
 
-            <h3
-                class="rating-value"
-                :class="{ 'is-changing': changing }"
-                :data-direction="direction">
+            <h3 class="rating-value" :class="{ 'is-changing': changing }" :data-direction="direction">
                 <template v-if="changing">
                     <span class="rating-value-current">{{ previousValue }}</span>
                     <span class="rating-value-next" @animationend="finishRatingChange">{{ nextValue }}</span>
@@ -194,14 +191,21 @@ function onStarClick(value) {
                         :class="{ picked: n === (hover || userRating) }"
                         @mouseenter="hover = n"
                         @click="onStarClick(n)">
-                        <svg class="star-rating-icon star-value-icon" :class="{ filled: n <= (hover || userRating) }" viewBox="0 0 36 35">
+                        <svg
+                            class="star-rating-icon star-value-icon"
+                            :class="{ filled: n <= (hover || userRating) }"
+                            viewBox="0 0 36 35">
                             <use href="#star" />
                         </svg>
                     </button>
                 </div>
                 <div class="rating-popup-info">
-                    <p>Всего оценок: <b class="ratings-count">{{ ratingsCount }}</b></p>
-                    <p v-if="isAuthenticated">Ваша оценка: <b class="your-choosen-rating">{{ userRating || '' }}</b></p>
+                    <p>
+                        Всего оценок: <b class="ratings-count">{{ ratingsCount }}</b>
+                    </p>
+                    <p v-if="isAuthenticated">
+                        Ваша оценка: <b class="your-choosen-rating">{{ userRating || '' }}</b>
+                    </p>
                 </div>
                 <div v-if="!isAuthenticated" class="popup-overlay">
                     <Link :href="route('login')">
@@ -212,7 +216,9 @@ function onStarClick(value) {
         </div>
 
         <div v-if="!noExtra" class="extra-info">
-            <p>Всего оценок: <span class="ratings-count">{{ ratingsCount }}</span></p>
+            <p>
+                Всего оценок: <span class="ratings-count">{{ ratingsCount }}</span>
+            </p>
         </div>
     </div>
 </template>

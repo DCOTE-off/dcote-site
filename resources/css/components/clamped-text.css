@@ -50,7 +50,7 @@
 /* Обычный пробел вместо margin: на переносе строки он схлопывается
    и не оставляет отступ перед кнопкой. */
 .clamped-text__button::before {
-    content: " ";
+    content: ' ';
 }
 
 .clamped-text__sr {

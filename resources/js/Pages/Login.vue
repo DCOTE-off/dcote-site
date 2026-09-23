@@ -55,20 +55,16 @@ function submit() {
 </script>
 
 <template>
-
-    <Breadcrumbs :items="[
-        { text: 'ГЛАВНАЯ', href: route('home') },
-        { text: 'АВТОРИЗАЦИЯ' },
-    ]" />
+    <Breadcrumbs :items="[{ text: 'ГЛАВНАЯ', href: route('home') }, { text: 'АВТОРИЗАЦИЯ' }]" />
     <div class="auth">
         <div class="auth__image">
             <picture>
-                <source media="(max-width: 768px)" :srcset="'/images/auth/auth_4-mobile.webp'" type="image/webp">
-                <img :src="'/images/auth/auth_4.webp'" alt="Изображение в регистрации">
+                <source media="(max-width: 768px)" :srcset="'/images/auth/auth_4-mobile.webp'" type="image/webp" />
+                <img :src="'/images/auth/auth_4.webp'" alt="Изображение в регистрации" />
             </picture>
         </div>
         <div class="auth__panel">
-            <form class="auth__form" id="registration-form" novalidate @submit.prevent="submit">
+            <form id="registration-form" class="auth__form" novalidate @submit.prevent="submit">
                 <h1 class="auth__title">АВТОРИЗАЦИЯ</h1>
                 <div class="auth__field-tip">
                     <div class="auth__field">
@@ -77,14 +73,14 @@ function submit() {
                         </label>
                         <input
                             id="tag"
-                            class="auth__input"
                             v-model="form.tag"
+                            class="auth__input"
                             spellcheck="false"
                             name="tag"
                             required
                             autocomplete="username"
-                            @input="clearError('tag')">
-                        <span class="auth__error" v-if="form.errors.tag">{{ form.errors.tag }}</span>
+                            @input="clearError('tag')" />
+                        <span v-if="form.errors.tag" class="auth__error">{{ form.errors.tag }}</span>
                     </div>
                     <span class="auth__tip">Забыл(а) имя пользователя? <a href="">Восстановить</a></span>
                 </div>
@@ -97,26 +93,36 @@ function submit() {
                         </div>
                         <div class="auth__password">
                             <input
-                                class="auth__input"
-                                :type="showPassword ? 'text' : 'password'"
                                 id="password"
                                 v-model="form.password"
+                                class="auth__input"
+                                :type="showPassword ? 'text' : 'password'"
                                 name="password"
                                 autocomplete="password"
                                 title="Не менее 8 и не более 72 символов"
                                 required
-                                @input="clearError('password')">
+                                @input="clearError('password')" />
                             <button
                                 type="button"
                                 class="auth__password-toggle"
                                 :aria-label="showPassword ? 'Скрыть пароль' : 'Показать пароль'"
                                 :aria-pressed="showPassword"
                                 @click="togglePassword">
-                                <img v-if="!showPassword" class="auth__password-icon" :src="'/svgs/eye.svg'" alt="" aria-hidden="true">
-                                <img v-else class="auth__password-icon" :src="'/svgs/disabled-eye.svg'" alt="" aria-hidden="true">
+                                <img
+                                    v-if="!showPassword"
+                                    class="auth__password-icon"
+                                    :src="'/svgs/eye.svg'"
+                                    alt=""
+                                    aria-hidden="true" />
+                                <img
+                                    v-else
+                                    class="auth__password-icon"
+                                    :src="'/svgs/disabled-eye.svg'"
+                                    alt=""
+                                    aria-hidden="true" />
                             </button>
                         </div>
-                        <span class="auth__error" v-if="form.errors.password">{{ form.errors.password }}</span>
+                        <span v-if="form.errors.password" class="auth__error">{{ form.errors.password }}</span>
                     </div>
                     <span class="auth__tip">Забыл(а) пароль? <a href="">Восстановить</a></span>
                 </div>
@@ -124,8 +130,12 @@ function submit() {
                     <div ref="captchaContainer"></div>
                 </div>
                 <div class="auth__field">
-                    <button type="submit" class="auth__submit btn-pill" :disabled="!captchaReady || form.processing">АВТОРИЗОВАТЬСЯ</button>
-                    <span class="auth__tip">Нет аккаунта? <Link :href="route('register')"> Зарегистрироваться</Link></span>
+                    <button type="submit" class="auth__submit btn-pill" :disabled="!captchaReady || form.processing">
+                        АВТОРИЗОВАТЬСЯ
+                    </button>
+                    <span class="auth__tip"
+                        >Нет аккаунта? <Link :href="route('register')"> Зарегистрироваться</Link></span
+                    >
                 </div>
             </form>
         </div>

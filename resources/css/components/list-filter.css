@@ -11,7 +11,7 @@
 }
 
 .list-filter .filter-toggle > span,
-.list-filter-option > span{
+.list-filter-option > span {
     font: inherit;
     margin: 0;
     position: relative;
@@ -25,7 +25,7 @@
 
 .list-filter-menu {
     align-items: stretch;
-    background-color: #1D162E;
+    background-color: #1d162e;
     border: var(--border2px) solid var(--list-filter-accent);
     border-radius: var(--fs-border-radius);
     display: flex;
@@ -71,7 +71,7 @@
 
 .list-filter-option::before {
     background-color: var(--list-filter-accent);
-    content: "";
+    content: '';
     inset: 0;
     opacity: 0;
     pointer-events: none;

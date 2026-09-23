@@ -24,7 +24,7 @@
     background-color: rgba(170, 160, 184, 1);
     bottom: 0;
     border-radius: 999px;
-    content: "";
+    content: '';
     height: clamp(0.5px, 0.13vw, 2px);
     left: 50%;
     position: absolute;
@@ -89,7 +89,7 @@
 .site-header__nav-link::before {
     background-color: var(--main-red);
     border-radius: var(--btn-pill-radius);
-    content: "";
+    content: '';
     height: 100%;
     left: 0;
     position: absolute;
@@ -111,10 +111,10 @@
 }
 
 .site-header__nav-link::after {
-    background-color: #DF0E53;
+    background-color: #df0e53;
     border-radius: 8px;
     bottom: -0.25em;
-    content: "";
+    content: '';
     height: 2px;
     left: 50%;
     position: absolute;

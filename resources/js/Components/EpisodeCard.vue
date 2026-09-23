@@ -89,10 +89,12 @@ function openInNewTab(event) {
     window.open(episodeUrl.value, '_blank', 'noopener,noreferrer');
 }
 
-const episodeUrl = computed(() => route('anime.episode', {
-    season: props.season,
-    episode: props.episode.episode_number,
-}));
+const episodeUrl = computed(() =>
+    route('anime.episode', {
+        season: props.season,
+        episode: props.episode.episode_number,
+    }),
+);
 
 const countdownText = ref('Дата уточняется');
 let countdownTimer;
@@ -105,13 +107,15 @@ function formatRemaining(milliseconds) {
 
     const day = new Intl.NumberFormat('ru', { style: 'unit', unit: 'day', unitDisplay: 'long' });
     const hour = new Intl.NumberFormat('ru', { style: 'unit', unit: 'hour', unitDisplay: 'long' });
-    const minute = new Intl.NumberFormat('ru', { style: 'unit', unit: 'minute', unitDisplay: 'long' });
+    const minute = new Intl.NumberFormat('ru', {
+        style: 'unit',
+        unit: 'minute',
+        unitDisplay: 'long',
+    });
 
-    return [
-        days > 0 ? day.format(days) : null,
-        hours > 0 ? hour.format(hours) : null,
-        minute.format(minutes),
-    ].filter(Boolean).join(' ');
+    return [days > 0 ? day.format(days) : null, hours > 0 ? hour.format(hours) : null, minute.format(minutes)]
+        .filter(Boolean)
+        .join(' ');
 }
 
 function setupCountdown() {
@@ -170,18 +174,20 @@ onBeforeUnmount(() => {
                         role="link"
                         tabindex="0"
                         @click.prevent.stop="openInNewTab"
-                        @keydown.enter.prevent="openInNewTab">
+                        @keydown.enter.prevent="openInNewTab" />
                 </h3>
                 <p class="episode__heading">{{ episode.episode_name }}</p>
             </div>
             <div ref="coverRef" class="episode__cover" :class="{ 'has-appear-in': episode.is_upcoming }">
-                <img class="episode__cover-image" :src="`/images/anime/episodes-banner-season${season}.webp`">
+                <img class="episode__cover-image" :src="`/images/anime/episodes-banner-season${season}.webp`" />
                 <span
                     class="episode__bookmark episode__bookmark--mobile"
                     :class="{ 'is-disabled': episode.is_upcoming }"
                     role="button"
                     tabindex="0"
-                    :aria-label="bookmarked === 'bookmarked' ? 'Удалить серию из закладок' : 'Добавить серию в закладки'"
+                    :aria-label="
+                        bookmarked === 'bookmarked' ? 'Удалить серию из закладок' : 'Добавить серию в закладки'
+                    "
                     :aria-pressed="bookmarked === 'bookmarked'"
                     :title="bookmarked === 'bookmarked' ? 'Удалить из закладок' : 'Добавить в закладки'"
                     @click.prevent.stop="toggleBookmark"
@@ -197,7 +203,9 @@ onBeforeUnmount(() => {
                     }"
                     role="button"
                     tabindex="0"
-                    :aria-label="watched === 'watched' ? 'Отметить серию непросмотренной' : 'Отметить серию просмотренной'"
+                    :aria-label="
+                        watched === 'watched' ? 'Отметить серию непросмотренной' : 'Отметить серию просмотренной'
+                    "
                     :aria-pressed="watched === 'watched'"
                     :title="watched === 'watched' ? 'Просмотрено' : 'Не просмотрено'"
                     @click.prevent.stop="toggleWatch"
@@ -205,7 +213,7 @@ onBeforeUnmount(() => {
                     <img
                         :src="watched === 'watched' ? '/svgs/eye.svg' : '/svgs/disabled-eye.svg'"
                         alt=""
-                        aria-hidden="true">
+                        aria-hidden="true" />
                 </span>
                 <div v-if="episode.is_upcoming" class="episode__appear episode__appear--mobile">
                     <p>До выхода серии:</p>
@@ -222,7 +230,7 @@ onBeforeUnmount(() => {
                         role="link"
                         tabindex="0"
                         @click.prevent.stop="openInNewTab"
-                        @keydown.enter.prevent="openInNewTab">
+                        @keydown.enter.prevent="openInNewTab" />
                 </h3>
                 <p class="episode__heading">{{ episode.episode_name }}</p>
                 <div class="episode__meta">
@@ -231,7 +239,9 @@ onBeforeUnmount(() => {
                         :class="{ 'is-disabled': episode.is_upcoming }"
                         role="button"
                         tabindex="0"
-                        :aria-label="bookmarked === 'bookmarked' ? 'Удалить серию из закладок' : 'Добавить серию в закладки'"
+                        :aria-label="
+                            bookmarked === 'bookmarked' ? 'Удалить серию из закладок' : 'Добавить серию в закладки'
+                        "
                         :aria-pressed="bookmarked === 'bookmarked'"
                         :title="bookmarked === 'bookmarked' ? 'Удалить из закладок' : 'Добавить в закладки'"
                         @click.prevent.stop="toggleBookmark"
@@ -243,7 +253,7 @@ onBeforeUnmount(() => {
                         :class="{ 'is-disabled': episode.is_upcoming }"
                         :aria-label="`Комментариев: ${episode.comments_count}`"
                         :title="`Комментариев: ${episode.comments_count}`">
-                        <img :src="'/svgs/message1.svg'" alt="" aria-hidden="true">
+                        <img :src="'/svgs/message1.svg'" alt="" aria-hidden="true" />
                         <span class="episode__comments-count">{{ episode.comments_count }}</span>
                     </span>
                 </div>
@@ -261,10 +271,15 @@ onBeforeUnmount(() => {
                 :class="{ 'is-disabled': episode.is_upcoming }"
                 :aria-label="`Комментариев: ${episode.comments_count}`"
                 :title="`Комментариев: ${episode.comments_count}`">
-                <img :src="'/svgs/message1.svg'" alt="" aria-hidden="true">
+                <img :src="'/svgs/message1.svg'" alt="" aria-hidden="true" />
                 <span class="episode__comments-count">{{ episode.comments_count }}</span>
             </span>
-            <a :href="episode.trailer_link" class="link-pill-outline episode__trailer--mobile" style="border-color: rgba(98, 59, 146, 1);">ТРЕЙЛЕР</a>
+            <a
+                :href="episode.trailer_link"
+                class="link-pill-outline episode__trailer--mobile"
+                style="border-color: rgba(98, 59, 146, 1)"
+                >ТРЕЙЛЕР</a
+            >
             <div class="episode__rating">
                 <RatingWidget
                     rateable-type="anime_episode"
@@ -275,7 +290,12 @@ onBeforeUnmount(() => {
                     :disabled="episode.is_upcoming"
                     no-extra />
             </div>
-            <a :href="episode.trailer_link" class="link-pill-outline episode__trailer--desktop" style="border-color: rgba(98, 59, 146, 1);">ТРЕЙЛЕР СЕРИИ</a>
+            <a
+                :href="episode.trailer_link"
+                class="link-pill-outline episode__trailer--desktop"
+                style="border-color: rgba(98, 59, 146, 1)"
+                >ТРЕЙЛЕР СЕРИИ</a
+            >
         </div>
     </div>
 </template>

@@ -143,7 +143,7 @@
 }
 
 .auth__error {
-    background-color: #1D162E;
+    background-color: #1d162e;
     border: var(--border2px) solid rgba(68, 44, 97, 1);
     border-radius: var(--fs-border-radius);
     color: rgba(198, 187, 214, 1);
@@ -161,10 +161,10 @@
 }
 
 .auth__error::before {
-    background-color: #1D162E;
+    background-color: #1d162e;
     border-left: var(--border2px) solid rgba(68, 44, 97, 1);
     border-top: var(--border2px) solid rgba(68, 44, 97, 1);
-    content: "";
+    content: '';
     height: clamp(1px, 0.78vw, 12px);
     left: var(--fs-gap20);
     position: absolute;
@@ -192,7 +192,7 @@
     font-family: 'Vag Rounded Next';
 }
 
-.auth__check a{
+.auth__check a {
     color: var(--purple-hover);
     text-decoration: none;
 }

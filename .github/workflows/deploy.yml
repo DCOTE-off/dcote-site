@@ -2,7 +2,7 @@ name: Deploy Website
 
 on:
     push:
-        branches: [ production ] 
+        branches: [production]
 
 jobs:
     tests:
@@ -24,14 +24,14 @@ jobs:
                   port: 22
                   script_stop: true
                   script: |
-                     cd /var/www/dcote.net
-                     git pull origin production
-                     
-                     docker compose -f docker-compose.prod.yml build --pull
-                     
-                     docker compose -f docker-compose.prod.yml up -d
-                     
-                     docker compose -f docker-compose.prod.yml exec -T app php artisan migrate --force
-                     docker compose -f docker-compose.prod.yml exec -T app php artisan config:cache
-                     docker compose -f docker-compose.prod.yml exec -T app php artisan view:cache
-                     docker compose -f docker-compose.prod.yml exec -T app php artisan sitemap:generate
+                      cd /var/www/dcote.net
+                      git pull origin production
+
+                      docker compose -f docker-compose.prod.yml build --pull
+
+                      docker compose -f docker-compose.prod.yml up -d
+
+                      docker compose -f docker-compose.prod.yml exec -T app php artisan migrate --force
+                      docker compose -f docker-compose.prod.yml exec -T app php artisan config:cache
+                      docker compose -f docker-compose.prod.yml exec -T app php artisan view:cache
+                      docker compose -f docker-compose.prod.yml exec -T app php artisan sitemap:generate
