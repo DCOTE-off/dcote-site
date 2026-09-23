@@ -5,14 +5,15 @@ import '../../css/components/dropdown-select.css';
 import '../../css/pages/reading-settings.css';
 
 const props = defineProps({
-    settings: {
-        type: Object,
-        required: true,
-    },
     open: {
         type: Boolean,
         default: false,
     },
+});
+
+const settings = defineModel('settings', {
+    type: Object,
+    required: true,
 });
 
 const fontOptions = Object.keys(FONT_MAP);
@@ -42,7 +43,7 @@ function toggleDropdown(name) {
 }
 
 function selectOption(name, value) {
-    props.settings[name] = value;
+    settings.value[name] = value;
     openDropdown.value = null;
 }
 
