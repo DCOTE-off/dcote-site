@@ -52,9 +52,9 @@
 ```yaml
 - name: Tests
   run: |
-    composer install --no-interaction --prefer-dist
-    ./vendor/bin/pint --test
-    php artisan test
+      composer install --no-interaction --prefer-dist
+      ./vendor/bin/pint --test
+      php artisan test
 ```
 
 Шаг ставится **до** SSH-деплоя, чтобы падение теста останавливало выкладку.

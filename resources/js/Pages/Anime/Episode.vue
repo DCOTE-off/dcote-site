@@ -109,12 +109,13 @@ onBeforeUnmount(clearLoadTimer);
 </script>
 
 <template>
-    <Breadcrumbs :items="[
-        { text: 'ГЛАВНАЯ', href: route('home') },
-        { text: 'АНИМЕ', href: route('anime.index') },
-        { text: `${season} СЕЗОН`, href: route('anime.season', { season }) },
-        { text: `${episode} СЕРИЯ` },
-    ]" />
+    <Breadcrumbs
+        :items="[
+            { text: 'ГЛАВНАЯ', href: route('home') },
+            { text: 'АНИМЕ', href: route('anime.index') },
+            { text: `${season} СЕЗОН`, href: route('anime.season', { season }) },
+            { text: `${episode} СЕРИЯ` },
+        ]" />
 
     <div v-if="completed" class="episode-rating">
         <RatingWidget
@@ -129,9 +130,9 @@ onBeforeUnmount(clearLoadTimer);
 
     <div v-else class="episode-player-shell">
         <iframe
+            v-show="!playerError"
             id="episode-iframe-player"
             ref="playerRef"
-            v-show="!playerError"
             :src="episodeUrl"
             allow="autoplay; encrypted-media; picture-in-picture"
             allowfullscreen
@@ -139,12 +140,10 @@ onBeforeUnmount(clearLoadTimer);
             loading="lazy"
             @load="hidePlayerError">
         </iframe>
-        <div class="episode-player-status" role="status" v-show="playerError">
+        <div v-show="playerError" class="episode-player-status" role="status">
             <h2>ПЛЕЕР ВРЕМЕННО НЕДОСТУПЕН</h2>
             <p>Проверьте соединение и попробуйте загрузить его ещё раз.</p>
-            <button class="btn-pill" type="button" @click="retryPlayer">
-                ПОВТОРИТЬ
-            </button>
+            <button class="btn-pill" type="button" @click="retryPlayer">ПОВТОРИТЬ</button>
         </div>
     </div>
 
@@ -208,6 +207,5 @@ onBeforeUnmount(clearLoadTimer);
     <Comments
         :comment-label="`К ${episode} СЕРИИ АНИМЕ`"
         commentable-type="anime_episode"
-        :commentable-id="episodeId"
-     />
+        :commentable-id="episodeId" />
 </template>

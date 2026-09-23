@@ -16,10 +16,7 @@ defineProps({
 </script>
 
 <template>
-    <Breadcrumbs :items="[
-        { text: 'ГЛАВНАЯ', href: route('home') },
-        { text: title },
-    ]" />
+    <Breadcrumbs :items="[{ text: 'ГЛАВНАЯ', href: route('home') }, { text: title }]" />
     <section class="coming-soon">
         <h1 class="coming-soon__title">{{ title }}</h1>
         <p class="coming-soon__text">Раздел в разработке.</p>

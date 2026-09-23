@@ -57,68 +57,84 @@ function toggleMenu(menu) {
 
         <Transition name="account-menu">
             <div v-if="props.openMenu === 'account'" class="account-menu">
-            <a class="link-pill side-button" :href="route('account')">
-                <svg class="account-menu__icon"><use href="#user" /></svg>
-                Мой профиль
-            </a>
-            <a class="link-pill side-button" style="background: #c6750c;" :href="route('favorite')">
-                <svg class="account-menu__icon"><use href="#file-star" /></svg>
-                Избранное
-            </a>
-            <Link class="link-pill-outline side-button" style="border-color: rgba(98, 59, 146, 1);" :href="route('rules')">
-                <svg class="account-menu__icon"><use href="#info" /></svg>
-                Правила сайта
-            </Link>
-            <a class="link-pill-outline side-button" style="border-color: rgba(98, 59, 146, 1);" :href="route('settings')">
-                <svg class="account-menu__icon"><use href="#settings" /></svg>
-                Настройки
-            </a>
-            <a v-if="page.props.auth?.can_access_admin" class="link-pill side-button" style="background:rgba(191, 63, 63, 1);" :href="route('filament.admin.pages.dashboard')">
-                <svg class="account-menu__icon"><use href="#database" /></svg>
-                Админ-панель
-            </a>
-            <form :action="route('logout')" method="POST" style="display: inline;">
-                <input type="hidden" name="_token" :value="page.props.csrf_token">
-                <button type="submit" class="btn-pill-outline side-button" style="border-color: rgba(98, 59, 146, 1);">
-                    <svg class="account-menu__icon"><use href="#exit" /></svg>
-                    Выйти с аккаунта
-                </button>
-            </form>
+                <a class="link-pill side-button" :href="route('account')">
+                    <svg class="account-menu__icon"><use href="#user" /></svg>
+                    Мой профиль
+                </a>
+                <a class="link-pill side-button" style="background: #c6750c" :href="route('favorite')">
+                    <svg class="account-menu__icon"><use href="#file-star" /></svg>
+                    Избранное
+                </a>
+                <Link
+                    class="link-pill-outline side-button"
+                    style="border-color: rgba(98, 59, 146, 1)"
+                    :href="route('rules')">
+                    <svg class="account-menu__icon"><use href="#info" /></svg>
+                    Правила сайта
+                </Link>
+                <a
+                    class="link-pill-outline side-button"
+                    style="border-color: rgba(98, 59, 146, 1)"
+                    :href="route('settings')">
+                    <svg class="account-menu__icon"><use href="#settings" /></svg>
+                    Настройки
+                </a>
+                <a
+                    v-if="page.props.auth?.can_access_admin"
+                    class="link-pill side-button"
+                    style="background: rgba(191, 63, 63, 1)"
+                    :href="route('filament.admin.pages.dashboard')">
+                    <svg class="account-menu__icon"><use href="#database" /></svg>
+                    Админ-панель
+                </a>
+                <form :action="route('logout')" method="POST" style="display: inline">
+                    <input type="hidden" name="_token" :value="page.props.csrf_token" />
+                    <button
+                        type="submit"
+                        class="btn-pill-outline side-button"
+                        style="border-color: rgba(98, 59, 146, 1)">
+                        <svg class="account-menu__icon"><use href="#exit" /></svg>
+                        Выйти с аккаунта
+                    </button>
+                </form>
             </div>
         </Transition>
 
         <Transition name="side-menu">
             <div v-if="props.openMenu === 'side'" class="side-menu">
-            <div class="side-menu__links">
-                <Link class="link-pill side-button" :href="route('ranobe.index')">
-                    <svg class="side-menu__icon"><use href="#side-menu-ranobe" /></svg>
-                    РАНОБЭ
-                </Link>
-                <Link class="link-pill side-button" :href="route('anime.index')">
-                    <svg class="side-menu__icon"><use href="#side-menu-anime" /></svg>
-                    АНИМЕ
-                </Link>
-                <Link class="link-pill-outline side-button" :href="route('about-project')" style="border-color:rgba(98, 59, 146, 1)">
-                    <svg class="side-menu__icon"><use href="#side-menu-about" /></svg>
-                    О ПРОЕКТЕ
-                </Link>
-                <a class="link-pill-outline disabled side-button" aria-disabled="true">
-                    <svg class="side-menu__icon"><use href="#side-menu-news" /></svg>
-                    НОВОСТИ
-                </a>
-                <a class="link-pill-outline disabled side-button" aria-disabled="true">
-                    <svg class="side-menu__icon"><use href="#side-menu-manga" /></svg>
-                    МАНГА
-                </a>
-                <a class="link-pill-outline disabled side-button" aria-disabled="true">
-                    <svg class="side-menu__icon"><use href="#side-menu-illustrations" /></svg>
-                    ИЛЛЮСТРАЦИИ
-                </a>
-                <a class="link-pill-outline disabled side-button" aria-disabled="true">
-                    <svg class="side-menu__icon"><use href="#side-menu-characters" /></svg>
-                    ПЕРСОНАЖИ
-                </a>
-            </div>
+                <div class="side-menu__links">
+                    <Link class="link-pill side-button" :href="route('ranobe.index')">
+                        <svg class="side-menu__icon"><use href="#side-menu-ranobe" /></svg>
+                        РАНОБЭ
+                    </Link>
+                    <Link class="link-pill side-button" :href="route('anime.index')">
+                        <svg class="side-menu__icon"><use href="#side-menu-anime" /></svg>
+                        АНИМЕ
+                    </Link>
+                    <Link
+                        class="link-pill-outline side-button"
+                        :href="route('about-project')"
+                        style="border-color: rgba(98, 59, 146, 1)">
+                        <svg class="side-menu__icon"><use href="#side-menu-about" /></svg>
+                        О ПРОЕКТЕ
+                    </Link>
+                    <a class="link-pill-outline disabled side-button" aria-disabled="true">
+                        <svg class="side-menu__icon"><use href="#side-menu-news" /></svg>
+                        НОВОСТИ
+                    </a>
+                    <a class="link-pill-outline disabled side-button" aria-disabled="true">
+                        <svg class="side-menu__icon"><use href="#side-menu-manga" /></svg>
+                        МАНГА
+                    </a>
+                    <a class="link-pill-outline disabled side-button" aria-disabled="true">
+                        <svg class="side-menu__icon"><use href="#side-menu-illustrations" /></svg>
+                        ИЛЛЮСТРАЦИИ
+                    </a>
+                    <a class="link-pill-outline disabled side-button" aria-disabled="true">
+                        <svg class="side-menu__icon"><use href="#side-menu-characters" /></svg>
+                        ПЕРСОНАЖИ
+                    </a>
+                </div>
             </div>
         </Transition>
     </nav>

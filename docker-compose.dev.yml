@@ -1,62 +1,61 @@
 name: dcote-dev
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: ./docker/8.4/Dockerfile
-      args:
-        WWWGROUP: '${WWWGROUP:-1000}'
-    image: dcote/app-dev
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
-    ports:
-      - '${APP_PORT:-8080}:80'
-    environment:
-      WWWUSER: '${WWWUSER:-1000}'
-      LARAVEL_SAIL: 1
-      APP_ENV: local
-      APP_DEBUG: 'true'
-      DB_CONNECTION: mysql
-      DB_HOST: mysql
-      DB_PORT: 3306
-      DB_DATABASE: '${DOCKER_DB_DATABASE:-dcote}'
-      DB_USERNAME: '${DOCKER_DB_USERNAME:-sail}'
-      DB_PASSWORD: '${DOCKER_DB_PASSWORD:-password}'
-    volumes:
-      - .:/var/www/html
-    networks:
-      - app
-    depends_on:
-      mysql:
-        condition: service_healthy
+    app:
+        build:
+            context: .
+            dockerfile: ./docker/8.4/Dockerfile
+            args:
+                WWWGROUP: '${WWWGROUP:-1000}'
+        image: dcote/app-dev
+        extra_hosts:
+            - 'host.docker.internal:host-gateway'
+        ports:
+            - '${APP_PORT:-8080}:80'
+        environment:
+            WWWUSER: '${WWWUSER:-1000}'
+            LARAVEL_SAIL: 1
+            APP_ENV: local
+            APP_DEBUG: 'true'
+            DB_CONNECTION: mysql
+            DB_HOST: mysql
+            DB_PORT: 3306
+            DB_DATABASE: '${DOCKER_DB_DATABASE:-dcote}'
+            DB_USERNAME: '${DOCKER_DB_USERNAME:-sail}'
+            DB_PASSWORD: '${DOCKER_DB_PASSWORD:-password}'
+        volumes:
+            - .:/var/www/html
+        networks:
+            - app
+        depends_on:
+            mysql:
+                condition: service_healthy
 
-  mysql:
-    image: mysql:8.0
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: '${DOCKER_DB_ROOT_PASSWORD:-root}'
-      MYSQL_DATABASE: '${DOCKER_DB_DATABASE:-dcote}'
-      MYSQL_USER: '${DOCKER_DB_USERNAME:-sail}'
-      MYSQL_PASSWORD: '${DOCKER_DB_PASSWORD:-password}'
-    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - app
-    healthcheck:
-      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p"$${MYSQL_ROOT_PASSWORD}" --silent']
-      interval: 5s
-      timeout: 5s
-      retries: 20
+    mysql:
+        image: mysql:8.0
+        restart: unless-stopped
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DOCKER_DB_ROOT_PASSWORD:-root}'
+            MYSQL_DATABASE: '${DOCKER_DB_DATABASE:-dcote}'
+            MYSQL_USER: '${DOCKER_DB_USERNAME:-sail}'
+            MYSQL_PASSWORD: '${DOCKER_DB_PASSWORD:-password}'
+        command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        volumes:
+            - mysql-data:/var/lib/mysql
+        networks:
+            - app
+        healthcheck:
+            test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 -uroot -p"$${MYSQL_ROOT_PASSWORD}" --silent']
+            interval: 5s
+            timeout: 5s
+            retries: 20
 
 networks:
-  app:
-    name: dcote-dev
-    driver: bridge
+    app:
+        name: dcote-dev
+        driver: bridge
 
 volumes:
-  mysql-data:
-    name: dcote-dev-mysql
-    driver: local
-
+    mysql-data:
+        name: dcote-dev-mysql
+        driver: local

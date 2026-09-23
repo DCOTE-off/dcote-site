@@ -8,7 +8,6 @@ import Collapse from '../Components/Collapse.vue';
 import ClampedText from '../Components/ClampedText.vue';
 import '../../css/pages/dcote-main.css';
 
-
 const props = defineProps({
     classes_list_default: Array,
     classes_list_spoilers: Array,
@@ -29,11 +28,12 @@ const prefersReducedMotion = usePrefersReducedMotion();
 
 const showSpoilers = ref(false);
 
-const heroText = 'Горячие новости из медиа-пространства произведения, чтение оригинальной новеллы, '
-    + 'бесплатный просмотр аниме-адаптации и чтение глав манги. Полноценный сборник '
-    + 'иллюстраций от художника Томосе Сюнсаку, арты от художников-фанатов '
-    + 'и превосходные арт-генерации от ИИ. Подробные досье и описания персонажей. '
-    + 'Всё это и не только вы найдёте на страницах данного веб-сообщества!';
+const heroText =
+    'Горячие новости из медиа-пространства произведения, чтение оригинальной новеллы, ' +
+    'бесплатный просмотр аниме-адаптации и чтение глав манги. Полноценный сборник ' +
+    'иллюстраций от художника Томосе Сюнсаку, арты от художников-фанатов ' +
+    'и превосходные арт-генерации от ИИ. Подробные досье и описания персонажей. ' +
+    'Всё это и не только вы найдёте на страницах данного веб-сообщества!';
 
 const tgBadges = [
     {
@@ -109,8 +109,6 @@ const gridImagesRef = ref(null);
 const activeGridIndex = ref(0);
 let gridCarousel = null;
 let gridCarouselSettling = false;
-
-
 
 function initGridCarousel() {
     if (gridCarousel || !gridImagesRef.value) {
@@ -220,10 +218,12 @@ let popularAnimationTimer;
 const updatesAtEnd = ref(true);
 const updatesNews = ref(null);
 const updatesEndThreshold = 24;
-const ratingCards = ref(props.classes_list_default.map((classSchool, index) => ({
-    slot: `rating-slot-${index}`,
-    classSchool,
-})));
+const ratingCards = ref(
+    props.classes_list_default.map((classSchool, index) => ({
+        slot: `rating-slot-${index}`,
+        classSchool,
+    })),
+);
 const ratingListRef = ref(null);
 
 const topUsers = [
@@ -260,15 +260,11 @@ function toggleSpoilers() {
         return;
     }
 
-    const targetClasses = showSpoilers.value
-        ? props.classes_list_default
-        : props.classes_list_spoilers;
-    const currentCardsByLeader = new Map(
-        ratingCards.value.map((card) => [card.classSchool.leader, card]),
+    const targetClasses = showSpoilers.value ? props.classes_list_default : props.classes_list_spoilers;
+    const currentCardsByLeader = new Map(ratingCards.value.map((card) => [card.classSchool.leader, card]));
+    const availableCards = ratingCards.value.filter(
+        (card) => !targetClasses.some((classSchool) => classSchool.leader === card.classSchool.leader),
     );
-    const availableCards = ratingCards.value.filter((card) => !targetClasses.some(
-        (classSchool) => classSchool.leader === card.classSchool.leader,
-    ));
 
     const oldPointsWidths = new Map();
     ratingListRef.value?.$el?.querySelectorAll('.top-classes__class-points').forEach((points) => {
@@ -306,10 +302,10 @@ function toggleSpoilers() {
                 return;
             }
 
-            points.animate(
-                [{ width: `${oldWidth}px` }, { width: `${newWidth}px` }],
-                { duration: 650, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' },
-            );
+            points.animate([{ width: `${oldWidth}px` }, { width: `${newWidth}px` }], {
+                duration: 650,
+                easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+            });
         });
     });
 }
@@ -347,11 +343,11 @@ function showPopularSlideMobile(nextIndex, direction) {
         return;
     }
 
-    const anyOpen = popularCollapseRefs.value.some(c => c?.isOpen());
+    const anyOpen = popularCollapseRefs.value.some((c) => c?.isOpen());
 
     if (anyOpen) {
         popularPendingSwitch.value = { nextIndex, direction };
-        popularCollapseRefs.value.forEach(c => c?.close());
+        popularCollapseRefs.value.forEach((c) => c?.close());
         window.clearTimeout(popularSwitchTimer);
         popularSwitchTimer = window.setTimeout(() => {
             const pending = popularPendingSwitch.value;
@@ -408,14 +404,17 @@ onMounted(() => {
     if (prefersReducedMotion.value || !ratingBlockRef.value || !('IntersectionObserver' in window)) {
         revealRating();
     } else {
-        ratingObserver = new IntersectionObserver(([entry], observer) => {
-            if (!entry.isIntersecting) {
-                return;
-            }
+        ratingObserver = new IntersectionObserver(
+            ([entry], observer) => {
+                if (!entry.isIntersecting) {
+                    return;
+                }
 
-            revealRating();
-            observer.disconnect();
-        }, { threshold: 0.25 });
+                revealRating();
+                observer.disconnect();
+            },
+            { threshold: 0.25 },
+        );
 
         ratingObserver.observe(ratingBlockRef.value);
     }
@@ -428,37 +427,51 @@ onBeforeUnmount(() => {
     ratingObserver?.disconnect();
     window.clearTimeout(popularAnimationTimer);
 });
-
 </script>
 
 <template>
-
     <div v-if="!isMobile" class="hero">
         <div class="hero__content">
             <div class="hero__title">
-                <h1>Фан-сообщество <span style="color: rgb(224, 11, 82);">D</span>COTE</h1>
+                <h1>Фан-сообщество <span style="color: rgb(224, 11, 82)">D</span>COTE</h1>
                 <h3>Обитель фанатского комьюнити произведения «Добро пожаловать в класс превосходства».</h3>
             </div>
             <p>{{ heroText }}</p>
             <div class="hero__buttons">
                 <a class="link-pill">ЧИТАТЬ НОВОСТИ</a>
-                <a :href="route('about-project')" class="btn-pill" style="background-color:rgba(100, 68, 172, 1)">О ПРОЕКТЕ</a>
-                <a href="https://t.me/DCOTEFILES" target="_blank" class="btn-pill" style="background-color:rgba(48, 88, 200, 1)" rel="noopener noreferrer">ТЕЛЕГРАМ-КАНАЛ</a>
+                <a :href="route('about-project')" class="btn-pill" style="background-color: rgba(100, 68, 172, 1)"
+                    >О ПРОЕКТЕ</a
+                >
+                <a
+                    href="https://t.me/DCOTEFILES"
+                    target="_blank"
+                    class="btn-pill"
+                    style="background-color: rgba(48, 88, 200, 1)"
+                    rel="noopener noreferrer"
+                    >ТЕЛЕГРАМ-КАНАЛ</a
+                >
             </div>
         </div>
-        <img class="hero__image" :src="'/images/index/ayano-sakayanagi.webp'" fetchpriority="high" decoding="async" alt="Арису и Аяно" />
+        <img
+            class="hero__image"
+            :src="'/images/index/ayano-sakayanagi.webp'"
+            fetchpriority="high"
+            decoding="async"
+            alt="Арису и Аяно" />
     </div>
     <div v-else class="hero hero--mobile">
-        <img class="hero__image" :src="'/images/index/ayano-sakayanagi-mobile.webp'" fetchpriority="high" decoding="async" alt="Арису и Аяно" />
+        <img
+            class="hero__image"
+            :src="'/images/index/ayano-sakayanagi-mobile.webp'"
+            fetchpriority="high"
+            decoding="async"
+            alt="Арису и Аяно" />
         <div class="hero__content">
             <div class="stack">
                 <div class="hero__title">
-                    <h1>Фан-сообщество <span style="color: rgb(224, 11, 82);">D</span>COTE</h1>
+                    <h1>Фан-сообщество <span style="color: rgb(224, 11, 82)">D</span>COTE</h1>
                 </div>
-                <ClampedText
-                    class="hero__text"
-                    :text="heroText"
-                    :lines="4">
+                <ClampedText class="hero__text" :text="heroText" :lines="4">
                     <template #button="{ toggle, expanded, id }">
                         <button
                             type="button"
@@ -473,11 +486,17 @@ onBeforeUnmount(() => {
             </div>
             <div class="hero__buttons">
                 <a class="link-pill">ЧИТАТЬ НОВОСТИ</a>
-                <a :href="route('about-project')" class="link-pill" rel="noopener noreferrer" style="background-color: rgba(100, 68, 172, 1)">О ПРОЕКТЕ</a>
+                <a
+                    :href="route('about-project')"
+                    class="link-pill"
+                    rel="noopener noreferrer"
+                    style="background-color: rgba(100, 68, 172, 1)"
+                    >О ПРОЕКТЕ</a
+                >
             </div>
         </div>
     </div>
-    <div class="grid-images" ref="gridImagesRef">
+    <div ref="gridImagesRef" class="grid-images">
         <div class="grid-images__inner">
             <a
                 v-for="(card, index) in gridCards"
@@ -489,11 +508,13 @@ onBeforeUnmount(() => {
                 <div class="grid-image-card__scale">
                     <div class="grid-image-card__wrapper">
                         <picture>
-                            <source media="(max-width: 768px)" :srcset="card.imgMobile" type="image/webp">
-                            <img class="grid-image-card__image" :src="card.img" :alt="card.title">
+                            <source media="(max-width: 768px)" :srcset="card.imgMobile" type="image/webp" />
+                            <img class="grid-image-card__image" :src="card.img" :alt="card.title" />
                         </picture>
                         <div class="grid-image-card__content">
-                            <h3 class="grid-image-card__title"><b>{{ card.title }}</b></h3>
+                            <h3 class="grid-image-card__title">
+                                <b>{{ card.title }}</b>
+                            </h3>
                             <p class="grid-image-card__text">{{ card.text }}</p>
                         </div>
                     </div>
@@ -507,27 +528,28 @@ onBeforeUnmount(() => {
             <div v-if="isMobile" class="tab-selector">
                 <div class="tab-selector__scroll" role="tablist" aria-label="Популярное в DCOTE">
                     <button
-                        v-for="(card,index) in popularCards"
+                        v-for="(card, index) in popularCards"
+                        :id="`popular-tab-${index}`"
                         :key="card.url ?? index"
                         type="button"
                         role="tab"
-                        :id="`popular-tab-${index}`"
                         :class="{ 'tab-selector__tab--active': popularIndex === index }"
                         class="tab-selector__tab"
                         :aria-selected="popularIndex === index"
                         :aria-controls="`popular-panel-${index}`"
-                        @click="showPopularSlideMobile(index, index > popularIndex ? +1 :-1)"
-                    ><b>{{ card.category }}</b> {{ card.title }}</button>
+                        @click="showPopularSlideMobile(index, index > popularIndex ? +1 : -1)">
+                        <b>{{ card.category }}</b> {{ card.title }}
+                    </button>
                 </div>
             </div>
             <div class="popular__pager">
                 <template v-if="!isMobile">
-                        <button
-                            class="popular__btn"
-                            type="button"
-                            @click="showPopularSlide(popularIndex - 1, -1)"
-                            :disabled="popularIndex === 0 || popularCards.length <= 1"
-                            aria-label="Назад">
+                    <button
+                        class="popular__btn"
+                        type="button"
+                        :disabled="popularIndex === 0 || popularCards.length <= 1"
+                        aria-label="Назад"
+                        @click="showPopularSlide(popularIndex - 1, -1)">
                         <svg class="popular__slider-icon" width="30" height="30">
                             <use href="#arrow-left"></use>
                         </svg>
@@ -543,27 +565,43 @@ onBeforeUnmount(() => {
                             :hidden="index !== popularIndex && index !== previousPopularIndex"
                             :aria-hidden="index !== popularIndex">
                             <div class="popular__image">
-                                <img :src="card.image" loading="lazy" decoding="async" :alt="card.alt">
+                                <img :src="card.image" loading="lazy" decoding="async" :alt="card.alt" />
                             </div>
                             <div class="popular__text">
-                                <h3 v-if="!isMobile"><b>{{ card.category }}</b> {{ card.title }}</h3>
-                                    <Collapse :always-open="!isMobile" class="popular__details" ref="popularCollapseRefs">
-                                        <template #trigger>
-                                            <p class="popular__details-title">БАЗОВАЯ ИНФОРМАЦИЯ <svg v-if="isMobile" class="dropdown-icon"><use href="#dropdown" /></svg></p>
+                                <h3 v-if="!isMobile">
+                                    <b>{{ card.category }}</b> {{ card.title }}
+                                </h3>
+                                <Collapse ref="popularCollapseRefs" :always-open="!isMobile" class="popular__details">
+                                    <template #trigger>
+                                        <p class="popular__details-title">
+                                            БАЗОВАЯ ИНФОРМАЦИЯ
+                                            <svg v-if="isMobile" class="dropdown-icon">
+                                                <use href="#dropdown" />
+                                            </svg>
+                                        </p>
+                                    </template>
+                                    <dl class="popular__info">
+                                        <template v-for="item in card.info" :key="item.label">
+                                            <dt class="popular__info-label">{{ item.label }}</dt>
+                                            <dd class="popular__info-value" :class="item.class || ''">
+                                                {{ item.value }}
+                                            </dd>
                                         </template>
-                                        <dl class="popular__info">
-                                            <template v-for="item in card.info" :key="item.label">
-                                                <dt class="popular__info-label">{{ item.label }}</dt>
-                                                <dd class="popular__info-value" :class="item.class || ''">{{ item.value }}</dd>
-                                            </template>
-                                        </dl>
-                                    </Collapse>
-                                    <div class="popular__progress">
-                                        <p><b>{{ card.progress_label }}: {{ card.progress_current }}</b> из {{ card.progress_total }} {{ card.progress_unit }}</p>
-                                        <div class="popular__progress-bar" :style="{ '--progress-width': `${card.progress_percent}%` }"></div>
-                                    </div>
+                                    </dl>
+                                </Collapse>
+                                <div class="popular__progress">
+                                    <p>
+                                        <b>{{ card.progress_label }}: {{ card.progress_current }}</b>
+                                        из {{ card.progress_total }} {{ card.progress_unit }}
+                                    </p>
+                                    <div
+                                        class="popular__progress-bar"
+                                        :style="{
+                                            '--progress-width': `${card.progress_percent}%`,
+                                        }"></div>
+                                </div>
                                 <a :href="card.url" class="link-pill" rel="noopener noreferrer">
-                                    {{card.button_label }}
+                                    {{ card.button_label }}
                                 </a>
                             </div>
                         </div>
@@ -573,12 +611,12 @@ onBeforeUnmount(() => {
                     </div>
                 </div>
                 <template v-if="!isMobile">
-                        <button
-                            class="popular__btn"
-                            type="button"
-                            @click="showPopularSlide(popularIndex + 1, 1)"
-                            :disabled="popularIndex === popularCards.length - 1 || popularCards.length <= 1"
-                            aria-label="Вперёд">
+                    <button
+                        class="popular__btn"
+                        type="button"
+                        :disabled="popularIndex === popularCards.length - 1 || popularCards.length <= 1"
+                        aria-label="Вперёд"
+                        @click="showPopularSlide(popularIndex + 1, 1)">
                         <svg class="popular__slider-icon" width="30" height="30">
                             <use href="#arrow-right"></use>
                         </svg>
@@ -591,11 +629,7 @@ onBeforeUnmount(() => {
                 <h1>ОБНОВЛЕНИЯ</h1>
             </div>
             <div class="updates__viewport">
-                <div
-                    ref="updatesNews"
-                    class="updates__news"
-                    @scroll.passive="updateUpdatesScrollState"
-                >
+                <div ref="updatesNews" class="updates__news" @scroll.passive="updateUpdatesScrollState">
                     <div v-for="(update, index) in feed" :key="update.id" class="updates__item">
                         <h3 class="updates__date" :class="{ 'updates__date--hot': index === 0 }">
                             {{ index === 0 ? 'НОВОЕ' : formatDate(update.created_at) }}
@@ -622,11 +656,10 @@ onBeforeUnmount(() => {
                 <button
                     class="top-classes__spoiler-toggle btn-pill-outline"
                     :class="{ 'top-classes__spoiler-toggle--true': showSpoilers }"
-                    style="border-color:rgba(68, 44, 97, 1); background-color:rgba(36, 24, 50, 1)"
+                    style="border-color: rgba(68, 44, 97, 1); background-color: rgba(36, 24, 50, 1)"
                     type="button"
                     :aria-pressed="showSpoilers"
-                    @click="toggleSpoilers"
-                >
+                    @click="toggleSpoilers">
                     <span>БЕЗ СПОЙЛЕРОВ</span>
                     <span>СО СПОЙЛЕРАМИ</span>
                 </button>
@@ -642,61 +675,81 @@ onBeforeUnmount(() => {
                     'is-rating-visible': ratingVisible,
                     'top-classes__rating--intro-complete': ratingIntroComplete,
                 }">
-                <div v-for="(card, index) in ratingCards" :key="card.slot" class="top-classes__class" :data-rating-key="card.classSchool.leader">
-                    <img class="top-classes__class-image" :src="card.classSchool.leader_img" loading="lazy" decoding="async" :alt="card.classSchool.leader">
+                <div
+                    v-for="(card, index) in ratingCards"
+                    :key="card.slot"
+                    class="top-classes__class"
+                    :data-rating-key="card.classSchool.leader">
+                    <img
+                        class="top-classes__class-image"
+                        :src="card.classSchool.leader_img"
+                        loading="lazy"
+                        decoding="async"
+                        :alt="card.classSchool.leader" />
                     <div class="top-classes__class-info">
                         <div class="top-classes__class-text">
-                            <h3>Класс {{ card.classSchool.letter}}</h3>
-                            <p>{{ card.classSchool.leader}}</p>
+                            <h3>Класс {{ card.classSchool.letter }}</h3>
+                            <p>{{ card.classSchool.leader }}</p>
                         </div>
-                        <div class="top-classes__class-points"
+                        <div
+                            class="top-classes__class-points"
                             :style="{
                                 '--points-width': `${card.classSchool.percent}%`,
                                 '--rating-index': index,
-                                background: card.classSchool.color}">
-                            <p><b>{{card.classSchool.class_points }}</b> очков</p>
+                                background: card.classSchool.color,
+                            }">
+                            <p>
+                                <b>{{ card.classSchool.class_points }}</b> очков
+                            </p>
                         </div>
                     </div>
                 </div>
             </TransitionGroup>
-            <div class="full-stat"><button disabled class="btn-pill">ПОЛНАЯ СТАТИСТИКА</button></div>
+            <div class="full-stat">
+                <button disabled class="btn-pill">ПОЛНАЯ СТАТИСТИКА</button>
+            </div>
         </div>
         <div class="top-users">
             <div class="top-users__title">
                 <h1>РЕЙТИНГ ПОЛЬЗОВАТЕЛЕЙ</h1>
             </div>
             <div class="top-users__table">
-                <table style="height: 100%;">
+                <table style="height: 100%">
                     <thead>
                         <tr>
-                            <th class="top-users__head-rank" style="width:10%;">
+                            <th class="top-users__head-rank" style="width: 10%">
                                 <p>Ранг</p>
                             </th>
-                            <th class="top-users__head-avatar" style="width:8%;"></th>
-                            <th class="top-users__head-nickname" style="width:32%;">
+                            <th class="top-users__head-avatar" style="width: 8%"></th>
+                            <th class="top-users__head-nickname" style="width: 32%">
                                 <p>Пользователь</p>
                             </th>
-                            <th class="top-users__head-status" style="width:35%;">
+                            <th class="top-users__head-status" style="width: 35%">
                                 <p>Статус</p>
                             </th>
-                            <th class="top-users__head-rating" style="width:14%;">
+                            <th class="top-users__head-rating" style="width: 14%">
                                 <p>Рейтинг</p>
                             </th>
                         </tr>
                     </thead>
-                    <tbody style="height: 100%;">
+                    <tbody style="height: 100%">
                         <tr v-for="user in topUsers" :key="user.rank">
-                            <td class="top-users__rank"><svg class="top-users__chess-icon" :style="{ color: user.color }">
+                            <td class="top-users__rank">
+                                <svg class="top-users__chess-icon" :style="{ color: user.color }">
                                     <use :href="`#${user.icon}`"></use>
                                 </svg>
-                                <p><b>{{ user.rank }}</b></p>
+                                <p>
+                                    <b>{{ user.rank }}</b>
+                                </p>
                             </td>
-                            <td><img class="top-users__avatar" :src="'/images/user-avatar.webp'" alt=""></td>
+                            <td>
+                                <img class="top-users__avatar" :src="'/images/user-avatar.webp'" alt="" />
+                            </td>
                             <td class="top-users__nickname" data-status="-">
                                 <p>-</p>
                             </td>
                             <td class="top-users__status">
-                                <p style="color: white;">-</p>
+                                <p style="color: white">-</p>
                             </td>
                             <td class="top-users__rating">
                                 <p>{{ user.rating }}</p>
@@ -712,110 +765,147 @@ onBeforeUnmount(() => {
         <div class="description">
             <div class="description__image">
                 <picture>
-                    <source media="(max-width: 768px)" :srcset="'/images/index/na-divane-mobile.webp'" type="image/webp">
-                    <img :src="'/images/index/na-divane.webp'" alt="На диване">
+                    <source
+                        media="(max-width: 768px)"
+                        :srcset="'/images/index/na-divane-mobile.webp'"
+                        type="image/webp" />
+                    <img :src="'/images/index/na-divane.webp'" alt="На диване" />
                 </picture>
             </div>
             <div class="description__body">
                 <div class="description__content">
                     <h1 class="description__title">ОПИСАНИЕ НОВЕЛЛЫ</h1>
                     <p>
-                        Добро пожаловать в класс превосходства — это напряжённая школьная драма
-                        с элементами психологического триллера, действие которой разворачивается
-                        в престижной государственной школе Кодо Икусэй, известной идеальными условиями
-                        и почти гарантированным будущим успехом для выпускников. Однако за внешним
-                        совершенством скрывается жестокая система ранжирования, где учащиеся получают
-                        всё — от привилегий до денежных баллов — строго по заслугам и результатам конкуренции.
-                        <br><br>
-                        Главный герой, таинственный и замкнутый Аянокоджи Киётака, по воле обстоятельств
-                        оказывается в худшем классе D, куда отправляют «дефективных» учеников школы.
-                        Несмотря на намерение оставаться в тени, он постепенно оказывается втянут в
-                        сложную игру интриг, стратегий и скрытых конфликтов между учениками школы.
+                        Добро пожаловать в класс превосходства — это напряжённая школьная драма с элементами
+                        психологического триллера, действие которой разворачивается в престижной государственной школе
+                        Кодо Икусэй, известной идеальными условиями и почти гарантированным будущим успехом для
+                        выпускников. Однако за внешним совершенством скрывается жестокая система ранжирования, где
+                        учащиеся получают всё — от привилегий до денежных баллов — строго по заслугам и результатам
+                        конкуренции.
+                        <br /><br />
+                        Главный герой, таинственный и замкнутый Аянокоджи Киётака, по воле обстоятельств оказывается в
+                        худшем классе D, куда отправляют «дефективных» учеников школы. Несмотря на намерение оставаться
+                        в тени, он постепенно оказывается втянут в сложную игру интриг, стратегий и скрытых конфликтов
+                        между учениками школы.
                     </p>
                 </div>
-                <div class="description__action"><a class="link-pill disabled" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a></div>
+                <div class="description__action">
+                    <a class="link-pill disabled" rel="noopener noreferrer">БОЛЬШЕ ИНФОРМАЦИИ</a>
+                </div>
             </div>
         </div>
         <div class="description">
             <div class="description__image">
                 <picture>
-                    <source media="(max-width: 768px)" :srcset="'/images/index/shkola-mobile.webp'" type="image/webp">
-                    <img :src="'/images/index/shkola.webp'" alt="Школа">
+                    <source media="(max-width: 768px)" :srcset="'/images/index/shkola-mobile.webp'" type="image/webp" />
+                    <img :src="'/images/index/shkola.webp'" alt="Школа" />
                 </picture>
             </div>
             <div class="description__body">
                 <div class="description__content">
                     <h1 class="description__title">ОСНОВНОЙ СЕТТИНГ</h1>
                     <p>
-                        Токийское государственное учебное учреждение, созданное японским правительством
-                        для воспитания молодых выпускников, которые в будущем будут поддерживать различные
-                        профессиональные отрасли страны, что подкрепляется особыми методами обучения.
-                        За счёт своей репутации, школа может похвастаться своим практически сто процентным уровнем
-                        занятости и возможным поступлением в престижный колледж или университет. Сам кампус располагается на отдельном,
-                        искусственно сконструированном острове, площадь которого составляет около шестиста тысяч квадратных метров.
-                        <br><br>
-                        Примечательно, что председателем совета директоров данного учебного заведения является Сакаянаги Нарумори — отец Сакаянаги Арису.
+                        Токийское государственное учебное учреждение, созданное японским правительством для воспитания
+                        молодых выпускников, которые в будущем будут поддерживать различные профессиональные отрасли
+                        страны, что подкрепляется особыми методами обучения. За счёт своей репутации, школа может
+                        похвастаться своим практически сто процентным уровнем занятости и возможным поступлением в
+                        престижный колледж или университет. Сам кампус располагается на отдельном, искусственно
+                        сконструированном острове, площадь которого составляет около шестиста тысяч квадратных метров.
+                        <br /><br />
+                        Примечательно, что председателем совета директоров данного учебного заведения является Сакаянаги
+                        Нарумори — отец Сакаянаги Арису.
                     </p>
                 </div>
-                <div class="description__action"><a class="btn-pill" :href="route('about-school')" rel="noopener noreferrer">ПОДРОБНАЯ ИНФОРМАЦИЯ</a></div>
+                <div class="description__action">
+                    <a class="btn-pill" :href="route('about-school')" rel="noopener noreferrer">ПОДРОБНАЯ ИНФОРМАЦИЯ</a>
+                </div>
             </div>
         </div>
     </div>
     <div class="island">
         <div class="island__text">
             <h1 class="island__title">ВТОРИЧНЫЙ СЕТТИНГ</h1>
-            <p>Необитаемый остров, что юридически принадлежит школе и периодически используется руководством для проведения
-                специальных экзаменов.<br><br>
+            <p>
+                Необитаемый остров, что юридически принадлежит школе и периодически используется руководством для
+                проведения специальных экзаменов.<br /><br />
                 Проведение таких экзаменов по традиции выпадает на начало нового года и знаменует собой всю серьёзность
-                выстроенной правительством школьной системой - выживание в диких условиях, работа в команде, противостояние группам оппонентов.
-                <br><br>Сам остров делится на специальные сектора, что предназначены для реального использования на специфичных по
-                правилам экзаменах.<br><br>Путешествия на остров происходят каждый год, что позволяет
+                выстроенной правительством школьной системой - выживание в диких условиях, работа в команде,
+                противостояние группам оппонентов.
+                <br /><br />Сам остров делится на специальные сектора, что предназначены для реального использования на
+                специфичных по правилам экзаменах.<br /><br />Путешествия на остров происходят каждый год, что позволяет
                 выработать у учеников некую адаптацию к подобным условиям.
             </p>
         </div>
         <div class="island__image">
             <picture>
-                <source media="(max-width: 768px)" :srcset="'/images/index/остров-mobile.webp'" type="image/webp">
-                <img :src="'/images/index/остров.webp'" loading="lazy" decoding="async" alt="Крутой остров фото скачать" />
+                <source media="(max-width: 768px)" :srcset="'/images/index/остров-mobile.webp'" type="image/webp" />
+                <img
+                    :src="'/images/index/остров.webp'"
+                    loading="lazy"
+                    decoding="async"
+                    alt="Крутой остров фото скачать" />
             </picture>
         </div>
     </div>
     <div class="tg-banner">
-        <h1 class="tg-banner__title" style="text-align: center;">МЫ В TELEGRAM</h1>
+        <h1 class="tg-banner__title" style="text-align: center">МЫ В TELEGRAM</h1>
         <div v-if="isMobile" class="tab-selector">
             <div class="tab-selector__scroll" role="tablist" aria-label="Наши Telegram-каналы">
                 <button
                     v-for="badge in tgBadges"
+                    :id="`tg-tab-${badge.id}`"
                     :key="badge.id"
                     type="button"
                     role="tab"
-                    :id="`tg-tab-${badge.id}`"
                     :class="{ 'tab-selector__tab--active': activeTgTab === badge.id }"
                     class="tab-selector__tab"
                     :aria-selected="activeTgTab === badge.id"
                     :aria-controls="`tg-panel-${badge.id}`"
-                    @click="activeTgTab = badge.id"
-                >{{ badge.tabTitle }}</button>
+                    @click="activeTgTab = badge.id">
+                    {{ badge.tabTitle }}
+                </button>
             </div>
         </div>
         <div class="tg-banner__badges">
             <div
                 v-for="badge in tgBadges"
-                :key="badge.id"
                 v-show="!isMobile || badge.id === activeTgTab"
-                class="tg-banner__badge"
                 :id="isMobile ? `tg-panel-${badge.id}` : null"
+                :key="badge.id"
+                class="tg-banner__badge"
                 :role="isMobile ? 'tabpanel' : null"
                 :aria-labelledby="isMobile ? `tg-tab-${badge.id}` : null">
                 <h2 class="tg-banner__badge-title">{{ badge.title }}</h2>
                 <div class="tg-banner__row">
                     <div class="tg-banner__source">
-                        <img class="tg-banner__avatar" :src="badge.avatarChannel" :alt="`Аватар канала «${badge.title}»`" decoding="async">
-                        <a :href="badge.channel" style="background-color: rgba(48, 88, 200, 1);" class="link-pill tg-banner__link" target="_blank" rel="noopener noreferrer">КАНАЛ</a>
+                        <img
+                            class="tg-banner__avatar"
+                            :src="badge.avatarChannel"
+                            :alt="`Аватар канала «${badge.title}»`"
+                            decoding="async" />
+                        <a
+                            :href="badge.channel"
+                            style="background-color: rgba(48, 88, 200, 1)"
+                            class="link-pill tg-banner__link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >КАНАЛ</a
+                        >
                     </div>
                     <div class="tg-banner__source">
-                        <img class="tg-banner__avatar" :src="badge.avatarChat" :alt="`Аватар беседы «${badge.title}»`" decoding="async">
-                        <a :href="badge.chat" style="border-color: rgba(48, 88, 200, 1);" class="link-pill-outline tg-banner__link" target="_blank" rel="noopener noreferrer">БЕСЕДА</a>
+                        <img
+                            class="tg-banner__avatar"
+                            :src="badge.avatarChat"
+                            :alt="`Аватар беседы «${badge.title}»`"
+                            decoding="async" />
+                        <a
+                            :href="badge.chat"
+                            style="border-color: rgba(48, 88, 200, 1)"
+                            class="link-pill-outline tg-banner__link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >БЕСЕДА</a
+                        >
                     </div>
                 </div>
                 <p class="tg-banner__badge-text">{{ badge.text }}</p>

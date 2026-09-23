@@ -4,7 +4,7 @@
     flex-direction: column;
     gap: calc(var(--fs-gap10) * 3);
     margin-top: var(--fs-gap20);
-    width: min( 100%, 1540px);
+    width: min(100%, 1540px);
 }
 
 .comments__header {
@@ -12,8 +12,8 @@
     display: grid;
     gap: var(--fs-gap10);
     grid-template-areas:
-     "sort title rules"
-     "counter counter counter";
+        'sort title rules'
+        'counter counter counter';
     grid-template-columns: auto minmax(0, 1fr) auto;
 }
 
@@ -32,22 +32,21 @@
     grid-area: sort;
 }
 
-.comments_comment-counter{
+.comments_comment-counter {
     display: flex;
     grid-area: counter;
     align-items: center;
     justify-content: center;
-    gap:var(--fs-gap10);
+    gap: var(--fs-gap10);
 }
 
-.comments_comment-counter-icon{
-    width: calc( var(--fs-gap10) * 2.4)
+.comments_comment-counter-icon {
+    width: calc(var(--fs-gap10) * 2.4);
 }
 
-.comments_comment-counter-label{
+.comments_comment-counter-label {
     font-weight: 700;
 }
-
 
 .comments__sort-toggle {
     align-items: center;
@@ -179,10 +178,6 @@
     width: clamp(1px, 1.3vw, 20px);
 }
 
-
-
-
-
 .comment-input__actions {
     display: flex;
     gap: var(--fs-gap20);
@@ -224,7 +219,7 @@
 
 @media (hover: hover) and (pointer: fine) {
     .comment-input__overlay a:hover p {
-        color: #DF0E53;
+        color: #df0e53;
     }
 }
 
@@ -348,7 +343,7 @@
     padding-inline: calc(var(--fs-gap10) / 2);
 }
 
-.comment__rating-value{
+.comment__rating-value {
     min-width: 2ch;
     display: flex;
     justify-content: center;
@@ -435,7 +430,7 @@
 
 .comment__spoiler.is-open {
     margin-inline: 0.1ch;
-    background-color:rgba(223, 14, 83, 0.2);
+    background-color: rgba(223, 14, 83, 0.2);
     box-shadow: 0px 0px 0px 0.2ch rgba(223, 14, 83, 0.2);
     border-radius: calc(var(--fs-gap10) / 5);
 }
@@ -539,7 +534,7 @@
 }
 
 .comment__more-actions-dd {
-    background: #1D162E;
+    background: #1d162e;
     border: var(--border2px) solid rgba(51, 38, 66, 1);
     border-radius: var(--fs-border-radius);
     display: flex;
@@ -567,9 +562,9 @@
 @media (max-width: 768px) {
     .comments__header {
         grid-template-areas:
-            "title title"
-            "counter counter"
-            "sort  rules";
+            'title title'
+            'counter counter'
+            'sort  rules';
         grid-template-columns: 1fr auto;
         column-gap: var(--fs-gap20);
     }

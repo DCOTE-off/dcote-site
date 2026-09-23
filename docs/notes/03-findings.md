@@ -4,6 +4,7 @@
 подтверждено и что ещё надо проверить руками.
 
 Приоритеты:
+
 - **P0** — ломается у живых юзеров прямо сейчас
 - **P1** — скрытая порча данных или безопасность
 - **P2** — упрётся при росте
@@ -118,9 +119,9 @@ Redis решает оба вопроса и стоит один сервис в 
 
 ```yaml
 redis:
-  image: redis:7-alpine
-  restart: unless-stopped
-  networks: [app]
+    image: redis:7-alpine
+    restart: unless-stopped
+    networks: [app]
 ```
 
 ```env

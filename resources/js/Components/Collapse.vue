@@ -28,7 +28,7 @@ function toggle() {
     isOpen.value = !isOpen.value;
 }
 
-defineExpose({ open, close, toggle, isOpen: () => isOpen.value  });
+defineExpose({ open, close, toggle, isOpen: () => isOpen.value });
 </script>
 
 <template>
@@ -47,7 +47,7 @@ defineExpose({ open, close, toggle, isOpen: () => isOpen.value  });
             <slot name="trigger" />
         </template>
         <div class="collapse__wrapper" :class="{ 'is-open': alwaysOpen || isOpen }">
-            <div class="collapse__content" :id="contentId">
+            <div :id="contentId" class="collapse__content">
                 <slot />
             </div>
         </div>

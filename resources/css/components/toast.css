@@ -30,14 +30,14 @@
 }
 
 .toast--success {
-    background: #2B5D3D;
-    border: var(--border2px) solid #56CC64;
+    background: #2b5d3d;
+    border: var(--border2px) solid #56cc64;
     box-shadow: 0 0 var(--fs-gap20) rgba(86, 204, 100, 0.5);
     color: white;
 }
 
 .toast--error {
-    background: #4D1132;
+    background: #4d1132;
     border: var(--border2px) solid #921545;
     box-shadow: 0 0 var(--fs-gap20) #921545;
     color: white;
@@ -51,7 +51,9 @@
 
 .toast-enter-active,
 .toast-leave-active {
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
 }
 
 @media (max-width: 768px) {

@@ -25,9 +25,6 @@ const props = defineProps({
     commentLabel: String,
 });
 
-
-
-
 const comments = ref([]);
 const totalComments = ref(0);
 const nextCursor = ref(null);
@@ -91,11 +88,15 @@ async function submitComment() {
 
     submitting.value = true;
     try {
-        const { data } = await axios.post('/api/comments', {
-            commentable_type: props.commentableType,
-            commentable_id: props.commentableId,
-            content,
-        }, { headers: csrfHeaders() });
+        const { data } = await axios.post(
+            '/api/comments',
+            {
+                commentable_type: props.commentableType,
+                commentable_id: props.commentableId,
+                content,
+            },
+            { headers: csrfHeaders() },
+        );
 
         comments.value.unshift(normalizeComment(data.comment));
         totalComments.value = Number(data.total ?? totalComments.value);
@@ -114,12 +115,16 @@ async function submitReply() {
 
     submitting.value = true;
     try {
-        const { data } = await axios.post('/api/comments', {
-            commentable_type: props.commentableType,
-            commentable_id: props.commentableId,
-            parent_id: target.id,
-            content,
-        }, { headers: csrfHeaders() });
+        const { data } = await axios.post(
+            '/api/comments',
+            {
+                commentable_type: props.commentableType,
+                commentable_id: props.commentableId,
+                parent_id: target.id,
+                content,
+            },
+            { headers: csrfHeaders() },
+        );
 
         target.replies.push(normalizeComment(data.comment));
         totalComments.value = Number(data.total ?? totalComments.value);
@@ -134,11 +139,7 @@ async function submitReply() {
 
 async function voteComment({ comment, vote }) {
     try {
-        const { data } = await axios.post(
-            `/api/comments/${comment.id}/reaction`,
-            { vote },
-            { headers: csrfHeaders() },
-        );
+        const { data } = await axios.post(`/api/comments/${comment.id}/reaction`, { vote }, { headers: csrfHeaders() });
 
         comment.rating = data.rating;
         comment.userVote = data.user_vote;
@@ -185,10 +186,9 @@ async function removeComment(comment) {
     if (!window.confirm('Удалить комментарий?')) return;
 
     try {
-        const { data } = await axios.delete(
-            `/api/comments/${comment.id}`,
-            { headers: csrfHeaders() },
-        );
+        const { data } = await axios.delete(`/api/comments/${comment.id}`, {
+            headers: csrfHeaders(),
+        });
 
         removeFromTree(comments.value, comment.id);
 
@@ -219,9 +219,7 @@ function formatCommentDate(iso) {
     const date = new Date(iso);
     if (Number.isNaN(date.getTime())) return '';
 
-    const parts = Object.fromEntries(
-        commentDateFormatter.formatToParts(date).map((part) => [part.type, part.value]),
-    );
+    const parts = Object.fromEntries(commentDateFormatter.formatToParts(date).map((part) => [part.type, part.value]));
 
     return `${parts.day}.${parts.month}.${parts.year}; ${parts.hour}:${parts.minute}`;
 }
@@ -291,8 +289,6 @@ function selectSort(criterion) {
 }
 
 onMounted(loadComms);
-
-
 </script>
 
 <template>
@@ -302,7 +298,7 @@ onMounted(loadComms);
                 <button
                     type="button"
                     class="filter-toggle comments__sort-toggle link-pill-outline"
-                    style="border-color: rgba(146, 21, 69, 1);"
+                    style="border-color: rgba(146, 21, 69, 1)"
                     :aria-expanded="sortOpen"
                     aria-haspopup="listbox"
                     aria-controls="comments-sort-menu"
@@ -312,7 +308,11 @@ onMounted(loadComms);
                         <use href="#dropdown" />
                     </svg>
                 </button>
-                <div class="list-filter-menu" id="comments-sort-menu" role="listbox" aria-label="Критерий сортировки комментариев">
+                <div
+                    id="comments-sort-menu"
+                    class="list-filter-menu"
+                    role="listbox"
+                    aria-label="Критерий сортировки комментариев">
                     <button
                         type="button"
                         class="list-filter-option"
@@ -332,7 +332,9 @@ onMounted(loadComms);
                         role="option"
                         :aria-selected="sortCriterion === 'rating'"
                         @click="selectSort('rating')">
-                        <svg class="list-filter-option-icon list-filter-option-icon--comments-rating" aria-hidden="true">
+                        <svg
+                            class="list-filter-option-icon list-filter-option-icon--comments-rating"
+                            aria-hidden="true">
                             <use href="#star" />
                         </svg>
                         <span>По оценкам</span>
@@ -340,21 +342,33 @@ onMounted(loadComms);
                 </div>
             </div>
             <h1 class="comments__title">КОММЕНТАРИИ {{ commentLabel }}</h1>
-            <Link class="comments__rules link-pill-outline" style="border-color: rgba(146, 21, 69, 1);" :href="route('rules')">ПРАВИЛА САЙТА</Link>
-            <div class="comments_comment-counter"><img :src="'/svgs/message1.svg'" class="comments_comment-counter-icon" alt="comments-icon">
+            <Link
+                class="comments__rules link-pill-outline"
+                style="border-color: rgba(146, 21, 69, 1)"
+                :href="route('rules')"
+                >ПРАВИЛА САЙТА</Link
+            >
+            <div class="comments_comment-counter">
+                <img :src="'/svgs/message1.svg'" class="comments_comment-counter-icon" alt="comments-icon" />
                 <span class="comments_comment-counter-label">{{ totalComments }}</span>
             </div>
         </div>
 
-        <CommentInput
-            v-model="topDraft"
-            @submit="submitComment"
-            @cancel="cancelComment" />
+        <CommentInput v-model="topDraft" @submit="submitComment" @cancel="cancelComment" />
 
         <div class="comments__list">
-            <p v-if="loading && comments.length === 0" class="comments__status" style="margin-inline: auto;">Загрузка…</p>
-            <p v-else-if="loadFailed && comments.length === 0" class="comments__status comments__status--error" style="margin-inline: auto;">Не удалось загрузить комментарии</p>
-            <h2 v-else-if="comments.length === 0" class="comments__status" style="margin-inline: auto;">Комментариев пока нет</h2>
+            <p v-if="loading && comments.length === 0" class="comments__status" style="margin-inline: auto">
+                Загрузка…
+            </p>
+            <p
+                v-else-if="loadFailed && comments.length === 0"
+                class="comments__status comments__status--error"
+                style="margin-inline: auto">
+                Не удалось загрузить комментарии
+            </p>
+            <h2 v-else-if="comments.length === 0" class="comments__status" style="margin-inline: auto">
+                Комментариев пока нет
+            </h2>
 
             <CommentItem
                 v-for="comment in comments"

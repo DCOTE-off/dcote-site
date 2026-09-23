@@ -53,16 +53,11 @@ watch(
 </script>
 
 <template>
-    <SiteHeader
-        :open-menu="openMenu"
-        @toggle-menu="toggleMenu"
-    />
+    <SiteHeader :open-menu="openMenu" @toggle-menu="toggleMenu" />
     <main>
         <slot />
     </main>
-    <SiteFooter
-        @toggle-menu="toggleMenu"
-    />
+    <SiteFooter @toggle-menu="toggleMenu" />
 
     <ToastContainer />
 </template>

@@ -50,11 +50,11 @@
 }
 
 .year-card__status-text--completed {
-    color: #56CC64;
+    color: #56cc64;
 }
 
 .year-card__status-text--ongoing {
-    color: #FFB147;
+    color: #ffb147;
 }
 
 .year-card__status-icon {
@@ -108,8 +108,8 @@
     text-align: center;
 }
 
-.info-block__label:nth-last-child(-n+2),
-.info-block__value:nth-last-child(-n+2) {
+.info-block__label:nth-last-child(-n + 2),
+.info-block__value:nth-last-child(-n + 2) {
     border-bottom: none;
 }
 

@@ -38,7 +38,9 @@
     object-fit: contain;
     transform: scale(0.85);
     opacity: 0.4;
-    transition: transform 300ms ease, opacity 300ms ease;
+    transition:
+        transform 300ms ease,
+        opacity 300ms ease;
     border-radius: var(--fs-border-radius);
     cursor: pointer;
 }

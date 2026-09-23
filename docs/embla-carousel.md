@@ -1,7 +1,7 @@
 # Embla Carousel (v8) — "Select" Carousel Pattern
 
 Use EmblaCarousel when a list of cards must be a carousel on mobile while staying a
-plain grid on desktop, and the intended UX is *selection* rather than a swipe gallery:
+plain grid on desktop, and the intended UX is _selection_ rather than a swipe gallery:
 
 - the **active** (centered) slide is a normal link — clicking it navigates;
 - **neighbors** are not links in practice — clicking one scrolls exactly one step
@@ -18,10 +18,14 @@ Embla v8 needs this exact shape. The viewport is whatever node you pass to
 in `embla-carousel.esm.js`: `container = root.children[0]`).
 
 ```html
-<div class="grid-images" ref="gridImagesRef">   <!-- viewport: overflow hidden -->
-    <div class="grid-images__inner">             <!-- container: display flex -->
-        <a class="grid-image-card">              <!-- slide: direct child -->
-            <div class="grid-image-scale">       <!-- visual scale lives here -->
+<div class="grid-images" ref="gridImagesRef">
+    <!-- viewport: overflow hidden -->
+    <div class="grid-images__inner">
+        <!-- container: display flex -->
+        <a class="grid-image-card">
+            <!-- slide: direct child -->
+            <div class="grid-image-scale">
+                <!-- visual scale lives here -->
                 <div class="wrapper">…</div>
             </div>
         </a>
@@ -61,7 +65,9 @@ watch(isMobile, (mobile) => {
     else destroyGridCarousel();
 });
 
-onMounted(() => { if (isMobile.value) initGridCarousel(); });
+onMounted(() => {
+    if (isMobile.value) initGridCarousel();
+});
 onBeforeUnmount(destroyGridCarousel);
 ```
 
@@ -74,8 +80,11 @@ Direction is decided by comparing the clicked slide's center to the viewport cen
 
 ```js
 function onSlideClick(index, event) {
-    if (gridCarouselSettling) { event.preventDefault(); return; }
-    if (index === activeGridIndex.value) return;            // active → navigate
+    if (gridCarouselSettling) {
+        event.preventDefault();
+        return;
+    }
+    if (index === activeGridIndex.value) return; // active → navigate
 
     event.preventDefault();
     if (!gridCarousel) return;
@@ -86,7 +95,7 @@ function onSlideClick(index, event) {
 
     if (goingNext ? !gridCarousel.canScrollNext() : !gridCarousel.canScrollPrev()) return;
     goingNext ? gridCarousel.scrollNext() : gridCarousel.scrollPrev();
-    gridCarouselSettling = true;                             // released on 'settle'
+    gridCarouselSettling = true; // released on 'settle'
 }
 ```
 
@@ -103,10 +112,10 @@ const TAIL_THRESHOLD_PX = 0.5;
 
 gridCarousel.on('scroll', () => {
     const engine = gridCarousel.internalEngine();
-    if (engine.dragHandler.pointerDown()) return;          // never kill an active drag
+    if (engine.dragHandler.pointerDown()) return; // never kill an active drag
     const remaining = Math.abs(engine.target.get() - engine.location.get());
     if (remaining < TAIL_THRESHOLD_PX) {
-        gridCarousel.scrollTo(engine.index.get(), true);   // jump = duration 0
+        gridCarousel.scrollTo(engine.index.get(), true); // jump = duration 0
     }
 });
 ```

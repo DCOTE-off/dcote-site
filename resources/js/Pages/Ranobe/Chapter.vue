@@ -97,10 +97,13 @@ function setNavVisible(visible) {
 
 function saveProgress() {
     try {
-        window.localStorage.setItem(PROGRESS_KEY, JSON.stringify({
-            pathname: window.location.pathname,
-            scrollY: window.scrollY,
-        }));
+        window.localStorage.setItem(
+            PROGRESS_KEY,
+            JSON.stringify({
+                pathname: window.location.pathname,
+                scrollY: window.scrollY,
+            }),
+        );
     } catch {
         // Сохранение позиции необязательно.
     }
@@ -117,11 +120,7 @@ function restoreProgress() {
         const progress = JSON.parse(raw);
         const scrollY = Number.parseInt(progress?.scrollY, 10);
 
-        if (
-            progress?.pathname === window.location.pathname
-            && Number.isFinite(scrollY)
-            && scrollY > 0
-        ) {
+        if (progress?.pathname === window.location.pathname && Number.isFinite(scrollY) && scrollY > 0) {
             window.scrollTo(0, scrollY);
         }
     } catch {
@@ -190,14 +189,14 @@ watch(() => page.url, syncPageState);
 
     <div class="chapter-container">
         <h3 v-show="settings.title" class="main-title">
-            <strong>{{ titleLabel }}</strong>{{ title ? ' ' + title : '' }}
+            <strong>{{ titleLabel }}</strong
+            >{{ title ? ' ' + title : '' }}
         </h3>
         <article
             class="chapter-content"
             :class="{ 'hide-images': !settings.images }"
             @click="onContentClick"
-            v-html="contentHtml">
-        </article>
+            v-html="contentHtml"></article>
         <ReaderSettings :settings="settings" :open="settingsOpen" />
         <div class="read-nav desktop">
             <button type="button" class="read-item">
@@ -216,7 +215,9 @@ watch(() => page.url, syncPageState);
                 class="read-item"
                 :class="{ disabled: !prevLink }"
                 :href="prevLink || undefined">
-                <svg v-if="prevLink" class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left" /></svg>
+                <svg v-if="prevLink" class="arrow" viewBox="0 0 12 8">
+                    <use href="#mini-arrow-left" />
+                </svg>
             </component>
             <div class="center-items">
                 <Link class="read-item" :href="route('ranobe.volume', { year, volume })">
@@ -234,7 +235,9 @@ watch(() => page.url, syncPageState);
                 class="read-item"
                 :class="{ disabled: !nextLink }"
                 :href="nextLink || undefined">
-                <svg v-if="nextLink" class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right" /></svg>
+                <svg v-if="nextLink" class="arrow" viewBox="0 0 12 8">
+                    <use href="#mini-arrow-right" />
+                </svg>
             </component>
         </div>
     </div>
@@ -247,7 +250,12 @@ watch(() => page.url, syncPageState);
             :href="prevLink || undefined">
             ПРЕДЫДУЩАЯ ГЛАВА
         </component>
-        <Link class="link-pill-outline" style="border-color: rgba(146, 21, 69, 1);" :href="route('ranobe.volume', { year, volume })">ВСЕ ГЛАВЫ</Link>
+        <Link
+            class="link-pill-outline"
+            style="border-color: rgba(146, 21, 69, 1)"
+            :href="route('ranobe.volume', { year, volume })"
+            >ВСЕ ГЛАВЫ</Link
+        >
         <component
             :is="nextLink ? Link : 'a'"
             class="link-pill next-episode-btn"
@@ -262,7 +270,9 @@ watch(() => page.url, syncPageState);
             class="chapter-control-item"
             :class="{ disabled: !prevLink }"
             :href="prevLink || undefined">
-            <svg v-if="prevLink" class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-left" /></svg>
+            <svg v-if="prevLink" class="arrow" viewBox="0 0 12 8">
+                <use href="#mini-arrow-left" />
+            </svg>
         </component>
         <Link class="chapter-control-item" :href="route('ranobe.volume', { year, volume })">
             <svg class="nav-icon" viewBox="0 0 17 15"><use href="#list-details" /></svg>
@@ -272,12 +282,10 @@ watch(() => page.url, syncPageState);
             class="chapter-control-item"
             :class="{ disabled: !nextLink }"
             :href="nextLink || undefined">
-            <svg v-if="nextLink" class="arrow" viewBox="0 0 12 8"><use href="#mini-arrow-right" /></svg>
+            <svg v-if="nextLink" class="arrow" viewBox="0 0 12 8">
+                <use href="#mini-arrow-right" />
+            </svg>
         </component>
     </div>
-    <Comments
-        :comment-label="`К ${chapter } ГЛАВЕ`"
-        commentable-type="ranobe_chapter"
-        :commentable-id="chapterId"
-     />
+    <Comments :comment-label="`К ${chapter} ГЛАВЕ`" commentable-type="ranobe_chapter" :commentable-id="chapterId" />
 </template>

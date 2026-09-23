@@ -61,8 +61,7 @@
     scale: 1.05;
 }
 
-
-@media (max-width:768px) {
+@media (max-width: 768px) {
     .episode-controls {
         display: none;
     }

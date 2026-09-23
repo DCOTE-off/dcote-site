@@ -17,6 +17,7 @@
 
 [dcote.net](https://dcote.net/) — фан-сайт по серии ранобэ и аниме **«Добро пожаловать в класс превосходства» (You-Zitsu / Classroom of the Elite)**. Реализован на **Laravel 10** с рейтингами, Filament Admin и двумя Docker-сценариями.
 Были сделаны:
+
 - Библиотека переводов ранобэ с разбивкой по годам, томам и главам
 - Страницы сезонов и серий аниме со встроенными плеерами
 - Систему пользовательских рейтингов (1–10) с API upsert
@@ -97,12 +98,12 @@ docker compose -f docker-compose.dev.yml exec app php artisan migrate
 docker compose -f docker-compose.dev.yml exec app php artisan db:seed --class=TestAccountsSeeder
 ```
 
-| Логин | Пароль    | Роль     | access-admin |
-|-------|-----------|----------|--------------|
-| dev01 | 12345678 | Пользователь | нет |
-| dev02 | 12345678 | Модератор | нет |
-| dev03 | 12345678 | Редактор | да |
-| dev04 | 12345678 | Разработчик | да |
+| Логин | Пароль   | Роль         | access-admin |
+| ----- | -------- | ------------ | ------------ |
+| dev01 | 12345678 | Пользователь | нет          |
+| dev02 | 12345678 | Модератор    | нет          |
+| dev03 | 12345678 | Редактор     | да           |
+| dev04 | 12345678 | Разработчик  | да           |
 
 Создание идемпотентно: при повторном запуске уже существующие аккаунты не дублируются. В продакшен-окружении (`APP_ENV=production`) аккаунты не создаются.
 
@@ -118,7 +119,6 @@ docker compose -f docker-compose.dev.yml exec -T mysql mysql -u sail -p"password
 docker compose -f docker-compose.dev.yml exec app php artisan storage:link
 ```
 
-
 ## Работа с WSL
 
 Для открытия vs code в линуксовом окружении:
@@ -128,11 +128,13 @@ code .
 ```
 
 Для открытия wsl консоли в PowerShell (пример на ubuntu 24.04):
+
 ```bash
 wsl -d Ubuntu-24.04
 ```
 
 Посмотреть доступные дистрибутивы:
+
 ```bash
 wsl --list --online
 ```
@@ -142,8 +144,6 @@ wsl --list --online
 ```bash
 wsl --install -d Ubuntu-24.04
 ```
-
-
 
 Порт Laravel можно изменить через `.env`:
 

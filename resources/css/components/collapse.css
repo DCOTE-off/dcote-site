@@ -23,7 +23,7 @@
 .collapse__trigger .dropdown-icon {
     width: clamp(1px, 0.91vw, 14px);
     height: clamp(1px, 0.91vw, 14px);
-    color:rgba(198, 187, 214, 1);
+    color: rgba(198, 187, 214, 1);
     transition: transform 0.3s;
     margin-left: var(--fs-gap10);
 }

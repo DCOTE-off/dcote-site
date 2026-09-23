@@ -6,7 +6,7 @@ import '../../css/components/image-carousel-modal.css';
 const props = defineProps({
     images: {
         type: Array,
-        default: () => [],   // [{ url, download_url, alt? }]
+        default: () => [], // [{ url, download_url, alt? }]
     },
 });
 
@@ -27,20 +27,22 @@ const currentCaption = computed(() => currentImage.value?.alt || '');
 const TAIL_THRESHOLD_PX = 0.5;
 
 function waitForImages(images) {
-    return Promise.all(images.map((image) => {
-        if (image.complete && image.naturalWidth > 0) {
-            return Promise.resolve();
-        }
+    return Promise.all(
+        images.map((image) => {
+            if (image.complete && image.naturalWidth > 0) {
+                return Promise.resolve();
+            }
 
-        if (typeof image.decode === 'function') {
-            return image.decode().catch(() => {});
-        }
+            if (typeof image.decode === 'function') {
+                return image.decode().catch(() => {});
+            }
 
-        return new Promise((resolve) => {
-            image.addEventListener('load', resolve, { once: true });
-            image.addEventListener('error', resolve, { once: true });
-        });
-    }));
+            return new Promise((resolve) => {
+                image.addEventListener('load', resolve, { once: true });
+                image.addEventListener('error', resolve, { once: true });
+            });
+        }),
+    );
 }
 
 async function setupCarousel() {
@@ -192,7 +194,11 @@ onBeforeUnmount(() => {
                     class="embla__slide"
                     :class="{ 'is-selected': index === selectedIndex }"
                     @click="onSlideClick(index, $event)">
-                    <img :src="image.url" class="carousel-img" :data-download="image.download_url || image.url" :alt="image.alt || ''">
+                    <img
+                        :src="image.url"
+                        class="carousel-img"
+                        :data-download="image.download_url || image.url"
+                        :alt="image.alt || ''" />
                 </div>
             </div>
         </div>
@@ -200,18 +206,18 @@ onBeforeUnmount(() => {
 
     <div class="modal" data-caption-from-alt :style="{ display: isModalOpen ? 'flex' : 'none' }">
         <span class="modal-close" aria-label="Закрыть окно" @click="closeModal">
-            <img :src="'/svgs/close.svg'" alt="Закрыть">
+            <img :src="'/svgs/close.svg'" alt="Закрыть" />
         </span>
         <a class="modal-download" :href="currentDownloadUrl" download aria-label="Скачать изображение">
-            <img :src="'/svgs/download.svg'" alt="Скачать">
+            <img :src="'/svgs/download.svg'" alt="Скачать" />
         </a>
         <span class="modal-next" aria-label="Следующее изображение" @click="showNext">
-            <img :src="'/svgs/caret-right.svg'" alt="Следующий">
+            <img :src="'/svgs/caret-right.svg'" alt="Следующий" />
         </span>
         <span class="modal-prev" aria-label="Предыдущее изображение" @click="showPrev">
-            <img :src="'/svgs/caret-left.svg'" alt="Предыдущий">
+            <img :src="'/svgs/caret-left.svg'" alt="Предыдущий" />
         </span>
-        <img class="modal-content" :src="currentImage?.url" :alt="currentCaption">
+        <img class="modal-content" :src="currentImage?.url" :alt="currentCaption" />
         <div class="modal-caption">{{ currentCaption }}</div>
         <div class="modal-overlay" @click="closeModal"></div>
     </div>

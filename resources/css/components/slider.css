@@ -17,7 +17,6 @@
     transition: transform 0.4s ease-in-out;
 }
 
-
 .slides img {
     width: clamp(1px, 16.575vw, 255px);
     height: clamp(1px, 22.1vw, 340px);
@@ -39,7 +38,6 @@
 .slider-button-wrapper {
     display: flex;
     align-items: center;
-
 }
 
 .slider-btn {
@@ -60,7 +58,6 @@
 .slider-btn.inactive {
     background: grey !important;
 }
-
 
 .slider-icon,
 .close-icon,
