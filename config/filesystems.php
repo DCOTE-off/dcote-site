@@ -56,6 +56,17 @@ return [
             'throw' => false,
         ],
 
+        'backups' => [
+            'driver' => 's3',
+            'key' => env('BACKUP_ACCESS_KEY_ID'),
+            'secret' => env('BACKUP_SECRET_ACCESS_KEY'),
+            'region' => env('BACKUP_DEFAULT_REGION', 'auto'),
+            'bucket' => env('BACKUP_BUCKET'),
+            'endpoint' => env('BACKUP_ENDPOINT'),
+            'use_path_style_endpoint' => true,
+            'throw' => true,
+        ],
+
     ],
 
     /*

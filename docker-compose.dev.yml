@@ -50,6 +50,15 @@ services:
             timeout: 5s
             retries: 20
 
+    mailpit:
+        image: axllent/mailpit:latest
+        restart: unless-stopped
+        ports:
+            - '8025:8025'
+            - '1025:1025'
+        networks:
+            - app
+
 networks:
     app:
         name: dcote-dev
