@@ -1,0 +1,14 @@
+/node_modules
+/vendor
+/public/build
+/public/hot
+/public/js/filament
+/public/css/filament
+/storage
+/bootstrap/cache
+/.phpunit.result.cache
+/package-lock.json
+/composer.lock
+/.env
+/.env.*
+!/\.env.example
