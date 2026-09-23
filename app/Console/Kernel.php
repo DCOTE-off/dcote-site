@@ -22,6 +22,21 @@ class Kernel extends ConsoleKernel
         $schedule->command('publication:sync')
             ->everyMinute()
             ->withoutOverlapping();
+
+        $schedule->command('backup:run')
+            ->dailyAt('02:30')
+            ->timezone('Europe/Moscow')
+            ->withoutOverlapping();
+
+        $schedule->command('backup:clean')
+            ->dailyAt('04:00')
+            ->timezone('Europe/Moscow')
+            ->withoutOverlapping();
+
+        $schedule->command('backup:monitor')
+            ->dailyAt('05:00')
+            ->timezone('Europe/Moscow')
+            ->withoutOverlapping();
     }
 
     /**
