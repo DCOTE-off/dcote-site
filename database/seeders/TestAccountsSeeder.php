@@ -9,6 +9,12 @@ class TestAccountsSeeder extends Seeder
 {
     public function run(): void
     {
+        if (! app()->environment('local')) {
+            $this->command?->warn('TestAccountsSeeder is skipped outside the local environment.');
+
+            return;
+        }
+
         $nicknames = [
             1 => 'Обычный пользователь',
             2 => 'Модератор',
